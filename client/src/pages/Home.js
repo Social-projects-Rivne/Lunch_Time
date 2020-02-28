@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { Button, Container } from 'react-bootstrap'
+import { Link } from 'react-router-dom';
 
 class Home extends Component {
     render() {
         return (
             <Container className="containerButtonHome text-center" >
-                <Button href="/listRestaurant" size="lg" variant="outline-success">Booking Table</Button>
+                <Button size="lg" variant="outline-success">
+                         <Link to="/listRestaurant">ListRestaurant</Link>
+                </Button>
             </Container>
         );
     }
