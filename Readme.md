@@ -46,7 +46,7 @@ When starting the server, you need to initialize the database on the local machi
 In directory server run 
 
 ```
-mnv package
+mvn package
 java -jar target/LunchTime-0.0.1-SNAPSHOT.jar
 ```
 
