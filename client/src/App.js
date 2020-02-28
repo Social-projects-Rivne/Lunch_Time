@@ -22,22 +22,22 @@ class App extends Component {
 
         <Switch>
           <Route exact path="/">
-              <Home />
+            <Home />
           </Route>
           <Route path="/about">
             <About />
           </Route>
           <Route path="/listRestaurant">
-           <ListRestaurant />
+            <ListRestaurant />
           </Route>
           <Route path="/login">
             <Login />
           </Route>
           <Route path="/registartion">
-              <Registartion />
+            <Registartion />
           </Route>
           <Route path="/map">
-              <Map />
+            <Map />
           </Route>
           <Route path="/contact" >
             <Contact />
@@ -45,32 +45,11 @@ class App extends Component {
           <Route >
             <NoMatch />
           </Route>
-
-
-
         </Switch>
 
       </Router>
     );
-    // return (
-    //   <React.Fragment>
-    //     <Router>
 
-    //         <NavigationBar />
-    //         <Switch>
-    //           <Route exact path="/" component={Home} />
-    //           <Route path="/about" component={About} />
-    //           <Route path="/listRestaurant" component={ListRestaurant} />
-    //           <Route path="/login" component={Login} />
-    //           <Route path="/registartion" component={Registartion} />
-    //           <Route path="/map" component={Map} />
-    //           <Route path="/contact" component={Contact} />
-    //           <Route component={NoMatch} />
-    //         </Switch>
-
-    //     </Router>
-    //   </React.Fragment>
-    // );
   }
 }
 
