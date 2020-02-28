@@ -1,7 +1,12 @@
-import React from 'react'
+import React, { Component } from 'react';
 
-export const Map = () => (
- 
-    <h1>Map Page</h1>
-   
-)
+
+class Map extends Component {
+    render() {
+        return (
+            <h1>Map Page</h1>
+        );
+    }
+}
+
+export default Map;

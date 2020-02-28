@@ -1,7 +1,12 @@
-import React from 'react'
+import React, { Component } from 'react';
 
-export const NoMatch = () => (
- 
-    <h1>NoMatch Page</h1>
-   
-)
+
+class NoMatch extends Component {
+    render() {
+        return (
+            <h1>NoMatch Page</h1>
+        );
+    }
+}
+
+export default NoMatch;

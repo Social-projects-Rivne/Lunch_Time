@@ -1,7 +1,12 @@
-import React from 'react'
+import React, { Component } from 'react';
 
-export const Registartion = () => (
- 
-    <h1>Registartion Page</h1>
-   
-)
+
+class Registartion extends Component {
+    render() {
+        return (
+            <h1>Registartion Page</h1>
+        );
+    }
+}
+
+export default Registartion;

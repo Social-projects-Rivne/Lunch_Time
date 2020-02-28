@@ -1,7 +1,12 @@
-import React from 'react'
+import React, { Component } from 'react';
 
-export const ListRestaurant = () => (
- 
-    <h1>ListRestaurant Page</h1>
-   
-)
+
+class ListRestaurant extends Component {
+    render() {
+        return (
+            <h1>ListRestaurant Page</h1>
+        );
+    }
+}
+
+export default ListRestaurant;
