@@ -21,6 +21,15 @@
     "lint": "eslint ./",
     "lint:fix": "eslint --fix ./"
   },
+  "husky": {
+    "hooks": {
+    "pre-commit": "lint-staged",
+    "pre-push": "npm run lint"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx}": "lint --fix"
+  },
   "eslintConfig": {
     "extends": "react-app"
   },
@@ -44,6 +53,8 @@
     "eslint-plugin-jsx-a11y": "6.2.3",
     "eslint-plugin-react": "7.18.3",
     "eslint-plugin-react-hooks": "1.7.0",
+    "husky": "4.2.3",
+    "lint-staged": "10.0.8",
     "react-test-renderer": "16.13.0"
   }
 }
