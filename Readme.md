@@ -1,10 +1,43 @@
-# Client
+# Lunch Time
 
-## Available Scripts
+## Setup and run in Docker
 
-In the client directory, you can run:
+1. Clone repository
+2. Go to client folder and download dependencies
+```
+$ cd ./client/
+$ npm install
+```
+3. Go back to root repository folder and build docker images
+```
+$ cd ../
+$ docker-compose build
+```
+4. Run docker containers
+```
+$ docker-compose up -d
+```
+5. Stop docker containers
+```
+$ docker-compose stop
+```
 
-### `npm start`
+### You need to run step 5 and repeat steps 2, 3 and 4 after updating client dependencies
+
+
+## Setup and run without Docker
+
+### Client
+
+#### Available Scripts
+
+In the client folder you can run:
+
+`npm install`
+
+Install dependencies
+
+`npm start`
 
 Runs the app in the development mode.<br />
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
@@ -12,12 +45,12 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
 
-### `npm test`
+`npm test`
 
 Launches the test runner in the interactive watch mode.<br />
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm build`
+`npm build`
 
 Builds the app for production to the `build` folder.<br />
 It correctly bundles React in production mode and optimizes the build for the best performance.
@@ -27,7 +60,7 @@ Your app is ready to be deployed!
 
 See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm eject`
+`npm eject`
 
 **Note: this is a one-way operation. Once you `eject`, you can’t go back!**
 
@@ -37,21 +70,14 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-# Server
+### Server
 
-When starting the server, you need to initialize the database on the local machine, according the local property to connect to the database
+Before starting the server, you need to initialize the database on the local machine, according the local property to connect to the database
 
 ## Run Server
 
-In directory server run 
+In server folder you can run:
 
-```
-mvn package
-java -jar target/LunchTime-0.0.1-SNAPSHOT.jar
-```
+`mvn clean spring-boot:run`
 
-
-
-
-
-
+Run an executable archive application
