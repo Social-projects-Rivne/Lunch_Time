@@ -13,7 +13,6 @@ import NoMatch from './pages/NoMatch';
 
 class App extends Component {
   render() {
-
     return (
       <Router>
 
@@ -39,17 +38,16 @@ class App extends Component {
           <Route path="/map">
             <Map />
           </Route>
-          <Route path="/contact" >
+          <Route path="/contact">
             <Contact />
           </Route>
-          <Route >
+          <Route>
             <NoMatch />
           </Route>
         </Switch>
 
       </Router>
     );
-
   }
 }
 

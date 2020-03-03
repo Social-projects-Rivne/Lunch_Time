@@ -23,12 +23,12 @@
   },
   "husky": {
     "hooks": {
-    "pre-commit": "lint-staged",
-    "pre-push": "npm run lint"
+      "pre-commit": "lint-staged",
+      "pre-push": "npm run lint"
     }
   },
   "lint-staged": {
-    "*.{js,jsx}": "lint --fix"
+    "*.js": "eslint --fix"
   },
   "eslintConfig": {
     "extends": "react-app"
