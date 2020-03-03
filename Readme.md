@@ -17,8 +17,12 @@ $ docker-compose build
 ```
 $ docker-compose up -d
 ```
+5. Stop docker containers
+```
+$ docker-compose stop
+```
 
-### You need to repeat steps 2, 3 and 4 after updating client dependencies
+### You need to run step 5 and repeat steps 2, 3 and 4 after updating client dependencies
 
 
 ## Setup and run without Docker
