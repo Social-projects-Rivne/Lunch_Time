@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
+import OLMap1 from '../components/map/openlayers/OLMap'
 
 
 class Map extends Component {
     render() {
         return (
-            <h1>Map Page</h1>
+            <h1><OLMap1/></h1>
         );
     }
 }
