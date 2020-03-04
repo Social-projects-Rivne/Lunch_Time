@@ -9,6 +9,7 @@ import Login from './pages/Login';
 import Registartion from './pages/Registartion';
 import Map from './pages/Map';
 import NoMatch from './pages/NoMatch';
+import EventsPage from "./pages/EventsPage";
 
 
 class App extends Component {
@@ -29,6 +30,9 @@ class App extends Component {
           </Route>
           <Route path="/listRestaurant">
             <ListRestaurant />
+          </Route>
+          <Route path="/events">
+            <EventsPage />
           </Route>
           <Route path="/login">
             <Login />

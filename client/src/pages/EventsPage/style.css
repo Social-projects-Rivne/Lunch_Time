@@ -1,0 +1,31 @@
+.page-header{
+  background-image: url("bkg.jpg");
+}
+
+.page-header-title{
+  padding-top: 2%;
+  color: white;
+  text-align: center;
+  font-weight: bold;
+}
+
+.search-container{
+  padding: 0 15% 0 15%;
+}
+
+/* TODO: Style for buttons, rework later*/
+.button {
+  background: #fac564;
+  border-color: #fac564;
+  color: #000000;
+}
+
+.button:hover {
+  background: none;
+  border-color: #fac564;
+}
+
+.button:active{
+  border-color: cornflowerblue;
+  background: red;
+}
