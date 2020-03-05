@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import "./styles.css";
+import "../../../style/openlayers-styles.css";
 
 import {Map, layer, Layers} from "react-openlayers";
 
