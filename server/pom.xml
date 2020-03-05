@@ -110,11 +110,6 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-		</plugins>
-	</build>
-
-  <reporting>
-    <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
@@ -123,15 +118,8 @@
           <consoleOutput>true</consoleOutput>
           <configLocation>google_checks.xml</configLocation>
         </configuration>
-        <reportSets>
-          <reportSet>
-            <reports>
-              <report>checkstyle</report>
-            </reports>
-          </reportSet>
-        </reportSets>
       </plugin>
-    </plugins>
-  </reporting>
+		</plugins>
+	</build>
 
 </project>
