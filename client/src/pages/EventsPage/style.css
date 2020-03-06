@@ -1,10 +1,11 @@
-.page-header{
-  background-image: url("bkg.jpg");
+.page-container{
+  background-image: url('/img/events-bkg.jpg');
+  background-size: cover;
 }
 
 .page-header-title{
   padding-top: 2%;
-  color: white;
+  color: #fac564;
   text-align: center;
   font-weight: bold;
 }
@@ -14,18 +15,29 @@
 }
 
 /* TODO: Style for buttons, rework later*/
-.button {
+.m-button {
   background: #fac564;
   border-color: #fac564;
   color: #000000;
 }
 
-.button:hover {
+.m-button:hover {
   background: none;
   border-color: #fac564;
 }
 
-.button:active{
-  border-color: cornflowerblue;
-  background: red;
+.m-button:focus {
+  background: none !important;
+  border-color: #fac564 !important;
+  box-shadow: 0 0 0 0 !important;
+}
+
+.m-button:active{
+  background: #fac564 !important;
+  border-color: #fac564 !important;
+  box-shadow: 0 0 0 0 !important;
+}
+
+.react-datepicker__input-container input {
+  width: 75%;
 }

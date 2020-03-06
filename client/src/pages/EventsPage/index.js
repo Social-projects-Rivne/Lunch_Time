@@ -4,12 +4,11 @@ import FormControl from "react-bootstrap/FormControl";
 import InputGroup from "react-bootstrap/InputGroup";
 import Button from "react-bootstrap/Button";
 import {ButtonToolbar, CardDeck, Container, Row} from "react-bootstrap";
-import DropdownButton from "react-bootstrap/DropdownButton";
 import {Dropdown} from "react-bootstrap";
 import EventCard from "./event-card";
 import Col from "react-bootstrap/Col";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import DropdownWithDate from "./custom-dropdown";
 
 
 class EventsPage extends React.Component{
@@ -18,12 +17,6 @@ class EventsPage extends React.Component{
     const eventsList = [<EventCard />, <EventCard />,<EventCard />, <EventCard />, <EventCard />, <EventCard />, <EventCard />];
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     const eventsType = ['Party', 'Karaoke', 'Concert', 'For children', 'Master class', 'Tasting', 'Sports broadcasting'];
-
-    const CustomDatePicker = ({ value, onClick }) => (
-      <Button variant="warning" className="example-custom-input" onClick={onClick}>
-        {value} Date Select
-      </Button>
-    );
 
     return (
      <Container fluid className="page-container p-0">
@@ -38,43 +31,34 @@ class EventsPage extends React.Component{
               aria-describedby="basic-addon2"
             />
             <InputGroup.Append>
-              <Button className="button">Find</Button>
+              <Button className="m-button">Find</Button>
             </InputGroup.Append>
           </InputGroup>
           </Container>
 
          <Container fluid className="filter-and-sort">
-           <ButtonToolbar variant="warning" className="justify-content-center pb-4 pt-4">
-             {/* Sort by type */}
-             <DropdownButton variant="warning" className="mr-3" id="dropdown-basic-button" title="By category">
-               {eventsType.map((event, index) => (
-                 <Dropdown.Item key={index} href={"#/event-" + eventsType.indexOf(event)}>{event}</Dropdown.Item>
-               ))}
-             </DropdownButton >
-             {/* Sort by months */}
-             <DropdownButton variant="warning" className="mr-3" id="dropdown-basic-button" title="By month">
-               {months.map((month, index) => (
-                 <Dropdown.Item key={index} href={"#/" + month.toLowerCase()}>{month}</Dropdown.Item>
-               ))}
-             </DropdownButton>
+           <ButtonToolbar className="justify-content-center pb-4 pt-4">
 
-             {/* Select date range*/}
-             <DropdownButton variant="warning" className="mr-3" id="dropdown-basic-button" title="Date">
-               {function (e){
-                   e.preventDefault();
-                   e.stopPropagation();
-                   e.nativeEvent.stopImmediatePropagation();
-                 } }
-                 <Dropdown.Item onClick={this}>
-                   <DatePicker customInput={<CustomDatePicker />}/>
-                 </Dropdown.Item>
-                 <Dropdown.Item onClick={this}>
-                   <DatePicker customInput={<CustomDatePicker />}/>
-                 </Dropdown.Item>
-             </DropdownButton>
+             <Dropdown className="mr-3">
+               <Dropdown.Toggle id="sort-by-category" className="m-button">By category</Dropdown.Toggle>
+               <Dropdown.Menu>
+                 {eventsType.map((event, index) => (
+                   <Dropdown.Item key={index} href={"#/event-" + eventsType.indexOf(event)}>{event}</Dropdown.Item>))}
+               </Dropdown.Menu>
+             </Dropdown>
+
+             <Dropdown className="mr-3">
+               <Dropdown.Toggle id="sort-by-month" className="m-button">By month</Dropdown.Toggle>
+               <Dropdown.Menu>
+                 {months.map((month, index) => (
+                   <Dropdown.Item key={index} href={"#/" + month.toLowerCase()}>{month}</Dropdown.Item>))}
+               </Dropdown.Menu>
+             </Dropdown>
+
+             <DropdownWithDate />
 
              {/* Reset filters */}
-             <Button variant="warning" className="ml-5">Reset</Button>
+             <Button className="m-button ml-5">Reset</Button>
            </ButtonToolbar>
          </Container>
      </Container>
