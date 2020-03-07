@@ -26,6 +26,9 @@ class NavigationBar extends Component {
               <Link to="/listRestaurant">ListRestaurant</Link>
             </Nav.Item>
             <Nav.Item className="mr-3">
+              <Link to="/events">Events</Link>
+            </Nav.Item>
+            <Nav.Item className="mr-3">
               <Link to="/map">Map</Link>
             </Nav.Item>
             <Nav.Item className="mr-3">

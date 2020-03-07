@@ -1,9 +1,10 @@
-import * as React from "react";
-import {ButtonToolbar, Dropdown} from "react-bootstrap";
-import DropdownWithDate from "./custom-dropdown";
-import Button from "react-bootstrap/Button";
+import React from 'react';
+import { ButtonToolbar, Dropdown } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
+import * as uuid from 'uuid';
+import DropdownWithDate from './custom-dropdown';
 
-class DropdownGroup extends React.Component{
+class DropdownGroup extends React.Component {
   render() {
     const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     const eventsType = ['Party', 'Karaoke', 'Concert', 'For children', 'Master class', 'Tasting', 'Sports broadcasting'];
@@ -13,16 +14,16 @@ class DropdownGroup extends React.Component{
         <Dropdown className="mr-3">
           <Dropdown.Toggle id="sort-by-category" className="m-button">By category</Dropdown.Toggle>
           <Dropdown.Menu>
-            {eventsType.map((event, index) => (
-              <Dropdown.Item className="m-dropdown-item" key={index} href={"#/event-" + eventsType.indexOf(event)}>{event}</Dropdown.Item>))}
+            {eventsType.map((event) => (
+              <Dropdown.Item className="m-dropdown-item" key={uuid.v4()} href={`#/event-${eventsType.indexOf(event)}`}>{event}</Dropdown.Item>))}
           </Dropdown.Menu>
         </Dropdown>
 
         <Dropdown className="mr-3">
           <Dropdown.Toggle id="sort-by-month" className="m-button">By month</Dropdown.Toggle>
           <Dropdown.Menu>
-            {months.map((month, index) => (
-              <Dropdown.Item className="m-dropdown-item" key={index} href={"#/" + month.toLowerCase()}>{month}</Dropdown.Item>))}
+            {months.map((month) => (
+              <Dropdown.Item className="m-dropdown-item" key={uuid.v4()} href={`#/${month.toLowerCase()}`}>{month}</Dropdown.Item>))}
           </Dropdown.Menu>
         </Dropdown>
 
@@ -31,7 +32,7 @@ class DropdownGroup extends React.Component{
         {/* Reset filters */}
         <Button className="m-button ml-5">Reset</Button>
       </ButtonToolbar>
-    )
+    );
   }
 }
 

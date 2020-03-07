@@ -1,7 +1,7 @@
-import * as React from "react";
-import DatePicker from "react-datepicker";
+import * as React from 'react';
+import DatePicker from 'react-datepicker';
 
-class MyDatePicker extends React.Component{
+class MyDatePicker extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -13,16 +13,19 @@ class MyDatePicker extends React.Component{
   handleChange(date) {
     this.setState({
       startDate: date,
-      useState: new Date()
+      useState: new Date(),  // eslint-disable-line
     });
   }
 
   render() {
+    const { startDate } = this.state;
     return (
-      <DatePicker className="text-center"
-                  selected={this.state.startDate}
-                  onChange={this.handleChange}
-                  dateFormat="dd/MM/yyyy" />
+      <DatePicker
+        className="text-center"
+        selected={startDate}
+        onChange={this.handleChange}
+        dateFormat="dd/MM/yyyy"
+      />
     );
   }
 }

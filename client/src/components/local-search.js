@@ -1,10 +1,10 @@
-import * as React from "react";
-import InputGroup from "react-bootstrap/InputGroup";
-import FormControl from "react-bootstrap/FormControl";
-import Button from "react-bootstrap/Button";
-import {Container} from "react-bootstrap";
+import * as React from 'react';
+import InputGroup from 'react-bootstrap/InputGroup';
+import FormControl from 'react-bootstrap/FormControl';
+import Button from 'react-bootstrap/Button';
+import { Container } from 'react-bootstrap';
 
-class LocalSearch extends React.Component{
+class LocalSearch extends React.Component {
   render() {
     return (
       <Container className="search-container pt-4">
@@ -19,7 +19,7 @@ class LocalSearch extends React.Component{
           </InputGroup.Append>
         </InputGroup>
       </Container>
-    )
+    );
   }
 }
 
