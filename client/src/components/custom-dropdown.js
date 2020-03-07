@@ -4,22 +4,9 @@ import DropdownToggle from "react-bootstrap/DropdownToggle";
 import MyDatePicker from "./date-picker";
 
 class DropdownWithDate extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      startDate: new Date(),
-    };
-    this.handleChange = this.handleChange.bind(this);
-  }
-
-  handleChange(date) {
-    this.setState({
-      startDate: date,
-      useState: new Date()
-    });
-  }
 
   render() {
+
     const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
       <DropdownToggle
         className={"m-button"}

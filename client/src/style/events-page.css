@@ -1,0 +1,19 @@
+.page-container{
+  background-image: url("/img/events-bkg.jpg");
+  background-size: cover;
+}
+
+.page-header-title{
+  padding-top: 2%;
+  color: #fac564;
+  text-align: center;
+  font-weight: bold;
+}
+
+.search-container{
+  padding: 0 15% 0 15%;
+}
+
+.react-datepicker__input-container input {
+  width: 75%;
+}
