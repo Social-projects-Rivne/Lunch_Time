@@ -26,7 +26,7 @@ class App extends Component {
           <Route path="/about">
             <About />
           </Route>
-          <Route path="/listRestaurant">
+          <Route path="/restaurants">
             <ListRestaurant />
           </Route>
           <Route path="/login">
