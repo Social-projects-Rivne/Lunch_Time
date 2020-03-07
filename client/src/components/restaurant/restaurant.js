@@ -1,13 +1,20 @@
 import React, { Component } from 'react';
 import { Tab, Tabs } from 'react-bootstrap';
+import Api from '../../services/api';
+import About from './about';
 
 class Restaurant extends Component {
+  getAll() {
+    Api.getAll();
+  }
+
   render() {
     return (
       <div>
+        <h2>Title</h2>
         <Tabs defaultActiveKey="about">
           <Tab eventKey="about" title="About">
-            <h2>About</h2>
+            <About />
           </Tab>
           <Tab eventKey="menu" title="Menu">
             <h2>Menu</h2>
