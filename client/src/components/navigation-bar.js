@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 class NavigationBar extends Component {
   render() {
     return (
-      <Navbar expand="lg" bg="light" >
+      <Navbar expand="lg" bg="light">
         <Navbar.Brand>
           <img
             alt=""
@@ -13,7 +13,8 @@ class NavigationBar extends Component {
             width="35"
             height="35"
             className="d-inline-block align-top"
-          />{' '}
+          />
+          {' '}
           <Link to="/">Lunch Time</Link>
         </Navbar.Brand>
 
@@ -23,9 +24,6 @@ class NavigationBar extends Component {
 
             <Nav.Item className="mr-3">
               <Link to="/listRestaurant">ListRestaurant</Link>
-            </Nav.Item>
-            <Nav.Item className="mr-3">
-              <Link to="/events">Events</Link>
             </Nav.Item>
             <Nav.Item className="mr-3">
               <Link to="/map">Map</Link>
@@ -50,4 +48,3 @@ class NavigationBar extends Component {
 }
 
 export default NavigationBar;
-

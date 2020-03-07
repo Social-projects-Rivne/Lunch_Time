@@ -8,8 +8,8 @@ import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfi
 @SpringBootApplication(exclude = { SecurityAutoConfiguration.class, SecurityAutoConfiguration.class })
 public class LunchTimeApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(LunchTimeApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(LunchTimeApplication.class, args);
+    }
 
 }
