@@ -28,6 +28,7 @@
     "react/jsx-filename-extension": 0,
     "class-methods-use-this": "off",
     "arrow-body-style": "off",
-    "object-shorthand": "off"
+    "object-shorthand": "off",
+    "max-len": ["error", { "code": 120 }]
   }
 }
