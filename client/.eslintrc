@@ -27,6 +27,7 @@
     "react/prefer-stateless-function": 0,
     "react/jsx-filename-extension": 0,
     "class-methods-use-this": "off",
-    "arrow-body-style": "off"
+    "arrow-body-style": "off",
+    "object-shorthand": "off"
   }
 }
