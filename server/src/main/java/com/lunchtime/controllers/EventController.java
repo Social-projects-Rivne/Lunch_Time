@@ -29,7 +29,7 @@ public class EventController {
     result = eventService.findByCategory(category);
     return new ResponseEntity<>(result, HttpStatus.OK);
   }
-  
+
   @PostMapping
   public ResponseEntity<?> addOrUpdateEvent(@RequestBody Event event) {
     eventService.saveOrUpdateEvent(event);
