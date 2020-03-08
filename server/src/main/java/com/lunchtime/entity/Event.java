@@ -1,22 +1,25 @@
 package com.lunchtime.entity;
 
-
-import lombok.Getter;
-import lombok.Setter;
-
-import javax.persistence.*;
 import java.net.URI;
 import java.sql.Date;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
+@ToString
 @Setter
 @Getter
 @Entity
 @Table(name = "events")
 public class Event {
 
-
   @Id
-  @GeneratedValue(strategy= GenerationType.AUTO)
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private long id;
   private long restaurantId;
   private Date date;
@@ -25,18 +28,8 @@ public class Event {
   private String category;
   private String description;
 
-  public Event(){}
+  /** An empty constructor is needed to create a new instance via
+   *  reflection by persistence framework. */
+  public Event() { }
 
-  @Override
-  public String toString() {
-    return "Event{" +
-      "id=" + id +
-      ", restaurantId=" + restaurantId +
-      ", date=" + date +
-      ", eventImage=" + eventImage +
-      ", eventName='" + eventName + '\'' +
-      ", category='" + category + '\'' +
-      ", description='" + description + '\'' +
-      '}';
-  }
 }

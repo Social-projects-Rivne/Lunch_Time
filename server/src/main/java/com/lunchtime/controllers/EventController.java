@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
+import java.sql.Date;
 import java.util.List;
 
 @RestController
@@ -19,25 +19,37 @@ public class EventController {
 
   @GetMapping
   public ResponseEntity<?> getAll() {
-    List<Event> result = eventService.findAll();
-    return new ResponseEntity<>(result, HttpStatus.OK);
+      List<Event> result = eventService.findAll();
+      return new ResponseEntity<>(result, HttpStatus.OK);
   }
 
-  @GetMapping("/{category}")
-  public ResponseEntity<?> getByCategory(@PathVariable("category") String category) {
-    List<Event> result = new ArrayList<>();
-    result = eventService.findByCategory(category);
-    return new ResponseEntity<>(result, HttpStatus.OK);
-  }
+    @GetMapping("/{category}")
+    public ResponseEntity<?> getByCategory(@PathVariable("category") String category) {
+        List<Event> result = eventService.findByCategory(category);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 
-  @PostMapping
-  public ResponseEntity<?> addOrUpdateEvent(@RequestBody Event event) {
-    eventService.saveOrUpdateEvent(event);
-    return new ResponseEntity<>("Event added succcessfully", HttpStatus.OK);
-  }
+    @GetMapping("date/{date}")
+    public ResponseEntity<?> getByDate(@PathVariable("date") Date date) {
+        List<Event> result = eventService.findByDate(date);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 
-  @DeleteMapping
-  public void deleteEvent(@RequestParam("id") long id) {
-    eventService.deleteEvent(id);
+    @GetMapping("date/{startDate}/{endDate}")
+    public ResponseEntity<?> getByDateBetween(@PathVariable("startDate") Date startDate,
+                                   @PathVariable("endDate") Date endDate) {
+        List<Event> result = eventService.findByDateBetween(startDate, endDate);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
+    @PostMapping
+    public ResponseEntity<?> addOrUpdateEvent(@RequestBody Event event) {
+        eventService.saveOrUpdateEvent(event);
+        return new ResponseEntity<>("Event added successfully", HttpStatus.OK);
+    }
+
+    @DeleteMapping
+    public void deleteEvent(@RequestParam("id") long id) {
+        eventService.deleteEvent(id);
   }
 }
