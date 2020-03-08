@@ -14,14 +14,14 @@ import java.util.List;
 @RequestMapping("/events")
 public class EventController {
 
-  @Autowired
-  EventService eventService;
+    @Autowired
+    EventService eventService;
 
-  @GetMapping
-  public ResponseEntity<?> getAll() {
-      List<Event> result = eventService.findAll();
-      return new ResponseEntity<>(result, HttpStatus.OK);
-  }
+    @GetMapping
+    public ResponseEntity<?> getAll() {
+        List<Event> result = eventService.findAll();
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
 
     @GetMapping("/{category}")
     public ResponseEntity<?> getByCategory(@PathVariable("category") String category) {
@@ -37,7 +37,7 @@ public class EventController {
 
     @GetMapping("date/{startDate}/{endDate}")
     public ResponseEntity<?> getByDateBetween(@PathVariable("startDate") Date startDate,
-                                   @PathVariable("endDate") Date endDate) {
+                                              @PathVariable("endDate") Date endDate) {
         List<Event> result = eventService.findByDateBetween(startDate, endDate);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
@@ -51,5 +51,5 @@ public class EventController {
     @DeleteMapping
     public void deleteEvent(@RequestParam("id") long id) {
         eventService.deleteEvent(id);
-  }
+    }
 }

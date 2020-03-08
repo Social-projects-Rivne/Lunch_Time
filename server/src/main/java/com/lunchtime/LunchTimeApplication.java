@@ -8,15 +8,15 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication(
-    exclude = { SecurityAutoConfiguration.class, SecurityAutoConfiguration.class })
+    exclude = {SecurityAutoConfiguration.class, SecurityAutoConfiguration.class})
 public class LunchTimeApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(LunchTimeApplication.class, args);
     }
 
-    //Set the CORS configuration, more about CORS:
-    // https://www.tutorialspoint.com/spring_boot/spring_boot_cors_support.htm
+    /*Set the CORS configuration, more about CORS:
+      https://www.tutorialspoint.com/spring_boot/spring_boot_cors_support.htm */
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
