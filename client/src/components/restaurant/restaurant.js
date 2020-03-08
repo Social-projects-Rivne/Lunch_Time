@@ -4,17 +4,41 @@ import Api from '../../services/api';
 import About from './about';
 
 class Restaurant extends Component {
-  getAll() {
-    Api.getAll();
+  constructor(props) {
+    super(props);
+    this.state = {
+      restaurant: {},
+      isFetching: false,
+    };
+  }
+
+  async componentDidMount() {
+    this.getOne();
+  }
+
+  getOne() {
+    Api.getOne('restaurants', 1)
+      .then((response) => {
+        if (response.error) {
+          // eslint-disable-next-line no-console
+          console.error(response);
+          return;
+        }
+        this.setState({
+          restaurant: response.data,
+          isFetching: true,
+        });
+      });
   }
 
   render() {
+    const { isFetching, restaurant } = this.state;
     return (
       <div>
         <h2>Title</h2>
         <Tabs defaultActiveKey="about">
           <Tab eventKey="about" title="About">
-            <About />
+            <About restaurant={restaurant} isFetching={isFetching} />
           </Tab>
           <Tab eventKey="menu" title="Menu">
             <h2>Menu</h2>

@@ -2,27 +2,26 @@ import axios from 'axios';
 
 class Api {
   constructor() {
-    this.apiUrl = '/data.json';
-    // 'http://localhost:8080/';
+    this.apiUrl = 'http://localhost:8080/api/';
   }
 
-  getAll() {
-    return axios.get(this.apiUrl)
+  getAll(endpoint) {
+    return axios.get(this.getApiEndpoint(endpoint))
       .then((response) => {
-        return response.data;
+        return { error: null, data: response.data };
       })
       .catch((error) => {
-        return error;
+        return { error: error };
       });
   }
 
   getOne(endpoint, id) {
-    // return axios.get(`${this.getApiEndpoint(endpoint)}/${id}`);
-    return axios.get(this.apiUrl)
+    return axios.get(`${this.getApiEndpoint(endpoint)}/${id}`)
       .then((response) => {
-        return response.data[`${endpoint}`].find((restaurant) => {
-          return restaurant.id === id;
-        });
+        return { error: null, data: response.data };
+      })
+      .catch((error) => {
+        return { error: error };
       });
   }
 
