@@ -7,7 +7,7 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "bootstrap": "4.4.1",
-    "lodash": "latest",
+    "lodash": "4.17.15",
     "node-uuid": "^1.4.8",
     "ol": "^6.2.1",
     "react": "^16.12.0",
@@ -17,7 +17,7 @@
     "react-openlayers": "^0.3.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
-    "uuid": "latest"
+    "uuid": "7.0.2"
   },
   "scripts": {
     "start": "react-scripts start",

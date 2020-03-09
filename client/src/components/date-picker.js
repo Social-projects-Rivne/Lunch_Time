@@ -13,7 +13,6 @@ class MyDatePicker extends React.Component {
   handleChange(date) {
     this.setState({
       startDate: date,
-      useState: new Date(),  // eslint-disable-line
     });
   }
 
