@@ -38,6 +38,20 @@ public class Restaurant {
     @Column(name = "working_time")
     private String workingTime;
 
+    @Column(name = "is_deleted")
+    private Boolean isDeleted;
+
+    public Boolean getIsDeleted() {
+        if (isDeleted == null) {
+            return false;
+        }
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean deleted) {
+        isDeleted = deleted;
+    }
+
     public Long getId() {
         return id;
     }
