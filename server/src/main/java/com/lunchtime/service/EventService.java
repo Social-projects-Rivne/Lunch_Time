@@ -4,10 +4,13 @@ import com.lunchtime.entity.Event;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Optional;
 
 public interface EventService {
 
-    List<Event> findAll();
+    List<Event> findByActiveTrue();
+
+    Optional<Event> findById(Long id);
 
     List<Event> findByCategory(String category);
 
@@ -15,8 +18,9 @@ public interface EventService {
 
     List<Event> findByDateBetween(Date startDate, Date endDate);
 
-    void saveOrUpdateEvent(Event event);
+    void save(Event event);
 
-    void deleteEvent(long id);
+    void deleteById(Long id);
 
+    boolean existsById(Long id);
 }

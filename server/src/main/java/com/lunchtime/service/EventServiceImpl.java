@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EventServiceImpl implements EventService {
@@ -15,9 +16,11 @@ public class EventServiceImpl implements EventService {
     @Autowired
     EventRepository eventRepository;
 
-    public List<Event> findAll() {
-        return eventRepository.findAll();
+    public List<Event> findByActiveTrue() {
+        return eventRepository.findByActiveTrue();
     }
+
+    public Optional<Event> findById(Long id) { return eventRepository.findById(id); }
 
     public List<Event> findByCategory(String category) {
         return eventRepository.findByCategory(category);
@@ -31,11 +34,16 @@ public class EventServiceImpl implements EventService {
         return eventRepository.findByDateBetween(startDate, endDate);
     }
 
-    public void saveOrUpdateEvent(Event event) {
+    public void save(Event event) {
         eventRepository.save(event);
     }
 
-    public void deleteEvent(long id) {
+    public void deleteById(Long id) {
         eventRepository.deleteById(id);
     }
+
+    public boolean existsById(Long id) {
+        return eventRepository.existsById(id);
+    }
+
 }

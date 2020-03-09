@@ -5,6 +5,9 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.net.URI;
 import java.sql.Date;
 
@@ -12,24 +15,32 @@ import java.sql.Date;
 @Setter
 @Getter
 @Entity
-@Table(name = "events")
+@Table(name = "event")
 public class Event {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
-    private long restaurantId;
+    private Long id;
+
+    @NotNull
+    private Long restaurantId;
+
+    @NotNull
     private Date date;
-    private URI eventImage;
-    private String eventName;
+
+    @NotNull
+    private URI image;
+
+    @NotBlank
+    @Size(min=6, max=80)
+    private String name;
+
+    @NotBlank
     private String category;
+
+    @NotBlank
     private String description;
 
-    /**
-     * An empty constructor is needed to create a new instance via
-     * reflection by persistence framework.
-     */
-    public Event() {
-    }
-
+    @NotNull
+    private Boolean active;
 }

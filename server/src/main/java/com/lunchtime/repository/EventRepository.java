@@ -9,8 +9,7 @@ import java.util.List;
 
 public interface EventRepository extends CrudRepository<Event, Long> {
 
-    @Override
-    List<Event> findAll();
+    List<Event> findByActiveTrue();
 
     List<Event> findByCategory(String category);
 

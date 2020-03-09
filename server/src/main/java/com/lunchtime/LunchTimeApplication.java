@@ -15,8 +15,6 @@ public class LunchTimeApplication {
         SpringApplication.run(LunchTimeApplication.class, args);
     }
 
-    /*Set the CORS configuration, more about CORS:
-      https://www.tutorialspoint.com/spring_boot/spring_boot_cors_support.htm */
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
