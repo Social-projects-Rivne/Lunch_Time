@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import '../../style/restaurant-about.css';
+import { Container } from 'react-bootstrap';
 
 class About extends Component {
   render() {
     const { isFetching, restaurant } = this.props;
     if (isFetching) {
       return (
-        <div>
+        <Container>
           <p>
             Email:
             {' '}
@@ -32,7 +34,7 @@ class About extends Component {
             {' '}
             { restaurant.working_time }
           </p>
-        </div>
+        </Container>
       );
     }
     return <div>Loading...</div>;
