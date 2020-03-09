@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import '../../style/restaurant-about.css';
 import { Container } from 'react-bootstrap';
+import '../../style/restaurant-about.css';
 
 class About extends Component {
   render() {
@@ -15,6 +15,11 @@ class About extends Component {
             { restaurant.email }
           </p>
           <p>
+            Free tables:
+            {' '}
+            { restaurant.tables ? restaurant.tables : 'Do not have information' }
+          </p>
+          <p>
             Description:
             {' '}
             { restaurant.description }
@@ -22,17 +27,17 @@ class About extends Component {
           <p>
             Address:
             {' '}
-            { restaurant.text_address }
+            { restaurant.textAddress }
           </p>
           <p>
             Website:
             {' '}
-            { restaurant.website }
+            { restaurant.website ? restaurant.website : 'Do not have information' }
           </p>
           <p>
             Working hours:
             {' '}
-            { restaurant.working_time }
+            { restaurant.workingTime }
           </p>
         </Container>
       );
