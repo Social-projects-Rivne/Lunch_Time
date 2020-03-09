@@ -19,7 +19,7 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/postgres
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/postgres?useUnicode=true&characterEncoding=utf8&useSSL=false
     volumes:
       - ./server/:/app/
     working_dir: /app
