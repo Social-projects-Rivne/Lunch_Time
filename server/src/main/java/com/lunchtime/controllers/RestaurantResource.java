@@ -21,13 +21,13 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/restaurants")
 public class RestaurantResource {
 
     @Autowired
     private RestaurantService restaurantService;
 
-    @PostMapping("/restaurants")
+    @PostMapping
     public ResponseEntity<Restaurant> createRestaurant(@Valid @RequestBody Restaurant restaurant) throws Exception {
         if (restaurant.getId() != null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -38,13 +38,13 @@ public class RestaurantResource {
             .body(result);
     }
 
-    @GetMapping("/restaurants")
+    @GetMapping
     public ResponseEntity<List<Restaurant>> getAllRestaurants(Pageable pageable) {
         Page<Restaurant> page = restaurantService.findAll(pageable);
         return new ResponseEntity<>(page.getContent(), HttpStatus.OK);
     }
 
-    @GetMapping("/restaurants/{id}")
+    @GetMapping("{id}")
     public ResponseEntity<Restaurant> getRestaurant(@PathVariable Long id) {
         Optional<Restaurant> restaurant = restaurantService.findById(id);
         if (restaurant.isPresent()) {
