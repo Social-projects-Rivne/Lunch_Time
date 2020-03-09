@@ -1,5 +1,7 @@
 package com.lunchtime.models;
 
+import org.hibernate.annotations.Where;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +11,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 @Entity
+@Where(clause = "is_deleted = false or is_deleted is NULL")
 public class Restaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
