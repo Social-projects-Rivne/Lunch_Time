@@ -26,4 +26,14 @@ public class RestaurantService {
     public Optional<Restaurant> findById(Long id) {
         return restaurantRepository.findById(id);
     }
+
+    public Restaurant update(Restaurant newRestaurant) {
+        return findById(newRestaurant.getId())
+            .map(restaurant -> {
+                return save(newRestaurant);
+            })
+            .orElseGet(() -> {
+                return null;
+            });
+    }
 }

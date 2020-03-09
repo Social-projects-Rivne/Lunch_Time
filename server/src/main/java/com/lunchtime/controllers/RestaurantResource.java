@@ -39,6 +39,20 @@ public class RestaurantResource {
             .body(result);
     }
 
+    @PutMapping
+    public ResponseEntity<Restaurant> update(@Valid @RequestBody Restaurant restaurant) throws URISyntaxException {
+        if (restaurant.getId() == null) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        Restaurant result = restaurantService.update(restaurant);
+        if (result == null) {
+            return ResponseEntity.notFound()
+                .build();
+        }
+        return ResponseEntity.ok()
+            .body(result);
+    }
+
     @GetMapping
     public ResponseEntity<List<Restaurant>> getAll(Pageable pageable) {
         Page<Restaurant> page = restaurantService.findAll(pageable);
