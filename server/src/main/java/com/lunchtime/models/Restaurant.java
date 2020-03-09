@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 public class Restaurant {
@@ -12,21 +14,27 @@ public class Restaurant {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    @NotBlank
     @Column(name = "name")
     private String name;
 
+    @NotBlank
+    @Email
     @Column(name = "email")
     private String email;
 
+    @NotBlank
     @Column(name = "text_address")
     private String textAddress;
 
     @Column(name = "website")
     private String website;
 
+    @NotBlank
     @Column(name = "description")
     private String description;
 
+    @NotBlank
     @Column(name = "working_time")
     private String workingTime;
 
