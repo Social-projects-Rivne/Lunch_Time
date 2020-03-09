@@ -31,7 +31,8 @@ public class RestaurantResource {
     @PostMapping
     public ResponseEntity<Restaurant> create(@Valid @RequestBody Restaurant restaurant) throws URISyntaxException {
         if (restaurant.getId() != null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest()
+                .build();
         }
 
         Restaurant result = restaurantService.save(restaurant);
@@ -42,7 +43,8 @@ public class RestaurantResource {
     @PutMapping
     public ResponseEntity<Restaurant> update(@Valid @RequestBody Restaurant restaurant) throws URISyntaxException {
         if (restaurant.getId() == null) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest()
+                .build();
         }
         Restaurant result = restaurantService.update(restaurant);
         if (result == null) {
@@ -56,16 +58,19 @@ public class RestaurantResource {
     @GetMapping
     public ResponseEntity<List<Restaurant>> getAll(Pageable pageable) {
         Page<Restaurant> page = restaurantService.findAll(pageable);
-        return new ResponseEntity<>(page.getContent(), HttpStatus.OK);
+        return ResponseEntity.ok()
+            .body(page.getContent());
     }
 
     @GetMapping("{id}")
     public ResponseEntity<Restaurant> getOne(@PathVariable Long id) {
         Optional<Restaurant> restaurant = restaurantService.findById(id);
         if (restaurant.isPresent()) {
-            return new ResponseEntity<Restaurant>(restaurant.get(), HttpStatus.OK);
+            return ResponseEntity.ok()
+                .body(restaurant.get());
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return ResponseEntity.notFound()
+            .build();
     }
 
     @DeleteMapping("{id}")
