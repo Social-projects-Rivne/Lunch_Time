@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Tab, Tabs } from 'react-bootstrap';
+import { Tab, Tabs, Container } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import Api from '../../services/api';
 import About from './about';
+import '../../style/restaurant.css';
 
 class Restaurant extends Component {
   constructor(props) {
@@ -36,23 +37,23 @@ class Restaurant extends Component {
   render() {
     const { isFetching, restaurant } = this.state;
     return (
-      <div>
-        <h2>Title</h2>
+      <Container>
+        <h2>{restaurant.name}</h2>
         <Tabs defaultActiveKey="about">
           <Tab eventKey="about" title="About">
             <About restaurant={restaurant} isFetching={isFetching} />
           </Tab>
           <Tab eventKey="menu" title="Menu">
-            <h2>Menu</h2>
+            <h3>Menu</h3>
           </Tab>
           <Tab eventKey="events" title="Events">
-            <h2>Events</h2>
+            <h3>Events</h3>
           </Tab>
           <Tab eventKey="feedback" title="Feedbac">
-            <h2>Feedback</h2>
+            <h3>Feedback</h3>
           </Tab>
         </Tabs>
-      </div>
+      </Container>
     );
   }
 }

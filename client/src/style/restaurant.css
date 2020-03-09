@@ -1,0 +1,35 @@
+body {
+  background-color: #1C1B1E;
+  color: #E1E1E1;
+}
+
+h2 {
+  text-align: center;
+  color: #fac564;
+}
+
+.nav-tabs {
+  margin-top: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.nav-item.nav-link {
+  color: #fac564;
+}
+
+.nav-item {
+  margin: auto 16px auto 16px;
+}
+
+.nav-item.active {
+  color: #fac564 !important;
+  background-color: #373940 !important;
+}
+
+.container {
+  margin-top: 16px;
+  width: 70%;
+}
