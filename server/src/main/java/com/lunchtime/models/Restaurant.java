@@ -12,7 +12,7 @@ import javax.validation.constraints.NotBlank;
 public class Restaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+    private Long id;
 
     @NotBlank
     @Column(name = "name")
@@ -38,11 +38,11 @@ public class Restaurant {
     @Column(name = "working_time")
     private String workingTime;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

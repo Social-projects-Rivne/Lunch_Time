@@ -45,7 +45,7 @@ public class RestaurantResource {
     }
 
     @GetMapping("/restaurants/{id}")
-    public ResponseEntity<Restaurant> getRestaurant(@PathVariable Integer id) {
+    public ResponseEntity<Restaurant> getRestaurant(@PathVariable Long id) {
         Optional<Restaurant> restaurant = repository.findById(id);
         if (restaurant.isPresent()) {
             return new ResponseEntity<Restaurant>(restaurant.get(), HttpStatus.OK);
