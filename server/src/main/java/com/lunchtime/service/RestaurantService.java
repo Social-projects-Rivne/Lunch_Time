@@ -30,7 +30,18 @@ public class RestaurantService {
     public Restaurant update(Restaurant newRestaurant) {
         return findById(newRestaurant.getId())
             .map(restaurant -> {
-                return save(newRestaurant);
+                restaurant.setName(newRestaurant.getName());
+                restaurant.setEmail(newRestaurant.getEmail());
+                restaurant.setTextAddress(newRestaurant.getTextAddress());
+                restaurant.setWebsite(newRestaurant.getWebsite());
+                restaurant.setDescription(newRestaurant.getDescription());
+                restaurant.setWorkingTime(newRestaurant.getWorkingTime());
+                restaurant.setMenuId(newRestaurant.getMenuId());
+                restaurant.setOwnerId(newRestaurant.getOwnerId());
+                restaurant.setTables(newRestaurant.getTables());
+                restaurant.setLongitude(newRestaurant.getLongitude());
+                restaurant.setLatitude(newRestaurant.getLatitude());
+                return save(restaurant);
             })
             .orElseGet(() -> {
                 return null;
