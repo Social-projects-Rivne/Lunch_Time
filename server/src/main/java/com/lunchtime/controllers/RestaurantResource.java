@@ -3,6 +3,7 @@ package com.lunchtime.controllers;
 import com.lunchtime.models.Restaurant;
 
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,24 +29,24 @@ public class RestaurantResource {
     private RestaurantService restaurantService;
 
     @PostMapping
-    public ResponseEntity<Restaurant> createRestaurant(@Valid @RequestBody Restaurant restaurant) throws Exception {
+    public ResponseEntity<Restaurant> create(@Valid @RequestBody Restaurant restaurant) throws URISyntaxException {
         if (restaurant.getId() != null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         Restaurant result = restaurantService.save(restaurant);
-        return ResponseEntity.created(new URI("/api/restaurants" + result.getId()))
+        return ResponseEntity.created(new URI("/api/restaurants"))
             .body(result);
     }
 
     @GetMapping
-    public ResponseEntity<List<Restaurant>> getAllRestaurants(Pageable pageable) {
+    public ResponseEntity<List<Restaurant>> getAll(Pageable pageable) {
         Page<Restaurant> page = restaurantService.findAll(pageable);
         return new ResponseEntity<>(page.getContent(), HttpStatus.OK);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Restaurant> getRestaurant(@PathVariable Long id) {
+    public ResponseEntity<Restaurant> getOne(@PathVariable Long id) {
         Optional<Restaurant> restaurant = restaurantService.findById(id);
         if (restaurant.isPresent()) {
             return new ResponseEntity<Restaurant>(restaurant.get(), HttpStatus.OK);
