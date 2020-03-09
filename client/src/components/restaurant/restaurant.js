@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Tab, Tabs } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 import Api from '../../services/api';
 import About from './about';
 
@@ -17,7 +18,8 @@ class Restaurant extends Component {
   }
 
   getOne() {
-    Api.getOne('restaurants', 1)
+    const { match } = this.props;
+    Api.getOne('restaurants', match.params.id)
       .then((response) => {
         if (response.error) {
           // eslint-disable-next-line no-console
@@ -46,7 +48,7 @@ class Restaurant extends Component {
           <Tab eventKey="events" title="Events">
             <h2>Events</h2>
           </Tab>
-          <Tab eventKey="feedback" title="Feedbacs">
+          <Tab eventKey="feedback" title="Feedbac">
             <h2>Feedback</h2>
           </Tab>
         </Tabs>
@@ -54,5 +56,9 @@ class Restaurant extends Component {
     );
   }
 }
+
+Restaurant.propTypes = {
+  match: PropTypes.any.isRequired,
+};
 
 export default Restaurant;
