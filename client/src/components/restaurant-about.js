@@ -8,7 +8,7 @@ class About extends Component {
     const { isFetching, restaurant } = this.props;
     if (isFetching) {
       return (
-        <Container>
+        <Container className="restaurant-about-container">
           <p>
             Email:
             {' '}

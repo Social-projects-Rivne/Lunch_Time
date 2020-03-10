@@ -1,6 +1,8 @@
 .restaurant-container {
   background-color: #1C1B1E;
   color: #E1E1E1;
+  margin-top: 16px;
+  width: 70%;
 }
 
 h2 {
@@ -27,9 +29,4 @@ h2 {
 .nav-item.active {
   color: #fac564 !important;
   background-color: #373940 !important;
-}
-
-.container {
-  margin-top: 16px;
-  width: 70%;
 }
