@@ -10,6 +10,8 @@ import Registartion from './pages/Registartion';
 import Map from './pages/Map';
 import NoMatch from './pages/NoMatch';
 
+import Feedback from './components/feedback'
+
 
 class App extends Component {
   render() {
@@ -41,6 +43,10 @@ class App extends Component {
           </Route>
           <Route path="/contact" >
             <Contact />
+          </Route>
+          <Route >
+            {/* Temporarily  in feedback we put rest. id*/}
+            <Feedback /> 
           </Route>
           <Route >
             <NoMatch />
