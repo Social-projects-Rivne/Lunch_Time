@@ -1,0 +1,7 @@
+.idea/
+.vscode/
+.classpath
+.dockerignore
+.factorypath
+.mvn/
+Dockerfile
