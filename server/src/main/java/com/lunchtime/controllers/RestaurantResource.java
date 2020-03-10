@@ -10,7 +10,6 @@ import java.util.Map;
 import java.util.Optional;
 
 import com.lunchtime.service.RestaurantService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -25,8 +24,11 @@ import javax.validation.Valid;
 @RequestMapping("/api/restaurants")
 public class RestaurantResource {
 
-    @Autowired
-    private RestaurantService restaurantService;
+    private final RestaurantService restaurantService;
+
+    public RestaurantResource(RestaurantService restaurantService) {
+        this.restaurantService = restaurantService;
+    }
 
     @PostMapping
     public ResponseEntity<Restaurant> create(@Valid @RequestBody Restaurant restaurant) throws URISyntaxException {

@@ -49,7 +49,7 @@ class Restaurant extends Component {
           <Tab eventKey="events" title="Events">
             <h3>Events</h3>
           </Tab>
-          <Tab eventKey="feedback" title="Feedbac">
+          <Tab eventKey="feedback" title="Feedback">
             <h3>Feedback</h3>
           </Tab>
         </Tabs>
