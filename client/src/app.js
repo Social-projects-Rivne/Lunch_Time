@@ -4,12 +4,12 @@ import NavigationBar from './components/navigation-bar';
 import Home from './pages/home';
 import About from './pages/about';
 import Contact from './pages/contact';
-import ListRestaurant from './pages/list-restaurant';
+import ListRestaurant from './pages/restaurant-list';
 import Login from './pages/login';
 import Registartion from './pages/registartion';
 import Map from './pages/map';
 import NoMatch from './pages/no-match';
-import Restaurant from './components/restaurant/restaurant';
+import Restaurant from './components/restaurant-item';
 
 class App extends Component {
   render() {

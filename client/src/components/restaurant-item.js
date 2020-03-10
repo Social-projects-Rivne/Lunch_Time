@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Tab, Tabs, Container } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import Api from '../../services/api';
-import About from './about';
-import '../../style/restaurant.css';
+import Api from '../services/api';
+import About from './restaurant-about';
+import '../style/restaurant-item.css';
 
 class Restaurant extends Component {
   constructor(props) {
