@@ -37,7 +37,7 @@ class Restaurant extends Component {
   render() {
     const { isFetching, restaurant } = this.state;
     return (
-      <Container>
+      <Container className="restaurant-container">
         <h2>{restaurant.name}</h2>
         <Tabs defaultActiveKey="about">
           <Tab eventKey="about" title="About">
