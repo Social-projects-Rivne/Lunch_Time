@@ -7,7 +7,7 @@ class Home extends Component {
     return (
       <Container className="containerButtonHome text-center">
         <Button size="lg" variant="outline-success">
-          <Link to="/listRestaurant">ListRestaurant</Link>
+          <Link to="/restaurants">ListRestaurant</Link>
         </Button>
       </Container>
     );

@@ -1,0 +1,57 @@
+.containerFeedback{
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin: 10px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    width: auto; 
+}
+
+.btnFormSend{
+    margin-top: 10px;
+}
+
+.textAreaFeedback:focus{
+    box-shadow: 0 0 0 1px rgba(41, 176, 217, .25);
+}
+
+.feedbackUserContainer{
+    display: inline-flex;
+    width: 100%;
+    margin-top: 15px;
+}
+.feedbackMess{
+    width: 100%;
+    margin: 0px 10px;
+}
+
+.hrStyle{
+    padding: 0;
+    margin: 0;
+}
+.nameDate{
+    margin-right: 35px;
+    font-size: 12px;
+}
+
+.answerToFeedback{
+    margin: 0px 30px 0px 10px;
+    padding: auto;
+}
+.answerToFeedback:hover{
+    color: blue;
+    cursor: pointer;
+}
+
+.complaintFeddback{
+    float: right;
+    margin-right: 10px;
+}
+.complaintFeddback:hover{
+    cursor: pointer;
+}
+
+
+.likeDislike:hover{
+    cursor: pointer;
+}
