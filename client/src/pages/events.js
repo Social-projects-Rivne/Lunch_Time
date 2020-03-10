@@ -8,7 +8,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import LocalSearch from '../components/local-search';
 import DropdownGroup from '../components/dropdown-group';
 
-class EventsPage extends React.Component {
+class Events extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -67,4 +67,4 @@ class EventsPage extends React.Component {
   }
 }
 
-export default EventsPage;
+export default Events;

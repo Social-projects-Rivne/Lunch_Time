@@ -13,7 +13,7 @@ class DropdownWithDate extends React.Component {
           style={style}
           className={className}
         >
-          <Container className="text-center">
+          <Container className="text-center pb-2">
             <MyDatePicker />
             <MyDatePicker />
           </Container>

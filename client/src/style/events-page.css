@@ -15,6 +15,7 @@
 }
 
 .react-datepicker__input-container input {
+  margin: 5% 0 0 0;
   width: 75%;
 }
 

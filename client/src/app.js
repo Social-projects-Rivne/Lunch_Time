@@ -9,7 +9,7 @@ import Login from './pages/login';
 import Registartion from './pages/registartion';
 import Map from './pages/map';
 import NoMatch from './pages/no-match';
-import EventsPage from './pages/events-page';
+import Events from './pages/events';
 
 
 class App extends Component {
@@ -31,7 +31,7 @@ class App extends Component {
             <ListRestaurant />
           </Route>
           <Route path="/events">
-            <EventsPage />
+            <Events />
           </Route>
           <Route path="/login">
             <Login />

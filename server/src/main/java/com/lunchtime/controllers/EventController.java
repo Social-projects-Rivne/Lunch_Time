@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -19,7 +20,7 @@ public class EventController {
 
     @GetMapping
     public ResponseEntity<?> getAll() {
-        List<Event> result = eventService.findByActiveTrue();
+        List<Event> result = eventService.findAll(new Date());
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
