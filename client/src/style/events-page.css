@@ -17,3 +17,8 @@
 .react-datepicker__input-container input {
   width: 75%;
 }
+
+.wrapper{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}

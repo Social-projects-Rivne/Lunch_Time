@@ -9,7 +9,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.net.URI;
-import java.sql.Date;
+import java.util.Date;
+
 
 @ToString
 @Setter
@@ -26,19 +27,21 @@ public class Event {
     private Long restaurantId;
 
     @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
     private Date date;
 
     @NotNull
     private URI image;
 
     @NotBlank
-    @Size(min=6, max=80)
+    @Size(min=6, max=255)
     private String name;
 
     @NotBlank
     private String category;
 
     @NotBlank
+    @Size(min=6, max=999)
     private String description;
 
     @NotNull

@@ -2,18 +2,40 @@ import React from 'react';
 import '../style/events-page.css';
 import '../style/dropdown.css';
 import '../style/m-button.css';
-import { CardDeck, Container, Row } from 'react-bootstrap';
-import Col from 'react-bootstrap/Col';
-import * as uuid from 'uuid';
+import { CardDeck, Container } from 'react-bootstrap';
 import EventCard from '../components/event-card';
 import 'react-datepicker/dist/react-datepicker.css';
 import LocalSearch from '../components/local-search';
 import DropdownGroup from '../components/dropdown-group';
 
 class EventsPage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      events: [],
+    };
+  }
+
+  componentDidMount() {
+    fetch('http://localhost:8080/api/events/', {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+      },
+    }).then((response) => {
+      if (response.ok) {
+        response.json().then((json) => {
+          console.log(json);
+          this.setState({
+            events: json,
+          });
+        });
+      }
+    });
+  }
+
   render() {
-    const eventsList = [<EventCard />, <EventCard />, <EventCard />, <EventCard />,
-      <EventCard />, <EventCard />, <EventCard />];
+    const { events } = this.state;
 
     return (
       <Container fluid className="page-container p-0">
@@ -33,15 +55,11 @@ class EventsPage extends React.Component {
           </Container>
         </Container>
 
-        <Container className="card-body">
-          <CardDeck>
-            <Row>
-              {eventsList.map((event) => (
-                <Col xs="4" className="p-0" key={uuid.v4()}>
-                  {event}
-                </Col>
-              ))}
-            </Row>
+        <Container className="card-body pl-5 pr-5">
+          <CardDeck className="wrapper">
+            {events.map((event) => (
+              <EventCard key={event.id} event={event} />
+            ))}
           </CardDeck>
         </Container>
       </Container>
