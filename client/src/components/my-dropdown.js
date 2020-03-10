@@ -2,7 +2,6 @@ import React from 'react';
 import { Dropdown } from 'react-bootstrap';
 import * as uuid from 'uuid';
 import PropTypes from 'prop-types';
-import { Object } from 'ol';
 
 class MyDropdown extends React.Component {
   render() {
@@ -23,5 +22,5 @@ export default MyDropdown;
 MyDropdown.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  items: PropTypes.instanceOf(Object).isRequired,
+  items: PropTypes.shape([]).isRequired,
 };

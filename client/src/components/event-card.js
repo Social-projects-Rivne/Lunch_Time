@@ -3,7 +3,6 @@ import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import { Object } from 'ol';
 
 class EventCard extends React.Component {
   render() {
@@ -25,7 +24,7 @@ class EventCard extends React.Component {
 }
 
 EventCard.propTypes = {
-  event: PropTypes.instanceOf(Object).isRequired,
+  event: PropTypes.shape([]).isRequired,
 };
 
 export default EventCard;

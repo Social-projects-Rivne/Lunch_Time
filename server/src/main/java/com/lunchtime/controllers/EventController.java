@@ -28,5 +28,5 @@ public class EventController {
         eventService.save(event);
         return new ResponseEntity<>(event, HttpStatus.CREATED);
     }
-    
+
 }
