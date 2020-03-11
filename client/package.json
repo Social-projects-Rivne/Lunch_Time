@@ -9,6 +9,7 @@
     "axios": "^0.19.2",
     "bootstrap": "4.4.1",
     "ol": "^6.2.1",
+    "prop-types": "15.7.2",
     "react": "^16.12.0",
     "react-bootstrap": "1.0.0-beta.16",
     "react-dom": "^16.12.0",
@@ -20,7 +21,18 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint ./",
+    "lint:fix": "eslint --fix ./"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "npm run lint"
+    }
+  },
+  "lint-staged": {
+    "*.js": "eslint --fix"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -36,5 +48,17 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "eslint": "6.8.0",
+    "eslint-config-airbnb": "18.0.1",
+    "eslint-plugin-import": "2.20.1",
+    "eslint-plugin-jest": "23.8.1",
+    "eslint-plugin-jsx-a11y": "6.2.3",
+    "eslint-plugin-react": "7.18.3",
+    "eslint-plugin-react-hooks": "1.7.0",
+    "husky": "4.2.3",
+    "lint-staged": "10.0.8",
+    "react-test-renderer": "16.13.0"
   }
 }
