@@ -80,7 +80,7 @@ public class Restaurant {
     @Column(name = "modify_by")
     private Long modifyBy;
 
-    public Boolean getDeleted() {
+    public Boolean isDeleted() {
         if (isDeleted == null) {
             return false;
         }
