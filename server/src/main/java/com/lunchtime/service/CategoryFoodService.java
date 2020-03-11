@@ -10,7 +10,6 @@ public class CategoryFoodService {
 
     @Autowired
   private CategoryFoodRepository categoryFoodRepos;
-  
-   
+     
 
 }
