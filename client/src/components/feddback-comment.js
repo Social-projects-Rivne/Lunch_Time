@@ -5,19 +5,14 @@ import '../style/feedback.css'
 class FeedbackComment extends Component {
 
 
-
-
-
     render() {
-       
-        return (
 
-            
+        return (
 
             <Container className="feedbackUserContainer">
                 <img src="/img/defAvatar.png" width="50px" height="50px" alt="defAvava"></img>
                 <div className="feedbackMess">
-                    <strong className="nameDate">{this.props.item.user_name}</strong>
+                    <strong className="nameDate">{this.props.item.userName}</strong>
                     <small className="nameDate">{this.props.item.date}</small>
                     <hr className="hrStyle" />
                     <div>{this.props.item.description}</div>
@@ -35,7 +30,7 @@ class FeedbackComment extends Component {
                         </span>
 
                         <span className="complaintFeddback">
-                            <img src="/img/complaint.png"  width="25px" height="25px" alt="complaint" title="complaint feedback"></img>
+                            <img src="/img/complaint.png" width="25px" height="25px" alt="complaint" title="complaint feedback"></img>
                         </span>
 
                     </div>

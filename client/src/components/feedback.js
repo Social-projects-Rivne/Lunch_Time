@@ -5,36 +5,65 @@ import FeedbackComment from './feddback-comment'
 import axios from 'axios'
 
 class Feedback extends Component{
+ 
 
     state = {
-        feedback: []
+        allFedback: [],
+        pieceFedback: [],
+        maxCommentShow:1,
+        start:0,
+        last:0
+
+    }
+
+    onClickShowMoreComment(){
+
+        this.setState((prevState)=>{
+            return {
+                pieceFedback: prevState.allFedback.slice(prevState.start, prevState.last+prevState.maxCommentShow),
+                last: prevState.last+prevState.maxCommentShow
+            }
+        });
     }
 
 
-    componentDidMount(){
+    componentDidMount() {
 
-        // Temporarily we get id from rest.
-        axios.get('http://localhost:8080/api/feedback/2') 
-        .then((response) => {
-            this.setState({
-                feedback: response.data
-            })
-           });
-        }
+        axios.get('http://localhost:8080/api/feedback/2')
+            .then((response) => {
+                this.setState({
+                    allFedback: response.data,
+                    pieceFedback: response.data.slice(0,1),
+                    last: 1
+                })
+            });
+    }
 
 
     render(){
 
-
         return (
+
             <Container className="containerFeedback">
                 <FeedbackSend />
                 {
-                    this.state.feedback.map((item, index) => {
-                        return (<FeedbackComment item={item} key={index} />);
+
+                    this.state.pieceFedback.map((item, index) => {
+                        return (
+                      
+                                <FeedbackComment item={item} key={index} />
+                            );
                     })
                 }
+
+                <div className="showMoreComm">
+                    <span className="showMoreCommSpan" onClick={this.onClickShowMoreComment.bind(this)}>
+                        show more comment
+                    </span>
+                </div>
+
             </Container>
+          
 
         )
     }
