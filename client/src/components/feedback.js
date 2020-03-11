@@ -33,8 +33,8 @@ class Feedback extends Component{
             .then((response) => {
                 this.setState({
                     allFedback: response.data,
-                    pieceFedback: response.data.slice(0,1),
-                    last: 1
+                    pieceFedback: response.data.slice(this.state.last, this.state.maxCommentShow),
+                    last: this.state.maxCommentShow
                 })
             });
     }

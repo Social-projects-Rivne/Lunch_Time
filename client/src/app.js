@@ -10,8 +10,6 @@ import Registartion from './pages/registartion';
 import Map from './pages/map';
 import NoMatch from './pages/no-match';
 import Restaurant from './components/restaurant-item';
-import Feedback from './components/feedback'
-
 
 class App extends Component {
   render() {

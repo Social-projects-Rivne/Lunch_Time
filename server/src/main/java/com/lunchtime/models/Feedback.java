@@ -7,38 +7,34 @@ import javax.persistence.*;
 import java.sql.Date;
 
 @Entity
+@Getter @Setter
 public class Feedback {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  @Getter @Setter
   private Long id;
 
   @Column(name="description", columnDefinition="TEXT")
-  @Getter @Setter
   private String description;
 
-  @Getter @Setter
+  @Column(name = "is_active")
   private Boolean isActive;
 
-  @Getter @Setter
+  @Column(name = "date")
   private Date date;
 
-  @Getter @Setter
+  @Column(name = "user_name")
   private String userName;
 
-  @Getter @Setter
+  @Column(name = "rest_id")
   private Long restId;
 
-  @Getter @Setter
+  @Column(name = "counter_like")
   private Integer counterLike;
 
-  @Getter @Setter
+  @Column(name = "counter_dislike")
   private Integer counterDislike;
 
-
   Feedback(){ }
-
-
 
 }

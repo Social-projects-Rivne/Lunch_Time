@@ -3,6 +3,7 @@ import { Tab, Tabs, Container } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import Api from '../services/api';
 import About from './restaurant-about';
+import Feedback from './feedback'
 import '../style/restaurant-item.css';
 
 class Restaurant extends Component {
@@ -50,7 +51,7 @@ class Restaurant extends Component {
             <h3>Events</h3>
           </Tab>
           <Tab eventKey="feedback" title="Feedback">
-            <h3>Feedback</h3>
+            <Feedback />
           </Tab>
         </Tabs>
       </Container>
