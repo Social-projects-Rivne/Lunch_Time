@@ -4,7 +4,7 @@ import FeedbackSend from './feedback-send';
 import FeedbackComment from './feddback-comment'
 import axios from 'axios'
 
-class feedback extends Component{
+class Feedback extends Component{
 
     state = {
         feedback: []
@@ -40,4 +40,4 @@ class feedback extends Component{
     }
 }
 
-export default feedback;
+export default Feedback;
