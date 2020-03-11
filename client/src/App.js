@@ -45,7 +45,6 @@ class App extends Component {
             <Contact />
           </Route>
           <Route >
-            {/* Temporarily  in feedback we put rest. id*/}
             <Feedback /> 
           </Route>
           <Route >
