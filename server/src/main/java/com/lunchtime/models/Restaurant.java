@@ -80,10 +80,14 @@ public class Restaurant {
     @Column(name = "modify_by")
     private Long modifyBy;
 
-    public Boolean getIsDeleted() {
+    public Boolean getDeleted() {
         if (isDeleted == null) {
             return false;
         }
         return isDeleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        isDeleted = deleted;
     }
 }
