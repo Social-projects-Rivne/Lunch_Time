@@ -1,5 +1,11 @@
 package com.lunchtime.models;
 
+import java.time.Instant;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.Where;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,51 +13,226 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
 @Entity
-
+@Where(clause = "is_deleted = false or is_deleted is NULL")
+@Setter
+@Getter
 public class Restaurant {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
+
     @NotBlank
-    @Column(name = "name", length = 50)
-    private String nameRestaurant;
-    
-    @NotBlank
-    @Column(name = "text_adress", length = 100)
-        private String textAdress;
-    
+    @Column(name = "name", length = 100)
+    private String name;
+
+    @Setter
+    @Getter
     @NotBlank
     @Email
-    @Column(name = "email", length = 100)
-        private String email;
-    
+    @Column(name = "email")
+    private String email;
+
     @NotBlank
-    @Column(name = "website_url", length = 255)
-        private String websiteUrl;
-    
+    @Column(name = "text_address")
+    private String textAddress;
+
+    @Column(name = "website")
+    private String website;
+
     @NotBlank
-    @Column(name = "description", length = 300)
-        private String description;
+    @Column(name = "description", length = 255)
+    private String description;
+
+    @NotBlank
+    @Column(name = "working_time")
+    private String workingTime;
+
+    @Column(name = "is_deleted")
+    private Boolean isDeleted;
+
+    @Column(name = "menu_id")
+    private Long menuId;
+
+    @Column(name = "owner_id")
+    private Long ownerId;
+
+    @Column(name = "tables")
+    private Integer tables;
+
+    @Column(name = "longitude")
+    private Float longitude;
+
+    @Column(name = "latitude")
+    private Float latitude;
+
+    @Column(name = "created_at")
+    @CreationTimestamp
+    private Instant createdAt;
+
+    @Column(name = "created_by")
+    private Long createdBy;
+
+    @Column(name = "modify_at")
+    @UpdateTimestamp
+    private Instant modifyAt;
+
+    @Column(name = "modify_by")
+    private Long modifyBy;
+
+        
+    public Boolean isDeleted() {
+        if (isDeleted == null) {
+            return false;
+        }
+        return isDeleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        isDeleted = deleted;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getTextAddress() {
+        return textAddress;
+    }
+
+    public void setTextAddress(String textAddress) {
+        this.textAddress = textAddress;
+    }
+
+    public String getWebsite() {
+        return website;
+    }
+
+    public void setWebsite(String website) {
+        this.website = website;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getWorkingTime() {
+        return workingTime;
+    }
+
+    public void setWorkingTime(String workingTime) {
+        this.workingTime = workingTime;
+    }
+
+    public Boolean getIsDeleted() {
+        return isDeleted;
+    }
+
+    public void setIsDeleted(Boolean isDeleted) {
+        this.isDeleted = isDeleted;
+    }
+
+    public Long getMenuId() {
+        return menuId;
+    }
+
+    public void setMenuId(Long menuId) {
+        this.menuId = menuId;
+    }
+
+    public Long getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(Long ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public Integer getTables() {
+        return tables;
+    }
+
+    public void setTables(Integer tables) {
+        this.tables = tables;
+    }
+
+    public Float getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Float longitude) {
+        this.longitude = longitude;
+    }
+
+    public Float getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Float latitude) {
+        this.latitude = latitude;
+    }
+
+    public Instant getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Long getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(Long createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public Instant getModifyAt() {
+        return modifyAt;
+    }
+
+    public void setModifyAt(Instant modifyAt) {
+        this.modifyAt = modifyAt;
+    }
+
+    public Long getModifyBy() {
+        return modifyBy;
+    }
+
+    public void setModifyBy(Long modifyBy) {
+        this.modifyBy = modifyBy;
+    }
     
-    @Column(name = "table_count")
-        private Long tableCount;
     
-    @Column(name = "working_time", length = 100)
-        private String workingTime;
-    
-    @Column(name = "longtitude", length = 100)
-        private String longtitude;
-    
-    @Column(name = "latitude", length = 100)
-        private String latitude;
 }
+
+
+
 
 
