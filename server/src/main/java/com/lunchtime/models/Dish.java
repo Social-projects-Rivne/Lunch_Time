@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
@@ -46,5 +47,16 @@ public class Dish {
      
     public void setUsers(Set<CategoryFood> categoryFood) {
         this.categoryFood = categoryFood;
+    }
+    
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dishes")
+    private Set<MenuItemDish> menuItemDish;
+    
+    public Set<MenuItemDish> getMenuItemDish() {
+        return menuItemDish;
+    }
+    
+    public void setMenuItemDish(Set<MenuItemDish> menuItemDish) {
+        this.menuItemDish = menuItemDish;
     }
 }

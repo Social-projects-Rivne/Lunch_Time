@@ -38,7 +38,6 @@ public class RestaurantService {
                 restaurant.setWebsite(newRestaurant.getWebsite());
                 restaurant.setDescription(newRestaurant.getDescription());
                 restaurant.setWorkingTime(newRestaurant.getWorkingTime());
-                restaurant.setMenuId(newRestaurant.getMenuId());
                 restaurant.setOwnerId(newRestaurant.getOwnerId());
                 restaurant.setTables(newRestaurant.getTables());
                 restaurant.setLongitude(newRestaurant.getLongitude());

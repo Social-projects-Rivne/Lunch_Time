@@ -1,6 +1,8 @@
 package com.lunchtime.models;
 
 import java.time.Instant;
+import java.util.Set;
+
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -8,9 +10,11 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
@@ -27,8 +31,7 @@ public class Restaurant {
     @Column(name = "name", length = 100)
     private String name;
 
-    @Setter
-    @Getter
+    
     @NotBlank
     @Email
     @Column(name = "email")
@@ -52,10 +55,7 @@ public class Restaurant {
     @Column(name = "is_deleted")
     private Boolean isDeleted;
 
-    @Column(name = "menu_id")
-    private Long menuId;
-
-    @Column(name = "owner_id")
+    @Column(name = "owner_id")// should be created relationship to primary key id by user table
     private Long ownerId;
 
     @Column(name = "tables")
@@ -157,14 +157,6 @@ public class Restaurant {
         this.isDeleted = isDeleted;
     }
 
-    public Long getMenuId() {
-        return menuId;
-    }
-
-    public void setMenuId(Long menuId) {
-        this.menuId = menuId;
-    }
-
     public Long getOwnerId() {
         return ownerId;
     }
@@ -229,6 +221,18 @@ public class Restaurant {
         this.modifyBy = modifyBy;
     }
     
+    
+    
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "restaurant")
+    private Set<MenuItemDish> menuItemDish;
+     
+    public Set<MenuItemDish> getMenuItemDish() {
+        return menuItemDish;
+    }
+     
+    public void setUsers(Set<MenuItemDish> users) {
+        this.menuItemDish = users;
+    }
     
 }
 

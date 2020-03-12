@@ -1,14 +1,18 @@
 package com.lunchtime.models;
 
 import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
@@ -63,8 +67,19 @@ public class MenuItemDish {
     
     }
     
-    public void setRestaurant(Restaurant restaurant) {
+    public void setRestaurant(Set<Restaurant> restaurant) {
         this.restaurant = (Set<Restaurant>) restaurant;
     }
 
+    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinColumn(name = "dish_id", nullable = false)
+    private Dish dish;
+     
+    public Dish getDish() {
+        return dish;
+    }
+     
+    public void setDish(Dish dish) {
+        this.dish = dish;
+    }
 }
