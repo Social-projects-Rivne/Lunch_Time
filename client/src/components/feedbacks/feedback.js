@@ -1,72 +1,82 @@
 import React, { Component } from 'react';
-import { Container } from 'react-bootstrap'
+import { Container } from 'react-bootstrap';
+import axios from 'axios';
 import FeedbackSend from './send';
-import FeedbackComment from './comment'
-import axios from 'axios'
+import FeedbackComment from './comment';
 
-class Feedback extends Component{
- 
+const id = require('shortid');
 
-    state = {
-        allFedback: [],
-        pieceFedback: [],
-        maxCommentShow:1,
-        start:0,
-        last:0
+class Feedback extends Component {
+  constructor() {
+    super();
 
-    }
+    this.state = {
+      allFedback: [],
+      pieceFedback: [],
+      maxCommentShow: 1,
+      start: 0,
+      last: 0,
+    };
+  }
 
-    onClickShowMoreComment(){
-
-        this.setState((prevState)=>{
-            return {
-                pieceFedback: prevState.allFedback.slice(prevState.start, prevState.last+prevState.maxCommentShow),
-                last: prevState.last+prevState.maxCommentShow
-            }
+  componentDidMount() {
+    axios.get('http://localhost:8080/api/feedback/2')
+      .then((response) => {
+        this.setState((prevState) => {
+          return {
+            allFedback: response.data,
+            pieceFedback: response.data.slice(prevState.last, prevState.maxCommentShow),
+            last: prevState.maxCommentShow,
+          };
         });
-    }
+      });
+  }
 
+  onClickShowMoreComment() {
+    this.setState((prevState) => {
+      return {
+        pieceFedback: prevState.allFedback.slice(prevState.start, prevState.last + prevState.maxCommentShow),
+        last: prevState.last + prevState.maxCommentShow,
+      };
+    });
+  }
 
-    componentDidMount() {
+  onKey() {
+    this.onClickShowMoreComment();
+  }
 
-        axios.get('http://localhost:8080/api/feedback/2')
-            .then((response) => {
-                this.setState({
-                    allFedback: response.data,
-                    pieceFedback: response.data.slice(this.state.last, this.state.maxCommentShow),
-                    last: this.state.maxCommentShow
-                })
-            });
-    }
+  render() {
+    const stateFeed = this.state;
 
+    return (
 
-    render(){
-
-        return (
-
-            <Container className="containerFeedback">
-                <FeedbackSend />
-                {
-
-                    this.state.pieceFedback.map((item, index) => {
-                        return (
-                      
-                                <FeedbackComment item={item} key={index} />
-                            );
+      <Container className="containerFeedback">
+        <FeedbackSend />
+        {
+                    stateFeed.pieceFedback.map((item) => {
+                      return (
+                        <FeedbackComment item={item} key={id.generate()} />
+                      );
                     })
                 }
 
-                <div className="showMoreComm">
-                    <span className="showMoreCommSpan" onClick={this.onClickShowMoreComment.bind(this)}>
-                        show more comment
-                    </span>
-                </div>
+        <div className="showMoreComm">
+          <span
+            className="showMoreCommSpan"
+            tabIndex="0"
+            role="button"
+            onClick={this.onClickShowMoreComment.bind(this)}
+            onKeyPress={this.onKey.bind(this)}
+          >
+            show more comment
+          </span>
+        </div>
 
-            </Container>
-          
+      </Container>
 
-        )
-    }
+
+    );
+  }
 }
 
 export default Feedback;
