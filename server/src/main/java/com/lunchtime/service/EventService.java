@@ -1,6 +1,6 @@
 package com.lunchtime.service;
 
-import com.lunchtime.entity.Event;
+import com.lunchtime.models.Event;
 
 import java.util.Date;
 import java.util.List;

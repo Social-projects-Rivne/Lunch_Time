@@ -1,8 +1,7 @@
 package com.lunchtime.controllers;
 
-import com.lunchtime.entity.Event;
+import com.lunchtime.models.Event;
 import com.lunchtime.service.EventService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +14,11 @@ import java.util.List;
 @RequestMapping("/api/events")
 public class EventController {
 
-    @Autowired
-    EventService eventService;
+    private final EventService eventService;
+
+    public EventController(EventService eventService) {
+        this.eventService = eventService;
+    }
 
     @GetMapping
     public ResponseEntity<?> getAll() {
@@ -29,5 +31,4 @@ public class EventController {
         eventService.save(event);
         return new ResponseEntity<>(event, HttpStatus.CREATED);
     }
-
 }

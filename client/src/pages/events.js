@@ -7,6 +7,7 @@ import EventCard from '../components/event-card';
 import 'react-datepicker/dist/react-datepicker.css';
 import LocalSearch from '../components/local-search';
 import DropdownGroup from '../components/dropdown-group';
+import Api from '../services/api';
 
 class Events extends React.Component {
   constructor(props) {
@@ -17,20 +18,21 @@ class Events extends React.Component {
   }
 
   componentDidMount() {
-    fetch('http://localhost:8080/api/events/', {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-      },
-    }).then((response) => {
-      if (response.ok) {
-        response.json().then((json) => {
-          this.setState({
-            events: json,
-          });
+    this.getAll();
+  }
+
+  getAll() {
+    Api.getAll('events')
+      .then((response) => {
+        if (response.error) {
+          // eslint-disable-next-line no-console
+          console.error(response);
+          return;
+        }
+        this.setState({
+          events: response.data,
         });
-      }
-    });
+      });
   }
 
   render() {

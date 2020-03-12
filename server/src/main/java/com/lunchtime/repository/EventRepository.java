@@ -1,6 +1,6 @@
 package com.lunchtime.repository;
 
-import com.lunchtime.entity.Event;
+import com.lunchtime.models.Event;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Date;
