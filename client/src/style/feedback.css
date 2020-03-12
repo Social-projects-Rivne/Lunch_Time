@@ -52,20 +52,20 @@
     font-size: 12px;
 }
 
-.answerToFeedback{
+.answer{
     margin: 0px 30px 0px 10px;
     padding: auto;
 }
-.answerToFeedback:hover{
+.answer:hover{
     color: blue;
     cursor: pointer;
 }
 
-.complaintFeedback{
+.complaint{
     float: right;
     margin-right: 10px;
 }
-.complaintFeedback:hover{
+.complaint:hover{
     cursor: pointer;
 }
 

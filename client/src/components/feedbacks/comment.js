@@ -19,7 +19,7 @@ class FeedbackComment extends Component {
                     <hr className="hrStyle" />
                     <div>
 
-                        <span className="answerToFeedback" title="answer to feedback">answer to</span>
+                        <span className="answer" title="answer to feedback">answer to</span>
                         <span className="mr-3 likeDislike">
                             <img src="/img/like.png" width="25px" height="25px" alt="like" title="like feedback"></img>
                             <small>{this.props.item.counterLike}</small>
@@ -29,7 +29,7 @@ class FeedbackComment extends Component {
                             <small>{this.props.item.counterDislike}</small>
                         </span>
 
-                        <span className="complaintFeedback">
+                        <span className="complaint">
                             <img src="/img/complaint.png" width="25px" height="25px" alt="complaint" title="complaint feedback"></img>
                         </span>
 
