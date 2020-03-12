@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import { Container } from 'react-bootstrap';
-import '../../style/feedback.css';
+import '../../style/feedback-comment.css';
 import PropTypes from 'prop-types';
 
 class FeedbackComment extends Component {
   render() {
     const { item } = this.props;
     return (
-      <Container className="feedbackUserContainer">
+      <Container className="feedbackContainer">
         <img src="/img/defAvatar.png" width="50px" height="50px" alt="defAvava" />
-        <div className="feedbackMess">
-          <strong className="nameDate">{item.userName}</strong>
-          <small className="nameDate">{item.date}</small>
+        <div className="cooment">
+          <strong className="name">{item.userName}</strong>
+          <small className="date">{item.date}</small>
           <hr className="hrStyle" />
           <div>{item.description}</div>
           <hr className="hrStyle" />

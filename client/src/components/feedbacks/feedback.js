@@ -3,6 +3,7 @@ import { Container } from 'react-bootstrap';
 import axios from 'axios';
 import FeedbackSend from './send';
 import FeedbackComment from './comment';
+import '../../style/feedback.css';
 
 const id = require('shortid');
 
@@ -50,7 +51,7 @@ class Feedback extends Component {
 
     return (
 
-      <Container className="containerFeedback">
+      <Container className="feedback">
         <FeedbackSend />
         {
                     stateFeed.pieceFedback.map((item) => {
@@ -60,9 +61,9 @@ class Feedback extends Component {
                     })
                 }
 
-        <div className="showMoreComm">
+        <div className="showComments">
           <span
-            className="showMoreCommSpan"
+            className="commSpan"
             tabIndex="0"
             role="button"
             onClick={this.onClickShowMoreComment.bind(this)}
