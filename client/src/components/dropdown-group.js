@@ -6,8 +6,10 @@ import MyDropdown from './my-dropdown';
 
 class DropdownGroup extends React.Component {
   render() {
-    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-    const eventsType = ['Party', 'Karaoke', 'Concert', 'For children', 'Master class', 'Tasting', 'Sports broadcasting'];
+    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+      'August', 'September', 'October', 'November', 'December'];
+    const eventsType = ['Party', 'Karaoke', 'Concert', 'For children',
+      'Master class', 'Tasting', 'Sports broadcasting'];
     return (
       <ButtonToolbar className="justify-content-center pb-4 pt-4">
 

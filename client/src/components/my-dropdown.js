@@ -12,7 +12,14 @@ class MyDropdown extends React.Component {
         <Dropdown.Menu>
           { // eslint-disable-next-line react/prop-types
             items.map((item) => (
-              <Dropdown.Item className="m-dropdown-item" key={uuid.v4()} href={`#/sort=${item.toLowerCase()}`}>{item}</Dropdown.Item>))
+              <Dropdown.Item
+                className="m-dropdown-item"
+                key={uuid.v4()}
+                href={`#/sort=${item.toLowerCase()}`}
+              >
+                {item}
+              </Dropdown.Item>
+            ))
 }
         </Dropdown.Menu>
       </Dropdown>
