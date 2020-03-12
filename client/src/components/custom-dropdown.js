@@ -2,7 +2,6 @@ import React from 'react';
 import { Container, Dropdown } from 'react-bootstrap';
 import MyDatePicker from './date-picker';
 
-
 class DropdownWithDate extends React.Component {
   render() {
     const CustomMenu = React.forwardRef(
