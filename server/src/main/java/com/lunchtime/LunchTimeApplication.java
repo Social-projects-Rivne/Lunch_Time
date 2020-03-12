@@ -20,7 +20,10 @@ public class LunchTimeApplication {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**").allowedOrigins("http://localhost:3000");
+                registry
+                    .addMapping("/api/**")
+                    .allowedMethods("POST", "PUT", "GET", "DELETE")
+                    .allowedOrigins("http://localhost:3000");
             }
         };
     }

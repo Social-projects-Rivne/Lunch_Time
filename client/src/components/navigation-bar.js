@@ -23,7 +23,7 @@ class NavigationBar extends Component {
           <Nav className="ml-auto" bg="dark">
 
             <Nav.Item className="mr-3">
-              <Link to="/listRestaurant">ListRestaurant</Link>
+              <Link to="/restaurants">ListRestaurant</Link>
             </Nav.Item>
             <Nav.Item className="mr-3">
               <Link to="/events">Events</Link>
