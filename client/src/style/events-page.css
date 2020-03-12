@@ -1,6 +1,9 @@
 .page-container{
   background-image: url("/img/events-bkg.jpg");
-  background-size: cover;
+  background-attachment: fixed;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  image-rendering: optimizeSpeed;
 }
 
 .page-header-title{

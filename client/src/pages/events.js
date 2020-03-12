@@ -25,7 +25,6 @@ class Events extends React.Component {
     }).then((response) => {
       if (response.ok) {
         response.json().then((json) => {
-          console.log(json);
           this.setState({
             events: json,
           });

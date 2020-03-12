@@ -18,6 +18,7 @@ public class EventServiceImpl implements EventService {
     public List<Event> findAll(Date date) {
         return eventRepository.findByDateGreaterThanAndIsActiveTrueOrderByDateAsc(date);
     }
+
     public void save(Event event) {
         eventRepository.save(event);
     }
