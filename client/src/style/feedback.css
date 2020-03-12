@@ -61,11 +61,11 @@
     cursor: pointer;
 }
 
-.complaintFeddback{
+.complaintFeedback{
     float: right;
     margin-right: 10px;
 }
-.complaintFeddback:hover{
+.complaintFeedback:hover{
     cursor: pointer;
 }
 

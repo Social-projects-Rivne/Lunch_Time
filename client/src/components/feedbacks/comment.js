@@ -29,7 +29,7 @@ class FeedbackComment extends Component {
                             <small>{this.props.item.counterDislike}</small>
                         </span>
 
-                        <span className="complaintFeddback">
+                        <span className="complaintFeedback">
                             <img src="/img/complaint.png" width="25px" height="25px" alt="complaint" title="complaint feedback"></img>
                         </span>
 
