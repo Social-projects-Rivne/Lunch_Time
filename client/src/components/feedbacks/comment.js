@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container } from 'react-bootstrap'
-import '../style/feedback.css'
+import '../../style/feedback.css'
 
 class FeedbackComment extends Component {
 

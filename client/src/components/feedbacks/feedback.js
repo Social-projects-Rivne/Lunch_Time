@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Container } from 'react-bootstrap'
-import FeedbackSend from './feedback-send';
-import FeedbackComment from './feddback-comment'
+import FeedbackSend from './send';
+import FeedbackComment from './comment'
 import axios from 'axios'
 
 class Feedback extends Component{
