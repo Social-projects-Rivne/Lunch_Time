@@ -5,15 +5,13 @@ import FeedbackSend from './send';
 import FeedbackComment from './comment';
 import '../../style/feedback.css';
 
-const id = require('shortid');
-
 class Feedback extends Component {
   constructor() {
     super();
 
     this.state = {
-      allFedback: [],
-      pieceFedback: [],
+      allFeedback: [],
+      pieceFeedback: [],
       maxCommentShow: 1,
       start: 0,
       last: 0,
@@ -25,8 +23,8 @@ class Feedback extends Component {
       .then((response) => {
         this.setState((prevState) => {
           return {
-            allFedback: response.data,
-            pieceFedback: response.data.slice(prevState.last, prevState.maxCommentShow),
+            allFeedback: response.data,
+            pieceFeedback: response.data.slice(prevState.last, prevState.maxCommentShow),
             last: prevState.maxCommentShow,
           };
         });
@@ -36,7 +34,7 @@ class Feedback extends Component {
   onClickShowMoreComment() {
     this.setState((prevState) => {
       return {
-        pieceFedback: prevState.allFedback.slice(prevState.start, prevState.last + prevState.maxCommentShow),
+        pieceFeedback: prevState.allFeedback.slice(prevState.start, prevState.last + prevState.maxCommentShow),
         last: prevState.last + prevState.maxCommentShow,
       };
     });
@@ -54,9 +52,9 @@ class Feedback extends Component {
       <Container className="feedback">
         <FeedbackSend />
         {
-                    stateFeed.pieceFedback.map((item) => {
+                    stateFeed.pieceFeedback.map((item) => {
                       return (
-                        <FeedbackComment item={item} key={id.generate()} />
+                        <FeedbackComment item={item} key={item.id} />
                       );
                     })
                 }
