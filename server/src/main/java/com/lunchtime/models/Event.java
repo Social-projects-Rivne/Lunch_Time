@@ -37,7 +37,7 @@ public class Event {
     private URI image;
 
     @NotBlank
-    @Size(min=6, max=255)
+    @Size(min = 6, max = 255)
     @Column(name = "name")
     private String name;
 
@@ -46,7 +46,7 @@ public class Event {
     private String category;
 
     @NotBlank
-    @Size(min=6, max=999)
+    @Size(min = 6, max = 999)
     @Column(name = "description")
     private String description;
 

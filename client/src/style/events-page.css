@@ -17,6 +17,11 @@
   padding: 0 15% 0 15%;
 }
 
+.spinner-container{
+  height: 100%;
+  min-height: 50vh;
+}
+
 .react-datepicker__input-container input {
   margin: 5% 0 0 0;
   width: 75%;

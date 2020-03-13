@@ -3,6 +3,8 @@ import '../style/events-page.css';
 import '../style/dropdown.css';
 import '../style/m-button.css';
 import { CardDeck, Container } from 'react-bootstrap';
+import Spinner from 'react-bootstrap/Spinner';
+import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import EventCard from '../components/event-card';
 import 'react-datepicker/dist/react-datepicker.css';
 import LocalSearch from '../components/local-search';
@@ -14,6 +16,7 @@ class Events extends React.Component {
     super(props);
     this.state = {
       events: [],
+      isFetching: false,
     };
   }
 
@@ -31,12 +34,13 @@ class Events extends React.Component {
         }
         this.setState({
           events: response.data,
+          isFetching: true,
         });
       });
   }
 
   render() {
-    const { events } = this.state;
+    const { events, isFetching } = this.state;
 
     return (
       <Container fluid className="page-container p-0">
@@ -57,12 +61,21 @@ class Events extends React.Component {
         </Container>
 
         <Container className="card-body pl-5 pr-5">
-          <CardDeck className="wrapper">
-            {events.map((event) => (
-              <EventCard key={event.id} event={event} />
-            ))}
-          </CardDeck>
+          {isFetching ? (
+            <CardDeck className="wrapper">
+              {events.map((event) => (
+                <EventCard key={event.id} event={event} isFetching={isFetching} />
+              ))}
+            </CardDeck>
+          ) : (
+            <Container className="spinner-container">
+              <ButtonToolbar className="justify-content-center">
+                <Spinner animation="border" variant="warning" />
+              </ButtonToolbar>
+            </Container>
+          )}
         </Container>
+
       </Container>
     );
   }
