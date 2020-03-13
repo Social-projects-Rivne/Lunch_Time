@@ -11,19 +11,18 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class FeedbackController {
 
-  private final FeedbackService feedbackService;
+    protected final FeedbackService feedbackService;
 
-  public FeedbackController(FeedbackService feedbackService) {
-    this.feedbackService = feedbackService;
-  }
+    public FeedbackController(FeedbackService feedbackService) {
+        this.feedbackService = feedbackService;
+    }
 
+    @GetMapping("/api/feedback/{id}")
+    public ResponseEntity<List<Feedback>> getById(@PathVariable("id") Long id) {
 
-  @GetMapping("/api/feedback/{id}")
-  public ResponseEntity<List<Feedback>> getById(@PathVariable("id") Long id) {
-
-    List<Feedback> page = feedbackService.findByRestIdOrderByDateDesc(id);
-    return ResponseEntity.ok(page);
-  }
+        List<Feedback> page = feedbackService.findByRestIdOrderByDateDesc(id);
+        return ResponseEntity.ok(page);
+    }
 
 
 }
