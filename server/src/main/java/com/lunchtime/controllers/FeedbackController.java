@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class FeedbackController {
 
-    protected final FeedbackService feedbackService;
+    private final FeedbackService feedbackService;
 
     public FeedbackController(FeedbackService feedbackService) {
         this.feedbackService = feedbackService;
