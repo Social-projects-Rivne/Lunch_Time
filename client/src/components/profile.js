@@ -13,7 +13,31 @@ import Sharing from './profile/sharing';
 import Subscriptions from './profile/subscriptions';
 
 class Profile extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      user: {},
+      isFetching: false,
+    };
+  }
+
+  async componentDidMount() {
+    this.getProfile();
+  }
+
+  getProfile() {
+    this.setState({
+      user: {
+        name: 'Sherlock Holmes',
+        email: 'home@local.com',
+        phone: '+380991234567',
+      },
+      isFetching: true,
+    });
+  }
+
   render() {
+    const { isFetching, user } = this.state;
     return (
       <Container fluid className="page-container p-0">
         <Container fluid className="page-header">
@@ -48,7 +72,12 @@ class Profile extends Component {
             <Col>
               <Switch>
                 <Redirect exact from="/profile" to="/profile/info" />
-                <Route path="/profile/info" component={Info} />
+                <Route
+                  path="/profile/info"
+                  component={() => {
+                    return <Info isFetching={isFetching} user={user} />;
+                  }}
+                />
                 <Route path="/profile/orders" component={Orders} />
                 <Route path="/profile/history" component={History} />
                 <Route path="/profile/subscriptions" component={Subscriptions} />
