@@ -1,16 +1,23 @@
 .page-container{
-  background-image: url("/img/events-bkg.jpg");
-  background-attachment: fixed;
-  background-size: 100% 100%;
-  background-repeat: no-repeat;
-  image-rendering: optimizeSpeed;
+  background-size: cover;
+  background: url("/img/events-bkg.jpg") no-repeat center center fixed;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  -webkit-background-size: cover;
+  -webkit-transform:translatez(0);
+  min-height: 100%;
 }
 
 .page-header-title{
   padding-top: 2%;
-  color: #fac564;
+  color: white;
   text-align: center;
   font-weight: bold;
+}
+
+.page-header-title span{
+  background-color: gray;
+  opacity: 0.8;
 }
 
 .search-container{

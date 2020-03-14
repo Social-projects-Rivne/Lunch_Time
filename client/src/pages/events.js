@@ -48,10 +48,12 @@ class Events extends React.Component {
         <Container fluid className="page-header">
           <h1 className="page-header-title">
             {' '}
-            All events and activities in restaurants,
-            <br />
-            {' '}
-            cafes and bars
+            <span>
+              All events and activities in restaurants,
+              <br />
+              {' '}
+              cafes and bars
+            </span>
           </h1>
           <LocalSearch />
 

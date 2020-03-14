@@ -1,6 +1,5 @@
 import React from 'react';
 import { Dropdown } from 'react-bootstrap';
-import * as uuid from 'uuid';
 import PropTypes from 'prop-types';
 
 class MyDropdown extends React.Component {
@@ -13,7 +12,7 @@ class MyDropdown extends React.Component {
           {items.map((item) => (
             <Dropdown.Item
               className="m-dropdown-item"
-              key={uuid.v4()}
+              key={item}
               href={`#/sort=${item.toLowerCase()}`}
             >
               {item}
