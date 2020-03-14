@@ -25,9 +25,6 @@ public class MenuItemDish {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "dish_id")
-    private Long dishId;
-
     @NotBlank
     @Column(name = "portion_size", length = 30)
     private String portionSize;
@@ -42,10 +39,9 @@ public class MenuItemDish {
     @Column(name = "image_URL")
     private String imageUrl;
 
-    public MenuItemDish(Long dishId, @NotBlank String portionSize, @NotBlank String portionPrice,
+    public MenuItemDish(@NotBlank String portionSize, @NotBlank String portionPrice,
            Long portionUnit, String imageUrl) {
 
-        this.dishId = dishId;
         this.portionSize = portionSize;
         this.portionPrice = portionPrice;
         this.portionUnit = portionUnit;

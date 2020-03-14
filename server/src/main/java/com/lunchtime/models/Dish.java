@@ -38,7 +38,7 @@ public class Dish {
     public Dish() {
     }
     
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "dish")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "dishes")
     private Set<CategoryFood> categoryFood;
      
     public Set<CategoryFood> getCategory() {
@@ -49,7 +49,7 @@ public class Dish {
         this.categoryFood = categoryFood;
     }
     
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dishes")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dish")
     private Set<MenuItemDish> menuItemDish;
     
     public Set<MenuItemDish> getMenuItemDish() {

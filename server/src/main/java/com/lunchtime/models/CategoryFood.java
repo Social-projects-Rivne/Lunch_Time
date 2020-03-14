@@ -42,7 +42,7 @@ public class CategoryFood {
     )
     private Set<Dish> dishes;
      
-    public Set<Dish> getBooks() {
+    public Set<Dish> getDishes() {
         return dishes;
     }
      
