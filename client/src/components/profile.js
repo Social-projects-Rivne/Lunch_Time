@@ -2,7 +2,9 @@ import React, { Component } from 'react';
 import {
   Container, ListGroup, Row, Col,
 } from 'react-bootstrap';
-import { Link, Switch, Route } from 'react-router-dom';
+import {
+  Link, Switch, Route, Redirect,
+} from 'react-router-dom';
 import Info from './profile/info';
 import History from './profile/history';
 import Orders from './profile/orders';
@@ -21,7 +23,7 @@ class Profile extends Component {
         </Container>
         <Container className="card-body pl-5 pr-5">
           <Row>
-            <Col lg="3">
+            <Col md="3">
               <ListGroup>
                 <ListGroup.Item>
                   <Link to="/profile/info">Info</Link>
@@ -45,6 +47,7 @@ class Profile extends Component {
             </Col>
             <Col>
               <Switch>
+                <Redirect exact from="/profile" to="/profile/info" />
                 <Route path="/profile/info" component={Info} />
                 <Route path="/profile/orders" component={Orders} />
                 <Route path="/profile/history" component={History} />
