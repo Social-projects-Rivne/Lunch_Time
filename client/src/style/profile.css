@@ -1,8 +1,19 @@
-/* .profile-menu {
+.profile-menu {
   border: 1px solid #fac564;
-} */
+  border-radius: 4px;
+  padding-top: 16px;
+  padding-bottom: 8px;
+  margin-bottom: 16px;
+}
 
 .profile-menu .list-group .list-group-item {
   background-color: #1C1B1E;
   color: #E1E1E1;
+  border: 1px solid #E1E1E1;
+  margin-bottom: 8px;
+}
+
+.list-group-item.active {
+  color:  #fac564 !important;
+  border: 1px solid #fac564 !important;
 }
