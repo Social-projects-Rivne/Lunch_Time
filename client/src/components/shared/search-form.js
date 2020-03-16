@@ -3,13 +3,14 @@ import PropTypes from 'prop-types';
 import { Container } from 'react-bootstrap';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
-import Button from 'react-bootstrap/Button';
+import SearchButton from './search-button';
 
 class SearchForm extends Component {
   render() {
     const {
-      containerClassName, inputGroupClassName,
-      placeholder, buttonClassName, buttonName,
+      containerClassName,
+      inputGroupClassName,
+      placeholder,
     } = this.props;
     return (
       <Container className={containerClassName}>
@@ -18,7 +19,7 @@ class SearchForm extends Component {
             placeholder={placeholder}
           />
           <InputGroup.Append>
-            <Button className={buttonClassName}>{buttonName}</Button>
+            <SearchButton />
           </InputGroup.Append>
         </InputGroup>
       </Container>
@@ -30,16 +31,12 @@ SearchForm.defaultProps = {
   containerClassName: 'search-container pt-4',
   inputGroupClassName: 'mb-3',
   placeholder: 'Search',
-  buttonClassName: 'm-button',
-  buttonName: 'Find',
 };
 
 SearchForm.propTypes = {
   containerClassName: PropTypes.string,
   inputGroupClassName: PropTypes.string,
   placeholder: PropTypes.string,
-  buttonClassName: PropTypes.string,
-  buttonName: PropTypes.string,
 };
 
 export default SearchForm;
