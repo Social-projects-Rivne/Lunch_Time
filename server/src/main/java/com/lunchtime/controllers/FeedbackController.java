@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/api/restaurants")
+@RequestMapping("/api/feedback")
 public class FeedbackController {
 
     private final FeedbackService feedbackService;
@@ -18,11 +18,16 @@ public class FeedbackController {
         this.feedbackService = feedbackService;
     }
 
-    @GetMapping("{id}/feedbacks")
-    public ResponseEntity<List<Feedback>> getAll(@PathVariable("id") Long id) {
+    @GetMapping(params = ("restaurantId"))
+    public ResponseEntity<List<Feedback>> getAllByRestaurantId(@RequestParam("restaurantId") Long id) {
 
-        List<Feedback> page = feedbackService.findByRestIdOrderByDateDesc(id);
-        return ResponseEntity.ok(page);
+        List<Feedback> feedback = feedbackService.findByRestId_Id(id);
+        if (feedback.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(feedback);
+
     }
 
 

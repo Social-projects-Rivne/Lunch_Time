@@ -14,8 +14,8 @@ public class FeedbackService {
         this.feedbackRepository = feedbackRepository;
     }
 
-    public List<Feedback> findByRestIdOrderByDateDesc(Long id) {
-        return feedbackRepository.findByRestIdOrderByDateDesc(id);
+    public List<Feedback> findByRestId_Id(Long id) {
+        return feedbackRepository.findByRestId_Id(id);
     }
 
 }

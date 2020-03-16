@@ -14,5 +14,6 @@ import java.util.Optional;
 @Repository
 public interface FeedbackRepository extends JpaRepository<Feedback, Long> {
 
-    List<Feedback> findByRestIdOrderByDateDesc(Long id);
+
+    List<Feedback> findByRestId_Id(Long id);
 }

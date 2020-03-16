@@ -1,7 +1,11 @@
 package com.lunchtime.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Setter;
 import lombok.Getter;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+import org.hibernate.engine.profile.Fetch;
 
 import javax.persistence.*;
 import java.sql.Date;
@@ -26,8 +30,10 @@ public class Feedback {
     @Column(name = "user_name")
     private String userName;
 
-    @Column(name = "rest_id")
-    private Long restId;
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonIgnore
+    @JoinColumn(name = "rest_id",referencedColumnName = "id")
+    private Restaurant restId;
 
     @Column(name = "counter_like")
     private Integer counterLike;
