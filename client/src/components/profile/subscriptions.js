@@ -6,7 +6,7 @@ import {
 class Subscriptions extends Component {
   render() {
     return (
-      <Container fluid className="page-container p-0">
+      <Container fluid>
         Subscriptions
       </Container>
     );

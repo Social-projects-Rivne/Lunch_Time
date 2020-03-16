@@ -6,7 +6,7 @@ import {
 class Sharing extends Component {
   render() {
     return (
-      <Container fluid className="page-container p-0">
+      <Container fluid>
         Sharing
       </Container>
     );

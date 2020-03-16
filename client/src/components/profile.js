@@ -39,7 +39,7 @@ class Profile extends Component {
   render() {
     const { isFetching, user } = this.state;
     return (
-      <Container fluid className="page-container p-0">
+      <Container fluid>
         <Container fluid className="page-header">
           <h1 className="page-header-title">
             Profile

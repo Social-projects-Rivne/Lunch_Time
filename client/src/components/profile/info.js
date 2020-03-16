@@ -11,7 +11,7 @@ class Info extends Component {
     const { isFetching, user } = this.props;
     if (isFetching) {
       return (
-        <Container fluid className="page-container p-0">
+        <Container fluid>
           <Row className="profile-row">
             <Col md="6">
               <p>
