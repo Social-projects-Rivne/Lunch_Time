@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  Container, Button, Row, Col,
+  Container, Button, Row, Col, Spinner,
 } from 'react-bootstrap';
 import Avatar from 'react-avatar';
 import PropTypes from 'prop-types';
@@ -43,7 +43,7 @@ class Info extends Component {
       );
     }
     return (
-      <h2>Loading...</h2>
+      <Spinner animation="border" variant="warning" />
     );
   }
 }
