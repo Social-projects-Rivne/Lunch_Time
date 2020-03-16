@@ -11,8 +11,6 @@ class LocalSearch extends React.Component {
         <InputGroup className="mb-3">
           <FormControl
             placeholder="Search events"
-            aria-label="Search events"
-            aria-describedby="basic-addon2"
           />
           <InputGroup.Append>
             <Button className="m-button">Find</Button>
