@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EventServiceImpl implements EventService {
@@ -19,6 +20,18 @@ public class EventServiceImpl implements EventService {
 
     public List<Event> findAll(Date date) {
         return eventRepository.findAll(date);
+    }
+
+    public List<Event> findByCategory(Date date, String category) {
+        return eventRepository.findByCategory(date, category);
+    }
+
+    public List<Event> findByDate(Date startDate, Date endDate){
+        return eventRepository.findByDateBetweenAndIsActiveTrueOrderByDateAsc(startDate , endDate);
+    }
+
+    public Optional<Event> findById(Long id) {
+        return eventRepository.findById(id);
     }
 
     public void save(Event event) {

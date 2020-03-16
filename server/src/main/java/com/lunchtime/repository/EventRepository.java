@@ -9,9 +9,18 @@ import java.util.List;
 
 public interface EventRepository extends CrudRepository<Event, Long> {
 
-    default List<Event> findAll(Date date) {
-        return findByDateGreaterThanAndIsActiveTrueOrderByDateAsc(date);
+    default List<Event> findAll(Date date) { return findByDateGreaterThanAndIsActiveTrueOrderByDateAsc(date);
     }
 
     List<Event> findByDateGreaterThanAndIsActiveTrueOrderByDateAsc(Date date);
+
+    default List<Event> findByCategory(Date date, String category) {
+
+        return findByDateGreaterThanAndCategoryAndIsActiveTrue(date, category);
+    }
+
+    List<Event> findByDateGreaterThanAndCategoryAndIsActiveTrue(Date date, String category);
+
+    List<Event> findByDateBetweenAndIsActiveTrueOrderByDateAsc(Date startDate, Date endDate);
+
 }
