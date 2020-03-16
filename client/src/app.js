@@ -9,6 +9,7 @@ import Login from './pages/login';
 import Registartion from './pages/registartion';
 import Map from './pages/map';
 import NoMatch from './pages/no-match';
+import Events from './pages/events';
 import Restaurant from './components/restaurant-item';
 import Profile from './components/profile';
 
@@ -26,6 +27,9 @@ class App extends Component {
           </Route>
           <Route path="/about">
             <About />
+          </Route>
+          <Route path="/events">
+            <Events />
           </Route>
           <Route path="/restaurants/:id" component={Restaurant} />
           <Route path="/restaurants" component={ListRestaurant} />

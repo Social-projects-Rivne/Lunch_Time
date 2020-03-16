@@ -7,7 +7,7 @@ import '../style/openlayers-styles.css';
 class OpenlayersMap extends Component {
   render() {
     return (
-      <Container>
+      <Container className="map-container">
         <Map view={{
           center: transform([26.249249, 50.621957],
             'EPSG:4326', 'EPSG:3857'),
