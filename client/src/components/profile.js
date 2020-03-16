@@ -63,9 +63,11 @@ class Profile extends Component {
                 {this.menuItems.map((menuItem, index) => {
                   return (
                     // eslint-disable-next-line react/no-array-index-key
-                    <ListGroup.Item key={index} active={location.pathname === menuItem.path}>
-                      <Link to={menuItem.path}>{menuItem.title}</Link>
-                    </ListGroup.Item>
+                    <Link to={menuItem.path} key={index}>
+                      <ListGroup.Item active={location.pathname === menuItem.path}>
+                        {menuItem.title}
+                      </ListGroup.Item>
+                    </Link>
                   );
                 })}
               </ListGroup>
