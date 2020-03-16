@@ -1,8 +1,8 @@
 import React from 'react';
 import { ButtonToolbar } from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
 import DropdownWithDate from './custom-dropdown';
 import MyDropdown from './my-dropdown';
+import SearchButton from './shared/search-button';
 
 class DropdownGroup extends React.Component {
   render() {
@@ -28,7 +28,10 @@ class DropdownGroup extends React.Component {
         <DropdownWithDate />
 
         {/* Reset filters */}
-        <Button className="m-button ml-5">Reset</Button>
+        <SearchButton
+          buttonClassName="m-button ml-5"
+          buttonName="Reset"
+        />
       </ButtonToolbar>
     );
   }
