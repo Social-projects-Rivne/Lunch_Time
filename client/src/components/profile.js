@@ -5,12 +5,14 @@ import {
 import {
   Link, Switch, Route, Redirect,
 } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import Info from './profile/info';
 import History from './profile/history';
 import Orders from './profile/orders';
 import Settings from './profile/settings';
 import Sharing from './profile/sharing';
 import Subscriptions from './profile/subscriptions';
+import '../style/profile.css';
 
 class Profile extends Component {
   constructor(props) {
@@ -19,6 +21,14 @@ class Profile extends Component {
       user: {},
       isFetching: false,
     };
+    this.menuItems = [
+      { path: '/profile/info', title: 'Info' },
+      { path: '/profile/orders', title: 'Orders' },
+      { path: '/profile/history', title: 'History' },
+      { path: '/profile/subscriptions', title: 'Subscriptions' },
+      { path: '/profile/sharing', title: 'Sharing' },
+      { path: '/profile/settings', title: 'Settings' },
+    ];
   }
 
   async componentDidMount() {
@@ -38,6 +48,7 @@ class Profile extends Component {
 
   render() {
     const { isFetching, user } = this.state;
+    const { location } = this.props;
     return (
       <Container fluid>
         <Container fluid className="page-header">
@@ -47,26 +58,16 @@ class Profile extends Component {
         </Container>
         <Container className="card-body pl-5 pr-5">
           <Row>
-            <Col md="3">
+            <Col md="3" className="profile-menu">
               <ListGroup>
-                <ListGroup.Item>
-                  <Link to="/profile/info">Info</Link>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <Link to="/profile/orders">Orders</Link>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <Link to="/profile/history">History</Link>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <Link to="/profile/subscriptions">Subscriptions</Link>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <Link to="/profile/sharing">Sharing</Link>
-                </ListGroup.Item>
-                <ListGroup.Item>
-                  <Link to="/profile/settings">Settings</Link>
-                </ListGroup.Item>
+                {this.menuItems.map((menuItem, index) => {
+                  return (
+                    // eslint-disable-next-line react/no-array-index-key
+                    <ListGroup.Item key={index} active={location.pathname === menuItem.path}>
+                      <Link to={menuItem.path}>{menuItem.title}</Link>
+                    </ListGroup.Item>
+                  );
+                })}
               </ListGroup>
             </Col>
             <Col>
@@ -91,5 +92,9 @@ class Profile extends Component {
     );
   }
 }
+
+Profile.propTypes = {
+  location: PropTypes.any.isRequired,
+};
 
 export default Profile;
