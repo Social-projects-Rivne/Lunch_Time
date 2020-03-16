@@ -14,13 +14,13 @@ import java.util.List;
 @Entity
 @Table(name = "users")
 @Data
-public class User extends BaseEntity {
+public class Users extends BaseEntity {
 
 
-    @Column(name = "username")
+    @Column(name = "username",unique = true)
     private String userName;
 
-    @Column(name = "email")
+    @Column(name = "email",unique = true)
     private String email;
 
     @Column(name = "phone_nomber")

@@ -11,6 +11,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import java.sql.Timestamp;
 import java.util.Date;
 
 
@@ -32,6 +33,6 @@ public class BaseEntity {
     private Date updated;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status")
+    @Column(name = "status",columnDefinition = "varchar(50) default 'ACTIVE'")
     private Status status;
 }
