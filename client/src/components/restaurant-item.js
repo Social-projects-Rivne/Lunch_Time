@@ -51,7 +51,7 @@ class Restaurant extends Component {
             <h3>Events</h3>
           </Tab>
           <Tab eventKey="feedback" title="Feedback">
-            <Feedback />
+            <Feedback id={1} />
           </Tab>
         </Tabs>
       </Container>

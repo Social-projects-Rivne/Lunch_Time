@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { Container } from 'react-bootstrap';
-import axios from 'axios';
+import PropTypes from 'prop-types';
 import FeedbackSend from './send';
 import FeedbackComment from './comment';
 import '../../style/feedback.css';
+import Api from '../../services/api';
+
 
 class Feedback extends Component {
   constructor() {
@@ -18,17 +20,21 @@ class Feedback extends Component {
     };
   }
 
-  componentDidMount() {
-    axios.get('http://localhost:8080/api/feedback/2')
-      .then((response) => {
-        this.setState((prevState) => {
-          return {
-            allFeedback: response.data,
-            pieceFeedback: response.data.slice(prevState.last, prevState.maxCommentShow),
-            last: prevState.maxCommentShow,
-          };
-        });
-      });
+  async componentDidMount() {
+    const { id } = this.props;
+
+    const data = await Api.getAllRestaurantFeedback('feedback?restaurantId=', id);
+
+    this.setState((prevState) => {
+      if (data == null) {
+        return null;
+      }
+      return {
+        allFeedback: data,
+        pieceFeedback: data.slice(prevState.last, prevState.maxCommentShow),
+        last: prevState.maxCommentShow,
+      };
+    });
   }
 
   onClickShowMoreComment() {
@@ -52,12 +58,12 @@ class Feedback extends Component {
       <Container className="feedback">
         <FeedbackSend />
         {
-                    stateFeed.pieceFeedback.map((item) => {
-                      return (
-                        <FeedbackComment item={item} key={item.id} />
-                      );
-                    })
-                }
+          stateFeed.pieceFeedback.map((item) => {
+            return (
+              <FeedbackComment item={item} key={item.id} />
+            );
+          })
+        }
 
         <div className="showComments">
           <span
@@ -77,5 +83,12 @@ class Feedback extends Component {
     );
   }
 }
+
+Feedback.propTypes = {
+  id: PropTypes.number,
+};
+Feedback.defaultProps = {
+  id: 0,
+};
 
 export default Feedback;
