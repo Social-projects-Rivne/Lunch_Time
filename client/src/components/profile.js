@@ -12,6 +12,7 @@ import Orders from './profile/orders';
 import Settings from './profile/settings';
 import Sharing from './profile/sharing';
 import Subscriptions from './profile/subscriptions';
+import Api from '../services/api';
 import '../style/profile.css';
 
 class Profile extends Component {
@@ -36,14 +37,18 @@ class Profile extends Component {
   }
 
   getProfile() {
-    this.setState({
-      user: {
-        name: 'Sherlock Holmes',
-        email: 'home@local.com',
-        phone: '+380991234567',
-      },
-      isFetching: true,
-    });
+    Api.getOne('persons', 2)
+      .then((response) => {
+        if (response.error) {
+          // eslint-disable-next-line no-console
+          console.error(response);
+          return;
+        }
+        this.setState({
+          user: response.data,
+          isFetching: true,
+        });
+      });
   }
 
   render() {

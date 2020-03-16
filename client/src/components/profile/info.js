@@ -27,11 +27,11 @@ class Info extends Component {
               <p>
                 Phone:
                 {' '}
-                { user.phone }
+                { user.phoneNumber }
               </p>
             </Col>
             <Col>
-              <Avatar name={user.name} size="150" round />
+              <Avatar name={user.name} size="150" round src={user.avatarUrl} />
             </Col>
           </Row>
 
