@@ -4,18 +4,17 @@ const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
 const eventType = ['Party', 'Karaoke', 'Concert', 'For children',
   'Master class', 'Tasting', 'Sports broadcasting'];
 
-const monthObject = [
-  { id: 'sort-by-month' },
-  { name: 'By month' },
-  { values: months },
+const eventData = [
+  {
+    id: 'sort-by-month',
+    name: 'By month',
+    values: months,
+  },
+  {
+    id: 'sort-by-category',
+    name: 'By category',
+    values: eventType,
+  },
 ];
-
-const eventObject = [
-  { id: 'sort-by-category' },
-  { name: 'By category' },
-  { values: eventType },
-];
-
-const eventData = { monthObject, eventObject };
 
 export default eventData;
