@@ -12,13 +12,22 @@ import java.util.Optional;
 public class RestaurantService {
 
     private final RestaurantRepository restaurantRepository;
+    private final PersonService personService;
 
-    public RestaurantService(RestaurantRepository restaurantRepository) {
+    public RestaurantService(RestaurantRepository restaurantRepository, PersonService personService) {
         this.restaurantRepository = restaurantRepository;
+        this.personService = personService;
     }
 
     public Restaurant save(Restaurant restaurant) {
-        return restaurantRepository.save(restaurant);
+        return personService.findById(restaurant.getPerson().getId())
+            .map(person -> {
+                restaurant.setPerson(person);
+                return restaurantRepository.save(restaurant);
+            })
+            .orElseGet(() -> {
+                return null;
+            });
     }
 
     public Page<Restaurant> findAll(Pageable pageable) {
@@ -39,7 +48,7 @@ public class RestaurantService {
                 restaurant.setDescription(newRestaurant.getDescription());
                 restaurant.setWorkingTime(newRestaurant.getWorkingTime());
                 restaurant.setMenuId(newRestaurant.getMenuId());
-                restaurant.setOwnerId(newRestaurant.getOwnerId());
+                restaurant.setPerson(newRestaurant.getPerson());
                 restaurant.setTables(newRestaurant.getTables());
                 restaurant.setLongitude(newRestaurant.getLongitude());
                 restaurant.setLatitude(newRestaurant.getLatitude());
