@@ -9,6 +9,7 @@ import org.hibernate.annotations.Where;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.Instant;
 
 @Entity
@@ -51,6 +52,7 @@ public class Restaurant {
     private Long menuId;
 
     @ManyToOne
+    @NotNull
     @JoinColumn(name = "owner_id", nullable = false)
     private Person person;
 

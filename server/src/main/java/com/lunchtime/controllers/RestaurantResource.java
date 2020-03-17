@@ -38,6 +38,11 @@ public class RestaurantResource {
         }
 
         Restaurant result = restaurantService.save(restaurant);
+        if (result == null) {
+            return ResponseEntity.badRequest()
+                .build();
+        }
+
         return ResponseEntity.created(new URI("/api/restaurants"))
             .body(result);
     }
