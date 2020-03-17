@@ -20,7 +20,7 @@ public class Role extends BaseEntity {
     private String name;
 
     @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
-    private List<Users> users;
+    private List<Person> users;
 
 
 }

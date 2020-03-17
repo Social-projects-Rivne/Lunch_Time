@@ -12,9 +12,9 @@ import java.util.List;
 
 
 @Entity
-@Table(name = "users")
+@Table(name = "person")
 @Data
-public class Users extends BaseEntity {
+public class Person extends BaseEntity {
 
 
     @Column(name = "username",unique = true)
