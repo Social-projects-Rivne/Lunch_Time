@@ -1,5 +1,5 @@
 import React from 'react';
-import NavigationItem from '../shared/navigation-item';
+import NavigationItem from '../shared/navigation/navigation-item';
 
 const className = 'mr-3';
 
