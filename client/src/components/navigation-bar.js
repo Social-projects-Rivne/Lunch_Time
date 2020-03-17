@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Nav, Navbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import navigationBar from './data/navigation-bar';
 
 class NavigationBar extends Component {
   render() {
@@ -21,28 +22,7 @@ class NavigationBar extends Component {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto" bg="dark">
-
-            <Nav.Item className="mr-3">
-              <Link to="/restaurants">ListRestaurant</Link>
-            </Nav.Item>
-            <Nav.Item className="mr-3">
-              <Link to="/events">Events</Link>
-            </Nav.Item>
-            <Nav.Item className="mr-3">
-              <Link to="/map">Map</Link>
-            </Nav.Item>
-            <Nav.Item className="mr-3">
-              <Link to="/about">About</Link>
-            </Nav.Item>
-            <Nav.Item className="mr-3">
-              <Link to="/contact">Contact</Link>
-            </Nav.Item>
-            <Nav.Item className="mr-3">
-              <Link to="/login">Login</Link>
-            </Nav.Item>
-            <Nav.Item className="mr-3">
-              <Link to="/registartion">Registartion</Link>
-            </Nav.Item>
+            {navigationBar}
           </Nav>
         </Navbar.Collapse>
       </Navbar>
