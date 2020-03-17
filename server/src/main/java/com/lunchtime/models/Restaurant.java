@@ -87,5 +87,34 @@ public class Restaurant {
         isDeleted = deleted;
     }
 
-    Restaurant() {  }
+    public Restaurant() {    }
+
+    public Restaurant(Long id, String name,
+                      String email, String textAddress,
+                      String website, String description,
+                      String workingTime, Boolean isDeleted,
+                      Long menuId, Long ownerId,
+                      Integer tables, Float longitude,
+                      Float latitude, Instant createdAt,
+                      Long createdBy, Instant modifyAt,
+                      Long modifyBy) {
+
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.textAddress = textAddress;
+        this.website = website;
+        this.description = description;
+        this.workingTime = workingTime;
+        this.isDeleted = isDeleted;
+        this.menuId = menuId;
+        this.ownerId = ownerId;
+        this.tables = tables;
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.createdAt = createdAt;
+        this.createdBy = createdBy;
+        this.modifyAt = modifyAt;
+        this.modifyBy = modifyBy;
+    }
 }
