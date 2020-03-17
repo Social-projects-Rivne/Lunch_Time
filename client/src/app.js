@@ -8,7 +8,7 @@ import RouteComponent from './components/shared/navigation/navigation-route';
 
 class App extends Component {
   render() {
-    const routes = routeData.map((e) => (
+    const routeLinks = routeData.map((e) => (
       <RouteComponent
         path={e.path}
         component={e.component}
@@ -21,7 +21,7 @@ class App extends Component {
           <Route exact path="/">
             <Home />
           </Route>
-          {routes}
+          {routeLinks}
           <Route>
             <NoMatch />
           </Route>
