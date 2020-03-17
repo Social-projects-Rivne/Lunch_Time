@@ -1,5 +1,5 @@
 import React from 'react';
-import RouteComponent from '../shared/navigation-route';
+import RouteComponent from '../shared/navigation/navigation-route';
 import About from '../../pages/about';
 // import Restaurant from '../restaurant-item';
 // import ListRestaurant from '../../pages/restaurant-list';
