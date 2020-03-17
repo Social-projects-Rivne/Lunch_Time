@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Nav, Navbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import navigationBar from './data/navigation-bar';
+import navigationBarData from '../../data/navigation-bar-data';
 
 class NavigationBar extends Component {
   render() {
@@ -22,7 +22,7 @@ class NavigationBar extends Component {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto" bg="dark">
-            {navigationBar}
+            {navigationBarData}
           </Nav>
         </Navbar.Collapse>
       </Navbar>

@@ -7,7 +7,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import EventCard from '../components/event-search/event-card';
 import 'react-datepicker/dist/react-datepicker.css';
-import LocalSearch from '../components/shared/search/local-search';
+import EventSearchForm from '../components/shared/event/event-search-form';
 import DropdownGroup from '../components/event-search/dropdown-group';
 import Api from '../services/api';
 
@@ -55,7 +55,7 @@ class Events extends React.Component {
               cafes and bars
             </span>
           </h1>
-          <LocalSearch />
+          <EventSearchForm />
 
           <Container fluid className="filter-and-sort">
             <DropdownGroup />

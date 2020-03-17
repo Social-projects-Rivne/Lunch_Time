@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Container } from 'react-bootstrap';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
-import SearchButton from './search/search-button';
+import SearchButton from '../button/search-button';
 
 class SearchForm extends Component {
   render() {

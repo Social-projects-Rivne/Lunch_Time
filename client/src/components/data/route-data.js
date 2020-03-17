@@ -1,6 +1,6 @@
 import React from 'react';
 import About from '../../pages/about';
-import Restaurant from '../restaurant-item';
+import Restaurant from '../shared/restaurant/restaurant-item';
 import ListRestaurant from '../../pages/restaurant-list';
 import Login from '../../pages/login';
 import Registartion from '../../pages/registartion';

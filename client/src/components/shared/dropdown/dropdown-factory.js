@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import DropdownMenu from './dropdown-menu';
+import DropdownView from './dropdown-view';
 
-class DropdownMaker extends Component {
+class DropdownFactory extends Component {
   render() {
     const { data } = this.props;
     const eventFilters = data.map((e) => ( // add a function and import
-      <DropdownMenu
+      <DropdownView
         id={e.id}
         name={e.name}
         values={e.values}
@@ -18,8 +18,8 @@ class DropdownMaker extends Component {
   }
 }
 
-DropdownMaker.propTypes = {
+DropdownFactory.propTypes = {
   data: PropTypes.array.isRequired,
 };
 
-export default DropdownMaker;
+export default DropdownFactory;

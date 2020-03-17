@@ -1,6 +1,6 @@
 import React from 'react';
-import SearchFilterToolbar from './search-filter-toolbar';
-import eventData from '../data/event-data';
+import SearchFilterToolbar from '../search/search-filter-toolbar';
+import eventData from '../../data/event-data';
 
 class EventFilterBar extends React.Component {
   render() {

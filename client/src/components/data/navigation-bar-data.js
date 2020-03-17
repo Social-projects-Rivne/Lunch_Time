@@ -13,7 +13,7 @@ const data = [
   { link: '/registartion', name: 'Registartion' },
 ];
 
-const navigationBar = data.map((e) => (
+const navigationBarData = data.map((e) => (
   <NavigationItem
     clName={className}
     link={e.link}
@@ -21,4 +21,4 @@ const navigationBar = data.map((e) => (
   />
 ));
 
-export default navigationBar;
+export default navigationBarData;
