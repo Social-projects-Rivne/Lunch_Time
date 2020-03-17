@@ -1,5 +1,5 @@
 import * as React from 'react';
-import SearchForm from './shared/search-form';
+import SearchForm from '../search-form';
 
 class LocalSearch extends React.Component {
   render() {

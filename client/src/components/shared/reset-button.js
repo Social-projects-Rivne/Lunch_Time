@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import SearchButton from './search-button';
+import SearchButton from './search/search-button';
 
 class ResetButton extends Component {
   render() {
