@@ -5,16 +5,17 @@ import DropdownView from './dropdown-view';
 class DropdownFactory extends Component {
   render() {
     const { data } = this.props;
-    const eventFilters = data.map((e) => ( // add a function and import
-      <DropdownView
-        id={e.id}
-        name={e.name}
-        values={e.values}
-      />
-    ));
     return (
-      { eventFilters }
-    );
+      data && data.length > 0 && data.map((e) => {
+        return (
+          <DropdownView
+            id={e.id}
+            name={e.name}
+            values={e.values}
+            key={e.id}
+          />
+        );
+      }));
   }
 }
 

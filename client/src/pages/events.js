@@ -8,8 +8,8 @@ import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import EventCard from '../components/event-search/event-card';
 import 'react-datepicker/dist/react-datepicker.css';
 import EventSearchForm from '../components/shared/event/event-search-form';
-import DropdownGroup from '../components/event-search/dropdown-group';
 import Api from '../services/api';
+import EventFilterBar from '../components/shared/event/event-filter-bar';
 
 class Events extends React.Component {
   constructor(props) {
@@ -58,7 +58,7 @@ class Events extends React.Component {
           <EventSearchForm />
 
           <Container fluid className="filter-and-sort">
-            <DropdownGroup />
+            <EventFilterBar />
           </Container>
         </Container>
 
