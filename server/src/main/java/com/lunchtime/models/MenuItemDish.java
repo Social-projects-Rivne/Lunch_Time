@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,6 +21,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
+
 public class MenuItemDish {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -106,6 +108,7 @@ public class MenuItemDish {
         isDeleted = deleted;
     }
     
+    
     @ManyToMany
     @JoinTable(name = "menu",
               joinColumns = @JoinColumn(name = "menu_item_dish_id", referencedColumnName = "id"),
@@ -121,7 +124,8 @@ public class MenuItemDish {
     public void setRestaurant(Set<Restaurant> restaurant) {
         this.restaurant = (Set<Restaurant>) restaurant;
     }
-
+    
+    
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "dish_id", nullable = false)
     private Dish dish;

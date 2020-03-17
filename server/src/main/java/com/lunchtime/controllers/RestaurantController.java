@@ -22,11 +22,11 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/restaurants")
-public class RestaurantResource {
+public class RestaurantController {
 
     private final RestaurantService restaurantService;
 
-    public RestaurantResource(RestaurantService restaurantService) {
+    public RestaurantController(RestaurantService restaurantService) {
         this.restaurantService = restaurantService;
     }
 
