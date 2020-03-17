@@ -40,7 +40,7 @@ class DropdownGroup extends React.Component {
           onSelect={(e) => this.onSelectCategory(e, 'events/month/')}
         />
 
-        <DropdownWithDate />
+        <DropdownWithDate onApply={this.onSelectCategory} />
 
         {/* Reset filters */}
         <Button

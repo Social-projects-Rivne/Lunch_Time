@@ -16,7 +16,6 @@ class MyDropdown extends React.Component {
               className="m-dropdown-item"
               key={item}
               eventKey={item.replace('\u0020', '\u005f').toLowerCase()}
-              /* href={`#/sort?category=${item.toLowerCase()}`} */
             >
               {item}
             </Dropdown.Item>

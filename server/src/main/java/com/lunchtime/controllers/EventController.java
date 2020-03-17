@@ -52,7 +52,8 @@ public class EventController {
     public ResponseEntity<?> getByDateBetween(
         @PathVariable("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
         @PathVariable("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) {
-        List<Event> result = eventService.findByDate(startDate, endDate);
+        Date end = new Date(endDate.getTime() + TimeUnit.DAYS.toMillis(1));
+        List<Event> result = eventService.findByDate(startDate, end);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
