@@ -1,5 +1,4 @@
 import React from 'react';
-import RouteComponent from '../shared/navigation/navigation-route';
 import About from '../../pages/about';
 import Restaurant from '../restaurant-item';
 import ListRestaurant from '../../pages/restaurant-list';
@@ -9,7 +8,7 @@ import Map from '../../pages/map';
 import Contact from '../../pages/contact';
 import Events from '../../pages/events';
 
-const data = [
+const routeData = [
   { path: '/about', component: <About /> },
   { path: '/events', component: <Events /> },
   { path: '/restaurants/:id', component: <Restaurant match={{ params: '' }} /> },
@@ -20,11 +19,4 @@ const data = [
   { path: '/contact', component: <Contact /> },
 ];
 
-const route = data.map((e) => (
-  <RouteComponent
-    path={e.path}
-    component={e.component}
-  />
-));
-
-export default route;
+export default routeData;
