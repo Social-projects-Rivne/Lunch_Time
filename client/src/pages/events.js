@@ -5,10 +5,10 @@ import '../style/m-button.css';
 import { CardDeck, Container } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
-import EventCard from '../components/event-card';
+import EventCard from '../components/event-search/event-card';
 import 'react-datepicker/dist/react-datepicker.css';
 import LocalSearch from '../components/local-search';
-import DropdownGroup from '../components/dropdown-group';
+import DropdownGroup from '../components/event-search/dropdown-group';
 import Api from '../services/api';
 
 class Events extends React.Component {

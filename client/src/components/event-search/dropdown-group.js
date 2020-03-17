@@ -2,7 +2,7 @@ import React from 'react';
 import { ButtonToolbar } from 'react-bootstrap';
 import DropdownWithDate from './custom-dropdown';
 import MyDropdown from './my-dropdown';
-import SearchButton from './shared/search-button';
+import SearchButton from '../shared/search-button';
 
 class DropdownGroup extends React.Component {
   render() {

@@ -3,7 +3,7 @@ import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import PropTypes from 'prop-types';
-import Api from '../services/api';
+import Api from '../../services/api';
 
 class EventCard extends React.Component {
   constructor(props) {

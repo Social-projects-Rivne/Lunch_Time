@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { ButtonToolbar } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import DropdownWithDate from '../custom-dropdown';
+import DropdownWithDate from '../event-search/custom-dropdown';
 import ResetButton from './reset-button';
 import DropdownMaker from './dropdown/dropdown-maker';
 
