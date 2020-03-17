@@ -1,9 +1,4 @@
-import React from 'react';
-import NavigationItem from '../shared/navigation/navigation-item';
-
-const className = 'mr-3';
-
-const data = [
+const navigationBarData = [
   { link: '/restaurants', name: 'ListRestaurant' },
   { link: '/events', name: 'Events' },
   { link: '/map', name: 'Map' },
@@ -12,13 +7,5 @@ const data = [
   { link: '/login', name: 'Login' },
   { link: '/registartion', name: 'Registartion' },
 ];
-
-const navigationBarData = data.map((e) => (
-  <NavigationItem
-    clName={className}
-    link={e.link}
-    name={e.name}
-  />
-));
 
 export default navigationBarData;
