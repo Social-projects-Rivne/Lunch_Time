@@ -23,6 +23,7 @@ class Feedback extends Component {
   async componentDidMount() {
     const { id } = this.props;
 
+
     const data = await Api.getAllRestaurantFeedback('feedback?restaurantId=', id);
 
     this.setState((prevState) => {
@@ -85,10 +86,8 @@ class Feedback extends Component {
 }
 
 Feedback.propTypes = {
-  id: PropTypes.number,
+  id: PropTypes.string.isRequired,
 };
-Feedback.defaultProps = {
-  id: 0,
-};
+
 
 export default Feedback;

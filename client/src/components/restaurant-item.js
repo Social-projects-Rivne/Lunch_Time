@@ -6,6 +6,7 @@ import About from './restaurant-about';
 import Feedback from './feedbacks/feedback';
 import '../style/restaurant-item.css';
 
+
 class Restaurant extends Component {
   constructor(props) {
     super(props);
@@ -37,6 +38,7 @@ class Restaurant extends Component {
 
   render() {
     const { isFetching, restaurant } = this.state;
+    const { match: { params: { id } } } = this.props;
     return (
       <Container className="restaurant-container">
         <h2>{restaurant.name}</h2>
@@ -51,7 +53,7 @@ class Restaurant extends Component {
             <h3>Events</h3>
           </Tab>
           <Tab eventKey="feedback" title="Feedback">
-            <Feedback id={1} />
+            <Feedback id={id} />
           </Tab>
         </Tabs>
       </Container>
