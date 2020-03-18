@@ -2,14 +2,12 @@ import React from 'react';
 import '../style/events-page.css';
 import '../style/dropdown.css';
 import '../style/m-button.css';
-import { CardDeck, Container } from 'react-bootstrap';
-import Spinner from 'react-bootstrap/Spinner';
-import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
-import CardView from '../components/shared/event/card-view';
+import { Container } from 'react-bootstrap';
 import 'react-datepicker/dist/react-datepicker.css';
 import Api from '../services/api';
 import SearchMenu from '../components/shared/search/search-menu';
 import info, { title, placeHolder } from '../components/info/events';
+import CardResults from '../components/shared/event/card-results';
 
 class Events extends React.Component {
   constructor(props) {
@@ -44,30 +42,12 @@ class Events extends React.Component {
 
     return (
       <Container fluid className="page-container p-0">
-
         <SearchMenu
           title={title}
           placeHolder={placeHolder}
           data={info}
         />
-
-
-        <Container className="card-body pl-5 pr-5">
-          {isFetching ? (
-            <CardDeck className="wrapper">
-              {events.map((event) => (
-                <CardView key={event.id} event={event} isFetching={isFetching} />
-              ))}
-            </CardDeck>
-          ) : (
-            <Container className="spinner-container">
-              <ButtonToolbar className="justify-content-center">
-                <Spinner animation="border" variant="warning" />
-              </ButtonToolbar>
-            </Container>
-          )}
-        </Container>
-
+        <CardResults events={events} isFetching={isFetching} />
       </Container>
     );
   }
