@@ -3,6 +3,7 @@ package com.lunchtime.implementation;
 import com.lunchtime.models.Restaurant;
 import com.lunchtime.repository.RestaurantRepository;
 import com.lunchtime.service.PersonService;
+import com.lunchtime.service.RestaurantService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -10,12 +11,12 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class RestaurantService implements com.lunchtime.service.RestaurantService {
+public class RestaurantServiceImplement implements RestaurantService {
 
     private final RestaurantRepository restaurantRepository;
     private final PersonService personService;
 
-    public RestaurantService(RestaurantRepository restaurantRepository, PersonService personService) {
+    public RestaurantServiceImplement(RestaurantRepository restaurantRepository, PersonService personService) {
         this.restaurantRepository = restaurantRepository;
         this.personService = personService;
     }
