@@ -3,7 +3,7 @@ import About from '../../pages/about';
 import Restaurant from '../shared/restaurant/restaurant-item';
 import ListRestaurant from '../../pages/restaurant-list';
 import Login from '../../pages/login';
-import Registartion from '../../pages/registartion';
+import Registration from '../../pages/registration';
 import Map from '../../pages/map';
 import Contact from '../../pages/contact';
 import Events from '../../pages/events';
@@ -15,7 +15,7 @@ const info = [
   { path: '/restaurants', component: <ListRestaurant match={{ path: 'restaurants' }} /> },
   { path: '/map', component: <Map /> },
   { path: '/login', component: <Login /> },
-  { path: '/registartion', component: <Registartion /> },
+  { path: '/registration', component: <Registration /> },
   { path: '/contact', component: <Contact /> },
 ];
 
