@@ -5,7 +5,7 @@ const info = [
   { link: '/about', name: 'About' },
   { link: '/contact', name: 'Contact' },
   { link: '/login', name: 'Login' },
-  { link: '/registration', name: 'Registartion' },
+  { link: '/registration', name: 'Registration' },
 ];
 
 export default info;
