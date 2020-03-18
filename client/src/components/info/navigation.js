@@ -1,4 +1,4 @@
-const navigationBarData = [
+const info = [
   { link: '/restaurants', name: 'ListRestaurant' },
   { link: '/events', name: 'Events' },
   { link: '/map', name: 'Map' },
@@ -8,4 +8,4 @@ const navigationBarData = [
   { link: '/registartion', name: 'Registartion' },
 ];
 
-export default navigationBarData;
+export default info;

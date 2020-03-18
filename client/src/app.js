@@ -3,12 +3,12 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import NavigationBar from './components/shared/navigation/navigation-bar';
 import Home from './pages/home';
 import NoMatch from './pages/no-match';
-import routeData from './components/data/route-data';
+import info from './components/info/info';
 import RouteComponent from './components/shared/navigation/navigation-route';
 
 class App extends Component {
   render() {
-    const routeLinks = routeData.map((e) => (
+    const routeLinks = info.map((e) => (
       <RouteComponent
         path={e.path}
         component={e.component}

@@ -8,7 +8,7 @@ import Map from '../../pages/map';
 import Contact from '../../pages/contact';
 import Events from '../../pages/events';
 
-const routeData = [
+const info = [
   { path: '/about', component: <About /> },
   { path: '/events', component: <Events /> },
   { path: '/restaurants/:id', component: <Restaurant match={{ params: '' }} /> },
@@ -19,4 +19,4 @@ const routeData = [
   { path: '/contact', component: <Contact /> },
 ];
 
-export default routeData;
+export default info;

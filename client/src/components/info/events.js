@@ -1,10 +1,10 @@
 const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
   'August', 'September', 'October', 'November', 'December'];
 
-const eventType = ['Party', 'Karaoke', 'Concert', 'For children',
+const types = ['Party', 'Karaoke', 'Concert', 'For children',
   'Master class', 'Tasting', 'Sports broadcasting'];
 
-const eventData = [
+const info = [
   {
     id: 'sort-by-month',
     name: 'By month',
@@ -13,8 +13,8 @@ const eventData = [
   {
     id: 'sort-by-category',
     name: 'By category',
-    values: eventType,
+    values: types,
   },
 ];
 
-export default eventData;
+export default info;
