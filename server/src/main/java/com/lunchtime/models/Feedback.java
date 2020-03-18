@@ -4,12 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Setter;
 import lombok.Getter;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.NotFound;
-import org.hibernate.annotations.NotFoundAction;
-import org.hibernate.engine.profile.Fetch;
-
 import javax.persistence.*;
-import javax.persistence.criteria.CriteriaBuilder;
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
 
@@ -17,7 +12,6 @@ import java.sql.Date;
 @Setter
 @Getter
 public class Feedback {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -39,7 +33,7 @@ public class Feedback {
     private String userName;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
     @JoinColumn(name = "rest_id",referencedColumnName = "id")
     private Restaurant restId;
@@ -54,9 +48,8 @@ public class Feedback {
 
     public Feedback() {   }
 
-    public Feedback(Long id, String description, Boolean isActive, Date date,
+    public Feedback(String description, Boolean isActive, Date date,
                     String userName, Restaurant restId, Integer counterLike, Integer counterDislike) {
-        this.id = id;
         this.description = description;
         this.isActive = isActive;
         this.date = date;

@@ -89,7 +89,7 @@ public class Restaurant {
 
     public Restaurant() {    }
 
-    public Restaurant(Long id, String name,
+    public Restaurant(String name,
                       String email, String textAddress,
                       String website, String description,
                       String workingTime, Boolean isDeleted,
@@ -99,7 +99,6 @@ public class Restaurant {
                       Long createdBy, Instant modifyAt,
                       Long modifyBy) {
 
-        this.id = id;
         this.name = name;
         this.email = email;
         this.textAddress = textAddress;

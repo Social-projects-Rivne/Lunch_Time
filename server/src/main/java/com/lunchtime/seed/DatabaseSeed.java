@@ -6,7 +6,6 @@ import com.lunchtime.repository.FeedbackRepository;
 import com.lunchtime.repository.RestaurantRepository;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Component;
 
 import java.sql.Date;
@@ -46,25 +45,15 @@ public class DatabaseSeed {
 
         for (Long i = Long.valueOf(1); i < restaurantName.length; i++) {
 
-            Restaurant rest = new Restaurant();
-
-            rest.setId(i);
-            rest.setName(restaurantName[i.intValue()]);
-            rest.setDescription("Description for restaurant ".concat(restaurantName[i.intValue()]));
-            rest.setTextAddress("Rivne, street ".concat(i.toString()));
-            rest.setEmail(restaurantName[i.intValue()].concat("@gmail.com"));
-            rest.setWebsite("www.".concat(restaurantName[i.intValue()]).concat(".ua"));
-            rest.setWorkingTime("12-24");
-            rest.setIsDeleted(false);
-            rest.setLatitude(cordLatitude[i.intValue()]);
-            rest.setLongitude(cordLongitude[i.intValue()]);
-            rest.setOwnerId(i);
-            rest.setMenuId(i);
-            rest.setTables(Integer.valueOf(i.intValue()));
-            rest.setCreatedAt(Instant.now());
-            rest.setCreatedBy(i);
-            rest.setModifyAt(Instant.now());
-            rest.setModifyBy(i);
+            Restaurant rest = new Restaurant(restaurantName[i.intValue()],
+                restaurantName[i.intValue()].concat("@gmail.com"),
+                "Rivne, street ".concat(i.toString()),
+                "www.".concat(restaurantName[i.intValue()]).concat(".ua"),
+                "Description for restaurant ".concat(restaurantName[i.intValue()]),
+                "12-24", false,
+                i, i, i.intValue(), cordLongitude[i.intValue()],
+                cordLatitude[i.intValue()], Instant.now(),
+                i, Instant.now(), i);
 
             restaurantRepository.save(rest);
         }
@@ -77,16 +66,14 @@ public class DatabaseSeed {
 
         for (Long i = Long.valueOf(1); i < restaurantName.length; i++) {
 
-            Feedback feedback = new Feedback();
-
-            feedback.setId(i);
-            feedback.setCounterDislike(22 + i.intValue());
-            feedback.setCounterLike(3 + i.intValue());
-            feedback.setDate(new Date(System.currentTimeMillis()));
-            feedback.setUserName(userName[i.intValue()]);
-            feedback.setDescription("User ".concat(userName[i.intValue()]).concat(" write comment to restaurant"));
-            feedback.setIsActive(true);
-            feedback.setRestId(res.get(i.intValue() - 1));
+            Feedback feedback = new Feedback(
+                "User ".concat(userName[i.intValue()]).concat(" write comment to restaurant"),
+                true,
+                new Date(System.currentTimeMillis()),
+                userName[i.intValue()],
+                res.get(i.intValue() - 1),
+                3 + i.intValue(),
+                12 + i.intValue());
 
             feedbackRepository.save(feedback);
         }
