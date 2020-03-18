@@ -5,7 +5,7 @@ import Context from '../dropdown/context';
 import DateMenu from '../dropdown/date-menu';
 import ResetButton from '../button/reset';
 
-class FilterBar extends Component {
+class Filter extends Component {
   render() {
     const { data } = this.props;
     return (
@@ -18,8 +18,8 @@ class FilterBar extends Component {
   }
 }
 
-FilterBar.propTypes = {
+Filter.propTypes = {
   data: PropTypes.array.isRequired,
 };
 
-export default FilterBar;
+export default Filter;
