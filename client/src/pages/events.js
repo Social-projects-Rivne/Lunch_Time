@@ -5,11 +5,11 @@ import '../style/m-button.css';
 import { CardDeck, Container } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
-import CardView from '../components/shared/event/card-view';
+import EventCardView from '../components/shared/event/event-card-view';
 import 'react-datepicker/dist/react-datepicker.css';
-import SearchForm from '../components/shared/event/search-form';
+import EventSearchForm from '../components/shared/event/event-search-form';
 import Api from '../services/api';
-import FilterBar from '../components/shared/event/filter-bar';
+import EventFilterBar from '../components/shared/event/event-filter-bar';
 
 class Events extends React.Component {
   constructor(props) {
@@ -55,10 +55,10 @@ class Events extends React.Component {
               cafes and bars
             </span>
           </h1>
-          <SearchForm />
+          <EventSearchForm />
 
           <Container fluid className="filter-and-sort">
-            <FilterBar />
+            <EventFilterBar />
           </Container>
         </Container>
 
@@ -66,7 +66,7 @@ class Events extends React.Component {
           {isFetching ? (
             <CardDeck className="wrapper">
               {events.map((event) => (
-                <CardView key={event.id} event={event} isFetching={isFetching} />
+                <EventCardView key={event.id} event={event} isFetching={isFetching} />
               ))}
             </CardDeck>
           ) : (

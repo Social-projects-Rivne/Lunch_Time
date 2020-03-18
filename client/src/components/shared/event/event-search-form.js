@@ -1,7 +1,7 @@
 import * as React from 'react';
 import InputForm from '../search/input-form';
 
-class SearchForm extends React.Component {
+class EventSearchForm extends React.Component {
   render() {
     return (
       <InputForm placeholder="Search event" />
@@ -9,4 +9,4 @@ class SearchForm extends React.Component {
   }
 }
 
-export default SearchForm;
+export default EventSearchForm;

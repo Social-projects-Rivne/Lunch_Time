@@ -5,7 +5,7 @@ import moment from 'moment';
 import PropTypes from 'prop-types';
 import Api from '../../../services/api';
 
-class CardView extends React.Component {
+class EventCardView extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -53,9 +53,9 @@ class CardView extends React.Component {
   }
 }
 
-CardView.propTypes = {
+EventCardView.propTypes = {
   event: PropTypes.shape([]).isRequired,
   isFetching: PropTypes.bool.isRequired,
 };
 
-export default CardView;
+export default EventCardView;
