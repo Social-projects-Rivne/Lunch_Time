@@ -1,8 +1,8 @@
 import * as React from 'react';
 import { Container } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import Header from '../search/header';
-import Filter from '../search/filter';
+import Header from './header';
+import Filter from './filter';
 
 class SearchMenu extends React.Component {
   render() {
