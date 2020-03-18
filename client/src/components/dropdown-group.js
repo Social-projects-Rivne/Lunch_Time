@@ -4,18 +4,13 @@ import Button from 'react-bootstrap/Button';
 import PropTypes from 'prop-types';
 import DropdownWithDate from './custom-dropdown';
 import MyDropdown from './my-dropdown';
+import CategoryDropdown from './category-dropdown';
 
 class DropdownGroup extends React.Component {
-  constructor(props) {
-    super(props);
-    this.onSelectCategory = this.onSelectCategory.bind(this);
-  }
-
-  onSelectCategory(e, path) {
-    const fullPath = path + e;
-    console.log(`Value = ${fullPath}`);
+  onSelectCategory(path) {
+    console.log(`path= ${path}`);
     // eslint-disable-next-line react/destructuring-assignment
-    this.props.onChangeEvents(fullPath);
+    this.props.onChangeEvents(path);
   }
 
   render() {
@@ -26,25 +21,29 @@ class DropdownGroup extends React.Component {
     return (
       <ButtonToolbar className="justify-content-center pb-4 pt-4">
 
-        <MyDropdown
-          id="sort-by-category"
-          name="By category"
+        <CategoryDropdown
           items={eventsType}
-          onSelect={(e) => this.onSelectCategory(e, 'events/sort?category=')}
+          homePath="events"
+          path="events/categories/"
+          onApply={(path) => this.onSelectCategory(path)}
         />
 
         <MyDropdown
           id="sort-by-month"
           name="By month"
           items={months}
-          onSelect={(e) => this.onSelectCategory(e, 'events/month/')}
+          onSelect={(e) => this.onSelectCategory(`events/month/${e}`)}
         />
 
-        <DropdownWithDate onApply={this.onSelectCategory} />
+        <DropdownWithDate
+          oneDate="events/date/"
+          rangeDate="events/dates/from="
+          onApply={(path) => this.onSelectCategory(path)}
+        />
 
         {/* Reset filters */}
         <Button
-          onClick={() => this.onSelectCategory('', 'events')}
+          onClick={() => window.location.reload()}
           className="m-button ml-5"
         >
           Reset

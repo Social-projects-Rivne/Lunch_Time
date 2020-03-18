@@ -37,11 +37,12 @@ class EventCard extends React.Component {
   render() {
     const { event } = this.props;
     const { restaurant } = this.state;
+    const link = `/restaurants/${restaurant.id}`;
     return (
       <Card className="m-2" border="dark">
         <Card.Img variant="top" src={event.image} alt="Event image" />
         <Card.Body>
-          <Link to="#/"><Card.Title className="">{event.name}</Card.Title></Link>
+          <Link to={link}><Card.Title className="">{event.name}</Card.Title></Link>
           <Card.Subtitle className="restaurant-name mb-2">{restaurant.name}</Card.Subtitle>
           <Card.Subtitle className="event-date mb-2 text-muted">
             {moment(event.date).format('DD.MM.YYYY hh:MM')}

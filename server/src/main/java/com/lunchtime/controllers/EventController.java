@@ -1,6 +1,5 @@
 package com.lunchtime.controllers;
 
-import com.lunchtime.enums.Category;
 import com.lunchtime.enums.Months;
 import com.lunchtime.models.Event;
 import com.lunchtime.service.EventService;
@@ -30,15 +29,10 @@ public class EventController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @GetMapping("/sort")
-    public ResponseEntity<?> getByCategory(@RequestParam(value = "category") String category) {
-        try {
-            String cat = Category.valueOf(category).toString();
-            List<Event> result = eventService.findByCategory(new Date(), cat);
-            return new ResponseEntity<>(result, HttpStatus.OK);
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>("400", HttpStatus.BAD_REQUEST);
-        }
+    @GetMapping("/categories/{category}")
+    public ResponseEntity<?> getByCategory(@PathVariable String[] category) {
+        List<Event> result = eventService.findByCategory(new Date(), category);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping("date/{date}")

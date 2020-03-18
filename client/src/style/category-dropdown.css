@@ -1,0 +1,14 @@
+.rc-dropdown-menu > .rc-dropdown-menu-item{
+  color: #212529;
+  padding: .25rem 2.5rem .25rem 1.5rem;
+  font-size: 16px;
+}
+
+.rc-dropdown-menu > .rc-dropdown-menu-item-selected:after{
+  color: black;
+}
+
+.rc-dropdown-menu > .rc-dropdown-menu-item:hover, .rc-dropdown-menu > .rc-dropdown-menu-item-active,
+.rc-dropdown-menu > .rc-dropdown-menu-item-selected{
+  background-color: #fac564;
+}

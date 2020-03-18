@@ -10,7 +10,7 @@ public interface EventService {
 
     List<Event> findAll(Date date);
 
-    List<Event> findByCategory(Date date, String category);
+    List<Event> findByCategory(Date date, String[] category);
 
     List<Event> findByDate(Date startDate, Date endDate);
 

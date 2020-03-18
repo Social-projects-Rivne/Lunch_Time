@@ -22,7 +22,7 @@ public class EventServiceImpl implements EventService {
         return eventRepository.findAll(date);
     }
 
-    public List<Event> findByCategory(Date date, String category) {
+    public List<Event> findByCategory(Date date, String[] category) {
         return eventRepository.findByCategory(date, category);
     }
 

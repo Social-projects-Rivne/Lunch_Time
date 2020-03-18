@@ -8,7 +8,7 @@ class MyDropdown extends React.Component {
       id, name, items, onSelect,
     } = this.props;
     return (
-      <Dropdown className="mr-3" onSelect={onSelect}>
+      <Dropdown className="ml-3" onSelect={onSelect}>
         <Dropdown.Toggle id={id} className="m-button">{name}</Dropdown.Toggle>
         <Dropdown.Menu>
           {items.map((item) => (

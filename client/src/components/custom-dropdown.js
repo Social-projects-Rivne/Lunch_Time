@@ -19,13 +19,14 @@ class DropdownWithDate extends React.Component {
 
   handleOnApplyClick() {
     const { startDate, endDate } = this.state;
-    let path = `events/dates/from=${this.formatDate(startDate)}&to=${
-      this.formatDate(endDate)}`;
+    const { oneDate, rangeDate } = this.props;
+
+    let path = `${rangeDate + this.formatDate(startDate)}&to=${this.formatDate(endDate)}`;
     if (startDate === endDate) {
-      path = `events/date/${this.formatDate(startDate)}`;
+      path = oneDate + this.formatDate(startDate);
     }
     // eslint-disable-next-line react/destructuring-assignment
-    this.props.onApply('', path);
+    this.props.onApply(path);
   }
 
   handleChange(startDate, endDate) {
@@ -41,7 +42,6 @@ class DropdownWithDate extends React.Component {
 
   render() {
     const { startDate, endDate } = this.state;
-
     // This toggle prevent to close dropdown when you click on date-picker
     // eslint-disable-next-line react/prop-types
     const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
@@ -59,7 +59,7 @@ class DropdownWithDate extends React.Component {
     ));
 
     return (
-      <Dropdown className="mr-3">
+      <Dropdown className="ml-3">
         <Dropdown.Toggle as={CustomToggle} id="sort-by-date" className="m-button">Date</Dropdown.Toggle>
         <Dropdown.Menu>
           <Container className="text-center pb-2">
@@ -97,6 +97,8 @@ class DropdownWithDate extends React.Component {
 
 DropdownWithDate.propTypes = {
   onApply: PropTypes.any.isRequired,
+  oneDate: PropTypes.string.isRequired,
+  rangeDate: PropTypes.string.isRequired,
 };
 
 export default DropdownWithDate;
