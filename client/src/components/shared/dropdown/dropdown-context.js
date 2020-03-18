@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import DropdownView from './dropdown-view';
 
-class DropdownFactory extends Component {
+class DropdownContext extends Component {
   render() {
     const { data } = this.props;
     return (
@@ -19,8 +19,8 @@ class DropdownFactory extends Component {
   }
 }
 
-DropdownFactory.propTypes = {
+DropdownContext.propTypes = {
   data: PropTypes.array.isRequired,
 };
 
-export default DropdownFactory;
+export default DropdownContext;
