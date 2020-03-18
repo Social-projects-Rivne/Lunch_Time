@@ -12,6 +12,7 @@ class App extends Component {
       <RouteComponent
         path={e.path}
         component={e.component}
+        key={e.path}
       />
     ));
     return (

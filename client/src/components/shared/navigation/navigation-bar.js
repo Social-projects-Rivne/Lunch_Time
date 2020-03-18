@@ -12,6 +12,8 @@ class NavigationBar extends Component {
         className={className}
         link={e.link}
         name={e.name}
+        key={e.link}
+
       />
     ));
     return (

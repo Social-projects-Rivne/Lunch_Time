@@ -15,7 +15,7 @@ class RouteComponent extends Component {
 
 RouteComponent.propTypes = {
   path: PropTypes.string.isRequired,
-  component: PropTypes.elementType.isRequired,
+  component: PropTypes.object.isRequired,
 };
 
 export default RouteComponent;
