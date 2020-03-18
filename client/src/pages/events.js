@@ -5,7 +5,7 @@ import '../style/m-button.css';
 import { CardDeck, Container } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
-import EventCardView from '../components/shared/event/event-card-view';
+import CardView from '../components/shared/event/card-view';
 import 'react-datepicker/dist/react-datepicker.css';
 import EventSearchForm from '../components/shared/event/event-search-form';
 import Api from '../services/api';
@@ -66,7 +66,7 @@ class Events extends React.Component {
           {isFetching ? (
             <CardDeck className="wrapper">
               {events.map((event) => (
-                <EventCardView key={event.id} event={event} isFetching={isFetching} />
+                <CardView key={event.id} event={event} isFetching={isFetching} />
               ))}
             </CardDeck>
           ) : (
