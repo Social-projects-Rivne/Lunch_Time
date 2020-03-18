@@ -8,9 +8,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Component;
-import org.springframework.jdbc.core.JdbcTemplate;
 
-import javax.persistence.EntityManager;
 import java.sql.Date;
 import java.time.Instant;
 import java.util.List;
@@ -21,10 +19,11 @@ public class DatabaseSeed {
 
     String[] restaurantName = new String[] {"Avocado", "Masuri", "Gavana", "Cake", "Green", "Nuts"};
     String[] userName = new String[] {"Bob", "Devid", "Tom", "Alan", "Leo", "Fred"};
+    Float[] cordLatitude = new Float[] { 50.616294f, 50.618261f, 50.620219f, 50.616146f, 50.618318f, 50.624449f };
+    Float[] cordLongitude = new Float[] { 26.275728f, 26.260064f, 26.241863f, 26.253994f, 26.252249f, 26.249677f };
 
     private final RestaurantRepository restaurantRepository;
     private final FeedbackRepository feedbackRepository;
-    private JdbcTemplate jdbcTemplate;
 
     public DatabaseSeed(RestaurantRepository restaurantRepository, FeedbackRepository feedbackRepository) {
         this.restaurantRepository = restaurantRepository;
@@ -33,8 +32,14 @@ public class DatabaseSeed {
 
     @EventListener
     public void seed(ContextRefreshedEvent event) {
-        seedRestaurant();
-        seedFeedback();
+        if (restaurantRepository.count() == 0L) {
+            seedRestaurant();
+        }
+
+        if (feedbackRepository.count() == 0L) {
+            seedFeedback();
+        }
+
     }
 
     public void seedRestaurant() {
@@ -51,15 +56,15 @@ public class DatabaseSeed {
             rest.setWebsite("www.".concat(restaurantName[i.intValue()]).concat(".ua"));
             rest.setWorkingTime("12-24");
             rest.setIsDeleted(false);
-            rest.setLatitude(Float.valueOf("2"));
-            rest.setLongitude(Float.valueOf("2"));
-            rest.setOwnerId(Long.valueOf("1"));
-            rest.setMenuId(Long.valueOf("1"));
-            rest.setTables(Integer.valueOf(2));
+            rest.setLatitude(cordLatitude[i.intValue()]);
+            rest.setLongitude(cordLongitude[i.intValue()]);
+            rest.setOwnerId(i);
+            rest.setMenuId(i);
+            rest.setTables(Integer.valueOf(i.intValue()));
             rest.setCreatedAt(Instant.now());
-            rest.setCreatedBy(Long.valueOf("1"));
+            rest.setCreatedBy(i);
             rest.setModifyAt(Instant.now());
-            rest.setModifyBy(Long.valueOf("1"));
+            rest.setModifyBy(i);
 
             restaurantRepository.save(rest);
         }
@@ -68,19 +73,20 @@ public class DatabaseSeed {
 
     public void seedFeedback() {
 
+        List<Restaurant> res = restaurantRepository.findAll();
+
         for (Long i = Long.valueOf(1); i < restaurantName.length; i++) {
 
             Feedback feedback = new Feedback();
-            Restaurant res = restaurantRepository.getOne(i);
 
             feedback.setId(i);
-            feedback.setCounterDislike(22);
-            feedback.setCounterLike(3);
+            feedback.setCounterDislike(22 + i.intValue());
+            feedback.setCounterLike(3 + i.intValue());
             feedback.setDate(new Date(System.currentTimeMillis()));
             feedback.setUserName(userName[i.intValue()]);
             feedback.setDescription("User ".concat(userName[i.intValue()]).concat(" write comment to restaurant"));
             feedback.setIsActive(true);
-            feedback.setRestId(res);
+            feedback.setRestId(res.get(i.intValue() - 1));
 
             feedbackRepository.save(feedback);
         }
