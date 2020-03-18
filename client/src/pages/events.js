@@ -7,9 +7,9 @@ import Spinner from 'react-bootstrap/Spinner';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import CardView from '../components/shared/event/card-view';
 import 'react-datepicker/dist/react-datepicker.css';
-import EventSearchForm from '../components/shared/event/event-search-form';
 import Api from '../services/api';
-import EventFilterBar from '../components/shared/event/event-filter-bar';
+import SearchMenu from '../components/shared/search/search-menu';
+import info, { title, placeHolder } from '../components/info/events';
 
 class Events extends React.Component {
   constructor(props) {
@@ -45,22 +45,12 @@ class Events extends React.Component {
     return (
       <Container fluid className="page-container p-0">
 
-        <Container fluid className="page-header">
-          <h1 className="page-header-title">
-            {' '}
-            <span>
-              All events and activities in restaurants,
-              <br />
-              {' '}
-              cafes and bars
-            </span>
-          </h1>
-          <EventSearchForm />
+        <SearchMenu
+          title={title}
+          placeHolder={placeHolder}
+          data={info}
+        />
 
-          <Container fluid className="filter-and-sort">
-            <EventFilterBar />
-          </Container>
-        </Container>
 
         <Container className="card-body pl-5 pr-5">
           {isFetching ? (
