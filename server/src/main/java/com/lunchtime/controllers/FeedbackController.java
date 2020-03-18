@@ -2,7 +2,7 @@ package com.lunchtime.controllers;
 
 import java.util.List;
 import com.lunchtime.models.Feedback;
-import com.lunchtime.service.FeedbackService;
+import com.lunchtime.implementation.FeedbackServiceImplementation;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,16 +12,16 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/feedback")
 public class FeedbackController {
 
-    private final FeedbackService feedbackService;
+    private final FeedbackServiceImplementation feedbackServiceimplementation;
 
-    public FeedbackController(FeedbackService feedbackService) {
-        this.feedbackService = feedbackService;
+    public FeedbackController(FeedbackServiceImplementation feedbackServiceimplementation) {
+        this.feedbackServiceimplementation = feedbackServiceimplementation;
     }
 
     @GetMapping(params = ("restaurantId"))
     public ResponseEntity<List<Feedback>> getAllByRestaurantId(@RequestParam("restaurantId") Long id) {
 
-        List<Feedback> feedback = feedbackService.findByRestId_Id(id);
+        List<Feedback> feedback = feedbackServiceimplementation.findByRestId_Id(id);
         if (feedback.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
