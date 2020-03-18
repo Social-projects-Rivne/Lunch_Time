@@ -1,10 +1,10 @@
 import * as React from 'react';
-import InputForm from '../search/input-form';
+import Input from '../search/input';
 
 class EventSearchForm extends React.Component {
   render() {
     return (
-      <InputForm placeholder="Search event" />
+      <Input placeholder="Search event" />
     );
   }
 }

@@ -1,11 +1,11 @@
 import React from 'react';
-import FilterToolbar from '../search/filter-toolbar';
+import Filter from '../search/filter';
 import eventData from '../../data/event-data';
 
 class EventFilterBar extends React.Component {
   render() {
     return (
-      <FilterToolbar data={eventData} />
+      <Filter data={eventData} />
     );
   }
 }
