@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { Container } from 'react-bootstrap';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
-import SearchButton from '../button/search-button';
+import SearchBarButton from '../button/search-bar-button';
 
-class SearchForm extends Component {
+class InputForm extends Component {
   render() {
     const {
       containerClassName,
@@ -19,7 +19,7 @@ class SearchForm extends Component {
             placeholder={placeholder}
           />
           <InputGroup.Append>
-            <SearchButton />
+            <SearchBarButton />
           </InputGroup.Append>
         </InputGroup>
       </Container>
@@ -27,16 +27,16 @@ class SearchForm extends Component {
   }
 }
 
-SearchForm.defaultProps = {
+InputForm.defaultProps = {
   containerClassName: 'search-container pt-4',
   inputGroupClassName: 'mb-3',
   placeholder: 'Search',
 };
 
-SearchForm.propTypes = {
+InputForm.propTypes = {
   containerClassName: PropTypes.string,
   inputGroupClassName: PropTypes.string,
   placeholder: PropTypes.string,
 };
 
-export default SearchForm;
+export default InputForm;

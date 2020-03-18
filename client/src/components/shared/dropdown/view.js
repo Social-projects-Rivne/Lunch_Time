@@ -2,7 +2,7 @@ import React from 'react';
 import { Dropdown } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-class DropdownView extends React.Component {
+class View extends React.Component {
   render() {
     const { id, name, values } = this.props;
     return (
@@ -24,10 +24,10 @@ class DropdownView extends React.Component {
   }
 }
 
-DropdownView.propTypes = {
+View.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   values: PropTypes.array.isRequired,
 };
 
-export default DropdownView;
+export default View;

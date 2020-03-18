@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import Button from 'react-bootstrap/Button';
 
-class SearchButton extends Component {
+class SearchBarButton extends Component {
   render() {
     const { buttonClassName, buttonName } = this.props;
     return (
@@ -11,14 +11,14 @@ class SearchButton extends Component {
   }
 }
 
-SearchButton.defaultProps = {
+SearchBarButton.defaultProps = {
   buttonClassName: 'm-button',
   buttonName: 'Find',
 };
 
-SearchButton.propTypes = {
+SearchBarButton.propTypes = {
   buttonClassName: PropTypes.string,
   buttonName: PropTypes.string,
 };
 
-export default SearchButton;
+export default SearchBarButton;

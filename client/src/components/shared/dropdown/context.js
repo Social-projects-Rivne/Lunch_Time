@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import DropdownView from './dropdown-view';
+import View from './view';
 
-class DropdownContext extends Component {
+class Context extends Component {
   render() {
     const { data } = this.props;
     return (
       data && data.length > 0 && data.map((e) => {
         return (
-          <DropdownView
+          <View
             id={e.id}
             name={e.name}
             values={e.values}
@@ -19,8 +19,8 @@ class DropdownContext extends Component {
   }
 }
 
-DropdownContext.propTypes = {
+Context.propTypes = {
   data: PropTypes.array.isRequired,
 };
 
-export default DropdownContext;
+export default Context;
