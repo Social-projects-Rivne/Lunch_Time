@@ -1,4 +1,4 @@
-package com.lunchtime.service;
+package com.lunchtime.implementation;
 
 import com.lunchtime.models.Event;
 import com.lunchtime.repository.EventRepository;
@@ -8,12 +8,12 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class EventServiceImpl implements EventService {
+public class EventService implements com.lunchtime.service.EventService {
 
 
     private final EventRepository eventRepository;
 
-    public EventServiceImpl(EventRepository eventRepository) {
+    public EventService(EventRepository eventRepository) {
         this.eventRepository = eventRepository;
     }
 
