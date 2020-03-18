@@ -7,10 +7,10 @@ import ResetButton from '../button/reset';
 
 class Filter extends Component {
   render() {
-    const { data } = this.props;
+    const { info } = this.props;
     return (
       <ButtonToolbar className="justify-content-center">
-        <Context data={data} />
+        <Context info={info} />
         <DateMenu />
         <ResetButton />
       </ButtonToolbar>
@@ -19,7 +19,7 @@ class Filter extends Component {
 }
 
 Filter.propTypes = {
-  data: PropTypes.array.isRequired,
+  info: PropTypes.array.isRequired,
 };
 
 export default Filter;

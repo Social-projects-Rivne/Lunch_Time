@@ -5,10 +5,10 @@ import PropTypes from 'prop-types';
 
 class NavigationItem extends Component {
   render() {
-    const { clName, link, name } = this.props;
+    const { className, link, name } = this.props;
     return (
       <nav>
-        <Nav.Item className={clName}>
+        <Nav.Item className={className}>
           <Link to={link}>{name}</Link>
         </Nav.Item>
       </nav>
@@ -17,7 +17,7 @@ class NavigationItem extends Component {
 }
 
 NavigationItem.propTypes = {
-  clName: PropTypes.string.isRequired,
+  className: PropTypes.string.isRequired,
   link: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
 };

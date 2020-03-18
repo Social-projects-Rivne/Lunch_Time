@@ -4,9 +4,9 @@ import View from './view';
 
 class Context extends Component {
   render() {
-    const { data } = this.props;
+    const { info } = this.props;
     return (
-      data && data.length > 0 && data.map((e) => {
+      info && info.length > 0 && info.map((e) => {
         return (
           <View
             id={e.id}
@@ -20,7 +20,7 @@ class Context extends Component {
 }
 
 Context.propTypes = {
-  data: PropTypes.array.isRequired,
+  info: PropTypes.array.isRequired,
 };
 
 export default Context;

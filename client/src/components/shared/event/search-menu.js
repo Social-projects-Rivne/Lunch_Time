@@ -1,6 +1,6 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
 import { Container } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 import Header from '../search/header';
 import Filter from '../search/filter';
 
@@ -10,7 +10,7 @@ class SearchMenu extends React.Component {
     return (
       <Container fluid className="page-header">
         <Header title={title} placeHolder={placeHolder} />
-        <Filter data={data} />
+        <Filter info={data} />
       </Container>
     );
   }

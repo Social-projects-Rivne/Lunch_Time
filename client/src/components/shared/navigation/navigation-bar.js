@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 import { Nav, Navbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import info from '../../info/navigation';
 import NavigationItem from './navigation-item';
+import info from '../../info/navigation';
 
 class NavigationBar extends Component {
   render() {
     const className = 'mr-3';
     const navBarContent = info.map((e) => (
       <NavigationItem
-        clName={className}
+        className={className}
         link={e.link}
         name={e.name}
       />

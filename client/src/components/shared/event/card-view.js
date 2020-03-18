@@ -1,8 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
-import PropTypes from 'prop-types';
 import Api from '../../../services/api';
 
 class CardView extends React.Component {
