@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Container } from 'react-bootstrap';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
-import SearchBarButton from '../button/search-bar-button';
+import SearchMenuButton from '../button/search-menu-button';
 
 class Input extends Component {
   render() {
@@ -19,7 +19,7 @@ class Input extends Component {
             placeholder={placeholder}
           />
           <InputGroup.Append>
-            <SearchBarButton />
+            <SearchMenuButton />
           </InputGroup.Append>
         </InputGroup>
       </Container>

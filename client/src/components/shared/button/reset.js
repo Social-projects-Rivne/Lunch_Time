@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import SearchBarButton from './search-bar-button';
+import SearchMenuButton from './search-menu-button';
 
 class Reset extends Component {
   render() {
     return (
-      <SearchBarButton
+      <SearchMenuButton
         buttonClassName="m-button ml-5"
         buttonName="Reset"
       />
