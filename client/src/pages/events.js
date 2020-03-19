@@ -46,6 +46,7 @@ class Events extends React.Component {
           title={title}
           placeHolder={placeHolder}
           data={info}
+          showDate
         />
         <CardResults events={events} isFetching={isFetching} />
       </Container>
