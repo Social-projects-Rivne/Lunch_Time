@@ -1,4 +1,5 @@
 package com.lunchtime.models;
+
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -18,10 +19,10 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "username",unique = true)
+    @Column(name = "username", unique = true)
     private String userName;
 
-    @Column(name = "email",unique = true)
+    @Column(name = "email", unique = true)
     @Email
     private String email;
 
@@ -29,7 +30,7 @@ public class Person {
     private Integer phone;
 
     @Column(name = "avatar_url")
-    private String photoURL;
+    private String photoUrl;
 
     @Column(name = "password")
     private String password;
@@ -49,13 +50,13 @@ public class Person {
     private Long modifyBy;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status",columnDefinition = "varchar(50) default 'ACTIVE'")
+    @Column(name = "status", columnDefinition = "varchar(50) default 'ACTIVE'")
     private Status status;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinTable(name = "user_roles",
-        joinColumns = {@JoinColumn(name ="user_id",referencedColumnName = "id")},
-        inverseJoinColumns = {@JoinColumn(name="role_id",referencedColumnName = "id")})
+        joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+        inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
 
     private Role role;
 
@@ -95,12 +96,12 @@ public class Person {
         this.phone = phone;
     }
 
-    public String getPhotoURL() {
-        return photoURL;
+    public String getPhotoUrl() {
+        return photoUrl;
     }
 
-    public void setPhotoURL(String photoURL) {
-        this.photoURL = photoURL;
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
     }
 
     public String getPassword() {
@@ -147,6 +148,8 @@ public class Person {
     public void setStatus(Status status) {
         this.status = status;
     }
-    public Person (){}
+
+    public Person() {
+    }
 }
 

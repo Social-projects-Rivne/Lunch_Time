@@ -14,7 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-//that was be a interface
+
 @Component
 public class JwtAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
 
@@ -22,12 +22,16 @@ public class JwtAuthenticationProvider extends AbstractUserDetailsAuthentication
     private JwtValidator validator;
 
     @Override
-    protected void additionalAuthenticationChecks(UserDetails userDetails, UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken) throws AuthenticationException {
+    protected void additionalAuthenticationChecks(
+        UserDetails userDetails,
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken) throws AuthenticationException {
 
     }
 
     @Override
-    protected UserDetails retrieveUser(String username, UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken) throws AuthenticationException {
+    protected UserDetails retrieveUser(
+        String username,
+        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken) throws AuthenticationException {
 
         JwtAuthenticationToken jwtAuthenticationToken = (JwtAuthenticationToken) usernamePasswordAuthenticationToken;
         String token = jwtAuthenticationToken.getToken();
@@ -46,7 +50,7 @@ public class JwtAuthenticationProvider extends AbstractUserDetailsAuthentication
     }
 
     @Override
-    public boolean supports(Class<?> aClass) {
-        return (JwtAuthenticationToken.class.isAssignableFrom(aClass));
+    public boolean supports(Class<?> newClass) {
+        return (JwtAuthenticationToken.class.isAssignableFrom(newClass));
     }
 }

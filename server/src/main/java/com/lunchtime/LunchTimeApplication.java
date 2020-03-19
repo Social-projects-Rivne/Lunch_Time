@@ -17,6 +17,7 @@ public class LunchTimeApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(LunchTimeApplication.class, args);
+        System.out.println("HEjgfllo");
     }
 
     @Bean
@@ -33,10 +34,9 @@ public class LunchTimeApplication {
     }
 
     @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+    public BCryptPasswordEncoder cryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-//    Person per = new Person();
-//    per.findByUserName();
+
 }

@@ -19,17 +19,16 @@ public class JwtValidator {
         Person person = null;
         try {
             Claims body = Jwts.parser()
-                    .setSigningKey(secret)
-                    .parseClaimsJws(token)
-                    .getBody();
+                .setSigningKey(secret)
+                .parseClaimsJws(token)
+                .getBody();
 
             person = new Person();
 
             person.setUserName(body.getSubject());
-//            person.setId(Long.parseLong((String) body.get("userId")));
+            person.setId(Long.parseLong((String) body.get("userId")));
             person.setRole((Role) body.get("role"));
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e);
         }
 
