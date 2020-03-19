@@ -8,13 +8,19 @@ import java.util.Optional;
 
 public interface EventService {
 
-    List<Event> findAll(Date date);
+    List<Event> findAll();
 
-    List<Event> findByCategory(Date date, String[] category);
+    List<Event> findByCategory(String[] category);
 
-    List<Event> findByDate(Date startDate, Date endDate);
+    List<Event> findByDay(Date date);
+
+    List<Event> findByDateBetween(Date startDate, Date endDate);
+
+    List<Event> findByMonth(String month);
 
     Optional<Event> findById(Long id);
+
+    Optional<Event> deleteById(Long id);
 
     void save(Event event);
 }

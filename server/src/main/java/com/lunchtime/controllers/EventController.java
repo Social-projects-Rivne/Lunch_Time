@@ -1,6 +1,5 @@
 package com.lunchtime.controllers;
 
-import com.lunchtime.enums.Months;
 import com.lunchtime.models.Event;
 import com.lunchtime.service.EventService;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -9,9 +8,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.text.ParseException;
-import java.util.*;
-import java.util.concurrent.TimeUnit;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/events")
@@ -25,20 +24,19 @@ public class EventController {
 
     @GetMapping
     public ResponseEntity<?> getAll() {
-        List<Event> result = eventService.findAll(new Date());
+        List<Event> result = eventService.findAll();
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping("/categories/{category}")
     public ResponseEntity<?> getByCategory(@PathVariable String[] category) {
-        List<Event> result = eventService.findByCategory(new Date(), category);
+        List<Event> result = eventService.findByCategory(category);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping("date/{date}")
-    public ResponseEntity<?> getByDay(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) throws ParseException {
-        Date endDate = new Date(date.getTime() + TimeUnit.DAYS.toMillis(1));
-        List<Event> result = eventService.findByDate(date, endDate);
+    public ResponseEntity<?> getByDay(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+        List<Event> result = eventService.findByDay(date);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -46,23 +44,17 @@ public class EventController {
     public ResponseEntity<?> getByDateBetween(
         @PathVariable("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
         @PathVariable("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) {
-        Date end = new Date(endDate.getTime() + TimeUnit.DAYS.toMillis(1));
-        List<Event> result = eventService.findByDate(startDate, end);
+        List<Event> result = eventService.findByDateBetween(startDate, endDate);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping("month/{month}")
     public ResponseEntity<?> getByMonth(@PathVariable("month") String month) {
         try {
-            int month_ordinal = Months.valueOf(month).ordinal();
-            int year = Calendar.getInstance().get(Calendar.YEAR);
-            Calendar start = new GregorianCalendar(year, month_ordinal, 1);
-            Calendar end = new GregorianCalendar(year, ++month_ordinal, 1);
-            List<Event> result = eventService.findByDate(new Date(start.getTimeInMillis()),
-                new Date(end.getTimeInMillis()));
+            List<Event> result = eventService.findByMonth(month);
             return new ResponseEntity<>(result, HttpStatus.OK);
         } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>("400", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
@@ -85,18 +77,15 @@ public class EventController {
             eventService.save(event);
             return new ResponseEntity<>(event, HttpStatus.OK);
         }
-        return new ResponseEntity<>("400", HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @DeleteMapping("{id}")
     public ResponseEntity<?> deleteEvent(@PathVariable Long id) {
-        Optional<Event> result = eventService.findById(id);
+        Optional<Event> result = eventService.deleteById(id);
         if (result.isPresent()) {
-            Event event = result.get();
-            event.setIsActive(false);
-            eventService.save(event);
-            return new ResponseEntity<>(event, HttpStatus.CREATED);
+            return new ResponseEntity<>(result, HttpStatus.CREATED);
         }
-        return new ResponseEntity<>("404", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
