@@ -10,13 +10,13 @@ class Input extends Component {
     const {
       containerClassName,
       inputGroupClassName,
-      placeholder,
+      placeHolder,
     } = this.props;
     return (
       <Container className={containerClassName}>
         <InputGroup className={inputGroupClassName}>
           <FormControl
-            placeholder={placeholder}
+            placeholder={placeHolder}
           />
           <InputGroup.Append>
             <SearchMenuButton />
@@ -30,13 +30,13 @@ class Input extends Component {
 Input.defaultProps = {
   containerClassName: 'search-container pt-4',
   inputGroupClassName: 'mb-3',
-  placeholder: 'Search',
+  placeHolder: 'Search',
 };
 
 Input.propTypes = {
   containerClassName: PropTypes.string,
   inputGroupClassName: PropTypes.string,
-  placeholder: PropTypes.string,
+  placeHolder: PropTypes.string,
 };
 
 export default Input;
