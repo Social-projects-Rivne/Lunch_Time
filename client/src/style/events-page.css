@@ -1,0 +1,40 @@
+.page-container{
+  background-size: cover;
+  background: url("/img/events-bkg.jpg") no-repeat center center fixed;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  -webkit-background-size: cover;
+  -webkit-transform:translatez(0);
+  min-height: 100%;
+}
+
+.page-header-title{
+  padding-top: 2%;
+  color: white;
+  text-align: center;
+  font-weight: bold;
+}
+
+.page-header-title span{
+  background-color: gray;
+  opacity: 0.8;
+}
+
+.search-container{
+  padding: 0 15% 0 15%;
+}
+
+.spinner-container{
+  height: 100%;
+  min-height: 50vh;
+}
+
+.react-datepicker__input-container input {
+  margin: 5% 0 0 0;
+  width: 75%;
+}
+
+.wrapper{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+}

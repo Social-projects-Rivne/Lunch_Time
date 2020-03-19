@@ -1,0 +1,22 @@
+.m-button {
+  background: #fac564;
+  border-color: #fac564;
+  color: #000000;
+}
+
+.m-button:hover {
+  background: none;
+  border-color: #fac564;
+}
+
+.m-button:focus {
+  background: none;
+  border-color: #fac564;
+  box-shadow: none;
+}
+
+.m-button:active{
+  background: #fac564 !important;
+  border-color: #fac564 !important;
+  box-shadow: none !important;
+}
