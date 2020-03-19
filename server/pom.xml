@@ -29,28 +29,15 @@
       <version>${jsonwebtoken.version}</version>
     </dependency>
 
-    <!-- https://mvnrepository.com/artifact/com.auth0/java-jwt -->
-    <dependency>
-      <groupId>com.auth0</groupId>
-      <artifactId>java-jwt</artifactId>
-      <version>3.10.0</version>
-    </dependency>
 
 
-    <dependency>
-      <groupId>com.auth0</groupId>
-      <artifactId>auth0-spring-security-api</artifactId>
-      <version>1.0.0-rc.3</version>
-    </dependency>
+
 
     <dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-mustache</artifactId>
-		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-security</artifactId>
@@ -96,11 +83,22 @@
 			<artifactId>spring-restdocs-mockmvc</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-test</artifactId>
-			<scope>test</scope>
-		</dependency>
+
+
+    <dependency>
+      <groupId>org.springframework.restdocs</groupId>
+      <artifactId>spring-restdocs-asciidoctor</artifactId>
+      <version>${spring-restdocs.version}</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.springframework.security/spring-security-jwt -->
+    <dependency>
+      <groupId>org.springframework.security</groupId>
+      <artifactId>spring-security-jwt</artifactId>
+      <version>1.0.0.RELEASE</version>
+    </dependency>
+
+
 	</dependencies>
 
 	<build>
@@ -122,13 +120,8 @@
 						</configuration>
 					</execution>
 				</executions>
-				<dependencies>
-					<dependency>
-          <groupId>org.springframework.restdocs</groupId>
-          <artifactId>spring-restdocs-asciidoctor</artifactId>
-          <version>${spring-restdocs.version}</version>
-        </dependency>
-				</dependencies>
+
+
 			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
