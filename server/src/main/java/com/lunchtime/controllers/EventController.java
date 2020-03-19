@@ -84,7 +84,7 @@ public class EventController {
     public ResponseEntity<?> deleteEvent(@PathVariable Long id) {
         Optional<Event> result = eventService.deleteById(id);
         if (result.isPresent()) {
-            return new ResponseEntity<>(result, HttpStatus.CREATED);
+            return new ResponseEntity<>(result, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }

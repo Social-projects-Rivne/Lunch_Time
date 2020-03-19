@@ -1,8 +1,9 @@
-package com.lunchtime.service;
+package com.lunchtime.implementation;
 
 import com.lunchtime.enums.Months;
 import com.lunchtime.models.Event;
 import com.lunchtime.repository.EventRepository;
+import com.lunchtime.service.EventService;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
