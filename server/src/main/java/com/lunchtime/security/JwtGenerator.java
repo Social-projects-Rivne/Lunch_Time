@@ -6,17 +6,18 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
+import java.util.Map;
+
 @Component
 public class JwtGenerator {
 
 
     public String generate(Person person) {
 
+        Claims claims = Jwts.claims().setSubject(person.getUserName());
 
-        Claims claims = Jwts.claims().setSubject(person.getEmail());
-        claims.put("userId", String.valueOf(person.getId()));
-        claims.put("role", person.getRole());
-
+        claims.put("password", person.getPassword());
 
         return Jwts.builder()
             .setClaims(claims)

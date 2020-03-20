@@ -17,7 +17,7 @@ public class LunchTimeApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(LunchTimeApplication.class, args);
-        System.out.println("HEjgfllo");
+
     }
 
     @Bean
