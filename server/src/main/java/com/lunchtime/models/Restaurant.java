@@ -36,7 +36,7 @@ public class Restaurant {
     @Column(name = "name", length = 100)
     private String name;
 
-    
+
     @NotBlank
     @Email
     @Column(name = "email")
@@ -92,7 +92,7 @@ public class Restaurant {
     @Column(name = "modify_by")
     private Long modifyBy;
 
-        
+
     public Boolean isDeleted() {
         if (isDeleted == null) {
             return false;
@@ -104,136 +104,14 @@ public class Restaurant {
         isDeleted = deleted;
     }
 
-    public Long getId() {
-        return id;
-    }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getTextAddress() {
-        return textAddress;
-    }
-
-    public void setTextAddress(String textAddress) {
-        this.textAddress = textAddress;
-    }
-
-    public String getWebsite() {
-        return website;
-    }
-
-    public void setWebsite(String website) {
-        this.website = website;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getWorkingTime() {
-        return workingTime;
-    }
-
-    public void setWorkingTime(String workingTime) {
-        this.workingTime = workingTime;
-    }
-
-    public Boolean getIsDeleted() {
-        return isDeleted;
-    }
-
-    public void setIsDeleted(Boolean isDeleted) {
-        this.isDeleted = isDeleted;
-    }
-
-   
-    public Integer getTables() {
-        return tables;
-    }
-
-    public void setTables(Integer tables) {
-        this.tables = tables;
-    }
-
-    public Float getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(Float longitude) {
-        this.longitude = longitude;
-    }
-
-    public Float getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(Float latitude) {
-        this.latitude = latitude;
-    }
-
-    public Instant getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Instant createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Long getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(Long createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public Instant getModifyAt() {
-        return modifyAt;
-    }
-
-    public void setModifyAt(Instant modifyAt) {
-        this.modifyAt = modifyAt;
-    }
-
-    public Long getModifyBy() {
-        return modifyBy;
-    }
-
-    public void setModifyBy(Long modifyBy) {
-        this.modifyBy = modifyBy;
-    }
-    
-    
-    
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "restaurant")
     private Set<MenuItemDish> menuItemDish;
-     
+
     public Set<MenuItemDish> getMenuItemDish() {
         return menuItemDish;
     }
-     
+
     public void setUsers(Set<MenuItemDish> users) {
         this.menuItemDish = users;
     }
@@ -247,7 +125,7 @@ public class Restaurant {
         this.person = person2;
 
     }
-    
+
 }
 
 

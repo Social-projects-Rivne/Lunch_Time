@@ -3,6 +3,7 @@ import { Tab, Tabs, Container } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import Api from '../services/api';
 import About from './restaurant-about';
+import Menu from './menu-views/menu-view';
 import '../style/restaurant-item.css';
 
 class Restaurant extends Component {
@@ -44,7 +45,7 @@ class Restaurant extends Component {
             <About restaurant={restaurant} isFetching={isFetching} />
           </Tab>
           <Tab eventKey="menu" title="Menu">
-            <h3>Menu</h3>
+            <Menu />
           </Tab>
           <Tab eventKey="events" title="Events">
             <h3>Events</h3>

@@ -69,10 +69,5 @@ public class Person {
         isDeleted = deleted;
     }
 
-    public Long getId() {
-
-        return id;
-    }
-
 
 }
