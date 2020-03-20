@@ -6,13 +6,10 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.time.Instant;
 
 @Entity
@@ -54,8 +51,10 @@ public class Restaurant {
     @Column(name = "menu_id")
     private Long menuId;
 
-    @Column(name = "owner_id")
-    private Long ownerId;
+    @ManyToOne
+    @NotNull
+    @JoinColumn(name = "person_id", nullable = false)
+    private Person person;
 
     @Column(name = "tables")
     private Integer tables;

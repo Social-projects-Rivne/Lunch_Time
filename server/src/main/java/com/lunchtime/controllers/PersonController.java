@@ -1,28 +1,45 @@
 package com.lunchtime.controllers;
 
-
-import com.lunchtime.repository.PersonRepository;
+import com.lunchtime.models.Person;
+import com.lunchtime.service.PersonService;
 import org.springframework.http.ResponseEntity;
-
 import org.springframework.web.bind.annotation.*;
 
-import static org.springframework.http.ResponseEntity.ok;
+import javax.validation.Valid;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/persons")
 public class PersonController {
-    private PersonRepository userRepository;
 
+    private final PersonService personService;
 
-    public PersonController(PersonRepository userRepository) {
-        this.userRepository = userRepository;
-
+    public PersonController(PersonService personService) {
+        this.personService = personService;
     }
 
-    @GetMapping("/all")
-    public ResponseEntity all() {
-        return ok(this.userRepository.findAll());
+    @PostMapping
+    public ResponseEntity<Person> create(@Valid @RequestBody Person person) throws URISyntaxException {
+        if (person.getId() != null) {
+            return ResponseEntity.badRequest()
+                .build();
+        }
+
+        Person result = personService.save(person);
+        return ResponseEntity.created(new URI("/api/persons"))
+            .body(result);
     }
 
-
+    @GetMapping("{id}")
+    public ResponseEntity<Person> getOne(@PathVariable Long id) {
+        Optional<Person> person = personService.findById(id);
+        if (person.isPresent()) {
+            return ResponseEntity.ok()
+                .body(person.get());
+        }
+        return ResponseEntity.notFound()
+            .build();
+    }
 }

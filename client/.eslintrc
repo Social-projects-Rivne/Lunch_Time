@@ -31,6 +31,7 @@
     "object-shorthand": "off",
     "max-len": ["error", { "code": 120 }],
     "react/forbid-prop-types": 0,
-    "linebreak-style": "off"
+    "linebreak-style": "off",
+    "import/no-unresolved": "warn"
   }
 }

@@ -1,20 +1,12 @@
 package com.lunchtime.service;
 
-import com.lunchtime.repository.PersonRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
+import com.lunchtime.models.Person;
 
-//@Service("userDetailsService")
-public class PersonService {//implements UserDetailsService {
-//
-//    @Autowired
-//    private PersonRepository personRepository;
-//
-//    @Override
-//    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-//        return personRepository.findByUserName(username);
-//    }
+import java.util.Optional;
+
+public interface PersonService {
+    Person save(Person person);
+
+    Optional<Person> findById(Long id);
+
 }

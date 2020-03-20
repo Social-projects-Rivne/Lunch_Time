@@ -22,11 +22,11 @@ import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/restaurants")
-public class RestaurantResource {
+public class RestaurantController {
 
     private final RestaurantService restaurantService;
 
-    public RestaurantResource(RestaurantService restaurantService) {
+    public RestaurantController(RestaurantService restaurantService) {
         this.restaurantService = restaurantService;
     }
 
@@ -38,6 +38,11 @@ public class RestaurantResource {
         }
 
         Restaurant result = restaurantService.save(restaurant);
+        if (result == null) {
+            return ResponseEntity.badRequest()
+                .build();
+        }
+
         return ResponseEntity.created(new URI("/api/restaurants"))
             .body(result);
     }
