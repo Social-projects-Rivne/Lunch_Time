@@ -1,5 +1,6 @@
 package com.lunchtime.models;
 
+
 import java.time.Instant;
 import java.util.Set;
 import javax.persistence.Column;
@@ -8,9 +9,13 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -55,8 +60,14 @@ public class Restaurant {
     @Column(name = "is_deleted")
     private Boolean isDeleted;
 
-    @Column(name = "owner_id")// should be created relationship to primary key id by user table
-    private Long ownerId;
+
+    @Column(name = "menu_id")
+    private Long menuId;
+
+    @ManyToOne
+    @NotNull
+    @JoinColumn(name = "person_id", nullable = false)
+    private Person person;
 
     @Column(name = "tables")
     private Integer tables;
@@ -157,14 +168,7 @@ public class Restaurant {
         this.isDeleted = isDeleted;
     }
 
-    public Long getOwnerId() {
-        return ownerId;
-    }
-
-    public void setOwnerId(Long ownerId) {
-        this.ownerId = ownerId;
-    }
-
+   
     public Integer getTables() {
         return tables;
     }
@@ -232,6 +236,16 @@ public class Restaurant {
      
     public void setUsers(Set<MenuItemDish> users) {
         this.menuItemDish = users;
+    }
+
+    public Restaurant getPerson() {
+
+        return this.getPerson();
+    }
+
+    public void setPerson(Person person2) {
+        this.person = person2;
+
     }
     
 }
