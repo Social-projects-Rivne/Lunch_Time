@@ -30,7 +30,7 @@ public class Feedback {
 
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "person",referencedColumnName = "id")
+    @JoinColumn(name = "person_id",referencedColumnName = "id")
     private Person person;
 
     @NotNull
