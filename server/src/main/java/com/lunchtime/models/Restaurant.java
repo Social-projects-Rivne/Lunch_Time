@@ -53,7 +53,7 @@ public class Restaurant {
 
     @ManyToOne
     @NotNull
-    @JoinColumn(name = "owner_id", nullable = false)
+    @JoinColumn(name = "person_id", nullable = false)
     private Person person;
 
     @Column(name = "tables")
