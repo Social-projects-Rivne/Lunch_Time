@@ -1,8 +1,8 @@
 import React from 'react';
 import { Container, Dropdown } from 'react-bootstrap';
-import MyDatePicker from './date-picker';
+import MyDatePicker from '../button/date-picker';
 
-class DropdownWithDate extends React.Component {
+class DateMenu extends React.Component {
   render() {
     const CustomMenu = React.forwardRef(
       // eslint-disable-next-line react/prop-types
@@ -30,4 +30,4 @@ class DropdownWithDate extends React.Component {
   }
 }
 
-export default DropdownWithDate;
+export default DateMenu;

@@ -1,51 +1,28 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import NavigationBar from './components/navigation-bar';
+import NavigationBar from './components/shared/navigation/navigation-bar';
 import Home from './pages/home';
-import About from './pages/about';
-import Contact from './pages/contact';
-import ListRestaurant from './pages/restaurant-list';
-import Login from './pages/login';
-import Registartion from './pages/registartion';
-import Map from './pages/map';
 import NoMatch from './pages/no-match';
-import Events from './pages/events';
-import Restaurant from './components/restaurant-item';
-import Profile from './components/profile';
+import info from './components/info/rotes';
+import RouteComponent from './components/shared/navigation/navigation-route';
 
 class App extends Component {
   render() {
+    const routeLinks = info.map((e) => (
+      <RouteComponent
+        path={e.path}
+        component={e.component}
+        key={e.path}
+      />
+    ));
     return (
       <Router>
-
-
         <NavigationBar />
-
         <Switch>
           <Route exact path="/">
             <Home />
           </Route>
-          <Route path="/about">
-            <About />
-          </Route>
-          <Route path="/events">
-            <Events />
-          </Route>
-          <Route path="/restaurants/:id" component={Restaurant} />
-          <Route path="/restaurants" component={ListRestaurant} />
-          <Route path="/login">
-            <Login />
-          </Route>
-          <Route path="/registartion">
-            <Registartion />
-          </Route>
-          <Route path="/map">
-            <Map />
-          </Route>
-          <Route path="/contact">
-            <Contact />
-          </Route>
-          <Route path="/profile" component={Profile} />
+          {routeLinks}
           <Route>
             <NoMatch />
           </Route>

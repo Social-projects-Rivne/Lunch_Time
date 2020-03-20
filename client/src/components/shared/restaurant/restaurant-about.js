@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Container } from 'react-bootstrap';
-import '../style/restaurant-about.css';
+import '../../../style/restaurant-about.css';
 
 class About extends Component {
   render() {
