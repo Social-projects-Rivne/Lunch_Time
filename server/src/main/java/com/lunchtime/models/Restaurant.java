@@ -52,10 +52,10 @@ public class Restaurant {
     @Column(name = "menu_id")
     private Long menuId;
 
-    @ManyToOne
     @NotNull
+    @ManyToOne(fetch = FetchType.LAZY)
     @JsonIgnore
-    @JoinColumn(name = "person_id")
+    @JoinColumn(name = "person",referencedColumnName = "id")
     private Person person;
 
     @Column(name = "tables")

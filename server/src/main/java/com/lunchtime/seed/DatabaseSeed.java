@@ -75,7 +75,8 @@ public class DatabaseSeed {
 
     public void seedFeedback() {
 
-        List<Restaurant> res = restaurantRepository.findAll();
+        List<Restaurant> restaurants = restaurantRepository.findAll();
+        List<Person> person = personRepository.findAll();
 
         for (Long i = Long.valueOf(0); i < restaurantName.length; i++) {
 
@@ -83,8 +84,8 @@ public class DatabaseSeed {
                 "User ".concat(userName[i.intValue()]).concat(" write comment to restaurant"),
                 true,
                 new Date(System.currentTimeMillis()),
-                userName[i.intValue()],
-                res.get(i.intValue()),
+                person.get(i.intValue()),
+                restaurants.get(i.intValue()),
                 3 + i.intValue(),
                 12 + i.intValue());
 
@@ -94,8 +95,20 @@ public class DatabaseSeed {
     }
 
     public void  seedPerson() {
-        Person defPerson = new Person();
-        personRepository.save(defPerson);
+
+        for (Long i = 0L; i < userName.length; i++) {
+
+            Person person = new Person(
+                userName[i.intValue()],
+                userName[i.intValue()].concat("@gmail.com").toLowerCase(),
+                userName[i.intValue()],
+                "096-77-77-77".concat(i.toString())
+            );
+
+            personRepository.save(person);
+        }
+
+
 
     }
 

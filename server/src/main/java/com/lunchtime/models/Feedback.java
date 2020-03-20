@@ -29,8 +29,9 @@ public class Feedback {
     private Date date;
 
     @NotNull
-    @Column(name = "user_name")
-    private String userName;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "person",referencedColumnName = "id")
+    private Person person;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY)
@@ -49,11 +50,11 @@ public class Feedback {
     public Feedback() {   }
 
     public Feedback(String description, Boolean isActive, Date date,
-                    String userName, Restaurant restId, Integer counterLike, Integer counterDislike) {
+                    Person person, Restaurant restId, Integer counterLike, Integer counterDislike) {
         this.description = description;
         this.isActive = isActive;
         this.date = date;
-        this.userName = userName;
+        this.person = person;
         this.restId = restId;
         this.counterLike = counterLike;
         this.counterDislike = counterDislike;

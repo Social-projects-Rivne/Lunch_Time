@@ -10,7 +10,7 @@ class FeedbackComment extends Component {
       <Container className="feedbackContainer">
         <img src="/img/defAvatar.png" width="50px" height="50px" alt="defAvava" />
         <div className="cooment">
-          <strong className="name">{item.userName}</strong>
+          <strong className="name">{item.person.name}</strong>
           <small className="date">{item.date}</small>
           <hr className="hrStyle" />
           <div>{item.description}</div>
