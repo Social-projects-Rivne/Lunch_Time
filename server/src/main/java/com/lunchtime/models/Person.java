@@ -4,19 +4,16 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.time.Instant;
 
 @Entity
-@Where(clause = "is_deleted = false or is_deleted is NULL")
 @Setter
 @Getter
-public class Restaurant {
+public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -31,39 +28,21 @@ public class Restaurant {
     private String email;
 
     @NotBlank
-    @Column(name = "text_address")
-    private String textAddress;
-
-    @Column(name = "website")
-    private String website;
+    @Column(name = "password")
+    private String password;
 
     @NotBlank
-    @Column(name = "description")
-    private String description;
+    @Column(name = "phone_number")
+    private String phoneNumber;
 
-    @NotBlank
-    @Column(name = "working_time")
-    private String workingTime;
+    @Column(name = "avatar_url")
+    private String avatarUrl;
 
     @Column(name = "is_deleted")
     private Boolean isDeleted;
 
-    @Column(name = "menu_id")
-    private Long menuId;
-
-    @ManyToOne
-    @NotNull
-    @JoinColumn(name = "person_id", nullable = false)
-    private Person person;
-
-    @Column(name = "tables")
-    private Integer tables;
-
-    @Column(name = "longitude")
-    private Float longitude;
-
-    @Column(name = "latitude")
-    private Float latitude;
+    @Column(name = "role_id")
+    private Long roleId;
 
     @Column(name = "created_at")
     @CreationTimestamp
