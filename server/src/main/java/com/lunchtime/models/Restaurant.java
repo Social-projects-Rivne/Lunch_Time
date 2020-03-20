@@ -1,5 +1,6 @@
 package com.lunchtime.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -53,7 +54,8 @@ public class Restaurant {
 
     @ManyToOne
     @NotNull
-    @JoinColumn(name = "person_id", nullable = false)
+    @JsonIgnore
+    @JoinColumn(name = "person_id")
     private Person person;
 
     @Column(name = "tables")
@@ -96,7 +98,7 @@ public class Restaurant {
                       String email, String textAddress,
                       String website, String description,
                       String workingTime, Boolean isDeleted,
-                      Long menuId, Long ownerId,
+                      Long menuId, Person person,
                       Integer tables, Float longitude,
                       Float latitude, Instant createdAt,
                       Long createdBy, Instant modifyAt,
@@ -110,7 +112,7 @@ public class Restaurant {
         this.workingTime = workingTime;
         this.isDeleted = isDeleted;
         this.menuId = menuId;
-        this.ownerId = ownerId;
+        this.person = person;
         this.tables = tables;
         this.longitude = longitude;
         this.latitude = latitude;

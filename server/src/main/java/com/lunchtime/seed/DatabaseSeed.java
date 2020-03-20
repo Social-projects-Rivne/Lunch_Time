@@ -1,8 +1,10 @@
 package com.lunchtime.seed;
 
 import com.lunchtime.models.Feedback;
+import com.lunchtime.models.Person;
 import com.lunchtime.models.Restaurant;
 import com.lunchtime.repository.FeedbackRepository;
+import com.lunchtime.repository.PersonRepository;
 import com.lunchtime.repository.RestaurantRepository;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
@@ -23,14 +25,23 @@ public class DatabaseSeed {
 
     private final RestaurantRepository restaurantRepository;
     private final FeedbackRepository feedbackRepository;
+    private final PersonRepository personRepository;
 
-    public DatabaseSeed(RestaurantRepository restaurantRepository, FeedbackRepository feedbackRepository) {
+    public DatabaseSeed(RestaurantRepository restaurantRepository,
+                        FeedbackRepository feedbackRepository,
+                        PersonRepository personRepository) {
         this.restaurantRepository = restaurantRepository;
         this.feedbackRepository = feedbackRepository;
+        this.personRepository = personRepository;
     }
 
     @EventListener
     public void seed(ContextRefreshedEvent event) {
+
+        if (personRepository.count() == 0L) {
+            seedPerson();
+        }
+
         if (restaurantRepository.count() == 0L) {
             seedRestaurant();
         }
@@ -43,6 +54,8 @@ public class DatabaseSeed {
 
     public void seedRestaurant() {
 
+        List<Person> person = personRepository.findAll();
+
         for (Long i = Long.valueOf(0); i < restaurantName.length; i++) {
 
             Restaurant rest = new Restaurant(restaurantName[i.intValue()],
@@ -51,7 +64,7 @@ public class DatabaseSeed {
                 "www.".concat(restaurantName[i.intValue()]).concat(".ua").toLowerCase(),
                 "Description for restaurant ".concat(restaurantName[i.intValue()]),
                 "12-24", false,
-                i + 1L, i + 1L, i.intValue() + 1, cordLongitude[i.intValue()],
+                i + 1L, person.get(0), i.intValue() + 1, cordLongitude[i.intValue()],
                 cordLatitude[i.intValue()], Instant.now(),
                 i + 1L, Instant.now(), i + 1L);
 
@@ -77,6 +90,12 @@ public class DatabaseSeed {
 
             feedbackRepository.save(feedback);
         }
+
+    }
+
+    public void  seedPerson() {
+        Person defPerson = new Person();
+        personRepository.save(defPerson);
 
     }
 

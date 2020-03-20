@@ -18,20 +18,16 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotBlank
     @Column(name = "name")
     private String name;
 
-    @NotBlank
     @Email
     @Column(name = "email")
     private String email;
 
-    @NotBlank
     @Column(name = "password")
     private String password;
 
-    @NotBlank
     @Column(name = "phone_number")
     private String phoneNumber;
 
@@ -68,4 +64,5 @@ public class Person {
     public void setDeleted(Boolean deleted) {
         isDeleted = deleted;
     }
+
 }
