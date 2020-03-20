@@ -43,17 +43,17 @@ public class DatabaseSeed {
 
     public void seedRestaurant() {
 
-        for (Long i = Long.valueOf(1); i < restaurantName.length; i++) {
+        for (Long i = Long.valueOf(0); i < restaurantName.length; i++) {
 
             Restaurant rest = new Restaurant(restaurantName[i.intValue()],
-                restaurantName[i.intValue()].concat("@gmail.com"),
-                "Rivne, street ".concat(i.toString()),
-                "www.".concat(restaurantName[i.intValue()]).concat(".ua"),
+                restaurantName[i.intValue()].concat("@gmail.com").toLowerCase(),
+                "Rivne, street ".concat("1" + i.toString()),
+                "www.".concat(restaurantName[i.intValue()]).concat(".ua").toLowerCase(),
                 "Description for restaurant ".concat(restaurantName[i.intValue()]),
                 "12-24", false,
-                i, i, i.intValue(), cordLongitude[i.intValue()],
+                i + 1L, i + 1L, i.intValue() + 1, cordLongitude[i.intValue()],
                 cordLatitude[i.intValue()], Instant.now(),
-                i, Instant.now(), i);
+                i + 1L, Instant.now(), i + 1L);
 
             restaurantRepository.save(rest);
         }
@@ -64,14 +64,14 @@ public class DatabaseSeed {
 
         List<Restaurant> res = restaurantRepository.findAll();
 
-        for (Long i = Long.valueOf(1); i < restaurantName.length; i++) {
+        for (Long i = Long.valueOf(0); i < restaurantName.length; i++) {
 
             Feedback feedback = new Feedback(
                 "User ".concat(userName[i.intValue()]).concat(" write comment to restaurant"),
                 true,
                 new Date(System.currentTimeMillis()),
                 userName[i.intValue()],
-                res.get(i.intValue() - 1),
+                res.get(i.intValue()),
                 3 + i.intValue(),
                 12 + i.intValue());
 

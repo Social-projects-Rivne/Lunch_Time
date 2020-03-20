@@ -8,8 +8,8 @@ import Api from '../../services/api';
 
 
 class Feedback extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       allFeedback: [],
@@ -22,8 +22,6 @@ class Feedback extends Component {
 
   async componentDidMount() {
     const { id } = this.props;
-
-
     const data = await Api.getAllRestaurantFeedback('feedback?restaurantId=', id);
 
     this.setState((prevState) => {

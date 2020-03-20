@@ -17,7 +17,7 @@ public class Feedback {
     private Long id;
 
     @NotNull
-    @Column(name = "description", columnDefinition = "TEXT")
+    @Column(name = "description", length = 400)
     private String description;
 
     @ColumnDefault("true")

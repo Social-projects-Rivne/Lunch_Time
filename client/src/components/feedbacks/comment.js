@@ -41,7 +41,7 @@ class FeedbackComment extends Component {
 }
 
 FeedbackComment.propTypes = {
-  item: PropTypes.any.isRequired,
+  item: PropTypes.object.isRequired,
 };
 
 
