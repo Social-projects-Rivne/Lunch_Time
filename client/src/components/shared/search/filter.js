@@ -7,11 +7,11 @@ import ResetButton from '../button/reset';
 
 class Filter extends Component {
   render() {
-    const { info } = this.props;
+    const { info, showDate } = this.props;
     return (
       <ButtonToolbar className="justify-content-center">
         <Context info={info} />
-        <DateMenu />
+        {showDate === true && <DateMenu /> }
         <ResetButton />
       </ButtonToolbar>
     );
@@ -20,6 +20,7 @@ class Filter extends Component {
 
 Filter.propTypes = {
   info: PropTypes.array.isRequired,
+  showDate: PropTypes.bool.isRequired,
 };
 
 export default Filter;
