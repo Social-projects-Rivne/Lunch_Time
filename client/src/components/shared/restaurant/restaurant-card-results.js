@@ -6,27 +6,35 @@ import Spinner from 'react-bootstrap/Spinner';
 import RestaurantCardView from './restaurant-card-view';
 
 export default class RestaurantCardResults extends Component {
-  render() {
+  initRestaurantsCards() {
+    const { cardDeckClassName, restaurants } = this.props;
+    return (
+      <CardDeck className={cardDeckClassName}>
+        {restaurants.map((restaurant) => (
+          <RestaurantCardView key={restaurant.id} restaurant={restaurant} />
+        ))}
+      </CardDeck>
+    );
+  }
+
+  initButtonToolbar() {
     const {
-      isFetching, restaurants, restaurantContainerClassName,
-      cardDeckClassName, spinnerContainerClassName,
-      buttonToolbarClassName, spinnerAnimation, spinnerVariant,
+      spinnerContainerClassName, buttonToolbarClassName, spinnerAnimation, spinnerVariant,
     } = this.props;
     return (
+      <Container className={spinnerContainerClassName}>
+        <ButtonToolbar className={buttonToolbarClassName}>
+          <Spinner animation={spinnerAnimation} variant={spinnerVariant} />
+        </ButtonToolbar>
+      </Container>
+    );
+  }
+
+  render() {
+    const { restaurantContainerClassName, isFetching } = this.props;
+    return (
       <Container className={restaurantContainerClassName}>
-        {isFetching ? (
-          <CardDeck className={cardDeckClassName}>
-            {restaurants.map((restaurant) => (
-              <RestaurantCardView key={restaurant.id} restaurant={restaurant} isFetching={isFetching} />
-            ))}
-          </CardDeck>
-        ) : (
-          <Container className={spinnerContainerClassName}>
-            <ButtonToolbar className={buttonToolbarClassName}>
-              <Spinner animation={spinnerAnimation} variant={spinnerVariant} />
-            </ButtonToolbar>
-          </Container>
-        )}
+        {isFetching ? this.initRestaurantsCards() : this.initButtonToolbar()}
       </Container>
     );
   }
