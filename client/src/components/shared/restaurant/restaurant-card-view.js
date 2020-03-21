@@ -1,17 +1,11 @@
 import React, { Component } from 'react';
 import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 export default class RestaurantCardView extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      restaurant: {},
-    };
-  }
-
   render() {
-    const { restaurant } = this.state;
+    const { restaurant } = this.props;
     return (
       <Card className="m-2" border="dark">
         <Card.Img variant="top" src={restaurant.image} alt="Event image" />
@@ -24,3 +18,7 @@ export default class RestaurantCardView extends Component {
     );
   }
 }
+
+RestaurantCardView.propTypes = {
+  restaurant: PropTypes.object.isRequired,
+};
