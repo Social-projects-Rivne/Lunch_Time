@@ -23,12 +23,7 @@ public class CategoryFood {
     @Column(name = "is_deleted")
     private Boolean isDeleted;
 
-    public CategoryFood(@NotBlank String name) {
-
-        this.name = name;
-    }
-
-    public CategoryFood() {
+    CategoryFood() {
     }
 
     public Boolean isDeleted() {

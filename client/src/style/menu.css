@@ -1,0 +1,9 @@
+.header {
+    
+    background-image: url('/img/dish-back.jpeg');
+}
+
+.header span {
+    text-align: center;
+    height: 5fr;
+}

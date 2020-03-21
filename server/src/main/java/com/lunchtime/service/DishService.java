@@ -32,28 +32,4 @@ public class DishService {
         return dishRepository.findById(id);
     }
 
-    public Dish update(Dish newDish) {
-        return findById(newDish.getId())
-            .map(dish -> {
-                dish.setName(newDish.getName());
-                dish.setIngredients(newDish.getIngredients());
-                dish.setCategoryFood(newDish.getCategory());
-                dish.setMenuItemDish(newDish.getMenuItemDish());
-                return save(dish);
-            })
-            .orElseGet(() -> {
-                return null;
-            });
-    }
-
-    public Dish delete(Long id) {
-        return findById(id)
-            .map(dish -> {
-                dish.setDeleted(true);
-                return save(dish);
-            })
-            .orElseGet(() -> {
-                return null;
-            });
-    }   
 }

@@ -32,13 +32,7 @@ public class Dish {
     @Column(name = "is_deleted")
     private Boolean isDeleted;
 
-    public Dish(@NotBlank String name, @NotBlank String ingredients) {
-
-        this.name = name;
-        this.ingredients = ingredients;
-    }
-
-    public Dish() {
+    Dish() {
     }
 
     public Boolean isDeleted() {

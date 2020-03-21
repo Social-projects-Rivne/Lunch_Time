@@ -38,14 +38,14 @@ public class MenuItemDishController {
     public MenuItemDishController(MenuItemDishService menuItemDishService) {
         this.menuItemDishService = menuItemDishService;
     }
-    
-    @GetMapping("/all")
+
+    @GetMapping
     public ResponseEntity<List<MenuItemDish>> getAll(Pageable pageable) {
         Page<MenuItemDish> page = menuItemDishService.findAll(pageable);
         return ResponseEntity.ok()
             .body(page.getContent());
     }
-    
+
     @GetMapping("{id}")
     public ResponseEntity<MenuItemDish> getOne(@PathVariable Long id) {
         Optional<MenuItemDish> menuItemDish = menuItemDishService.findById(id);
@@ -56,45 +56,20 @@ public class MenuItemDishController {
         return ResponseEntity.notFound()
             .build();
     }
-    
-    
-    @PostMapping("/add")
+
+
+    @PostMapping
     public ResponseEntity<MenuItemDish> newMenuItemDish(@Valid @RequestBody MenuItemDish menuItemDish)
                throws URISyntaxException {
-       
+
         MenuItemDish newMenuItemDish = menuItemDishService.save(menuItemDish);
 
         return  ResponseEntity
-               .created(new URI("/api/menuitemdish/add"))
+               .created(new URI("/api/menuitemdish"))
                .body(newMenuItemDish);
 
     }
-    
-    @PutMapping
-    public ResponseEntity<MenuItemDish> update(@Valid @RequestBody MenuItemDish menuItemDish)
-               throws URISyntaxException {
-        if (menuItemDish.getId() == null) {
-            return ResponseEntity.badRequest()
-                .build();
-        }
-        MenuItemDish result = menuItemDishService.update(menuItemDish);
-        if (result == null) {
-            return ResponseEntity.notFound()
-                .build();
-        }
-        return ResponseEntity.ok()
-            .body(result);
-    }
-    
-    @DeleteMapping("{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        MenuItemDish menuItemDish = menuItemDishService.delete(id);
-        if (menuItemDish == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok()
-            .build();
-    }
+
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)

@@ -5,6 +5,8 @@ import Api from '../services/api';
 import About from './restaurant-about';
 import Menu from './menu-views/menu-view';
 import '../style/restaurant-item.css';
+import '../style/menu.css';
+
 
 class Restaurant extends Component {
   constructor(props) {

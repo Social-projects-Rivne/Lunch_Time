@@ -30,28 +30,4 @@ public class CategoryFoodService  {
         return categoryFoodRepository.findById(id);
     }
 
-    public CategoryFood update(CategoryFood newCategory) {
-        return findById(newCategory.getId())
-            .map(categoryFood -> {
-                categoryFood.setName(newCategory.getName());
-                categoryFood.setDishes(newCategory.getDishes());
-                return save(categoryFood);
-            })
-            .orElseGet(() -> {
-                return null;
-            });
-    }
-
-    public CategoryFood delete(Long id) {
-        return findById(id)
-            .map(categoryFood -> {
-                categoryFood.setDeleted(true);
-                return save(categoryFood);
-            })
-            .orElseGet(() -> {
-                return null;
-            });
-    }   
-
-
 }

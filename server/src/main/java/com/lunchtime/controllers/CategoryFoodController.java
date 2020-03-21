@@ -39,14 +39,14 @@ public class CategoryFoodController {
     public CategoryFoodController(CategoryFoodService categoryFoodService) {
         this.categoryFoodService = categoryFoodService;
     }
-    
-    @GetMapping("/all")
+
+    @GetMapping
     public ResponseEntity<List<CategoryFood>> getAll(Pageable pageable) {
         Page<CategoryFood> page = categoryFoodService.findAll(pageable);
         return ResponseEntity.ok()
             .body(page.getContent());
     }
-    
+
     @GetMapping("{id}")
     public ResponseEntity<CategoryFood> getOne(@PathVariable Long id) {
         Optional<CategoryFood> dish = categoryFoodService.findById(id);
@@ -57,45 +57,20 @@ public class CategoryFoodController {
         return ResponseEntity.notFound()
             .build();
     }
-    
-    
-    @PostMapping("/add")
+
+
+    @PostMapping
     public ResponseEntity<CategoryFood> newDish(@Valid @RequestBody CategoryFood categoryFood)
                throws URISyntaxException {
-       
+
         CategoryFood newDish = categoryFoodService.save(categoryFood);
 
         return  ResponseEntity
-               .created(new URI("/api/dish/add"))
+               .created(new URI("/api/category"))
                .body(newDish);
 
     }
-    
-    @PutMapping
-    public ResponseEntity<CategoryFood> update(@Valid @RequestBody CategoryFood categoryFood)
-               throws URISyntaxException {
-        if (categoryFood.getId() == null) {
-            return ResponseEntity.badRequest()
-                .build();
-        }
-        CategoryFood result = categoryFoodService.update(categoryFood);
-        if (result == null) {
-            return ResponseEntity.notFound()
-                .build();
-        }
-        return ResponseEntity.ok()
-            .body(result);
-    }
-    
-    @DeleteMapping("{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        CategoryFood menuItemDish = categoryFoodService.delete(id);
-        if (menuItemDish == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok()
-            .build();
-    }
+
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)

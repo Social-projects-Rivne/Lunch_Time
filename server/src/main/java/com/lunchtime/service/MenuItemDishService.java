@@ -29,31 +29,4 @@ public class MenuItemDishService {
     public Optional<MenuItemDish> findById(Long id) {
         return menuItemDishRepository.findById(id);
     }
-
-    public MenuItemDish update(MenuItemDish newmenuItemDish) {
-        return findById(newmenuItemDish.getId())
-            .map(menuItemDish -> {
-                menuItemDish.setDish(newmenuItemDish.getDish());
-                menuItemDish.setImageUrl(newmenuItemDish.getImageUrl());
-                menuItemDish.setPortionPrice(newmenuItemDish.getPortionPrice());
-                menuItemDish.setPortionSize(newmenuItemDish.getPortionSize());
-                menuItemDish.setPortionUnit(newmenuItemDish.getPortionUnit());
-                menuItemDish.setRestaurant(newmenuItemDish.getRestaurant());
-                return save(menuItemDish);
-            })
-            .orElseGet(() -> {
-                return null;
-            });
-    }
-
-    public MenuItemDish delete(Long id) {
-        return findById(id)
-            .map(menuItemDish -> {
-                menuItemDish.setDeleted(true);
-                return save(menuItemDish);
-            })
-            .orElseGet(() -> {
-                return null;
-            });
-    }   
 }
