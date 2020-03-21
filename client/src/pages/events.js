@@ -45,7 +45,8 @@ class Events extends React.Component {
         <SearchMenu
           title={title}
           placeHolder={placeHolder}
-          data={info}
+          info={info}
+          showDate
         />
         <CardResults events={events} isFetching={isFetching} />
       </Container>
