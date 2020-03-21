@@ -28,7 +28,6 @@ class App extends Component {
           <Route path="/registration" component={Registration} />
           <Route path="/map" component={Map} />
           <Route path="/contact" component={Contact} />
-          <Route path="/about" component={About} />
           <Route path="/profile" component={Profile} />
           <Route path="" component={NoMatch} />
         </Switch>

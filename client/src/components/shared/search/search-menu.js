@@ -7,12 +7,12 @@ import Filter from './filter';
 class SearchMenu extends React.Component {
   render() {
     const {
-      title, placeHolder, data, showDate,
+      title, placeHolder, info, showDate,
     } = this.props;
     return (
       <Container fluid className="page-header">
         <Header title={title} placeHolder={placeHolder} />
-        <Filter info={data} showDate={showDate} />
+        <Filter info={info} showDate={showDate} />
       </Container>
     );
   }
@@ -25,7 +25,7 @@ SearchMenu.defaultProps = {
 SearchMenu.propTypes = {
   title: PropTypes.string.isRequired,
   placeHolder: PropTypes.string.isRequired,
-  data: PropTypes.array.isRequired,
+  info: PropTypes.array.isRequired,
   showDate: PropTypes.bool,
 };
 
