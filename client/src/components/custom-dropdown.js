@@ -25,7 +25,6 @@ class DropdownWithDate extends React.Component {
     if (startDate === endDate) {
       path = oneDate + this.formatDate(startDate);
     }
-    // eslint-disable-next-line react/destructuring-assignment
     this.props.onApply(path);
   }
 
@@ -42,7 +41,6 @@ class DropdownWithDate extends React.Component {
 
   render() {
     const { startDate, endDate } = this.state;
-    // This toggle prevent to close dropdown when you click on date-picker
     // eslint-disable-next-line react/prop-types
     const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
       <DropdownToggle

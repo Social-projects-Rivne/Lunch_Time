@@ -9,7 +9,6 @@ import CategoryDropdown from './category-dropdown';
 class DropdownGroup extends React.Component {
   onSelectCategory(path) {
     console.log(`path= ${path}`);
-    // eslint-disable-next-line react/destructuring-assignment
     this.props.onChangeEvents(path);
   }
 

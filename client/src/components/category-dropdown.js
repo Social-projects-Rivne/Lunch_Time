@@ -32,7 +32,7 @@ class CategoryDropdown extends Component {
   confirm() {
     const { selected } = this.state;
     const { homePath, path } = this.props;
-    // eslint-disable-next-line react/destructuring-assignment, no-unused-expressions
+    // eslint-disable-next-line no-unused-expressions
     (selected.length > 0) ? this.props.onApply(path + selected) : this.props.onApply(homePath);
     this.onVisibleChange(false);
   }
