@@ -6,14 +6,16 @@ import PropTypes from 'prop-types';
 export default class RestaurantCardView extends Component {
   render() {
     const { restaurant } = this.props;
+    const link = `/restaurants/${restaurant.id}`;
     return (
       <Card className="m-2" border="dark">
-        <Card.Img variant="top" src={restaurant.image} alt="Event image" />
-        <Card.Body>
-          <Link to="#/"><Card.Title className="">{restaurant.name}</Card.Title></Link>
-          <Card.Subtitle className="restaurant-name mb-2">{restaurant.name}</Card.Subtitle>
-          <Card.Text>{restaurant.description}</Card.Text>
-        </Card.Body>
+        <Link to={link}>
+          <Card.Body>
+            <Card.Title className="">{restaurant.name}</Card.Title>
+            <Card.Subtitle className="restaurant-name mb-2">{restaurant.name}</Card.Subtitle>
+            <Card.Text>{restaurant.description}</Card.Text>
+          </Card.Body>
+        </Link>
       </Card>
     );
   }
