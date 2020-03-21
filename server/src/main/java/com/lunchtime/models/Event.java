@@ -24,8 +24,9 @@ public class Event {
     private Long id;
 
     @NotNull
-    @Column(name = "restaurant_id")
-    private Long restaurantId;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "restaurant",referencedColumnName = "id")
+    private Restaurant restaurant;
 
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
