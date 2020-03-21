@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Container } from 'react-bootstrap';
 import Api from '../services/api';
 import SearchMenu from '../components/shared/search/search-menu';
-import info, { placeHolder, title } from '../components/info/restaurants';
+import { info, placeHolder, title } from '../components/info/restaurants';
 import RestaurantCardResults from '../components/shared/restaurant/restaurant-card-results';
 
 export default class ListRestaurant extends Component {
