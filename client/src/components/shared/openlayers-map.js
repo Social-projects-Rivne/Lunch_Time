@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Map, layer, Layers } from 'react-openlayers';
 import { Container } from 'react-bootstrap';
 import { transform } from 'ol/proj';
-import '../style/openlayers-styles.css';
+import '../../style/openlayers-map.css';
 
 class OpenlayersMap extends Component {
   render() {

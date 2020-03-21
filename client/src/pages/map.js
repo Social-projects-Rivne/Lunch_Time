@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import OpenlayersMap from '../components/openlayers-map';
+import OpenlayersMap from '../components/shared/openlayers-map';
 
 
 class Map extends Component {
