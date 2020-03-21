@@ -34,8 +34,7 @@ public class Feedback {
     private Person person;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JsonIgnore
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "rest_id",referencedColumnName = "id")
     private Restaurant restId;
 
