@@ -1,18 +1,16 @@
 import React, { Component } from 'react';
-import {
-  CardDeck,
-  Container,
-  ButtonToolbar,
-  Spinner,
-} from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import Api from '../services/api';
-import RestaurantCard from '../components/restaurant-card';
+import SearchMenu from '../components/shared/search/search-menu';
+import info, { placeHolder, title } from '../components/info/restaurants';
+import RestaurantCardResults from '../components/shared/restaurant/restaurant-card-results';
 
 export default class ListRestaurant extends Component {
   constructor(props) {
     super(props);
     this.state = {
       restaurants: [],
+      isFetching: false,
     };
   }
 
@@ -39,29 +37,12 @@ export default class ListRestaurant extends Component {
     });
   }
 
-  initCardDeck(restaurants) {
-    return (
-      <CardDeck className="wrapper">
-        {restaurants.map((restaurant) => <RestaurantCard key={restaurant.id} props={restaurant} />)}
-      </CardDeck>
-    );
-  }
-
-  initSpinner() {
-    return (
-      <Container className="spinner-container">
-        <ButtonToolbar className="justify-content-center">
-          <Spinner animation="border" variant="warning" />
-        </ButtonToolbar>
-      </Container>
-    );
-  }
-
   render() {
     const { restaurants, isFetching } = this.state;
     return (
-      <Container className="card-body pl-5 pr-5">
-        {isFetching ? this.initCardDeck(restaurants) : this.initSpinner()}
+      <Container fluid className="page-container p-0">
+        <SearchMenu placeHolder={placeHolder} title={title} data={info} />
+        <RestaurantCardResults restaurants={restaurants} isFetching={isFetching} />
       </Container>
     );
   }
