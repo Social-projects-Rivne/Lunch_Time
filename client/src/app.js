@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import NavigationBar from './components/shared/navigation/navigation-bar';
+import RouteComponent from './components/shared/navigation/navigation-route';
 import Home from './pages/home';
 import NoMatch from './pages/no-match';
 import info from './components/info/rotes';
-import RouteComponent from './components/shared/navigation/navigation-route';
 
 class App extends Component {
   render() {

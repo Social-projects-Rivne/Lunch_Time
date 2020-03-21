@@ -5,9 +5,9 @@ class Title extends Component {
   render() {
     const { title } = this.props;
     return (
-      <span>
+      <div>
         {title}
-      </span>
+      </div>
     );
   }
 }
