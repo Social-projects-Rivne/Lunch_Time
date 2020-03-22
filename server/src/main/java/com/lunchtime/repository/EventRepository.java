@@ -24,4 +24,6 @@ public interface EventRepository extends CrudRepository<Event, Long> {
 
     List<Event> findByDateBetweenAndIsActiveTrueOrderByDateAsc(Date startDate, Date endDate);
 
+    List<Event> findByDateAndIsActiveTrueOrderByDateAsc(Date date);
+
 }

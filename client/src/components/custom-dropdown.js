@@ -21,7 +21,7 @@ class DropdownWithDate extends React.Component {
     const { startDate, endDate } = this.state;
     const { oneDate, rangeDate } = this.props;
 
-    let path = `${rangeDate + this.formatDate(startDate)}&to=${this.formatDate(endDate)}`;
+    let path = `${rangeDate}${this.formatDate(startDate)}&to=${this.formatDate(endDate)}`;
     if (startDate === endDate) {
       path = oneDate + this.formatDate(startDate);
     }

@@ -27,8 +27,7 @@ public class EventServiceImpl implements EventService {
     }
 
     public List<Event> findByDay(Date date) {
-        Date endDate = new Date(date.getTime() + TimeUnit.DAYS.toMillis(1));
-        return eventRepository.findByDateBetweenAndIsActiveTrueOrderByDateAsc(date, endDate);
+        return eventRepository.findByDateAndIsActiveTrueOrderByDateAsc(date);
     }
 
     public List<Event> findByDateBetween(Date startDate, Date endDate) {
