@@ -9,11 +9,11 @@ class EventCard extends React.Component {
     const { event } = this.props;
     const link = `/restaurants/${event.restaurant.id}`;
     return (
-      <Card className="m-2" border="dark">
+      <Card className="text-dark m-2" border="dark">
         <Card.Img variant="top" src={event.image} alt="Event image" />
-        <Card.Body>
+        <Card.Body className="">
           <Link to={link}><Card.Title className="">{event.name}</Card.Title></Link>
-          <Card.Subtitle className="restaurant-name mb-2">{event.restaurant.name}</Card.Subtitle>
+          <Card.Subtitle className="font-weight-bold mb-2">{event.restaurant.name}</Card.Subtitle>
           <Card.Subtitle className="event-date mb-2 text-muted">
             {moment(event.date).format('DD.MM.YYYY HH:MM')}
           </Card.Subtitle>
