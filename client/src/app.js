@@ -10,7 +10,7 @@ import Registration from './pages/registration';
 import Map from './pages/map';
 import NoMatch from './pages/no-match';
 import Events from './pages/events';
-import Restaurant from './components/shared/restaurant/restaurant-item';
+import Restaurant from './components/restaurant/restaurant-item';
 import Profile from './components/profile';
 
 class App extends Component {

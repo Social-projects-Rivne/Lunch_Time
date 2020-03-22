@@ -7,7 +7,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import Api from '../services/api';
 import SearchMenu from '../components/shared/search/search-menu';
 import info, { title, placeHolder } from '../components/info/events';
-import CardResults from '../components/shared/event/card-results';
+import CardResults from '../components/event/card-results';
 
 class Events extends React.Component {
   constructor(props) {
