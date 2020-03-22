@@ -1,5 +1,6 @@
 package com.lunchtime.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -51,9 +52,9 @@ public class Restaurant {
     @Column(name = "menu_id")
     private Long menuId;
 
-    @ManyToOne
     @NotNull
-    @JoinColumn(name = "person_id", nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "person_id",referencedColumnName = "id")
     private Person person;
 
     @Column(name = "tables")
@@ -88,5 +89,35 @@ public class Restaurant {
 
     public void setDeleted(Boolean deleted) {
         isDeleted = deleted;
+    }
+
+    public Restaurant() {    }
+
+    public Restaurant(String name,
+                      String email, String textAddress,
+                      String website, String description,
+                      String workingTime, Boolean isDeleted,
+                      Long menuId, Person person,
+                      Integer tables, Float longitude,
+                      Float latitude, Instant createdAt,
+                      Long createdBy, Instant modifyAt,
+                      Long modifyBy) {
+
+        this.name = name;
+        this.email = email;
+        this.textAddress = textAddress;
+        this.website = website;
+        this.description = description;
+        this.workingTime = workingTime;
+        this.isDeleted = isDeleted;
+        this.menuId = menuId;
+        this.person = person;
+        this.tables = tables;
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.createdAt = createdAt;
+        this.createdBy = createdBy;
+        this.modifyAt = modifyAt;
+        this.modifyBy = modifyBy;
     }
 }
