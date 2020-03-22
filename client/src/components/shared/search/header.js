@@ -7,14 +7,12 @@ import Input from './input';
 class Header extends Component {
   render() {
     const {
-      containerClassName, h1ClassName, title, placeHolder,
+      containerClassName, title, placeHolder,
     } = this.props;
     return (
       <Container fluid className={containerClassName}>
-        <h1 className={h1ClassName}>
-          <Title title={title} />
-          <Input placeHolder={placeHolder} />
-        </h1>
+        <Title title={title} />
+        <Input placeHolder={placeHolder} />
       </Container>
     );
   }
@@ -22,12 +20,10 @@ class Header extends Component {
 
 Header.defaultProps = {
   containerClassName: 'page-header',
-  h1ClassName: 'page-header-title',
 };
 
 Header.propTypes = {
   containerClassName: PropTypes.string,
-  h1ClassName: PropTypes.string,
   title: PropTypes.string.isRequired,
   placeHolder: PropTypes.string.isRequired,
 };
