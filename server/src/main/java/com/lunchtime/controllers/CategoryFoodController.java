@@ -31,7 +31,7 @@ import com.lunchtime.service.CategoryFoodService;
 
 
 @RestController
-@RequestMapping("/category")
+@RequestMapping("/api/category")
 public class CategoryFoodController {
 
     private final CategoryFoodService categoryFoodService;
@@ -60,14 +60,14 @@ public class CategoryFoodController {
 
 
     @PostMapping
-    public ResponseEntity<CategoryFood> newDish(@Valid @RequestBody CategoryFood categoryFood)
+    public ResponseEntity<CategoryFood> newCategory(@Valid @RequestBody CategoryFood categoryFood)
                throws URISyntaxException {
 
-        CategoryFood newDish = categoryFoodService.save(categoryFood);
+        CategoryFood newCategory = categoryFoodService.save(categoryFood);
 
         return  ResponseEntity
                .created(new URI("/api/category"))
-               .body(newDish);
+               .body(newCategory);
 
     }
 

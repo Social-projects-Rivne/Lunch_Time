@@ -15,6 +15,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -44,16 +46,6 @@ public class MenuItemDish {
     @Column(name = "is_deleted")
     private Boolean isDeleted;
 
-
-    public MenuItemDish(@NotBlank String portionSize, @NotBlank String portionPrice,
-           Long portionUnit, String imageUrl) {
-
-        this.portionSize = portionSize;
-        this.portionPrice = portionPrice;
-        this.portionUnit = portionUnit;
-        this.imageUrl = imageUrl;
-    }
-
     MenuItemDish() {
     }
 
@@ -76,7 +68,8 @@ public class MenuItemDish {
     )
     private Set<Restaurant> restaurant;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToOne
+    @NotNull
     @JoinColumn(name = "dish_id", nullable = false)
     private Dish dish;
 
