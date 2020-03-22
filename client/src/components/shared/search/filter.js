@@ -11,7 +11,7 @@ class Filter extends Component {
     return (
       <ButtonToolbar className="justify-content-center">
         <Context info={info} />
-        {showDate === true && <DateMenu /> }
+        {showDate && <DateMenu /> }
         <ResetButton />
       </ButtonToolbar>
     );
