@@ -36,7 +36,7 @@ class DropdownGroup extends React.Component {
 
         <DropdownWithDate
           oneDate="events/date/"
-          rangeDate="events/dates/from="
+          rangeDate="events/dates?from="
           onApply={(path) => this.onSelectCategory(path)}
         />
 

@@ -40,10 +40,11 @@ public class EventController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    @GetMapping("dates/from={startDate}&to={endDate}")
+    //@GetMapping("dates/from={startDate}&to={endDate}")
+    @GetMapping("dates")
     public ResponseEntity<?> getByDateBetween(
-        @PathVariable("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
-        @PathVariable("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) {
+        @RequestParam("from") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+        @RequestParam("to") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) {
         List<Event> result = eventService.findByDateBetween(startDate, endDate);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }

@@ -36,7 +36,6 @@ public class EventServiceImpl implements EventService {
         return eventRepository.findByDateBetweenAndIsActiveTrueOrderByDateAsc(startDate, end);
     }
 
-    @SuppressWarnings("MagicConstant")
     public List<Event> findByMonth(String month) throws IllegalArgumentException {
         int monthOrdinal = Months.valueOf(month).ordinal();
         int year = Calendar.getInstance().get(Calendar.YEAR);
@@ -64,7 +63,6 @@ public class EventServiceImpl implements EventService {
 
     public void save(Event event) throws IllegalArgumentException{
         String category = event.getCategory();
-        Date date = event.getDate();
         if (Validator.checkCategory(category)) {
             eventRepository.save(event);
         } else throw new IllegalArgumentException();
