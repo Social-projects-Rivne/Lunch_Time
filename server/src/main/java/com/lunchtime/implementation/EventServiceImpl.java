@@ -4,6 +4,7 @@ import com.lunchtime.enums.Months;
 import com.lunchtime.models.Event;
 import com.lunchtime.repository.EventRepository;
 import com.lunchtime.service.EventService;
+import com.lunchtime.util.Validator;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -61,7 +62,11 @@ public class EventServiceImpl implements EventService {
         return Optional.empty();
     }
 
-    public void save(Event event) {
-        eventRepository.save(event);
+    public void save(Event event) throws IllegalArgumentException{
+        String category = event.getCategory();
+        Date date = event.getDate();
+        if (Validator.checkCategory(category)) {
+            eventRepository.save(event);
+        } else throw new IllegalArgumentException();
     }
 }

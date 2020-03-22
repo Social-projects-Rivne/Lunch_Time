@@ -1,5 +1,6 @@
 package com.lunchtime.models;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -30,6 +31,7 @@ public class Event {
 
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
+    @JsonFormat(pattern="yyyy-MM-dd hh:mm")
     @Column(name = "date")
     private Date date;
 

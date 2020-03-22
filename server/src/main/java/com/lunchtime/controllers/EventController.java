@@ -66,16 +66,24 @@ public class EventController {
 
     @PostMapping
     public ResponseEntity<?> addEvent(@Valid @RequestBody Event event) {
-        eventService.save(event);
-        return new ResponseEntity<>(event, HttpStatus.CREATED);
+        try {
+            eventService.save(event);
+            return new ResponseEntity<>(event, HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PutMapping
     public ResponseEntity<?> updateEvent(@Valid @RequestBody Event event) {
         Optional<Event> result = eventService.findById(event.getId());
         if (result.isPresent()) {
-            eventService.save(event);
-            return new ResponseEntity<>(event, HttpStatus.OK);
+            try {
+                eventService.save(event);
+                return new ResponseEntity<>(event, HttpStatus.OK);
+            } catch (IllegalArgumentException e) {
+                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            }
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
