@@ -40,7 +40,6 @@ public class EventController {
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
-    //@GetMapping("dates/from={startDate}&to={endDate}")
     @GetMapping("dates")
     public ResponseEntity<?> getByDateBetween(
         @RequestParam("from") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,

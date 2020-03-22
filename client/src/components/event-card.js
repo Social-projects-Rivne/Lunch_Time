@@ -15,7 +15,7 @@ class EventCard extends React.Component {
           <Link to={link}><Card.Title className="">{event.name}</Card.Title></Link>
           <Card.Subtitle className="restaurant-name mb-2">{event.restaurant.name}</Card.Subtitle>
           <Card.Subtitle className="event-date mb-2 text-muted">
-            {moment(event.date).format('DD.MM.YYYY hh:MM')}
+            {moment(event.date).format('DD.MM.YYYY HH:MM')}
           </Card.Subtitle>
           <Card.Text>{event.description}</Card.Text>
         </Card.Body>

@@ -11,11 +11,11 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Service
-public class EventServiceImpl implements EventService {
+public class EventServiceImplement implements EventService {
 
     private final EventRepository eventRepository;
 
-    public EventServiceImpl(EventRepository eventRepository) {
+    public EventServiceImplement(EventRepository eventRepository) {
         this.eventRepository = eventRepository;
     }
 
@@ -28,7 +28,8 @@ public class EventServiceImpl implements EventService {
     }
 
     public List<Event> findByDay(Date date) {
-        return eventRepository.findByDateAndIsActiveTrueOrderByDateAsc(date);
+        Date end = new Date(date.getTime() + TimeUnit.DAYS.toMillis(1));
+        return eventRepository.findByDateBetweenAndIsActiveTrueOrderByDateAsc(date, end);
     }
 
     public List<Event> findByDateBetween(Date startDate, Date endDate) {
@@ -61,10 +62,12 @@ public class EventServiceImpl implements EventService {
         return Optional.empty();
     }
 
-    public void save(Event event) throws IllegalArgumentException{
+    public void save(Event event) throws IllegalArgumentException {
         String category = event.getCategory();
         if (Validator.checkCategory(category)) {
             eventRepository.save(event);
-        } else throw new IllegalArgumentException();
+        } else {
+            throw new IllegalArgumentException();
+        }
     }
 }
