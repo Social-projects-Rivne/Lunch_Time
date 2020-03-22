@@ -40,7 +40,6 @@ class DropdownGroup extends React.Component {
           onApply={(path) => this.onSelectCategory(path)}
         />
 
-        {/* Reset filters */}
         <Button
           onClick={() => window.location.reload()}
           className="m-button ml-5"

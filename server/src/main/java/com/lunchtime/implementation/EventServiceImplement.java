@@ -38,13 +38,17 @@ public class EventServiceImplement implements EventService {
     }
 
     public List<Event> findByMonth(String month) throws IllegalArgumentException {
+        List<Event> result = new ArrayList<>();
         int monthOrdinal = Months.valueOf(month).ordinal();
         int year = Calendar.getInstance().get(Calendar.YEAR);
-        Calendar start = new GregorianCalendar(year, monthOrdinal, 1);
-        Calendar end = new GregorianCalendar(year, ++monthOrdinal, 1);
-        Date startDate = new Date(start.getTimeInMillis());
-        Date endDate = new Date(end.getTimeInMillis());
-        return eventRepository.findByDateBetweenAndIsActiveTrueOrderByDateAsc(startDate, endDate);
+        for (int i = 0; i < 2; i++) {
+            Calendar start = new GregorianCalendar(year + i, monthOrdinal, 1);
+            Calendar end = new GregorianCalendar(year + i, monthOrdinal + 1, 1);
+            Date startDate = new Date(start.getTimeInMillis());
+            Date endDate = new Date(end.getTimeInMillis());
+            result.addAll(eventRepository.findByDateBetweenAndIsActiveTrueOrderByDateAsc(startDate, endDate));
+        }
+        return result;
     }
 
     public Optional<Event> findById(Long id) {
