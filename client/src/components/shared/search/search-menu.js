@@ -5,10 +5,6 @@ import Header from './header';
 import Filter from './filter';
 
 class SearchMenu extends React.Component {
-  onSelectCategory(path) {
-    this.props.onChangeEvents(path);
-  }
-
   render() {
     const {
       title, placeHolder, info, showDate, containerClassName, onChangeEvents,

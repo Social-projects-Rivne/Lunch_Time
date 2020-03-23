@@ -1,7 +1,7 @@
 import Dropdown from 'rc-dropdown';
 import Menu, { Item as MenuItem, Divider } from 'rc-menu';
 import 'rc-dropdown/assets/index.css';
-import '../style/category-dropdown.css';
+import '../../style/category-dropdown.css';
 import React, { Component } from 'react';
 import Button from 'react-bootstrap/Button';
 import { Container } from 'react-bootstrap';

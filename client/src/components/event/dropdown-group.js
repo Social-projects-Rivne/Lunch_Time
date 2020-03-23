@@ -2,8 +2,8 @@ import React from 'react';
 import { ButtonToolbar } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import PropTypes from 'prop-types';
-import DropdownWithDate from './shared/dropdown/date-menu';
-import MyDropdown from './shared/dropdown/view';
+import DropdownWithDate from '../shared/dropdown/date-menu';
+import MyDropdown from '../shared/dropdown/view';
 import CategoryDropdown from './category-dropdown';
 
 class DropdownGroup extends React.Component {
@@ -40,7 +40,6 @@ class DropdownGroup extends React.Component {
         />
 
         <Button
-          onClick={() => window.location.reload()}
           className="m-button ml-5"
         >
           Reset
