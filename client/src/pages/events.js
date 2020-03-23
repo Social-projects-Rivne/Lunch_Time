@@ -7,7 +7,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import Api from '../services/api';
 import SearchMenu from '../components/shared/search/search-menu';
 import info, { title, placeHolder } from '../components/info/events';
-import CardResults from '../components/event/card-results';
+import Results from '../components/event/results';
 
 class Events extends React.Component {
   constructor(props) {
@@ -54,7 +54,7 @@ class Events extends React.Component {
           onChangeEvents={this.handleEvents}
           showDate
         />
-        <CardResults events={events} isFetching={isFetching} />
+        <Results events={events} isFetching={isFetching} />
       </Container>
     );
   }

@@ -5,7 +5,7 @@ import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import Spinner from 'react-bootstrap/Spinner';
 import CardView from './card-view';
 
-class CardResults extends Component {
+class Results extends Component {
   render() {
     const {
       isFetching, events, eventContainerClassName,
@@ -33,7 +33,7 @@ class CardResults extends Component {
   }
 }
 
-CardResults.defaultProps = {
+Results.defaultProps = {
   eventContainerClassName: 'card-body pl-5 pr-5',
   cardDeckClassName: 'wrapper',
   spinnerContainerClassName: 'spinner-container',
@@ -42,7 +42,7 @@ CardResults.defaultProps = {
   spinnerVariant: 'warning',
 };
 
-CardResults.propTypes = {
+Results.propTypes = {
   isFetching: PropTypes.bool.isRequired,
   events: PropTypes.array.isRequired,
   eventContainerClassName: PropTypes.string,
@@ -53,4 +53,4 @@ CardResults.propTypes = {
   spinnerVariant: PropTypes.string,
 };
 
-export default CardResults;
+export default Results;
