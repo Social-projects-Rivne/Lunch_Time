@@ -1,0 +1,6 @@
+.textFeedback:focus{
+    box-shadow: 0 0 0 1px rgba(41, 176, 217, .25);
+}
+.btnFormSend{
+    margin-top: 10px;
+}

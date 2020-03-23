@@ -1,6 +1,5 @@
 package com.lunchtime.models;
 
-
 import java.time.Instant;
 import java.util.Set;
 import javax.persistence.Column;
@@ -61,12 +60,12 @@ public class Restaurant {
     private Boolean isDeleted;
 
 
-    @Column(name = "menu_id")
-    private Long menuId;
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "restaurant")
+    private Set<MenuItemDish> menuItemDish;
 
-    @ManyToOne
     @NotNull
-    @JoinColumn(name = "person_id", nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "person_id",referencedColumnName = "id")
     private Person person;
 
     @Column(name = "tables")
@@ -105,9 +104,35 @@ public class Restaurant {
     }
 
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "restaurant")
-    private Set<MenuItemDish> menuItemDish;
+    public Restaurant() {    }
 
+    public Restaurant(String name,
+                      String email, String textAddress,
+                      String website, String description,
+                      String workingTime, Boolean isDeleted,
+                      Set<MenuItemDish> menuItemDish, Person person,
+                      Integer tables, Float longitude,
+                      Float latitude, Instant createdAt,
+                      Long createdBy, Instant modifyAt,
+                      Long modifyBy) {
+
+        this.name = name;
+        this.email = email;
+        this.textAddress = textAddress;
+        this.website = website;
+        this.description = description;
+        this.workingTime = workingTime;
+        this.isDeleted = isDeleted;
+        this.menuItemDish = menuItemDish;
+        this.person = person;
+        this.tables = tables;
+        this.longitude = longitude;
+        this.latitude = latitude;
+        this.createdAt = createdAt;
+        this.createdBy = createdBy;
+        this.modifyAt = modifyAt;
+        this.modifyBy = modifyBy;
+    }
 
 }
 

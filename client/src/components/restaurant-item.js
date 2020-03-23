@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Api from '../services/api';
 import About from './restaurant-about';
 import Menu from './menu-views/menu-view';
+import Feedback from './feedbacks/feedback';
 import '../style/restaurant-item.css';
 import '../style/menu.css';
 
@@ -39,6 +40,7 @@ class Restaurant extends Component {
 
   render() {
     const { isFetching, restaurant } = this.state;
+    const { match: { params: { id } } } = this.props;
     return (
       <Container className="restaurant-container">
         <h2>{restaurant.name}</h2>
@@ -47,13 +49,13 @@ class Restaurant extends Component {
             <About restaurant={restaurant} isFetching={isFetching} />
           </Tab>
           <Tab eventKey="menu" title="Menu">
-            <Menu />
+            <Menu id={id} />
           </Tab>
           <Tab eventKey="events" title="Events">
             <h3>Events</h3>
           </Tab>
           <Tab eventKey="feedback" title="Feedback">
-            <h3>Feedback</h3>
+            <Feedback id={id} />
           </Tab>
         </Tabs>
       </Container>
