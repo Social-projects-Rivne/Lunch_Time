@@ -59,7 +59,6 @@ public class Restaurant {
     @Column(name = "is_deleted")
     private Boolean isDeleted;
 
-
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "restaurant")
     private Set<MenuItemDish> menuItemDish;
 
@@ -110,7 +109,7 @@ public class Restaurant {
                       String email, String textAddress,
                       String website, String description,
                       String workingTime, Boolean isDeleted,
-                      Set<MenuItemDish> menuItemDish, Person person,
+                      Person person,
                       Integer tables, Float longitude,
                       Float latitude, Instant createdAt,
                       Long createdBy, Instant modifyAt,
@@ -123,7 +122,6 @@ public class Restaurant {
         this.description = description;
         this.workingTime = workingTime;
         this.isDeleted = isDeleted;
-        this.menuItemDish = menuItemDish;
         this.person = person;
         this.tables = tables;
         this.longitude = longitude;

@@ -64,7 +64,7 @@ public class DatabaseSeed {
                 "www.".concat(restaurantName[i.intValue()]).concat(".ua").toLowerCase(),
                 "Description for restaurant ".concat(restaurantName[i.intValue()]),
                 "12-24", false,
-                i + 1L, person.get(i.intValue()), i.intValue() + 1, cordLongitude[i.intValue()],
+                 person.get(i.intValue()), i.intValue() + 1, cordLongitude[i.intValue()],
                 cordLatitude[i.intValue()], Instant.now(),
                 i + 1L, Instant.now(), i + 1L);
 
