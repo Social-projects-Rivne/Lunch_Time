@@ -6,14 +6,14 @@ import {
   Link, Switch, Route, Redirect,
 } from 'react-router-dom';
 import PropTypes from 'prop-types';
-import Info from './profile/info';
-import History from './profile/history';
-import Orders from './profile/orders';
-import Settings from './profile/settings';
-import Sharing from './profile/sharing';
-import Subscriptions from './profile/subscriptions';
-import Api from '../services/api';
-import '../styles/profile.css';
+import Info from './info';
+import History from './history';
+import Orders from './orders';
+import Settings from './settings';
+import Sharing from './sharing';
+import Subscriptions from './subscriptions';
+import Api from '../../services/api';
+import '../../styles/profile.css';
 
 class Profile extends Component {
   constructor(props) {
