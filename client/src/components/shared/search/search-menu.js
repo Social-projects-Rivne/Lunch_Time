@@ -5,28 +5,35 @@ import Header from './header';
 import Filter from './filter';
 
 class SearchMenu extends React.Component {
+  onSelectCategory(path) {
+    this.props.onChangeEvents(path);
+  }
+
   render() {
     const {
-      title, placeHolder, info, showDate,
+      title, placeHolder, info, showDate, containerClassName, onChangeEvents,
     } = this.props;
     return (
-      <Container fluid className="page-header">
+      <Container className={containerClassName}>
         <Header title={title} placeHolder={placeHolder} />
-        <Filter info={info} showDate={showDate} />
+        <Filter info={info} showDate={showDate} onChangeEvents={onChangeEvents} />
       </Container>
     );
   }
 }
 
 SearchMenu.defaultProps = {
+  containerClassName: 'justify-content-center pb-4 pt-4',
   showDate: false,
 };
 
 SearchMenu.propTypes = {
+  containerClassName: PropTypes.string,
   title: PropTypes.string.isRequired,
   placeHolder: PropTypes.string.isRequired,
   info: PropTypes.array.isRequired,
   showDate: PropTypes.bool,
+  onChangeEvents: PropTypes.any.isRequired,
 };
 
 export default SearchMenu;

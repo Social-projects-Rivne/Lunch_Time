@@ -16,14 +16,15 @@ class Events extends React.Component {
       events: [],
       isFetching: false,
     };
+    this.handleEvents = this.handleEvents.bind(this);
   }
 
   componentDidMount() {
-    this.getAll();
+    this.getAll('events');
   }
 
-  getAll() {
-    Api.getAll('events')
+  getAll(path) {
+    Api.getAll(path)
       .then((response) => {
         if (response.error) {
           // eslint-disable-next-line no-console
@@ -37,6 +38,10 @@ class Events extends React.Component {
       });
   }
 
+  handleEvents(path) {
+    this.getAll(path);
+  }
+
   render() {
     const { events, isFetching } = this.state;
 
@@ -46,6 +51,7 @@ class Events extends React.Component {
           title={title}
           placeHolder={placeHolder}
           info={info}
+          onChangeEvents={this.handleEvents}
           showDate
         />
         <CardResults events={events} isFetching={isFetching} />
