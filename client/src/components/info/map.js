@@ -1,2 +1,2 @@
-export const latitude = 40.172459;
-export const longitude = 44.511905;
+export const latitude = 50.620720;
+export const longitude = 26.247292;
