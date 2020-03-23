@@ -1,10 +1,10 @@
 import React from 'react';
 import { ButtonToolbar } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import Button from 'react-bootstrap/Button';
 import DateMenu from '../shared/button/date-menu';
 import View from '../shared/dropdown/view';
 import Category from '../shared/dropdown/category';
-import Reset from '../shared/button/reset';
 import info from '../info/events';
 
 class FilterBar extends React.Component {
@@ -36,7 +36,12 @@ class FilterBar extends React.Component {
           onApply={(path) => this.onSelectCategory(path)}
         />
 
-        <Reset />
+        <Button
+          onClick={() => window.location.reload()}
+          className="m-button ml-5"
+        >
+          Reset
+        </Button>
       </ButtonToolbar>
     );
   }
