@@ -17,7 +17,6 @@ import java.net.URISyntaxException;
 import java.sql.Date;
 import java.time.Instant;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 
 @Component
@@ -26,6 +25,8 @@ public class DatabaseSeed {
     String[] restaurantName = new String[] {"Avocado", "Masuri", "Gavana", "Cake", "Green", "Nuts"};
     String[] userName = new String[] {"Bob", "Devid", "Tom", "Alan", "Leo", "Fred"};
     String[] eventName = new String[] {"Party", "Karaoke", "Concert", "Party", "Tasting"};
+    String[] eventDate = new String[] {"2020-03-25 10:20", "2020-03-26 17:05",
+        "2020-04-05 12:00", "2020-12-31 15:00", "2021-01-20 22:00"};
     Float[] cordLatitude = new Float[] { 50.616294f, 50.618261f, 50.620219f, 50.616146f, 50.618318f, 50.624449f };
     Float[] cordLongitude = new Float[] { 26.275728f, 26.260064f, 26.241863f, 26.253994f, 26.252249f, 26.249677f };
 
@@ -130,12 +131,11 @@ public class DatabaseSeed {
     }
 
     public void  seedEvent() throws URISyntaxException {
-        long date = new java.util.Date().getTime();
         List<Restaurant> restaurantList = restaurantRepository.findAll();
         for (int i = 0; i < eventName.length; i++) {
             Event event = new Event();
             event.setRestaurant(restaurantList.get(i));
-            event.setDate(new java.util.Date(date + TimeUnit.DAYS.toMillis(i + 1)));
+            event.setDate(eventDate[i]);
             event.setImage(new URI("https://cdn.pixabay.com/photo/2015/07/30/17/24/audience-868074_1280.jpg"));
             event.setName("Event " + eventName[i]);
             event.setCategory(eventName[i].toLowerCase());

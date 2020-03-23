@@ -1,12 +1,16 @@
 package com.lunchtime.models;
 
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.net.URI;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @ToString
@@ -51,4 +55,14 @@ public class Event {
     @NotNull
     @Column(name = "is_active")
     private Boolean isActive;
+
+    public void setDate(String date) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        format.setLenient(false);
+        try {
+            this.date = format.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
 }
