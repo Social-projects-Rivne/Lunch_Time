@@ -13,7 +13,7 @@ import Settings from './profile/settings';
 import Sharing from './profile/sharing';
 import Subscriptions from './profile/subscriptions';
 import Api from '../services/api';
-import '../style/profile.css';
+import '../styles/profile.css';
 
 class Profile extends Component {
   constructor(props) {

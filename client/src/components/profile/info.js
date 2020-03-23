@@ -4,7 +4,7 @@ import {
 } from 'react-bootstrap';
 import Avatar from 'react-avatar';
 import PropTypes from 'prop-types';
-import '../../style/profile-info.css';
+import '../../styles/profile-info.css';
 
 class Info extends Component {
   render() {

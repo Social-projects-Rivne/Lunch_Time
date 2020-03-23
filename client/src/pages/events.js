@@ -1,7 +1,7 @@
 import React from 'react';
-import '../style/events-page.css';
-import '../style/dropdown.css';
-import '../style/m-button.css';
+import '../styles/events-page.css';
+import '../styles/dropdown.css';
+import '../styles/m-button.css';
 import { Container } from 'react-bootstrap';
 import 'react-datepicker/dist/react-datepicker.css';
 import Api from '../services/api';
