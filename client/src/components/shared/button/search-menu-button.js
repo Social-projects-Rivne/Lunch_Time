@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Button from 'react-bootstrap/Button';
+import { Button } from 'react-bootstrap';
 
 class SearchMenuButton extends Component {
   render() {
