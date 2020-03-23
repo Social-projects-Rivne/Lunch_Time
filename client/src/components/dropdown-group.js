@@ -8,7 +8,6 @@ import CategoryDropdown from './category-dropdown';
 
 class DropdownGroup extends React.Component {
   onSelectCategory(path) {
-    console.log(`path= ${path}`);
     this.props.onChangeEvents(path);
   }
 
