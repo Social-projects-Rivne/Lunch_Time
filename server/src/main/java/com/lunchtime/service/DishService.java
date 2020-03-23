@@ -9,10 +9,10 @@ import com.lunchtime.models.Dish;
 
 public interface DishService {
 
-    public Dish save(Dish dish);
+    Dish save(Dish dish);
 
-    public Page<Dish> findAll(Pageable pageable);
+    Page<Dish> findAll(Pageable pageable);
 
-    public Optional<Dish> findById(Long id);
+    Optional<Dish> findById(Long id);
 
 }

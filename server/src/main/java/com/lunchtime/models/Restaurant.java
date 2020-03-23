@@ -108,23 +108,6 @@ public class Restaurant {
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "restaurant")
     private Set<MenuItemDish> menuItemDish;
 
-    public Set<MenuItemDish> getMenuItemDish() {
-        return menuItemDish;
-    }
-
-    public void setUsers(Set<MenuItemDish> users) {
-        this.menuItemDish = users;
-    }
-
-    public Restaurant getPerson() {
-
-        return this.getPerson();
-    }
-
-    public void setPerson(Person person2) {
-        this.person = person2;
-
-    }
 
 }
 

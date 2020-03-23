@@ -10,10 +10,10 @@ import com.lunchtime.models.CategoryFood;
 
 public interface CategoryFoodService  {
 
-    public CategoryFood save(CategoryFood categoryFood);
+    CategoryFood save(CategoryFood categoryFood);
 
-    public Page<CategoryFood> findAll(Pageable pageable);
+    Page<CategoryFood> findAll(Pageable pageable);
 
-    public Optional<CategoryFood> findById(Long id);
+    Optional<CategoryFood> findById(Long id);
 
 }
