@@ -1,12 +1,12 @@
 package com.lunchtime.implementation;
 
-import com.lunchtime.enums.Months;
 import com.lunchtime.models.Event;
 import com.lunchtime.repository.EventRepository;
 import com.lunchtime.service.EventService;
 import com.lunchtime.util.Validator;
 import org.springframework.stereotype.Service;
 
+import java.time.Month;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -38,7 +38,7 @@ public class EventServiceImplement implements EventService {
     }
 
     public List<Event> findByMonth(String month) throws IllegalArgumentException {
-        int monthOrdinal = Months.valueOf(month).ordinal();
+        int monthOrdinal = Month.valueOf(month.toUpperCase()).ordinal();
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
         int currentMonth = Calendar.getInstance().get(Calendar.MONTH);
         if (monthOrdinal < currentMonth) {
