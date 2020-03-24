@@ -80,42 +80,6 @@ public class RestaurantController {
             .build();
     }
 
-    @GetMapping
-    public ResponseEntity<List<Restaurant>> sortBy(Pageable pageable) {
-        Page<Restaurant> page = restaurantService.sortBy(pageable);
-        return ResponseEntity.ok().body(page.getContent());
-    }
-
-    @GetMapping("/cities/{city}")
-    public ResponseEntity<List<Restaurant>> chooseCity(Pageable pageable) {
-        Page<Restaurant> page = restaurantService.chooseCity(pageable);
-        return ResponseEntity.ok().body(page.getContent());
-    }
-
-    @GetMapping
-    public ResponseEntity<List<Restaurant>> chooseRating(Pageable pageable) {
-        Page<Restaurant> page = restaurantService.chooseRating(pageable);
-        return ResponseEntity.ok().body(page.getContent());
-    }
-
-    @GetMapping
-    public ResponseEntity<List<Restaurant>> chooseHours(Pageable pageable) {
-        Page<Restaurant> page = restaurantService.chooseHours(pageable);
-        return ResponseEntity.ok().body(page.getContent());
-    }
-
-    @GetMapping
-    public ResponseEntity<List<Restaurant>> yourPastVisits(Pageable pageable) {
-        Page<Restaurant> page = restaurantService.yourPastVisits(pageable);
-        return ResponseEntity.ok().body(page.getContent());
-    }
-
-    @GetMapping
-    public ResponseEntity<List<Restaurant>> chooseType(Pageable pageable) {
-        Page<Restaurant> page = restaurantService.chooseType(pageable);
-        return ResponseEntity.ok().body(page.getContent());
-    }
-
     @DeleteMapping("{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id) {
         Restaurant restaurant = restaurantService.delete(id);
