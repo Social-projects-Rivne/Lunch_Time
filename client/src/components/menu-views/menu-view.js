@@ -49,6 +49,10 @@ class Menu extends Component {
           ) : (
             <Container className="spinner-container">
               <ButtonToolbar className="justify-content-center">
+                <Row>
+                  Pizza salami.
+                  Ingredients: pizza sousse, salami, sold, pfeffer
+                </Row>
                 <Spinner animation="border" variant="warning" />
               </ButtonToolbar>
             </Container>

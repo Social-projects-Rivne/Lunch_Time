@@ -3,9 +3,7 @@ package com.lunchtime.seed;
 import com.lunchtime.models.Feedback;
 import com.lunchtime.models.Person;
 import com.lunchtime.models.Restaurant;
-import com.lunchtime.repository.FeedbackRepository;
-import com.lunchtime.repository.PersonRepository;
-import com.lunchtime.repository.RestaurantRepository;
+import com.lunchtime.repository.*;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -20,21 +18,35 @@ public class DatabaseSeed {
 
     String[] restaurantName = new String[] {"Avocado", "Masuri", "Gavana", "Cake", "Green", "Nuts"};
     String[] userName = new String[] {"Bob", "Devid", "Tom", "Alan", "Leo", "Fred"};
+    String[] dishesName = new String[] {"Pizza(salami)", "Soup", "Hamburger", "Potato with meet", "Stake"};
+    String[] categoryFood = new String[] {"Drinks", "Snacks", "Main cource", "Dessert"};
+    String[] dishPortion = new String[] {"500 gr", "300 gr", "230 gr", "150 gr", "400 gr"};
     Float[] cordLatitude = new Float[] { 50.616294f, 50.618261f, 50.620219f, 50.616146f, 50.618318f, 50.624449f };
     Float[] cordLongitude = new Float[] { 26.275728f, 26.260064f, 26.241863f, 26.253994f, 26.252249f, 26.249677f };
+
 
     private final RestaurantRepository restaurantRepository;
     private final FeedbackRepository feedbackRepository;
     private final PersonRepository personRepository;
+    private final DishRepository dishRepository;
+    private final CategoryFoodRepository categoryFoodRepository;
+    private final MenuItemDishRepository menuItemDishRepository;
 
     public DatabaseSeed(RestaurantRepository restaurantRepository,
                         FeedbackRepository feedbackRepository,
-                        PersonRepository personRepository) {
+                        PersonRepository personRepository,
+                        DishRepository dishRepository,
+                        CategoryFoodRepository categoryFoodRepository,
+                        MenuItemDishRepository menuItemDishRepository) {
         this.restaurantRepository = restaurantRepository;
         this.feedbackRepository = feedbackRepository;
         this.personRepository = personRepository;
+        this.dishRepository = dishRepository;
+        this.categoryFoodRepository = categoryFoodRepository;
+        this.menuItemDishRepository = menuItemDishRepository;
     }
 
+    @SuppressWarnings({"checkstyle:LeftCurly", "checkstyle:EmptyBlock"})
     @EventListener
     public void seed(ContextRefreshedEvent event) {
 
@@ -46,9 +58,31 @@ public class DatabaseSeed {
             seedRestaurant();
         }
 
+        if (categoryFoodRepository.count() == 0L) {
+            seedCategoryFoodRepository();
+        }
+
+        if (dishRepository.count() == 0L) {
+            seedDish();
+        }
+        
+        if (menuItemDishRepository.count() == 0L) {
+            seedMeuItemDishRepository();
+        }
+
         if (feedbackRepository.count() == 0L) {
             seedFeedback();
         }
+
+    }
+
+    private void seedMeuItemDishRepository() {
+    }
+
+    private void seedCategoryFoodRepository() {
+    }
+
+    private void seedDish() {
 
     }
 
