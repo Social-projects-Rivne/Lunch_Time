@@ -109,7 +109,7 @@ public class Restaurant {
                       String email, String textAddress,
                       String website, String description,
                       String workingTime, Boolean isDeleted,
-                      List<MenuItemDish> menuItemDish, Person person,
+                      Person person,
                       Integer tables, Float longitude,
                       Float latitude, Instant createdAt,
                       Long createdBy, Instant modifyAt,
@@ -122,7 +122,6 @@ public class Restaurant {
         this.description = description;
         this.workingTime = workingTime;
         this.isDeleted = isDeleted;
-        this.menuItemDish = menuItemDish;
         this.person = person;
         this.tables = tables;
         this.longitude = longitude;
