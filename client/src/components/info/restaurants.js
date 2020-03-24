@@ -1,10 +1,7 @@
 const sortBy = ['Relevance', 'Distance', 'Your match'];
-const city = ['Вінницька область', 'Волинська область', 'Дніпропетровська область', 'Донецька область',
-  'Житомирська область', 'Закарпатська область', 'Запорізька область', 'Івано-Франківська область',
-  'Київська область', 'Кіровоградська область', 'Луганська область', 'Львівська область',
-  'Миколаївська область', 'Одеська область', 'Полтавська область', 'Рівненська область',
-  'Сумська область', 'Тернопільська область', 'Харківська область', 'Херсонська область',
-  'Хмельницька область', 'Черкаська область', 'Чернівецька область', 'Чернігівська область'];
+const city = ['Cherkasy', 'Chernihiv', 'Chernivtsi', 'Dnipropetrovsk', 'Donetsk', 'Ivano-Frankivsk',
+  'Kharkiv', 'Kherson', 'Khmelnytskyi', 'Kiev', 'Kirovohrad', 'Luhansk', 'Lviv', 'Mykolaiv', 'Odessa',
+  'Poltava', 'Rivne', 'Sumy', 'Ternopil', 'Vinnytsia', 'Volyn', 'Zakarpattia', 'Zaporizhia', 'Zhytomyr'];
 const rating = ['Any', '3,5 star', '4 star', '4,5 star'];
 const hours = ['Any', 'Open now', 'Custom'];
 const yourPastVisits = ['Any', 'Visited', 'Haven`t visited'];
