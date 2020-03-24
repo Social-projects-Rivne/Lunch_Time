@@ -12,7 +12,7 @@ export default class RestaurantCardView extends Component {
         <Link to={link}>
           <Card.Body>
             <Card.Title className="">{restaurant.name}</Card.Title>
-            <Card.Subtitle className="restaurant-name mb-2">{restaurant.name}</Card.Subtitle>
+            <Card.Subtitle className="restaurant-name mb-2">4,6 stars, Hours: 12-24</Card.Subtitle>
             <Card.Text>{restaurant.description}</Card.Text>
           </Card.Body>
         </Link>
