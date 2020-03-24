@@ -2,6 +2,9 @@ package com.lunchtime.security;
 
 
 import com.lunchtime.models.JwtAuthenticationToken;
+import com.lunchtime.models.Person;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
@@ -16,7 +19,14 @@ public class JwtAuthenticationTokenFilter extends AbstractAuthenticationProcessi
 
     public JwtAuthenticationTokenFilter() {
 
-        super("**/api/**");
+        super("/api/**");
+
+    }
+
+    public JwtAuthenticationTokenFilter(AuthenticationManager authenticationManager) {
+
+        super("/api/**");
+        this.setAuthenticationManager(authenticationManager);
     }
 
     @Override
@@ -24,7 +34,7 @@ public class JwtAuthenticationTokenFilter extends AbstractAuthenticationProcessi
         HttpServletRequest httpServletRequest,
         HttpServletResponse httpServletResponse) throws AuthenticationException, IOException, ServletException {
 
-        String header = httpServletRequest.getHeader("Authorisation");
+        String header = httpServletRequest.getHeader("Authorization");
 
 
         if (header == null || !header.startsWith("Bearer ")) {
@@ -33,8 +43,15 @@ public class JwtAuthenticationTokenFilter extends AbstractAuthenticationProcessi
 
         String authenticationToken = header.substring(7);
 
-        JwtAuthenticationToken token = new JwtAuthenticationToken(authenticationToken);
-        return getAuthenticationManager().authenticate(token);
+        try {
+            JwtAuthenticationToken token = new JwtAuthenticationToken(authenticationToken);
+
+            return getAuthenticationManager().authenticate(token);
+        } catch (NullPointerException e) {
+            e.getMessage();
+
+            return null;
+        }
     }
 
 

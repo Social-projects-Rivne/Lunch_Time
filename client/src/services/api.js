@@ -1,4 +1,5 @@
 import axios from 'axios';
+// eslint-disabled-next
 
 class Api {
   constructor() {
@@ -29,5 +30,4 @@ class Api {
     return this.apiUrl.endsWith('/') ? `${this.apiUrl}${endpoint}` : `${this.apiUrl}/${endpoint}`;
   }
 }
-
 export default new Api();

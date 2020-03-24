@@ -43,8 +43,8 @@ public class JwtAuthenticationProvider extends AbstractUserDetailsAuthentication
         }
 
         List<GrantedAuthority> grantedAuthorities = AuthorityUtils
-            .commaSeparatedStringToAuthorityList(person.getRole());
-        return new JwtPesonDetails(person.getUserName(), person.getId(),
+            .commaSeparatedStringToAuthorityList(person.getEmail());
+        return new JwtPesonDetails(person.getEmail(), person.getPassword(),
             token,
             grantedAuthorities);
     }

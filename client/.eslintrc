@@ -12,6 +12,7 @@
     "Atomics": "readonly",
     "SharedArrayBuffer": "readonly"
   },
+  "parser": "babel-eslint",
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
@@ -31,6 +32,14 @@
     "object-shorthand": "off",
     "max-len": ["error", { "code": 120 }],
     "react/forbid-prop-types": 0,
-    "linebreak-style": "off"
+    "linebreak-style": "off",
+    "no-empty-pattern":"off",
+    "react/destructuring-assignment": "off",
+    "react/prop-types":"off",
+    "arrow-parens":"off",
+    "quotes":"off",
+    "react/sort-comp":"off",
+
+    
   }
 }

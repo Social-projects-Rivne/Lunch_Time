@@ -1,15 +1,17 @@
 package com.lunchtime.security;
 
+import com.lunchtime.models.JwtAuthenticationToken;
 import com.lunchtime.models.Person;
-import com.lunchtime.models.Role;
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+
 
 @Component
 public class JwtValidator {
+
 
 
     private String secret = "lunch";
@@ -24,10 +26,10 @@ public class JwtValidator {
                 .getBody();
 
             person = new Person();
-
-            person.setUserName(body.getSubject());
-            person.setId(Long.parseLong((String) body.get("userId")));
-            person.setRole((Role) body.get("role"));
+            person.setEmail(body.getSubject());
+            person.setPassword((String) body.get("password"));
+            //          person.setId(Long.parseLong((String) body.get("userId")));
+            //           person.setRole((Role) body.get("role"));
         } catch (Exception e) {
             System.out.println(e);
         }

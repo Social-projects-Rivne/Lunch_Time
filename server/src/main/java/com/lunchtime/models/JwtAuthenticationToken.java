@@ -10,6 +10,7 @@ public class JwtAuthenticationToken extends UsernamePasswordAuthenticationToken 
         this.token = token;
     }
 
+
     public String getToken() {
         return token;
     }
@@ -27,4 +28,6 @@ public class JwtAuthenticationToken extends UsernamePasswordAuthenticationToken 
     public Object getPrincipal() {
         return null;
     }
+
+
 }
