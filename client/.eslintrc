@@ -30,6 +30,7 @@
     "class-methods-use-this": "off",
     "arrow-body-style": "off",
     "object-shorthand": "off",
+    "react/destructuring-assignment": "off",
     "max-len": ["error", { "code": 120 }],
     "react/forbid-prop-types": 0,
     "import/no-unresolved": "warn"
