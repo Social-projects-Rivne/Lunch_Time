@@ -43,6 +43,9 @@ class NavigationBar extends Component {
             <Nav.Item className="mr-3">
               <Link to="/registartion">Registartion</Link>
             </Nav.Item>
+            <Nav.Item className="mr-3">
+              <Link to="/profile">Profile</Link>
+            </Nav.Item>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

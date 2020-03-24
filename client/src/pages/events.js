@@ -18,14 +18,15 @@ class Events extends React.Component {
       events: [],
       isFetching: false,
     };
+    this.handleEvents = this.handleEvents.bind(this);
   }
 
   componentDidMount() {
-    this.getAll();
+    this.getAll('events');
   }
 
-  getAll() {
-    Api.getAll('events')
+  getAll(path) {
+    Api.getAll(path)
       .then((response) => {
         if (response.error) {
           // eslint-disable-next-line no-console
@@ -37,6 +38,10 @@ class Events extends React.Component {
           isFetching: true,
         });
       });
+  }
+
+  handleEvents(path) {
+    this.getAll(path);
   }
 
   render() {
@@ -58,7 +63,7 @@ class Events extends React.Component {
           <LocalSearch />
 
           <Container fluid className="filter-and-sort">
-            <DropdownGroup />
+            <DropdownGroup onChangeEvents={this.handleEvents} />
           </Container>
         </Container>
 

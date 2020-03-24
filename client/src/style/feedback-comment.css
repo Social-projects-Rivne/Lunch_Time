@@ -1,0 +1,44 @@
+.feedbackContainer{
+    display: inline-flex;
+    width: 100%;
+    margin-top: 15px;
+}
+.cooment{
+    width: 100%;
+    margin: 0px 10px;
+}
+
+.hrStyle{
+    padding: 0;
+    margin: 0;
+    background-color: white;
+}
+.name{
+    margin-right: 35px;
+    font-size: 12px;
+}
+.date.name{
+    margin-left: 10px;
+}
+
+.answer{
+    margin: 0px 30px 0px 10px;
+    padding: auto;
+}
+.answer:hover{
+    color: blue;
+    cursor: pointer;
+}
+
+.complaint{
+    float: right;
+    margin-right: 10px;
+}
+.complaint:hover{
+    cursor: pointer;
+}
+
+
+.likeDislike:hover{
+    cursor: pointer;
+}

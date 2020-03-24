@@ -14,4 +14,16 @@ public interface EventRepository extends CrudRepository<Event, Long> {
     }
 
     List<Event> findByDateGreaterThanAndIsActiveTrueOrderByDateAsc(Date date);
+
+    default List<Event> findByCategory(Date date, String[] category) {
+
+        return findByDateGreaterThanAndCategoryInAndIsActiveTrue(date, category);
+    }
+
+    List<Event> findByDateGreaterThanAndCategoryInAndIsActiveTrue(Date date, String[] category);
+
+    List<Event> findByDateBetweenAndIsActiveTrueOrderByDateAsc(Date startDate, Date endDate);
+
+    List<Event> findByDateAndIsActiveTrueOrderByDateAsc(Date date);
+
 }

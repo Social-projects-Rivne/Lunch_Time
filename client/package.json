@@ -7,21 +7,27 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
-    "axios": "0.19.2",
+    "axios": "^0.19.2",
     "bootstrap": "4.4.1",
     "concurrently": "^5.1.0",
     "moment": "^2.24.0",
     "ol": "^6.2.1",
     "prop-types": "15.7.2",
+    "rc-dropdown": "^3.0.2",
+    "rc-menu": "^8.0.2",
     "react": "^16.12.0",
     "react-bootstrap": "^1.0.0-beta.17",
+    "react-avatar": "3.9.2",
     "react-datepicker": "^2.13.0",
     "react-dom": "^16.12.0",
     "react-native": "^0.61.5",
     "react-openlayers": "^0.3.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
-    "redux": "^4.0.5"
+
+
+    "shortid": "^2.2.15"
+
   },
   "scripts": {
     "start": "react-scripts start",
@@ -30,15 +36,6 @@
     "eject": "react-scripts eject",
     "lint": "eslint ./",
     "lint:fix": "eslint --fix ./"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "pre-push": "npm run lint"
-    }
-  },
-  "lint-staged": {
-    "*.js": "eslint --fix"
   },
   "eslintConfig": {
     "extends": "react-app"

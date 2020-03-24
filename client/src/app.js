@@ -11,6 +11,7 @@ import Map from './pages/map';
 import NoMatch from './pages/no-match';
 import Events from './pages/events';
 import Restaurant from './components/restaurant-item';
+import Profile from './components/profile';
 
 class App extends Component {
   render() {
@@ -44,6 +45,7 @@ class App extends Component {
           <Route path="/contact">
             <Contact />
           </Route>
+          <Route path="/profile" component={Profile} />
           <Route>
             <NoMatch />
           </Route>

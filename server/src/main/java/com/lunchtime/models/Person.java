@@ -6,45 +6,59 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import java.time.Instant;
-
 
 @Entity
 @Table(name = "person")
 @Data
-
 public class Person {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(name = "username", unique = true)
     private String userName;
-
-    @Column(name = "email", unique = true)
-    @Email
-    private String email;
-
-    @Column(name = "phone_nomber")
-    private Integer phone;
-
     @Column(name = "avatar_url")
     private String photoUrl;
 
+    @NotBlank
+    @Column(name = "name")
+    private String name;
+
+    @NotBlank
+    @Email
+    @Column(name = "email", unique = true)
+    private String email;
+
+    @NotBlank
     @Column(name = "password")
     private String password;
 
-    @Column(name = "created_time")
+    @NotBlank
+    @Column(name = "phone_number")
+    private String phoneNumber;
+
+    @Column(name = "avatar_url")
+    private String avatarUrl;
+
+    @Column(name = "is_deleted")
+    private Boolean isDeleted;
+
+    @Column(name = "role_id")
+    private Long roleId;
+
+    @Column(name = "created_at")
     @CreationTimestamp
-    private Instant createdTime;
+    private Instant createdAt;
 
     @Column(name = "created_by")
     private Long createdBy;
 
-    @Column(name = "modify_time")
+
+    @Column(name = "modify_at")
     @UpdateTimestamp
-    private Instant modifyTime;
+    private Instant modifyAt;
 
     @Column(name = "modify_by")
     private Long modifyBy;
@@ -88,13 +102,6 @@ public class Person {
         this.email = email;
     }
 
-    public Integer getPhone() {
-        return phone;
-    }
-
-    public void setPhone(Integer phone) {
-        this.phone = phone;
-    }
 
     public String getPhotoUrl() {
         return photoUrl;
@@ -112,13 +119,6 @@ public class Person {
         this.password = password;
     }
 
-    public Instant getCreatedTime() {
-        return createdTime;
-    }
-
-    public void setCreatedTime(Instant createdTime) {
-        this.createdTime = createdTime;
-    }
 
     public Long getCreatedBy() {
         return createdBy;
@@ -126,10 +126,6 @@ public class Person {
 
     public void setCreatedBy(Long createdBy) {
         this.createdBy = createdBy;
-    }
-
-    public Instant getModifyTime() {
-        return modifyTime;
     }
 
 
@@ -151,5 +147,27 @@ public class Person {
 
     public Person() {
     }
+
+
+    public Boolean isDeleted() {
+        if (isDeleted == null) {
+            return false;
+        }
+        return isDeleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        isDeleted = deleted;
+    }
+
+    public Person(String name, String email,
+                  String password, String phoneNumber) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+    }
+
+
 }
 
