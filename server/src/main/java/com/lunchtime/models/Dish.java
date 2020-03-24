@@ -1,6 +1,6 @@
 package com.lunchtime.models;
 
-import java.util.Set;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,6 +16,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
+
 public class Dish {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -32,7 +33,8 @@ public class Dish {
     @Column(name = "is_deleted")
     private Boolean isDeleted;
 
-    Dish() {
+    public Dish() {
+
     }
 
     public Boolean isDeleted() {
@@ -47,10 +49,10 @@ public class Dish {
     }
 
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "dishes")
-    private Set<CategoryFood> categoryFood;
+    private List<CategoryFood> categoryFood;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "dish")
-    private Set<MenuItemDish> menuItemDish;
+    private List<MenuItemDish> menuItemDish;
 
 
 }

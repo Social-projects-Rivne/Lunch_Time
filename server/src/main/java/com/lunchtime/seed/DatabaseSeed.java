@@ -1,8 +1,6 @@
 package com.lunchtime.seed;
 
-import com.lunchtime.models.Feedback;
-import com.lunchtime.models.Person;
-import com.lunchtime.models.Restaurant;
+import com.lunchtime.models.*;
 import com.lunchtime.repository.*;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
@@ -11,7 +9,6 @@ import org.springframework.stereotype.Component;
 import java.sql.Date;
 import java.time.Instant;
 import java.util.List;
-
 
 @Component
 public class DatabaseSeed {
@@ -46,7 +43,6 @@ public class DatabaseSeed {
         this.menuItemDishRepository = menuItemDishRepository;
     }
 
-    @SuppressWarnings({"checkstyle:LeftCurly", "checkstyle:EmptyBlock"})
     @EventListener
     public void seed(ContextRefreshedEvent event) {
 
@@ -65,7 +61,7 @@ public class DatabaseSeed {
         if (dishRepository.count() == 0L) {
             seedDish();
         }
-        
+
         if (menuItemDishRepository.count() == 0L) {
             seedMeuItemDishRepository();
         }
@@ -77,18 +73,57 @@ public class DatabaseSeed {
     }
 
     private void seedMeuItemDishRepository() {
+
+        List<Dish> dishesList = dishRepository.findAll();
+        List<Restaurant> restaurants = restaurantRepository.findAll();
+
+
+        for (Long i = 0L; i < dishesList.size(); i++) {
+            MenuItemDish menuItemDish = new MenuItemDish();
+            menuItemDish.setPortionSize(dishPortion[i.intValue()]);
+            menuItemDish.setPortionPrice(i.toString() + "00 grn");
+            menuItemDish.setDish(dishesList.get(i.intValue()));
+            menuItemDish.setPortionUnit(i.longValue() + 70L);
+            menuItemDish.setImageUrl("https://www.allstar-pizza.com/images/Pizza.jpg");
+            menuItemDish.setRestaurant(restaurants);
+            menuItemDishRepository.save(menuItemDish);
+        }
     }
 
     private void seedCategoryFoodRepository() {
+
+        List<Dish> dishesList = dishRepository.findAll();
+
+        for (Long i = 0L; i < categoryFood.length; i++) {
+
+            CategoryFood category = new CategoryFood();
+            category.setName(categoryFood[i.intValue()]);
+            category.setDishes(dishesList);
+            categoryFoodRepository.save(category);
+        }
+
     }
 
     private void seedDish() {
+
+        List<MenuItemDish> menuItemDishList = menuItemDishRepository.findAll();
+        List<CategoryFood> categoryFoodList = categoryFoodRepository.findAll();
+
+        for (Long i = 0L; i < dishesName.length; i++) {
+            Dish dish = new Dish();
+            dish.setName(dishesName[i.intValue()]);
+            dish.setIngredients(i.toString() + " example," + " example second," + " third ingr ");
+            dish.setMenuItemDish(menuItemDishList);
+            dish.setCategoryFood(categoryFoodList);
+            dishRepository.save(dish);
+        }
 
     }
 
     public void seedRestaurant() {
 
         List<Person> person = personRepository.findAll();
+        List<MenuItemDish> menuItemDishes = menuItemDishRepository.findAll();
 
         for (Long i = Long.valueOf(0); i < restaurantName.length; i++) {
 
@@ -97,9 +132,9 @@ public class DatabaseSeed {
                 "Rivne, street ".concat("1" + i.toString()),
                 "www.".concat(restaurantName[i.intValue()]).concat(".ua").toLowerCase(),
                 "Description for restaurant ".concat(restaurantName[i.intValue()]),
-                "12-24", false,
+                "12-24", false, menuItemDishes,
                  person.get(i.intValue()), i.intValue() + 1, cordLongitude[i.intValue()],
-                cordLatitude[i.intValue()], Instant.now(),
+                 cordLatitude[i.intValue()], Instant.now(),
                 i + 1L, Instant.now(), i + 1L);
 
             restaurantRepository.save(rest);
@@ -141,8 +176,6 @@ public class DatabaseSeed {
 
             personRepository.save(person);
         }
-
-
 
     }
 

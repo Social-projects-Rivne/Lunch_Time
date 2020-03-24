@@ -1,7 +1,7 @@
 package com.lunchtime.models;
 
 import java.time.Instant;
-import java.util.Set;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -60,7 +60,7 @@ public class Restaurant {
     private Boolean isDeleted;
 
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "restaurant")
-    private Set<MenuItemDish> menuItemDish;
+    private List<MenuItemDish> menuItemDish;
 
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
@@ -109,7 +109,7 @@ public class Restaurant {
                       String email, String textAddress,
                       String website, String description,
                       String workingTime, Boolean isDeleted,
-                      Person person,
+                      List<MenuItemDish> menuItemDish, Person person,
                       Integer tables, Float longitude,
                       Float latitude, Instant createdAt,
                       Long createdBy, Instant modifyAt,
@@ -122,6 +122,7 @@ public class Restaurant {
         this.description = description;
         this.workingTime = workingTime;
         this.isDeleted = isDeleted;
+        this.menuItemDish = menuItemDish;
         this.person = person;
         this.tables = tables;
         this.longitude = longitude;

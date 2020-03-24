@@ -1,7 +1,7 @@
 package com.lunchtime.models;
 
 
-import java.util.Set;
+import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import lombok.Getter;
@@ -23,7 +23,7 @@ public class CategoryFood {
     @Column(name = "is_deleted")
     private Boolean isDeleted;
 
-    CategoryFood() {
+    public CategoryFood() {
     }
 
     public Boolean isDeleted() {
@@ -42,7 +42,6 @@ public class CategoryFood {
             joinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "dish_id", referencedColumnName = "id")
     )
-    private Set<Dish> dishes;
-
+    private List<Dish> dishes;
 
 }

@@ -1,7 +1,6 @@
 package com.lunchtime.models;
 
-import java.util.Set;
-
+import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -46,7 +45,7 @@ public class MenuItemDish {
     @Column(name = "is_deleted")
     private Boolean isDeleted;
 
-    MenuItemDish() {
+    public MenuItemDish() {
     }
 
     public Boolean isDeleted() {
@@ -66,7 +65,7 @@ public class MenuItemDish {
               joinColumns = @JoinColumn(name = "menu_item_dish_id", referencedColumnName = "id"),
               inverseJoinColumns = @JoinColumn(name = "restaurant_id", referencedColumnName = "id")
     )
-    private Set<Restaurant> restaurant;
+    private List<Restaurant> restaurant;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @NotNull
