@@ -18,10 +18,23 @@ import java.util.List;
 @Component
 public class DatabaseSeed {
 
-    String[] restaurantName = new String[] {"Avocado", "Masuri", "Gavana", "Cake", "Green", "Nuts"};
-    String[] userName = new String[] {"Bob", "Devid", "Tom", "Alan", "Leo", "Fred"};
-    Float[] cordLatitude = new Float[] { 50.616294f, 50.618261f, 50.620219f, 50.616146f, 50.618318f, 50.624449f };
-    Float[] cordLongitude = new Float[] { 26.275728f, 26.260064f, 26.241863f, 26.253994f, 26.252249f, 26.249677f };
+    String[] restaurantName = new String[] {"Celentano", "Manhattan", "Egoista", "CasaNuova", "LaRiva",
+        "TrattoriaDaVentotto", "Father", "Avocado", "PuriRivne", "Brooklyn", "Masuri",
+        "Melrose", "Valenca", "Marlow&Sons", "BonefishGrill", "Rubirosa", "LunaStella", "Beso", "Burgerclub",
+        "Gavana", "Amadeus", "Semifreddo", "Bigoli", "RedLobster", "Semifreddo", "Chachapuri", "Citronelle"};
+    String[] userName = new String[] {"Bob", "Devid", "Tania", "Pleasure", "Kruz", "Tom", "Alan", "Oksana",
+        "Leo", "Fred", "Olena", "Andriy", "Tania", "Pleasure", "Kruz", "Tom", "Alan", "Bob", "Yura", "Roma",
+        "Oleg", "Nazar", "Kolia", "David", "Olia", "Sasha", "Yulia", "Ivan", "Vova"};
+    Float[] cordLatitude = new Float[] { 50.616294f, 50.618261f, 50.620219f, 50.616146f, 50.618318f,
+        50.624449f, 50.616294f, 50.618261f, 50.620219f, 50.616146f, 50.618318f, 50.624449f, 50.616294f,
+        50.618261f, 50.620219f, 50.616146f, 50.618318f, 50.624449f, 50.616294f, 50.618261f, 50.620219f,
+        50.616146f, 50.618318f, 50.624449f, 50.616294f, 50.618261f, 50.620219f, 50.616146f, 50.618318f,
+        50.624449f };
+    Float[] cordLongitude = new Float[] { 26.275728f, 26.260064f, 26.241863f, 26.253994f, 26.252249f,
+        26.249677f, 26.275728f, 26.260064f, 26.241863f, 26.253994f, 26.252249f, 26.249677f, 26.275728f,
+        26.260064f, 26.241863f, 26.253994f, 26.252249f, 26.249677f, 26.275728f, 26.260064f, 26.241863f,
+        26.253994f, 26.252249f, 26.249677f, 26.275728f, 26.260064f, 26.241863f, 26.253994f, 26.252249f,
+        26.249677f };
 
     private final RestaurantRepository restaurantRepository;
     private final FeedbackRepository feedbackRepository;
@@ -62,7 +75,8 @@ public class DatabaseSeed {
                 restaurantName[i.intValue()].concat("@gmail.com").toLowerCase(),
                 "Rivne, street ".concat("1" + i.toString()),
                 "www.".concat(restaurantName[i.intValue()]).concat(".ua").toLowerCase(),
-                "Description for restaurant ".concat(restaurantName[i.intValue()]),
+                "A short description about restaurant ".concat(restaurantName[i.intValue()])
+                    .concat(", and some other info."),
                 "12-24", false,
                 i + 1L, person.get(i.intValue()), i.intValue() + 1, cordLongitude[i.intValue()],
                 cordLatitude[i.intValue()], Instant.now(),
