@@ -1,22 +1,46 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import { Container } from 'react-bootstrap';
+import RestaurantCardResults from '../components/restaurant-card-results';
+import Api from '../services/api';
 
-class ListRestaurant extends Component {
+export default class ListRestaurant extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      restaurants: [],
+      isFetching: false,
+    };
+  }
+
+  componentDidMount() {
+    this.getAll();
+  }
+
+  getAll() {
+    Api.getAll('restaurants')
+      .then((response) => {
+        return response.error ? this.initError(response) : this.initState(response);
+      });
+  }
+
+  initError(response) {
+    // eslint-disable-next-line no-console
+    console.error(response);
+  }
+
+  initState(response) {
+    this.setState({
+      restaurants: response.data,
+      isFetching: true,
+    });
+  }
+
   render() {
-    const restaurantId = 393;
-    const { match } = this.props;
+    const { restaurants, isFetching } = this.state;
     return (
-      <div>
-        <h1>ListRestaurant Page</h1>
-        <Link to={`${match.path}/${restaurantId}`}>Restaurant</Link>
-      </div>
+      <Container fluid className="page-container p-0">
+        <RestaurantCardResults restaurants={restaurants} isFetching={isFetching} />
+      </Container>
     );
   }
 }
-
-ListRestaurant.propTypes = {
-  match: PropTypes.any.isRequired,
-};
-
-export default ListRestaurant;
