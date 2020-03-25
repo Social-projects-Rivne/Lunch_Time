@@ -84,7 +84,7 @@ public class DatabaseSeed {
         }
 
         if (categoryFoodRepository.count() == 0L) {
-            seedCategoryFoodRepository();
+            seedCategoryFood();
         }
 
         if (dishRepository.count() == 0L) {
@@ -92,7 +92,7 @@ public class DatabaseSeed {
         }
 
         if (menuItemDishRepository.count() == 0L) {
-            seedMeuItemDishRepository();
+            seedMeuItemDish();
         }
 
         if (eventRepository.count() == 0L) {
@@ -106,7 +106,7 @@ public class DatabaseSeed {
 
     }
 
-    private void seedMeuItemDishRepository() {
+    private void seedMeuItemDish() {
 
         List<Dish> dishesList = dishRepository.findAll();
         List<Restaurant> restaurantList = restaurantRepository.findAll();
@@ -122,7 +122,7 @@ public class DatabaseSeed {
         }
     }
 
-    private void seedCategoryFoodRepository() {
+    private void seedCategoryFood() {
 
 
         for (Long i = 0L; i < categoryFood.length; i++) {
@@ -136,10 +136,12 @@ public class DatabaseSeed {
 
     private void seedDish() {
 
+        List<CategoryFood> categoryFoodList = categoryFoodRepository.findAll();
         for (Long i = 0L; i < dishesName.length; i++) {
             Dish dish = new Dish();
             dish.setName(dishesName[i.intValue()]);
             dish.setIngredients(i.toString() + " example," + " example second," + " third ingr ");
+            dish.setCategoryFood(categoryFoodList);
             dishRepository.save(dish);
         }
     }

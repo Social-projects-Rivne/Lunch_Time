@@ -67,7 +67,7 @@ public class MenuItemDish {
     )
     private List<Restaurant> restaurant;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToOne(fetch = FetchType.EAGER)
     @NotNull
     @JoinColumn(name = "dish_id")
     private Dish dish;

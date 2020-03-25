@@ -51,8 +51,5 @@ public class Dish {
     @ManyToMany(fetch = FetchType.EAGER, mappedBy = "dishes")
     private List<CategoryFood> categoryFood;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "dish")
-    private List<MenuItemDish> menuItemDish;
-
 
 }
