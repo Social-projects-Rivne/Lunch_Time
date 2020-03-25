@@ -83,12 +83,12 @@ public class DatabaseSeed {
             seedFeedback();
         }
 
-        if (categoryFoodRepository.count() == 0L) {
-            seedCategoryFood();
-        }
-
         if (dishRepository.count() == 0L) {
             seedDish();
+        }
+
+        if (categoryFoodRepository.count() == 0L) {
+            seedCategoryFood();
         }
 
         if (menuItemDishRepository.count() == 0L) {
@@ -125,10 +125,12 @@ public class DatabaseSeed {
     private void seedCategoryFood() {
 
 
+        List<Dish> dishesList = dishRepository.findAll();
         for (Long i = 0L; i < categoryFood.length; i++) {
 
             CategoryFood category = new CategoryFood();
             category.setName(categoryFood[i.intValue()]);
+            category.setDishes(dishesList);
             categoryFoodRepository.save(category);
         }
 
@@ -137,6 +139,7 @@ public class DatabaseSeed {
     private void seedDish() {
 
         List<CategoryFood> categoryFoodList = categoryFoodRepository.findAll();
+
         for (Long i = 0L; i < dishesName.length; i++) {
             Dish dish = new Dish();
             dish.setName(dishesName[i.intValue()]);
@@ -150,6 +153,7 @@ public class DatabaseSeed {
     public void seedRestaurant() {
 
         List<Person> person = personRepository.findAll();
+        List<MenuItemDish> menuItemDishList = menuItemDishRepository.findAll();
 
         for (Long i = Long.valueOf(0); i < restaurantName.length; i++) {
 
@@ -162,6 +166,7 @@ public class DatabaseSeed {
                  person.get(i.intValue()), i.intValue() + 1, cordLongitude[i.intValue()],
                  cordLatitude[i.intValue()], Instant.now(),
                 i + 1L, Instant.now(), i + 1L);
+            rest.setMenuItemDish(menuItemDishList);
 
             restaurantRepository.save(rest);
         }
