@@ -40,36 +40,6 @@ public class RestaurantServiceImplement implements RestaurantService {
         return restaurantRepository.findById(id);
     }
 
-    @Override
-    public Page<Restaurant> sortBy(Pageable pageable) {
-        return null;
-    }
-
-    @Override
-    public Page<Restaurant> chooseCity(Pageable pageable) {
-        return null;
-    }
-
-    @Override
-    public Page<Restaurant> chooseRating(Pageable pageable) {
-        return null;
-    }
-
-    @Override
-    public Page<Restaurant> chooseHours(Pageable pageable) {
-        return null;
-    }
-
-    @Override
-    public Page<Restaurant> yourPastVisits(Pageable pageable) {
-        return null;
-    }
-
-    @Override
-    public Page<Restaurant> chooseType(Pageable pageable) {
-        return null;
-    }
-
     public Restaurant update(Restaurant newRestaurant) {
         return findById(newRestaurant.getId())
             .map(restaurant -> {

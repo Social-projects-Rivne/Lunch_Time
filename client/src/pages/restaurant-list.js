@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { Container } from 'react-bootstrap';
 import Api from '../services/api';
-import SearchMenu from '../components/shared/search/search-menu';
-import { info, placeHolder, title } from '../components/info/restaurants';
 import RestaurantCardResults from '../components/restaurant/restaurant-card-results';
 
 export default class ListRestaurant extends Component {
@@ -41,7 +39,6 @@ export default class ListRestaurant extends Component {
     const { restaurants, isFetching } = this.state;
     return (
       <Container fluid className="page-container p-0">
-        <SearchMenu placeHolder={placeHolder} title={title} info={info} />
         <RestaurantCardResults restaurants={restaurants} isFetching={isFetching} />
       </Container>
     );
