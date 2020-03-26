@@ -4,6 +4,7 @@ import com.lunchtime.models.RestaurantTable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface RestaurantTableService {
@@ -13,4 +14,6 @@ public interface RestaurantTableService {
     Page<RestaurantTable> findAll(Pageable pageable);
 
     Optional<RestaurantTable> findById(Long id);
+
+    List<RestaurantTable> findByRestaurant_Id(Long id);
 }
