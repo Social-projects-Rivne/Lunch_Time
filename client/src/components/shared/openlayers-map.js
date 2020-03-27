@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Map, layer, Layers } from 'react-openlayers';
 import { Container } from 'react-bootstrap';
 import { transform } from 'ol/proj';
-import '../../style/openlayers-map.css';
+import '../../styles/openlayers-map.css';
 
 class OpenlayersMap extends Component {
   render() {

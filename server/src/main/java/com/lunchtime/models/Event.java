@@ -9,8 +9,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.net.URI;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
-
 
 @ToString
 @Setter
@@ -24,8 +25,11 @@ public class Event {
     private Long id;
 
     @NotNull
-    @Column(name = "restaurant_id")
-    private Long restaurantId;
+    //TODO EAGER is not a good option, because if you will have a huge amount of restaurants your app can crash.
+    //Use LAZY and modify logic
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "restaurant",referencedColumnName = "id")
+    private Restaurant restaurant;
 
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
@@ -52,5 +56,15 @@ public class Event {
 
     @NotNull
     @Column(name = "is_active")
-    private Boolean isActive;
+    private Boolean isActive; //TODO primitive type
+
+    public void setDate(String date) {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        format.setLenient(false);
+        try {
+            this.date = format.parse(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
 }

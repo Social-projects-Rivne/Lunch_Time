@@ -1,13 +1,13 @@
 import React from 'react';
-import '../style/events-page.css';
-import '../style/dropdown.css';
-import '../style/m-button.css';
+import '../styles/events-page.css';
+import '../styles/dropdown.css';
+import '../styles/m-button.css';
 import { Container } from 'react-bootstrap';
 import 'react-datepicker/dist/react-datepicker.css';
 import Api from '../services/api';
 import SearchMenu from '../components/shared/search/search-menu';
 import info, { title, placeHolder } from '../components/info/events';
-import CardResults from '../components/event/card-results';
+import Results from '../components/event/results';
 
 class Events extends React.Component {
   constructor(props) {
@@ -16,14 +16,15 @@ class Events extends React.Component {
       events: [],
       isFetching: false,
     };
+    this.handleEvents = this.handleEvents.bind(this);
   }
 
   componentDidMount() {
-    this.getAll();
+    this.getAll('events');
   }
 
-  getAll() {
-    Api.getAll('events')
+  getAll(path) {
+    Api.getAll(path)
       .then((response) => {
         if (response.error) {
           // eslint-disable-next-line no-console
@@ -37,6 +38,10 @@ class Events extends React.Component {
       });
   }
 
+  handleEvents(path) {
+    this.getAll(path);
+  }
+
   render() {
     const { events, isFetching } = this.state;
 
@@ -46,9 +51,10 @@ class Events extends React.Component {
           title={title}
           placeHolder={placeHolder}
           info={info}
+          onChangeEvents={this.handleEvents}
           showDate
         />
-        <CardResults events={events} isFetching={isFetching} />
+        <Results events={events} isFetching={isFetching} />
       </Container>
     );
   }

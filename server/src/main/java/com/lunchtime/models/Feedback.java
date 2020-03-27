@@ -1,6 +1,5 @@
 package com.lunchtime.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Setter;
 import lombok.Getter;
 import org.hibernate.annotations.ColumnDefault;
@@ -22,7 +21,7 @@ public class Feedback {
 
     @ColumnDefault("true")
     @Column(name = "is_active")
-    private Boolean isActive;
+    private Boolean isActive; //TODO use primitive type
 
     @NotNull
     @Column(name = "date")

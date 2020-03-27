@@ -6,12 +6,13 @@ import com.lunchtime.implementation.FeedbackServiceImplement;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
+//TODO remove redundant lines
 
 @RestController
 @RequestMapping("/api/feedback")
 public class FeedbackController {
 
+    //TODO rename variable name to normal CamelCase
     private final FeedbackServiceImplement feedbackServiceimplementation;
 
     public FeedbackController(FeedbackServiceImplement feedbackServiceimplementation) {
@@ -25,10 +26,8 @@ public class FeedbackController {
         if (feedback.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-
         return ResponseEntity.ok(feedback);
-
     }
 
-
+    //TODO remove redundant lines
 }

@@ -3,6 +3,10 @@ import PropTypes from 'prop-types';
 import View from './view';
 
 class Context extends Component {
+  onSelectCategory(path) {
+    this.props.onChangeEvents(path);
+  }
+
   render() {
     const { info } = this.props;
     if (info.length > 0) {
@@ -14,6 +18,7 @@ class Context extends Component {
               name={e.name}
               values={e.values}
               key={e.id}
+              onSelect={(p) => this.onSelectCategory(`events/month/${p}`)}
             />
           );
         }));
@@ -24,6 +29,7 @@ class Context extends Component {
 
 Context.propTypes = {
   info: PropTypes.array.isRequired,
+  onChangeEvents: PropTypes.any.isRequired,
 };
 
 export default Context;

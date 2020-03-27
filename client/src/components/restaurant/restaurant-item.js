@@ -3,7 +3,7 @@ import { Tab, Tabs, Container } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import Api from '../../services/api';
 import About from './restaurant-about';
-import '../../style/restaurant-item.css';
+import '../../styles/restaurant-item.css';
 import Feedback from '../feedbacks/feedback';
 
 

@@ -4,16 +4,18 @@ import PropTypes from 'prop-types';
 
 class View extends React.Component {
   render() {
-    const { id, name, values } = this.props;
+    const {
+      id, name, values, onSelect,
+    } = this.props;
     return (
-      <Dropdown className="mr-3">
+      <Dropdown className="ml-3" onSelect={onSelect}>
         <Dropdown.Toggle id={id} className="m-button">{name}</Dropdown.Toggle>
         <Dropdown.Menu>
           {values.map((item) => (
             <Dropdown.Item
               className="m-dropdown-item"
               key={item}
-              href={`#/sort=${item.toLowerCase()}`}
+              eventKey={item.replace('\u0020', '\u005f').toLowerCase()}
             >
               {item}
             </Dropdown.Item>
@@ -28,6 +30,7 @@ View.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   values: PropTypes.array.isRequired,
+  onSelect: PropTypes.any.isRequired,
 };
 
 export default View;
