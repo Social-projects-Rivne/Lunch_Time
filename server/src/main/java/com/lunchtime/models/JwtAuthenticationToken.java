@@ -1,33 +1,18 @@
 package com.lunchtime.models;
 
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
-public class JwtAuthenticationToken extends UsernamePasswordAuthenticationToken {
-    private String token;
+import java.io.Serializable;
 
-    public JwtAuthenticationToken(String token) {
-        super(null, null);
-        this.token = token;
+public class JwtAuthenticationToken implements Serializable {
+
+    private final String jwt;
+
+    public JwtAuthenticationToken(String jwt) {
+        this.jwt = jwt;
     }
 
-
-    public String getToken() {
-        return token;
+    public String getJwt() {
+        return jwt;
     }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    @Override
-    public Object getCredentials() {
-        return null;
-    }
-
-    @Override
-    public Object getPrincipal() {
-        return null;
-    }
-
 
 }

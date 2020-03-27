@@ -9,13 +9,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class JwtSuccessHandler implements AuthenticationSuccessHandler {
+public class JwtSuccessHandler /*implements AuthenticationSuccessHandler */{
 
-    @Override
-    public void onAuthenticationSuccess(
-        HttpServletRequest httpServletRequest,
-        HttpServletResponse httpServletResponse,
-        Authentication authentication) throws IOException, ServletException {
-        System.out.println("Successfully Authentication");
-    }
+//    @Override
+//    public void onAuthenticationSuccess(
+//        HttpServletRequest httpServletRequest,
+//        HttpServletResponse httpServletResponse,
+//        Authentication authentication) throws IOException, ServletException {
+//        System.out.println("Successfully Authentication");
+//    }
 }

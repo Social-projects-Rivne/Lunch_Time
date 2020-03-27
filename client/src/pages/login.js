@@ -30,7 +30,7 @@ class Login extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    axios.post('/authorisation', {
+    axios.post('/authenticate', {
       email: this.state.email,
       password: this.state.password,
 

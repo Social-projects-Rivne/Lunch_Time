@@ -1,13 +1,15 @@
 package com.lunchtime.security;
 
 
-import com.lunchtime.models.JwtAuthenticationToken;
-import com.lunchtime.models.Person;
-import org.springframework.security.authentication.AuthenticationManager;
+import com.lunchtime.service.MyUserDetailsService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
+
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import org.springframework.stereotype.Component;
+import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -15,52 +17,44 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class JwtAuthenticationTokenFilter extends AbstractAuthenticationProcessingFilter {
+@Component
+public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
-    public JwtAuthenticationTokenFilter() {
+    @Autowired
+    private MyUserDetailsService userDetailsService;
 
-        super("/api/**");
-
-    }
-
-    public JwtAuthenticationTokenFilter(AuthenticationManager authenticationManager) {
-
-        super("/api/**");
-        this.setAuthenticationManager(authenticationManager);
-    }
+    @Autowired
+    private JwtUtil jwtUtil;
 
     @Override
-    public Authentication attemptAuthentication(
-        HttpServletRequest httpServletRequest,
-        HttpServletResponse httpServletResponse) throws AuthenticationException, IOException, ServletException {
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain)
+        throws ServletException, IOException {
 
-        String header = httpServletRequest.getHeader("Authorization");
+        final String authorizationHeader = request.getHeader("Authorization");
 
+        String email = null;
+        String jwt = null;
 
-        if (header == null || !header.startsWith("Bearer ")) {
-            throw new RuntimeException("JWT Token is missing");
+        if (authorizationHeader != null && authorizationHeader.startsWith("Bearer ")) {
+            jwt = authorizationHeader.substring(7);
+            email = jwtUtil.extractEmail(jwt);
         }
 
-        String authenticationToken = header.substring(7);
 
-        try {
-            JwtAuthenticationToken token = new JwtAuthenticationToken(authenticationToken);
+        if (email != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            return getAuthenticationManager().authenticate(token);
-        } catch (NullPointerException e) {
-            e.getMessage();
+            UserDetails userDetails = this.userDetailsService.loadUserByUsername(email);
 
-            return null;
+            if (jwtUtil.validateToken(jwt, userDetails)) {
+
+                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
+                    new UsernamePasswordAuthenticationToken(
+                        userDetails, null, userDetails.getAuthorities());
+                usernamePasswordAuthenticationToken
+                    .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
+                SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+            }
         }
-    }
-
-
-    @Override
-    protected void successfulAuthentication(HttpServletRequest request,
-                                            HttpServletResponse response,
-                                            FilterChain chain, Authentication authResult)
-        throws IOException, ServletException {
-        super.successfulAuthentication(request, response, chain, authResult);
         chain.doFilter(request, response);
     }
 }

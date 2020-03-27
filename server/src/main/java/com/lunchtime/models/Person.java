@@ -19,6 +19,7 @@ public class Person {
 
     @Column(name = "username", unique = true)
     private String userName;
+
     @Column(name = "avatar_url")
     private String photoUrl;
 
@@ -38,9 +39,6 @@ public class Person {
     @NotBlank
     @Column(name = "phone_number")
     private String phoneNumber;
-
-    @Column(name = "avatar_url")
-    private String avatarUrl;
 
     @Column(name = "is_deleted")
     private Boolean isDeleted;

@@ -5,8 +5,8 @@ import org.springframework.stereotype.Repository;
 import com.lunchtime.models.Person;
 
 @Repository
-
 public interface PersonRepository extends JpaRepository<Person, Long> {
-    Person findByUserName(String name);
+    Person findFirstByEmailAndPassword(String email, String password);
+
 
 }
