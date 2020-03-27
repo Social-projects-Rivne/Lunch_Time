@@ -11,10 +11,8 @@ class Filter extends Component {
     return (
       <ButtonToolbar className="justify-content-center">
         {showDate && <FilterBar onChangeEvents={onChangeEvents} />}
-        ;
         {!showDate && <Context info={info} onChangeEvents={onChangeEvents} />
         && <ResetButton />}
-        ;
       </ButtonToolbar>
     );
   }
