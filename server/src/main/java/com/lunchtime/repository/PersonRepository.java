@@ -8,5 +8,7 @@ import com.lunchtime.models.Person;
 public interface PersonRepository extends JpaRepository<Person, Long> {
     Person findFirstByEmailAndPassword(String email, String password);
 
+    Person findFirstByEmail(String email);
+
 
 }
