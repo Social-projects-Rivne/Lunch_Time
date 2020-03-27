@@ -12,7 +12,7 @@ class CategoryDropdown extends Component {
     super(props);
     this.state = {
       visible: false,
-      selected: [],
+      selected: this.props.categories, // here we get values from props (now empty, then updated values)
     };
     this.onVisibleChange = this.onVisibleChange.bind(this);
   }
@@ -29,8 +29,13 @@ class CategoryDropdown extends Component {
     });
   }
 
+  addCategories() {
+    this.props.addCategories(this.state.selected); // here props are updated
+  }
+
   confirm() {
     const { selected } = this.state;
+    this.addCategories(); // here props should be updated
     const { homePath, path } = this.props;
     if (selected.length > 0) {
       this.props.onApply(path + selected);
@@ -90,6 +95,8 @@ CategoryDropdown.propTypes = {
   items: PropTypes.any.isRequired,
   path: PropTypes.string.isRequired,
   homePath: PropTypes.string.isRequired,
+  categories: PropTypes.array.isRequired,
+  addCategories: PropTypes.any.isRequired,
 };
 
 export default CategoryDropdown;
