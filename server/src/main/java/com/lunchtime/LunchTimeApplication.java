@@ -1,5 +1,5 @@
 package com.lunchtime;
-
+//TODO remove unused imports. You can use Ctrl+Alt+O in Intellij before committing changes
 import com.lunchtime.models.Restaurant;
 import com.lunchtime.repository.RestaurantRepository;
 import com.lunchtime.service.RestaurantService;
@@ -13,6 +13,7 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication(
+    //TODO One time will be enough
     exclude = {SecurityAutoConfiguration.class, SecurityAutoConfiguration.class})
 public class LunchTimeApplication {
 
@@ -28,6 +29,8 @@ public class LunchTimeApplication {
                 registry
                     .addMapping("/api/**")
                     .allowedMethods("POST", "PUT", "GET", "DELETE")
+                    //TODO it would be better to have this list of urls in some property file. In such case, you will be able to modify
+                    // this list without creating new PR, for example for prod env, you will need only ssh
                     .allowedOrigins("http://localhost:3000");
             }
         };
