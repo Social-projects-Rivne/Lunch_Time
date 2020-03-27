@@ -1,4 +1,5 @@
 package com.lunchtime.models;
+
 //TODO remove unused imports
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
@@ -14,7 +15,8 @@ import javax.validation.constraints.NotNull;
 import java.time.Instant;
 
 @Entity
-@Where(clause = "is_deleted = false or is_deleted is NULL") //TODO It is a bad idea to add this stuff here. You should use it in repository.
+//TODO It is a bad idea to add this stuff here. You should use it in repository.
+@Where(clause = "is_deleted = false or is_deleted is NULL")
 @Setter
 @Getter
 public class Restaurant {
@@ -94,7 +96,8 @@ public class Restaurant {
     public Restaurant() {    }
 
     //TODO I believe that you are not using this constructor somewhere in app (except seed).
-    // just FYI if you have some constructor with such a huge number of params use Builder pattern. It will help to construct
+    // just FYI if you have some constructor with such a huge number of params use Builder pattern.
+    // It will help to construct
     // object without any mistakes. Currently, you have 6 strings in a row and you can put textAddress as a website.
     public Restaurant(String name,
                       String email, String textAddress,
