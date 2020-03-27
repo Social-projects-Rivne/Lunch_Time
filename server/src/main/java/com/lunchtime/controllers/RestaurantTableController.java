@@ -29,7 +29,7 @@ public class RestaurantTableController {
     }
 
     @PostMapping
-    public ResponseEntity<RestaurantTable> create(
+    public ResponseEntity<RestaurantTable> createRestaurantTable(
         @Valid @RequestBody RestaurantTable restaurantTable
     ) throws URISyntaxException {
         if (restaurantTable.getId() != null) {
@@ -48,14 +48,14 @@ public class RestaurantTableController {
     }
 
     @GetMapping
-    public ResponseEntity<List<RestaurantTable>> getAll(Pageable pageable) {
+    public ResponseEntity<List<RestaurantTable>> getAllRestaurantTables(Pageable pageable) {
         Page<RestaurantTable> page = restaurantTableService.findAll(pageable);
         return ResponseEntity.ok()
             .body(page.getContent());
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<RestaurantTable> getOne(@PathVariable Long id) {
+    public ResponseEntity<RestaurantTable> getRestaurantTableById(@PathVariable Long id) {
         Optional<RestaurantTable> restaurantTable = restaurantTableService.findById(id);
         if (restaurantTable.isPresent()) {
             return ResponseEntity.ok()
