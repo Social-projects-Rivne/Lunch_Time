@@ -10,6 +10,7 @@ class DropdownGroup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      // eslint-disable-next-line react/no-unused-state
       categories: [], // we have empty array, that pass to CategoryDropdown
     };
     this.onAddCategory = this.onAddCategory.bind(this);
@@ -17,6 +18,7 @@ class DropdownGroup extends React.Component {
 
   onAddCategory(newCategory) {
     this.setState({
+      // eslint-disable-next-line react/no-unused-state
       categories: newCategory, // here we can update current state 'categories' value
     });
   }
@@ -37,6 +39,7 @@ class DropdownGroup extends React.Component {
           items={eventsType}
           homePath="events"
           path="events/categories/"
+          {/* eslint-disable-next-line no-undef */}
           categories={categories} // here we pass our empty array (or updated later)
           addCategories={this.onAddCategory} // this is what helps to update our array
           onApply={(path) => this.onSelectCategory(path)}
