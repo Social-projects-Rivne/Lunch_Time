@@ -72,7 +72,7 @@ class Feedback extends Component {
             onClick={this.onClickShowMoreComment.bind(this)}
             onKeyPress={this.onKey.bind(this)}
           >
-            show more comment
+            show more comments
           </span>
         </div>
 

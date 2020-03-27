@@ -18,7 +18,7 @@ import java.sql.Date;
 import java.time.Instant;
 import java.util.List;
 
-
+//TODO remove redundant empty lines in class
 @Component
 public class DatabaseSeed {
 

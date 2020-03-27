@@ -1,5 +1,5 @@
 package com.lunchtime.models;
-
+//TODO remove unused imports
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Setter;
 import lombok.Getter;
@@ -22,7 +22,7 @@ public class Feedback {
 
     @ColumnDefault("true")
     @Column(name = "is_active")
-    private Boolean isActive;
+    private Boolean isActive; //TODO use primitive type
 
     @NotNull
     @Column(name = "date")
