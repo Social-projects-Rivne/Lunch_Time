@@ -1,5 +1,6 @@
 package com.lunchtime.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -16,4 +17,6 @@ public interface MenuItemDishService {
     Page<MenuItemDish> findAll(Pageable pageable);
 
     Optional<MenuItemDish> findById(Long id);
+
+    List<MenuItemDish> findByRestaurantId(Long id);
 }

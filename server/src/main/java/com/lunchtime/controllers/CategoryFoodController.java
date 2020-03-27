@@ -9,22 +9,15 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import com.lunchtime.implementation.CategoryFoodServiceImplement;
+import com.lunchtime.models.MenuItemDish;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.lunchtime.models.CategoryFood;
 import com.lunchtime.service.CategoryFoodService;
@@ -34,22 +27,22 @@ import com.lunchtime.service.CategoryFoodService;
 @RequestMapping("/api/category")
 public class CategoryFoodController {
 
-    private final CategoryFoodService categoryFoodService;
+    private final CategoryFoodServiceImplement categoryFoodServiceImplement;
 
-    public CategoryFoodController(CategoryFoodService categoryFoodService) {
-        this.categoryFoodService = categoryFoodService;
+    public CategoryFoodController(CategoryFoodServiceImplement categoryFoodServiceImplement) {
+        this.categoryFoodServiceImplement = categoryFoodServiceImplement;
     }
 
     @GetMapping
     public ResponseEntity<List<CategoryFood>> getAll(Pageable pageable) {
-        Page<CategoryFood> page = categoryFoodService.findAll(pageable);
+        Page<CategoryFood> page = categoryFoodServiceImplement.findAll(pageable);
         return ResponseEntity.ok()
             .body(page.getContent());
     }
 
     @GetMapping("{id}")
     public ResponseEntity<CategoryFood> getOne(@PathVariable Long id) {
-        Optional<CategoryFood> dish = categoryFoodService.findById(id);
+        Optional<CategoryFood> dish = categoryFoodServiceImplement.findById(id);
         if (dish.isPresent()) {
             return ResponseEntity.ok()
                 .body(dish.get());
@@ -58,12 +51,23 @@ public class CategoryFoodController {
             .build();
     }
 
+    @GetMapping(params = ("dishId"))
+    public ResponseEntity<List<CategoryFood>> getAllByDishId(@RequestParam("dishId") Long id) {
+
+        List<CategoryFood> categoryFoodList = categoryFoodServiceImplement.findByDishesId(id);
+        if (categoryFoodList.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(categoryFoodList);
+
+    }
 
     @PostMapping
     public ResponseEntity<CategoryFood> newCategory(@Valid @RequestBody CategoryFood categoryFood)
                throws URISyntaxException {
 
-        CategoryFood newCategory = categoryFoodService.save(categoryFood);
+        CategoryFood newCategory = categoryFoodServiceImplement.save(categoryFood);
 
         return  ResponseEntity
                .created(new URI("/api/category"))

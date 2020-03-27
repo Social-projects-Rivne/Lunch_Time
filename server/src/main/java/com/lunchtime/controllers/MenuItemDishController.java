@@ -9,22 +9,15 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import com.lunchtime.implementation.MenuItemDishServiceImplement;
+import com.lunchtime.models.Feedback;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.lunchtime.models.MenuItemDish;
 import com.lunchtime.service.MenuItemDishService;
@@ -33,22 +26,22 @@ import com.lunchtime.service.MenuItemDishService;
 @RequestMapping("/api/menuitemdish")
 public class MenuItemDishController {
 
-    private final MenuItemDishService menuItemDishService;
+    private final MenuItemDishServiceImplement menuItemDishServiceImplement;
 
-    public MenuItemDishController(MenuItemDishService menuItemDishService) {
-        this.menuItemDishService = menuItemDishService;
+    public MenuItemDishController(MenuItemDishServiceImplement menuItemDishServiceImplement) {
+        this.menuItemDishServiceImplement = menuItemDishServiceImplement;
     }
 
     @GetMapping
     public ResponseEntity<List<MenuItemDish>> getAll(Pageable pageable) {
-        Page<MenuItemDish> page = menuItemDishService.findAll(pageable);
+        Page<MenuItemDish> page = menuItemDishServiceImplement.findAll(pageable);
         return ResponseEntity.ok()
             .body(page.getContent());
     }
 
     @GetMapping("{id}")
     public ResponseEntity<MenuItemDish> getOne(@PathVariable Long id) {
-        Optional<MenuItemDish> menuItemDish = menuItemDishService.findById(id);
+        Optional<MenuItemDish> menuItemDish = menuItemDishServiceImplement.findById(id);
         if (menuItemDish.isPresent()) {
             return ResponseEntity.ok()
                 .body(menuItemDish.get());
@@ -57,12 +50,23 @@ public class MenuItemDishController {
             .build();
     }
 
+    @GetMapping(params = ("restaurantId"))
+    public ResponseEntity<List<MenuItemDish>> getAllByRestaurantId(@RequestParam("restaurantId") Long id) {
+
+        List<MenuItemDish> menuItemDishList = menuItemDishServiceImplement.findByRestaurantId(id);
+        if (menuItemDishList.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.ok(menuItemDishList);
+
+    }
 
     @PostMapping
     public ResponseEntity<MenuItemDish> newMenuItemDish(@Valid @RequestBody MenuItemDish menuItemDish)
                throws URISyntaxException {
 
-        MenuItemDish newMenuItemDish = menuItemDishService.save(menuItemDish);
+        MenuItemDish newMenuItemDish = menuItemDishServiceImplement.save(menuItemDish);
 
         return  ResponseEntity
                .created(new URI("/api/menuitemdish"))
