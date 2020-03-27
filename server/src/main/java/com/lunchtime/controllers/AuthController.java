@@ -55,14 +55,11 @@ public class AuthController {
             throw new Exception("Incorrect email or password", e);
         }
 
-        jwtPerson = personRepository.findFirstByEmailAndPassword(
-            jwtPersonDetails.getEmail(), jwtPersonDetails.getPassword());
-        if (jwtPerson != null) {
-            final UserDetails userDetails = userDetailsService
-                .loadUserByUsername(jwtPersonDetails.getEmail());
-        } else {
-            System.out.println("User not found");
-        }
+
+
+        final UserDetails userDetails = userDetailsService
+            .loadUserByUsername(jwtPersonDetails.getEmail());
+
 
         final String jwt = jwtTokenUtil.generateToken(userDetails);
         JwtAuthenticationToken token = new JwtAuthenticationToken(jwt);

@@ -2,10 +2,9 @@ package com.lunchtime.config;
 
 
 import com.lunchtime.security.JwtAuthenticationTokenFilter;
-import com.lunchtime.service.MyUserDetailsService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,49 +17,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
-//@EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableWebSecurity
-//@Configuration
+
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    //
-//
-//    @Autowired
-//    private JwtAuthenticationProvider authenticationProvider;
-//    @Autowired
-//    private JwtAuthenticationEntryPoint entryPoint;
-//
-//    @Bean
-//    public AuthenticationManager authenticationManager() {
-//        return new ProviderManager(Collections.singletonList(authenticationProvider));
-//    }
-//
-//    @Bean
-//    public JwtAuthenticationTokenFilter authenticationTokenFilter() {
-//        JwtAuthenticationTokenFilter filter = new JwtAuthenticationTokenFilter();
-//        filter.setAuthenticationManager(authenticationManager());
-//        filter.setAuthenticationSuccessHandler(new JwtSuccessHandler());
-//        return filter;
-//    }
-//
-//    @Override
-//    public void configure(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.authenticationProvider(authenticationProvider);
-//    }
-//
-//    @Override
-//    public void configure(HttpSecurity http) throws Exception {
-//
-//        http.csrf().disable()
-//            .authorizeRequests().antMatchers("**/api/**").authenticated()
-//            .and()
-//            .exceptionHandling().authenticationEntryPoint(entryPoint)
-//            .and()
-//            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//
-//        http.addFilterBefore(authenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class);
-//        http.headers().cacheControl();
-//
-//    }
+
+    //TODO You can use such stuff for debug or local env, but it is not suitable for production if you are not using token
+    // authentication. I can suggest to move this setting to application.properties. Link for help: https://stackoverflow.com/questions/44824382/how-to-disable-csrf-in-spring-using-application-properties
 
 
     @Autowired
@@ -87,9 +49,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable()
-            .authorizeRequests().antMatchers("/authenticate").permitAll().
-            anyRequest().authenticated().and().
-            exceptionHandling().and().sessionManagement()
+            .authorizeRequests().antMatchers("/authenticate").permitAll()
+            .anyRequest().authenticated().and()
+            .exceptionHandling().and().sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         httpSecurity.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
