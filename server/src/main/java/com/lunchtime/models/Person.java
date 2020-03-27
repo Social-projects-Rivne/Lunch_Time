@@ -59,7 +59,8 @@ public class Person {
     private Long modifyBy;
 
     public Boolean isDeleted() {
-        // TODO no need for this check use primitive value. I mean boolean, not Boolean (you will need to change data schema)
+        // TODO no need for this check use primitive value. I mean boolean,
+        //  not Boolean (you will need to change data schema)
         // You can use wrapper (Boolean) if you need 3 values: null (not set), true, false
         // Or use ternary: return isDeleted == null ? false : isDeleted
         if (isDeleted == null) {
