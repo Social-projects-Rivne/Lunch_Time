@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Map, layer, Layers } from 'react-openlayers';
 import { Container } from 'react-bootstrap';
 import { transform } from 'ol/proj';
-import '../style/openlayers-styles.css';
+import '../../styles/openlayers-map.css';
 
 class OpenlayersMap extends Component {
   render() {
+    const { latitude, longitude } = this.props;
     return (
       <Container className="map-container">
         <Map view={{
-          center: transform([26.249249, 50.621957],
+          center: transform([longitude, latitude],
             'EPSG:4326', 'EPSG:3857'),
           zoom: 12,
           maxZoom: 18,
@@ -24,5 +26,15 @@ class OpenlayersMap extends Component {
     );
   }
 }
+
+OpenlayersMap.defaultProps = {
+  latitude: 'search-container pt-4',
+  longitude: 'mb-3',
+};
+
+OpenlayersMap.propTypes = {
+  latitude: PropTypes.string,
+  longitude: PropTypes.string,
+};
 
 export default OpenlayersMap;
