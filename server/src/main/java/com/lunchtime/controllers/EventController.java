@@ -12,7 +12,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-//TODO do not use ? wildcard for generics. It would be better specifically mark the generic type.
+//TODO do not use ? wildcard for generics.
+// It would be better specifically mark the generic type.
 @RestController
 @RequestMapping("/api/events")
 public class EventController {
