@@ -2,7 +2,7 @@ package com.lunchtime.controllers;
 
 import java.util.List;
 import com.lunchtime.models.Feedback;
-import com.lunchtime.implementation.FeedbackServiceImplement;
+import com.lunchtime.service.implementation.FeedbackServiceImplement;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/feedback")
 public class FeedbackController {
 
+    // TODO use interface, not implementation
     //TODO rename variable name to normal CamelCase
     private final FeedbackServiceImplement feedbackServiceimplementation;
 
