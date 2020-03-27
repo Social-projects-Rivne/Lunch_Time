@@ -33,6 +33,7 @@ public class PersonController {
     }
 
     @GetMapping("{id}")
+    //TODO create some better name for method. see other comments
     public ResponseEntity<Person> getOne(@PathVariable Long id) {
         Optional<Person> person = personService.findById(id);
         if (person.isPresent()) {

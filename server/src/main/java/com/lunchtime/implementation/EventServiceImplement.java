@@ -1,4 +1,4 @@
-package com.lunchtime.implementation;
+package com.lunchtime.implementation; //TODO should be in service package
 
 import com.lunchtime.models.Event;
 import com.lunchtime.repository.EventRepository;
