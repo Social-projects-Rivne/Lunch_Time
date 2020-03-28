@@ -35,7 +35,6 @@
     "no-empty-pattern":"off",
     "react/prop-types":"off",
     "arrow-parens":"off",
-    "quotes":"off",
     "react/sort-comp":"off",
     "react/forbid-prop-types": 0,
     "import/no-unresolved": "warn",
