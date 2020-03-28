@@ -1,6 +1,7 @@
 package com.lunchtime.models;
 
 import lombok.Data;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -23,8 +24,9 @@ public class RestaurantTable {
     @Column(name = "capacity")
     private Integer capacity;
 
+    @ColumnDefault("false")
     @Column(name = "is_available")
-    private Boolean isAvailable;
+    private boolean isAvailable;
 
     @Column(name = "description")
     private String description;
@@ -34,8 +36,9 @@ public class RestaurantTable {
     @JoinColumn(name = "restaurant_id", referencedColumnName = "id")
     private Restaurant restaurant;
 
+    @ColumnDefault("false")
     @Column(name = "is_deleted")
-    private Boolean isDeleted;
+    private boolean isDeleted;
 
     @Column(name = "created_at")
     @CreationTimestamp
@@ -50,26 +53,4 @@ public class RestaurantTable {
 
     @Column(name = "modify_by")
     private Long modifyBy;
-
-    public Boolean isAvailable() {
-        if (isAvailable == null) {
-            return false;
-        }
-        return isAvailable;
-    }
-
-    public void setAvailable(Boolean available) {
-        isAvailable = available;
-    }
-
-    public Boolean isDeleted() {
-        if (isDeleted == null) {
-            return false;
-        }
-        return isDeleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        isDeleted = deleted;
-    }
 }
