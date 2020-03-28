@@ -8,36 +8,47 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.Instant;
+import java.util.Date;
 
 @Entity
 @Data
-public class RestaurantTable {
+@Table(name = "ordering")
+public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @NotNull
-    @Column(name = "number")
-    private Integer number;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "person_id", referencedColumnName = "id")
+    private Person person;
+
+    @Column(name = "waiter_id")
+    private Long waiter;
 
     @NotNull
-    @Column(name = "capacity")
-    private Integer capacity;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "start_time")
+    private Date startTime;
 
-    @ColumnDefault("false")
-    @Column(name = "is_available")
-    private boolean isAvailable;
+    @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "finish_time")
+    private Date finishTime;
+
+    @Column(name = "status_id")
+    private Long status;
 
     @Column(name = "description")
     private String description;
 
     @NotNull
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "restaurant_id", referencedColumnName = "id")
-    private Restaurant restaurant;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "table_id", referencedColumnName = "id")
+    private RestaurantTable table;
 
-    @OneToOne(mappedBy = "table")
-    private Order order;
+    @Column(name = "dish_details_id")
+    private Long dishDetails;
 
     @ColumnDefault("false")
     @Column(name = "is_deleted")

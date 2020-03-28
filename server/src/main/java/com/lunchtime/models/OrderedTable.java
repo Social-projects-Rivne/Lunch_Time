@@ -8,36 +8,34 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.Instant;
+import java.util.Date;
 
 @Entity
 @Data
-public class RestaurantTable {
+public class OrderedTable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @NotNull
-    @Column(name = "number")
-    private Integer number;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "status_id", referencedColumnName = "id")
+    private OrderedTableStatus status;
 
     @NotNull
-    @Column(name = "capacity")
-    private Integer capacity;
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "start_time")
+    private Date startTime;
 
-    @ColumnDefault("false")
-    @Column(name = "is_available")
-    private boolean isAvailable;
-
-    @Column(name = "description")
-    private String description;
+    @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "finish_time")
+    private Date finishTime;
 
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "restaurant_id", referencedColumnName = "id")
-    private Restaurant restaurant;
-
-    @OneToOne(mappedBy = "table")
-    private Order order;
+    @JoinColumn(name = "table_id", referencedColumnName = "id")
+    private RestaurantTable table;
 
     @ColumnDefault("false")
     @Column(name = "is_deleted")

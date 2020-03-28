@@ -6,38 +6,17 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 import java.time.Instant;
 
 @Entity
 @Data
-public class RestaurantTable {
+public class OrderedTableStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @NotNull
-    @Column(name = "number")
-    private Integer number;
-
-    @NotNull
-    @Column(name = "capacity")
-    private Integer capacity;
-
-    @ColumnDefault("false")
-    @Column(name = "is_available")
-    private boolean isAvailable;
-
-    @Column(name = "description")
-    private String description;
-
-    @NotNull
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "restaurant_id", referencedColumnName = "id")
-    private Restaurant restaurant;
-
-    @OneToOne(mappedBy = "table")
-    private Order order;
+    @Column(name = "name")
+    private String name;
 
     @ColumnDefault("false")
     @Column(name = "is_deleted")
