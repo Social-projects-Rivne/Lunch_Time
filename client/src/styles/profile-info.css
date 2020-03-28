@@ -5,3 +5,11 @@
 .hr-border {
   border: 1px solid #E1E1E1;
 }
+
+.btn-inf{
+  width: 25%;
+}
+
+@media (max-width: 720px) {
+  .btn-inf {width: 30%;}
+}

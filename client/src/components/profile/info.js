@@ -36,9 +36,9 @@ class Info extends Component {
           </Row>
 
           <hr className="hr-border" />
-          <Button className="m-button ml-5">Add restaurant</Button>
+          <Button className="btn-inf m-button ml-5">Add restaurant</Button>
           <hr className="hr-border" />
-          <Button className="ml-5" variant="danger">Remove account</Button>
+          <Button className="btn-inf ml-5" variant="danger">Remove account</Button>
         </Container>
       );
     }
