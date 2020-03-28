@@ -29,7 +29,7 @@ public class RestaurantTableServiceImplement implements RestaurantTableService {
         List<RestaurantTable> restaurantTables = restaurantTableRepository
             .findByRestaurantId(restaurantTable.getRestaurant().getId());
         for (RestaurantTable table: restaurantTables) {
-            if (table.getNumber() == restaurantTable.getNumber()) {
+            if (table.getNumber().equals(restaurantTable.getNumber())) {
                 return null;
             }
         }
