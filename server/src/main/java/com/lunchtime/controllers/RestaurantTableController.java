@@ -54,6 +54,15 @@ public class RestaurantTableController {
             .body(page.getContent());
     }
 
+    @GetMapping(params = ("restaurantId"))
+    public ResponseEntity<List<RestaurantTable>> getRestaurantTablesByRestaurantId(
+        Pageable pageable, @RequestParam("restaurantId") Long id
+    ) {
+        Page<RestaurantTable> page = restaurantTableService.findAllByRestaurantId(pageable, id);
+        return ResponseEntity.ok()
+            .body(page.getContent());
+    }
+
     @GetMapping("{id}")
     public ResponseEntity<RestaurantTable> getRestaurantTableById(@PathVariable Long id) {
         Optional<RestaurantTable> restaurantTable = restaurantTableService.findById(id);

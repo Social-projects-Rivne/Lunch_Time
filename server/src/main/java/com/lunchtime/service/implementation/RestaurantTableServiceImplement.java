@@ -51,7 +51,7 @@ public class RestaurantTableServiceImplement implements RestaurantTableService {
         return restaurantTableRepository.findById(id);
     }
 
-    public List<RestaurantTable> findByRestaurant_Id(Long id) {
-        return restaurantTableRepository.findByRestaurantId(id);
+    public Page<RestaurantTable> findAllByRestaurantId(Pageable pageable, Long id) {
+        return restaurantTableRepository.findByRestaurantId(pageable, id);
     }
 }
