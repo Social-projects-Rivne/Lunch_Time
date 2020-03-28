@@ -63,7 +63,6 @@
     "eslint-plugin-react-hooks": "1.7.0",
     "husky": "4.2.3",
     "lint-staged": "10.0.8",
-    "react-native-loading-spinner-overlay": "^1.1.0",
     "react-test-renderer": "16.13.0"
   }
 }
