@@ -26,7 +26,8 @@ public class RestaurantTableServiceImplement implements RestaurantTableService {
     }
 
     public RestaurantTable save(RestaurantTable restaurantTable) {
-        List<RestaurantTable> restaurantTables = restaurantTableRepository.findByRestaurantId(restaurantTable.getRestaurant().getId());
+        List<RestaurantTable> restaurantTables = restaurantTableRepository
+            .findByRestaurantId(restaurantTable.getRestaurant().getId());
         for (RestaurantTable table: restaurantTables) {
             if (table.getNumber() == restaurantTable.getNumber()) {
                 return null;
