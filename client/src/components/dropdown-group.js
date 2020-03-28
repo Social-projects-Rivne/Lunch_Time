@@ -7,6 +7,23 @@ import MyDropdown from './my-dropdown';
 import CategoryDropdown from './category-dropdown';
 
 class DropdownGroup extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      categories: [], // we have empty array, that pass to CategoryDropdown
+    };
+    // eslint-disable-next-line no-console
+    console.log(this.state.categories);
+    this.onAddCategory = this.onAddCategory.bind(this);
+  }
+
+  // onAddCategory(newCategory) {
+  //   this.setState({ categories: [...this.state.categories, newCategory] });
+  //   // eslint-disable-next-line no-console
+  //   console.log(this.state.categories);
+  // }
+
+
   onSelectCategory(path) {
     this.props.onChangeEvents(path);
   }
@@ -16,13 +33,18 @@ class DropdownGroup extends React.Component {
       'August', 'September', 'October', 'November', 'December'];
     const eventsType = ['Party', 'Karaoke', 'Concert', 'For children',
       'Master class', 'Tasting', 'Sports broadcasting'];
+    const { categories } = this.state;
     return (
       <ButtonToolbar className="justify-content-center pb-4 pt-4">
 
+        {/* eslint-disable-next-line no-console */}
+        { console.log(categories) }
         <CategoryDropdown
           items={eventsType}
           homePath="events"
           path="events/categories/"
+          categories={categories} // here we pass our empty array (or updated later)
+          addCategories={this.onAddCategory} // this is what helps to update our array
           onApply={(path) => this.onSelectCategory(path)}
         />
 
@@ -40,7 +62,7 @@ class DropdownGroup extends React.Component {
         />
 
         <Button
-          onClick={() => window.location.reload()}
+          onClick={() => this.setState({ categories: [] })} // here we can reset the value of our array
           className="m-button ml-5"
         >
           Reset

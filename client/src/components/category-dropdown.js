@@ -12,8 +12,10 @@ class CategoryDropdown extends Component {
     super(props);
     this.state = {
       visible: false,
-      selected: [],
+      selected: this.props.categories, // here we get values from props (now empty, then updated values)
     };
+    // eslint-disable-next-line no-console
+    console.log(this.state.selected);
     this.onVisibleChange = this.onVisibleChange.bind(this);
   }
 
@@ -27,10 +29,19 @@ class CategoryDropdown extends Component {
     this.setState({
       selected: selectedKeys,
     });
+    // eslint-disable-next-line no-console
+    console.log(this.state.selected);
+  }
+
+  addCategories() {
+    this.props.addCategories(this.state.selected); // here props are updated
   }
 
   confirm() {
     const { selected } = this.state;
+    // eslint-disable-next-line no-console
+    console.log(selected);
+    this.addCategories(this.state.selected);
     const { homePath, path } = this.props;
     if (selected.length > 0) {
       this.props.onApply(path + selected);
@@ -64,7 +75,9 @@ class CategoryDropdown extends Component {
               cursor: 'pointer',
               pointerEvents: 'visible',
             }}
-            onClick={() => this.confirm()}
+            onClick={() => {
+              this.confirm();
+            }}
           >
             Select
           </Container>
@@ -90,6 +103,8 @@ CategoryDropdown.propTypes = {
   items: PropTypes.any.isRequired,
   path: PropTypes.string.isRequired,
   homePath: PropTypes.string.isRequired,
+  categories: PropTypes.array.isRequired,
+  addCategories: PropTypes.any.isRequired,
 };
 
 export default CategoryDropdown;
