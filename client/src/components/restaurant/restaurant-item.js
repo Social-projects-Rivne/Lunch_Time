@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { Tab, Tabs, Container } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import Api from '../services/api';
+import Api from '../../services/api';
 import About from './restaurant-about';
-import Menu from './menu-views/menu-view';
-import Feedback from './feedbacks/feedback';
+import Menu from '../menu-views/menu-view';
 import '../style/restaurant-item.css';
 import '../style/menu.css';
+import '../../styles/restaurant-item.css';
+import Feedback from '../feedbacks/feedback';
 
 
 class Restaurant extends Component {

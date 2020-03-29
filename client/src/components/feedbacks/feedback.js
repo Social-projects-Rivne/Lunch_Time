@@ -3,7 +3,7 @@ import { Container } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import FeedbackSend from './send';
 import FeedbackComment from './comment';
-import '../../style/feedback.css';
+import '../../styles/feedback.css';
 import Api from '../../services/api';
 
 
@@ -72,7 +72,7 @@ class Feedback extends Component {
             onClick={this.onClickShowMoreComment.bind(this)}
             onKeyPress={this.onKey.bind(this)}
           >
-            show more comment
+            show more comments
           </span>
         </div>
 

@@ -27,6 +27,7 @@ public class RestaurantServiceImplement implements RestaurantService {
                 restaurant.setPerson(person);
                 return restaurantRepository.save(restaurant);
             })
+            // TODO simple ... .orElseGet(null)
             .orElseGet(() -> {
                 return null;
             });
@@ -54,6 +55,7 @@ public class RestaurantServiceImplement implements RestaurantService {
                 restaurant.setLatitude(newRestaurant.getLatitude());
                 return save(restaurant);
             })
+            // TODO simple ... .orElseGet(null)
             .orElseGet(() -> {
                 return null;
             });
@@ -68,5 +70,6 @@ public class RestaurantServiceImplement implements RestaurantService {
             .orElseGet(() -> {
                 return null;
             });
+        // TODO simple ... .orElseGet(null)
     }
 }

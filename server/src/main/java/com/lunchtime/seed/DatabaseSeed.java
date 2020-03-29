@@ -6,12 +6,13 @@ import com.lunchtime.repository.*;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
-
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.Date;
 import java.time.Instant;
 import java.util.List;
+
+//TODO remove redundant empty lines in class
 
 @Component
 public class DatabaseSeed {

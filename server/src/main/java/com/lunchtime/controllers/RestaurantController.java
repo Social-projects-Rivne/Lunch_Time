@@ -70,8 +70,10 @@ public class RestaurantController {
     }
 
     @GetMapping("{id}")
+    //TODO incorrect method name getRestaurant would be better or getRestaurantById as you wish
     public ResponseEntity<Restaurant> getOne(@PathVariable Long id) {
         Optional<Restaurant> restaurant = restaurantService.findById(id);
+        // TODO can be replaced with lambda
         if (restaurant.isPresent()) {
             return ResponseEntity.ok()
                 .body(restaurant.get());

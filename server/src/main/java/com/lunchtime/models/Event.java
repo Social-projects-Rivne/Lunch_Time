@@ -25,6 +25,8 @@ public class Event {
     private Long id;
 
     @NotNull
+    //TODO EAGER is not a good option, because if you will have a huge amount of restaurants your app can crash.
+    //Use LAZY and modify logic
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "restaurant",referencedColumnName = "id")
     private Restaurant restaurant;
@@ -54,7 +56,7 @@ public class Event {
 
     @NotNull
     @Column(name = "is_active")
-    private Boolean isActive;
+    private Boolean isActive; //TODO primitive type
 
     public void setDate(String date) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
