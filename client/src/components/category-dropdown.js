@@ -33,15 +33,10 @@ class CategoryDropdown extends Component {
     console.log(this.state.selected);
   }
 
-  addCategories() {
-    this.props.addCategories(this.state.selected); // here props are updated
-  }
-
   confirm() {
     const { selected } = this.state;
     // eslint-disable-next-line no-console
     console.log(selected);
-    this.addCategories(this.state.selected);
     const { homePath, path } = this.props;
     if (selected.length > 0) {
       this.props.onApply(path + selected);
@@ -104,7 +99,6 @@ CategoryDropdown.propTypes = {
   path: PropTypes.string.isRequired,
   homePath: PropTypes.string.isRequired,
   categories: PropTypes.array.isRequired,
-  addCategories: PropTypes.any.isRequired,
 };
 
 export default CategoryDropdown;

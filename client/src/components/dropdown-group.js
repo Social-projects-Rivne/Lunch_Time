@@ -14,15 +14,17 @@ class DropdownGroup extends React.Component {
     };
     // eslint-disable-next-line no-console
     console.log(this.state.categories);
-    this.onAddCategory = this.onAddCategory.bind(this);
   }
 
-  // onAddCategory(newCategory) {
-  //   this.setState({ categories: [...this.state.categories, newCategory] });
-  //   // eslint-disable-next-line no-console
-  //   console.log(this.state.categories);
-  // }
-
+  // eslint-disable-next-line no-unused-vars
+  shouldComponentUpdate(nextProps, nextState, nextContent) {
+    if (typeof nextProps.categories !== 'undefined' && typeof this.props.categories !== 'undefined') {
+      if (nextProps.categories.length !== this.props.categories.length) {
+        this.setState({ categories: nextProps.categories });
+      }
+    }
+    return this.state.value !== nextState.value;
+  }
 
   onSelectCategory(path) {
     this.props.onChangeEvents(path);
@@ -44,7 +46,6 @@ class DropdownGroup extends React.Component {
           homePath="events"
           path="events/categories/"
           categories={categories} // here we pass our empty array (or updated later)
-          addCategories={this.onAddCategory} // this is what helps to update our array
           onApply={(path) => this.onSelectCategory(path)}
         />
 
@@ -74,6 +75,7 @@ class DropdownGroup extends React.Component {
 
 DropdownGroup.propTypes = {
   onChangeEvents: PropTypes.any.isRequired,
+  categories: PropTypes.array.isRequired,
 };
 
 export default DropdownGroup;
