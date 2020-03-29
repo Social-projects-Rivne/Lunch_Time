@@ -5,6 +5,7 @@ import {
 import Avatar from 'react-avatar';
 import PropTypes from 'prop-types';
 import '../../styles/profile-info.css';
+import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 
 class Info extends Component {
   render() {
@@ -36,9 +37,18 @@ class Info extends Component {
           </Row>
 
           <hr className="hr-border" />
-          <Button className="btn-inf m-button ml-5">Add restaurant</Button>
+          <Button className="btn-inf m-button ml-3">Add restaurant</Button>
           <hr className="hr-border" />
-          <Button className="btn-inf ml-5" variant="danger">Remove account</Button>
+          <ButtonToolbar>
+            <Button className="btn-inf m-button ml-3" href="edit">Update profile</Button>
+            <Button
+              className="btn-inf m-button ml-3"
+              href="password"
+            >
+              Change password
+            </Button>
+            <Button className="btn-inf ml-3" variant="danger">Remove account</Button>
+          </ButtonToolbar>
         </Container>
       );
     }
