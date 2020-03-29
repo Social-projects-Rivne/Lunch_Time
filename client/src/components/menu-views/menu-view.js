@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import {
-  Container, Row, Spinner, ButtonToolbar,
-} from 'react-bootstrap';
+import { Container, Row } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 import Header from './menu-header';
-import Dish from './dish';
+import MenuItemDish from './menu-item-dish';
 import Api from '../../services/api';
 
 class Menu extends Component {
@@ -15,14 +14,16 @@ class Menu extends Component {
     };
   }
 
-  componentDidMount() {
-    this.getAll();
+  async componentDidMount() {
+    this.getAllMenuItemDishes();
   }
 
-  getAll() {
-    Api.getAll('menuitemdish')
+  getAllMenuItemDishes() {
+    const { restaurant } = this.props.restaurant;
+    Api.getAllMenuItemDishes('menuitemdish?restaurantId=', restaurant.id)
       .then((response) => {
         if (response.error) {
+        // eslint-disable-next-line no-console
           console.error(response);
           return;
         }
@@ -34,34 +35,25 @@ class Menu extends Component {
   }
 
   render() {
+    const { restaurant } = this.props.restaurant;
     const { menuitemdishes, isFetching } = this.state;
     return (
 
       <Container fluid className="menu">
-        <Header />
+        <Header restaurant={restaurant} />
+        <MenuItemDish menuitemdish={menuitemdishes} isFetching={isFetching} />
         <Container>
-          {isFetching ? (
-            <Row className="rows">
-              {menuitemdishes.map((menuitemdish) => (
-                <Dish key={menuitemdish.id} menuitemdish={menuitemdish} isFetching={isFetching} />
-              ))}
-            </Row>
-          ) : (
-            <Container className="spinner-container">
-              <ButtonToolbar className="justify-content-center">
-                <Row>
-                  Pizza salami.
-                  Ingredients: pizza sousse, salami, sold, pfeffer
-                </Row>
-                <Spinner animation="border" variant="warning" />
-              </ButtonToolbar>
-            </Container>
-          )}
+          <Row>
+            Pizza salami.
+            Ingredients: pizza sousse, salami, sold, pfeffer
+          </Row>
         </Container>
       </Container>
 
     );
   }
 }
-
+Menu.propTypes = {
+  restaurant: PropTypes.any.isRequired,
+};
 export default Menu;

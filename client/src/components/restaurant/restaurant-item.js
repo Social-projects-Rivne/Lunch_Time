@@ -4,8 +4,7 @@ import PropTypes from 'prop-types';
 import Api from '../../services/api';
 import About from './restaurant-about';
 import Menu from '../menu-views/menu-view';
-import '../style/restaurant-item.css';
-import '../style/menu.css';
+import '../../styles/menu.css';
 import '../../styles/restaurant-item.css';
 import Feedback from '../feedbacks/feedback';
 
@@ -50,7 +49,7 @@ class Restaurant extends Component {
             <About restaurant={restaurant} isFetching={isFetching} />
           </Tab>
           <Tab eventKey="menu" title="Menu">
-            <Menu id={id} />
+            <Menu restaurants={restaurant} />
           </Tab>
           <Tab eventKey="events" title="Events">
             <h3>Events</h3>

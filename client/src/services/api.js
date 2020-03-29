@@ -38,6 +38,34 @@ class Api {
     return data;
   }
 
+  async getAllMenuItemDishes(endpoint, id) {
+    let response;
+    let data;
+
+    try {
+      response = await axios.get(`${this.apiUrl}${endpoint}${id}`);
+      data = await response.data;
+    } catch (error) {
+      return null;
+    }
+
+    return data;
+  }
+
+  async getAllCategoryFood(endpoint, id) {
+    let response;
+    let data;
+
+    try {
+      response = await axios.get(`${this.apiUrl}${endpoint}${id}`);
+      data = await response.data;
+    } catch (error) {
+      return null;
+    }
+
+    return data;
+  }
+
   getApiEndpoint(endpoint) {
     return this.apiUrl.endsWith('/') ? `${this.apiUrl}${endpoint}` : `${this.apiUrl}/${endpoint}`;
   }

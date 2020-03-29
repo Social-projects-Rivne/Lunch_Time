@@ -8,14 +8,14 @@ class Dish extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      categoryfood: [],
+      categoryfood: {},
     };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const { dish, isFetching } = this.props;
     if (isFetching) {
-      this.getCategoryFood(dish.categoryfoodId);
+      this.getOne(dish.categoryfoodId);
     }
   }
 
@@ -34,8 +34,8 @@ class Dish extends Component {
   }
 
   render() {
-    const { dish } = this.props;
-    const { categoryfood } = this.state;
+    const { dish } = this.props.dish;
+    const { categoryfood } = this.state.categoryfood;
     return (
       <Container>
         <Container className="category-food">
