@@ -9,8 +9,7 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
-import com.lunchtime.implementation.CategoryFoodServiceImplement;
-import com.lunchtime.models.MenuItemDish;
+import com.lunchtime.service.impl.CategoryFoodServiceImplement;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import com.lunchtime.models.CategoryFood;
-import com.lunchtime.service.CategoryFoodService;
 
 
 @RestController
