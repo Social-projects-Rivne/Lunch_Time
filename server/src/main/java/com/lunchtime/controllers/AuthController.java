@@ -4,7 +4,7 @@ package com.lunchtime.controllers;
 import com.lunchtime.models.JwtAuthenticationToken;
 import com.lunchtime.models.JwtPersonDetails;
 import com.lunchtime.security.JwtUtil;
-import com.lunchtime.service.MyUserDetailsService;
+import com.lunchtime.implementation.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
