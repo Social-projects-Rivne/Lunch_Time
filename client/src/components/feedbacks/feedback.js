@@ -55,7 +55,7 @@ class Feedback extends Component {
     return (
 
       <Container className="feedback">
-        <FeedbackSend />
+        <FeedbackSend id={this.props.id} />
         {
           stateFeed.pieceFeedback.map((item) => {
             return (
