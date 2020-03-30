@@ -88,7 +88,12 @@ class Profile extends Component {
                     return <Info isFetching={isFetching} user={user} />;
                   }}
                 />
-                <Route path="/profile/edit" component={InfoChange} />
+                <Route
+                  path="/profile/edit"
+                  component={() => {
+                    return <InfoChange user={user} />;
+                  }}
+                />
                 <Route path="/profile/password" component={PassChange} />
                 <Route path="/profile/orders" component={Orders} />
                 <Route path="/profile/history" component={History} />
