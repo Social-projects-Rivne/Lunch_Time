@@ -3,7 +3,7 @@ package com.lunchtime.controllers;
 import java.util.List;
 
 import com.lunchtime.models.Feedback;
-import com.lunchtime.implementation.FeedbackServiceImplement;
+import com.lunchtime.service.impl.FeedbackServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.*;
 public class FeedbackController {
 
     //TODO rename variable name to normal CamelCase
-    private final FeedbackServiceImplement feedbackServiceimplementation;
+    private final FeedbackServiceImpl feedbackServiceimplementation;
 
-    public FeedbackController(FeedbackServiceImplement feedbackServiceimplementation) {
+    public FeedbackController(FeedbackServiceImpl feedbackServiceimplementation) {
         this.feedbackServiceimplementation = feedbackServiceimplementation;
     }
 

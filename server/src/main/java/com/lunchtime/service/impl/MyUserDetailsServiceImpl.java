@@ -1,4 +1,4 @@
-package com.lunchtime.implementation;
+package com.lunchtime.service.impl;
 
 import com.lunchtime.models.Person;
 import com.lunchtime.repository.PersonRepository;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 
 @Service
-public class MyUserDetailsService implements UserService {
+public class MyUserDetailsServiceImpl implements UserService {
 
     @Autowired
     private PersonRepository personRepository;
