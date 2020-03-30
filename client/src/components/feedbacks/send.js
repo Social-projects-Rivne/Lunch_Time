@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import '../../styles/feedback-send.css';
+import PropTypes from 'prop-types';
+import Api from '../../services/api';
 
 class FeedbackSend extends Component {
   constructor(props) {
@@ -13,6 +15,17 @@ class FeedbackSend extends Component {
 
   onSubmit() {
     console.log(this.state.val);
+    const body = [
+      { restaurant_id: this.props.id },
+      { feedback: this.state.val },
+    ];
+    Api.post('feedback', { body })
+      .then((response) => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     this.setState({ val: '' });
   }
 
@@ -39,5 +52,9 @@ class FeedbackSend extends Component {
     );
   }
 }
+
+FeedbackSend.propTypes = {
+  id: PropTypes.string.isRequired,
+};
 
 export default FeedbackSend;
