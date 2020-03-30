@@ -15,10 +15,10 @@ class FeedbackSend extends Component {
 
   onSubmit() {
     console.log(this.state.val);
-    const body = [
-      { restaurant_id: this.props.id },
-      { feedback: this.state.val },
-    ];
+    const body = {
+      restaurant_id: this.props.id,
+      feedback: this.state.val,
+    };
     Api.post('feedback', { body })
       .then((response) => {
         console.log(response);
