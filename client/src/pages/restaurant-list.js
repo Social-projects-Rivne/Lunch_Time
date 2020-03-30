@@ -3,7 +3,7 @@ import { Container } from 'react-bootstrap';
 import Api from '../services/api';
 import RestaurantCardResults from '../components/restaurant/restaurant-card-results';
 
-export default class ListRestaurant extends Component {
+class ListRestaurant extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -44,3 +44,5 @@ export default class ListRestaurant extends Component {
     );
   }
 }
+
+export default ListRestaurant;

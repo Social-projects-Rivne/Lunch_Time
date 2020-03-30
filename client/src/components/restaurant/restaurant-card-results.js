@@ -5,7 +5,7 @@ import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import Spinner from 'react-bootstrap/Spinner';
 import RestaurantCardView from './restaurant-card-view';
 
-export default class RestaurantCardResults extends Component {
+class RestaurantCardResults extends Component {
   initRestaurantsCards() {
     const { cardDeckClassName, restaurants } = this.props;
     return (
@@ -59,3 +59,5 @@ RestaurantCardResults.propTypes = {
   spinnerAnimation: PropTypes.string,
   spinnerVariant: PropTypes.string,
 };
+
+export default RestaurantCardResults;

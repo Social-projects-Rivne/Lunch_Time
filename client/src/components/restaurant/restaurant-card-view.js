@@ -3,7 +3,7 @@ import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-export default class RestaurantCardView extends Component {
+class RestaurantCardView extends Component {
   render() {
     const { restaurant } = this.props;
     const link = `/restaurants/${restaurant.id}`;
@@ -24,3 +24,5 @@ export default class RestaurantCardView extends Component {
 RestaurantCardView.propTypes = {
   restaurant: PropTypes.object.isRequired,
 };
+
+export default RestaurantCardView;
