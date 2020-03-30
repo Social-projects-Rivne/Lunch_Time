@@ -31,10 +31,6 @@
     "object-shorthand": "off",
     "react/destructuring-assignment": "off",
     "max-len": ["error", { "code": 120 }],
-    "no-empty-pattern":"off",
-    "react/prop-types":"off",
-    "arrow-parens":"off",
-    "react/sort-comp":"off",
     "react/forbid-prop-types": 0,
     "import/no-unresolved": "warn",
     "linebreak-style": "off"
