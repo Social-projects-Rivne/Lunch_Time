@@ -14,6 +14,8 @@ import Sharing from './sharing';
 import Subscriptions from './subscriptions';
 import Api from '../../services/api';
 import '../../styles/profile.css';
+import InfoChange from './info-change';
+import PassChange from './pass-change';
 
 class Profile extends Component {
   constructor(props) {
@@ -86,6 +88,8 @@ class Profile extends Component {
                     return <Info isFetching={isFetching} user={user} />;
                   }}
                 />
+                <Route path="/profile/edit" component={InfoChange} />
+                <Route path="/profile/password" component={PassChange} />
                 <Route path="/profile/orders" component={Orders} />
                 <Route path="/profile/history" component={History} />
                 <Route path="/profile/subscriptions" component={Subscriptions} />
