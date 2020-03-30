@@ -38,6 +38,16 @@ class Api {
     return data;
   }
 
+  post(endpoint, body) {
+    return axios.post(endpoint, { body })
+      .then((response) => {
+        return { error: null, data: response.data };
+      })
+      .catch((error) => {
+        return { error: error };
+      });
+  }
+
   getApiEndpoint(endpoint) {
     return this.apiUrl.endsWith('/') ? `${this.apiUrl}${endpoint}` : `${this.apiUrl}/${endpoint}`;
   }
