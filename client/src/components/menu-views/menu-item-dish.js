@@ -15,11 +15,11 @@ class MenuItemDish extends Component {
               <Image variant="top" src={menuitemdishs.imageUrl} alt="Dish Image" />
               <Dish dish={menuitemdishs} isFetching={isFetching} />
               <span>
-                Portion price:
+                Portion size:
                 {menuitemdishs.portionSize}
               </span>
               <span>
-                price:
+                Portion price:
                 {menuitemdishs.portionPrice}
               </span>
             </Row>

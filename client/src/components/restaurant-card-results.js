@@ -32,6 +32,7 @@ export default class RestaurantCardResults extends Component {
 
   render() {
     const { restaurantContainerClassName, isFetching } = this.props;
+
     return (
       <Container className={restaurantContainerClassName}>
         {isFetching ? this.initRestaurantsCards() : this.initButtonToolbar()}

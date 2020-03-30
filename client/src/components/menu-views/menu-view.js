@@ -19,7 +19,7 @@ class Menu extends Component {
   }
 
   getAllMenuItemDishes() {
-    const { restaurant } = this.props.restaurant;
+    const { restaurant } = this.props;
     Api.getAllMenuItemDishes('menuitemdish?restaurantId=', restaurant.id)
       .then((response) => {
         if (response.error) {
@@ -35,7 +35,7 @@ class Menu extends Component {
   }
 
   render() {
-    const { restaurant } = this.props.restaurant;
+    const { restaurant } = this.props;
     const { menuitemdishes, isFetching } = this.state;
     return (
 

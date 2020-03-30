@@ -35,7 +35,7 @@ class Dish extends Component {
 
   render() {
     const { dish } = this.props.dish;
-    const { categoryfood } = this.state.categoryfood;
+    const { categoryfood } = this.state;
     return (
       <Container>
         <Container className="category-food">
