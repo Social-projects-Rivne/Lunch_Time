@@ -6,7 +6,6 @@ import FeedbackComment from './comment';
 import '../../styles/feedback.css';
 import Api from '../../services/api';
 
-
 class Feedback extends Component {
   constructor(props) {
     super(props);
@@ -51,9 +50,7 @@ class Feedback extends Component {
 
   render() {
     const stateFeed = this.state;
-
     return (
-
       <Container className="feedback">
         <FeedbackSend id={this.props.id} />
         {
@@ -63,7 +60,6 @@ class Feedback extends Component {
             );
           })
         }
-
         <div className="showComments">
           <span
             className="commSpan"
@@ -75,10 +71,7 @@ class Feedback extends Component {
             show more comments
           </span>
         </div>
-
       </Container>
-
-
     );
   }
 }
@@ -86,6 +79,5 @@ class Feedback extends Component {
 Feedback.propTypes = {
   id: PropTypes.string.isRequired,
 };
-
 
 export default Feedback;
