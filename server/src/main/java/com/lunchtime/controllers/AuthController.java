@@ -1,6 +1,5 @@
 package com.lunchtime.controllers;
 
-
 import com.lunchtime.models.JwtAuthenticationToken;
 import com.lunchtime.models.JwtPersonDetails;
 import com.lunchtime.security.JwtUtil;
@@ -13,9 +12,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-
 @RestController
-
 @RequestMapping
 public class AuthController {
 
@@ -28,7 +25,6 @@ public class AuthController {
     @Autowired
     private MyUserDetailsService userDetailsService;
 
-
     @PostMapping("/authenticate")
     public ResponseEntity<?> createAuthenticationToken(
         @RequestBody JwtPersonDetails jwtPersonDetails) throws Exception {
@@ -40,8 +36,6 @@ public class AuthController {
         } catch (BadCredentialsException e) {
             throw new Exception("Incorrect email or password", e);
         }
-
-
         final UserDetails userDetails = userDetailsService
             .loadUserByUsername(jwtPersonDetails.getEmail());
         final String jwt = jwtTokenUtil.generateToken(userDetails);
