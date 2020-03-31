@@ -6,7 +6,6 @@ import Api from '../../services/api';
 import About from './restaurant-about';
 import '../../styles/restaurant-item.css';
 
-
 class Restaurant extends Component {
   constructor(props) {
     super(props);
