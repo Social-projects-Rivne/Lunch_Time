@@ -38,6 +38,19 @@ class Api {
     return data;
   }
 
+  put(endpoint, body) {
+    const url = this.getApiEndpoint(endpoint);
+    return axios({
+      method: 'PUT',
+      url,
+      data: JSON.stringify(body),
+      headers: { 'Content-Type': 'application/json; charset=utf-8' },
+    })
+      .catch((error) => {
+        return { error: error };
+      });
+  }
+
   getApiEndpoint(endpoint) {
     return this.apiUrl.endsWith('/') ? `${this.apiUrl}${endpoint}` : `${this.apiUrl}/${endpoint}`;
   }

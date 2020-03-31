@@ -7,6 +7,7 @@ import Avatar from 'react-avatar';
 import PropTypes from 'prop-types';
 import AlertBase from '../shared/alert-base';
 import PassChange from './pass-change';
+import Api from '../../services/api';
 
 class InfoChange extends React.Component {
   constructor(props) {
@@ -14,8 +15,11 @@ class InfoChange extends React.Component {
     this.state = {
       isShowAlert: false,
       isSuccessUpdate: true,
+      user: this.props.user,
+      updatedUser: this.props.user,
     };
     this.fileInputRef = React.createRef();
+    this.handleChange = this.handleChange.bind(this);
   }
 
   onAvatarClick() {
@@ -26,31 +30,62 @@ class InfoChange extends React.Component {
     console.log('Selected');
   }
 
+  handleChange(event) {
+    const { name, value } = event.target;
+    this.setState((prevState) => ({
+      updatedUser: {
+        ...prevState.updatedUser,
+        [name]: value,
+      },
+    }));
+  }
+
   updateProfile() {
-    this.setState({
-      isShowAlert: true,
-    });
+    const { updatedUser, user } = this.state;
+    if (updatedUser === user) {
+      this.setState({
+        isShowAlert: true,
+        isSuccessUpdate: false,
+      });
+    } else {
+      this.sendData(updatedUser);
+    }
+  }
+
+  sendData(user) {
+    Api.put('persons', user)
+      .then((response) => {
+        if (response.error) {
+          this.setState({
+            isShowAlert: true,
+            isSuccessUpdate: false,
+          });
+          return;
+        }
+        this.setState({
+          isShowAlert: true,
+          isSuccessUpdate: true,
+        });
+      });
+  }
+
+  initAlert(type, title) {
+    return (
+      <AlertBase
+        type={type}
+        title={title}
+      />
+    );
   }
 
   render() {
-    const { user } = this.props;
-    const { isShowAlert, isSuccessUpdate } = this.state;
+    const { isShowAlert, isSuccessUpdate, user } = this.state;
     let alert;
 
     if (isSuccessUpdate) {
-      alert = (
-        <AlertBase
-          type="success"
-          title="Your profile was successfully updated"
-        />
-      );
+      alert = this.initAlert('success', 'Your profile was successfully updated');
     } else {
-      alert = (
-        <AlertBase
-          type="danger"
-          title="Profile is not updated"
-        />
-      );
+      alert = this.initAlert('danger', 'Profile is not updated');
     }
 
     return (
@@ -60,19 +95,33 @@ class InfoChange extends React.Component {
           <Col md="6">
             <Form.Group controlId="name">
               <Form.Label>Name</Form.Label>
-              <Form.Control type="name" placeholder={user.name} />
+              <Form.Control
+                type="text"
+                name="name"
+                onChange={this.handleChange}
+                placeholder={user.name}
+              />
             </Form.Group>
 
             <Form.Group controlId="email">
               <Form.Label>Email address</Form.Label>
-              <Form.Control type="email" placeholder={user.email} />
+              <Form.Control
+                name="email"
+                type="email"
+                onChange={this.handleChange}
+                placeholder={user.email}
+              />
             </Form.Group>
 
             <Form.Group controlId="phone">
               <Form.Label>Phone</Form.Label>
-              <Form.Control type="phone" placeholder={user.phoneNumber} />
+              <Form.Control
+                name="phoneNumber"
+                type="phone"
+                onChange={this.handleChange}
+                placeholder={user.phoneNumber}
+              />
             </Form.Group>
-
             <PassChange />
           </Col>
           <Col className="text-sm-center">

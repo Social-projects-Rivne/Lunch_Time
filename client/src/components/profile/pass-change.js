@@ -28,17 +28,17 @@ class PassChange extends React.Component {
         <div>
           <Form.Group className="mt-2" controlId="name">
             <Form.Label>Old password</Form.Label>
-            <Form.Control type="name" placeholder="Enter old password" />
+            <Form.Control type="password" placeholder="Enter old password" />
           </Form.Group>
 
           <Form.Group controlId="email">
             <Form.Label>New password</Form.Label>
-            <Form.Control type="email" placeholder="Enter new password" />
+            <Form.Control type="password" placeholder="Enter new password" />
           </Form.Group>
 
           <Form.Group controlId="phone">
             <Form.Label>Repeat new password</Form.Label>
-            <Form.Control type="phone" placeholder="Repeat new password" />
+            <Form.Control type="password" placeholder="Repeat new password" />
           </Form.Group>
         </div>
         )}

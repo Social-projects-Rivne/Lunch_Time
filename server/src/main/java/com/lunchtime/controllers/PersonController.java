@@ -32,6 +32,16 @@ public class PersonController {
             .body(result);
     }
 
+    @PutMapping
+    public ResponseEntity<Person> update(@Valid @RequestBody Person person) {
+        Optional<Person> result = personService.findById(person.getId());
+        if (result.isPresent()) {
+            personService.save(person);
+            return ResponseEntity.ok(person);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
     @GetMapping("{id}")
     //TODO create some better name for method. see other comments
     public ResponseEntity<Person> getOne(@PathVariable Long id) {
