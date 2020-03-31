@@ -14,16 +14,17 @@ class FeedbackSend extends Component {
   }
 
   onSubmit() {
-    console.log(this.state.val);
     const body = {
       restaurant_id: this.props.id,
       feedback: this.state.val,
     };
-    Api.post('feedback', { body })
+    Api.post('feedback/add', { body })
       .then((response) => {
+        // eslint-disable-next-line no-console
         console.log(response);
       })
       .catch((error) => {
+        // eslint-disable-next-line no-console
         console.log(error);
       });
     this.setState({ val: '' });
