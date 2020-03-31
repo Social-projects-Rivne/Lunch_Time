@@ -1,6 +1,19 @@
 import axios from 'axios';
 // eslint-disabled-next
 
+axios.interceptors.request.use((config) => {
+  const token = localStorage.getItem('Bearer ');
+
+  if (token != null) {
+    // eslint-disable-next-line no-param-reassign
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+
+  return config;
+}, (err) => {
+  return Promise.reject(err);
+});
+
 class Api {
   constructor() {
     this.apiUrl = 'http://localhost:8080/api/';
