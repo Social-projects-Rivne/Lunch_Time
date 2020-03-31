@@ -44,7 +44,7 @@ class Api {
       method: 'PUT',
       url,
       data: JSON.stringify(body),
-      headers: { 'Content-Type': 'application/json; charset=utf-8' },
+      headers: { 'Content-Type': 'application/json' },
     })
       .catch((error) => {
         return { error: error };
