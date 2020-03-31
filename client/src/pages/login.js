@@ -19,7 +19,7 @@ class Login extends Component {
   validateForm() {
     const { email } = this.state;
     const { password } = this.state;
-    return email.length > 0 && password.length > 7;
+    return email.length > 0 && password.length > 0;
   }
 
   handleChange(event) {
@@ -27,17 +27,6 @@ class Login extends Component {
       [event.target.id]: event.target.value,
     });
   }
-  // handleChangeEmail(event) {
-  //   this.setState({
-  //     email: event.target.value,
-  //   });
-  // }
-
-  // handleChangePassword(event) {
-  //   this.setState({
-  //     password: event.target.value,
-  //   });
-  // }
 
   handleSubmit(event) {
     event.preventDefault();

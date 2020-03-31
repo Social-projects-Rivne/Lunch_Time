@@ -14,6 +14,7 @@ axios.interceptors.request.use((config) => {
   return Promise.reject(err);
 });
 
+
 class Api {
   constructor() {
     this.apiUrl = 'http://localhost:8080/api/';
