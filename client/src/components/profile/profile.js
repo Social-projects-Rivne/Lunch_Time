@@ -15,7 +15,6 @@ import Subscriptions from './subscriptions';
 import Api from '../../services/api';
 import '../../styles/profile.css';
 import InfoChange from './info-change';
-import PassChange from './pass-change';
 import PhotoEditor from '../shared/photo-editor';
 
 class Profile extends Component {
@@ -95,7 +94,6 @@ class Profile extends Component {
                     return <InfoChange user={user} />;
                   }}
                 />
-                <Route path="/profile/password" component={PassChange} />
                 <Route path="/profile/avatar" component={PhotoEditor} />
                 <Route path="/profile/orders" component={Orders} />
                 <Route path="/profile/history" component={History} />

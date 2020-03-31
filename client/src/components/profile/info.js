@@ -41,12 +41,6 @@ class Info extends Component {
           <hr className="hr-border" />
           <ButtonToolbar>
             <Button className="btn-inf m-button ml-3" href="edit">Update profile</Button>
-            <Button
-              className="btn-inf m-button ml-3"
-              href="password"
-            >
-              Change password
-            </Button>
             <Button className="btn-inf ml-3" variant="danger">Remove account</Button>
           </ButtonToolbar>
         </Container>

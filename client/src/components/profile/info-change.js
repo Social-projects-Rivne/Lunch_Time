@@ -6,6 +6,7 @@ import Form from 'react-bootstrap/Form';
 import Avatar from 'react-avatar';
 import PropTypes from 'prop-types';
 import AlertBase from '../shared/alert-base';
+import PassChange from './pass-change';
 
 class InfoChange extends React.Component {
   constructor(props) {
@@ -65,9 +66,6 @@ class InfoChange extends React.Component {
             <Form.Group controlId="email">
               <Form.Label>Email address</Form.Label>
               <Form.Control type="email" placeholder={user.email} />
-              <Form.Text className="text-white">
-                We&apos;ll never share your email with anyone else.
-              </Form.Text>
             </Form.Group>
 
             <Form.Group controlId="phone">
@@ -75,14 +73,7 @@ class InfoChange extends React.Component {
               <Form.Control type="phone" placeholder={user.phoneNumber} />
             </Form.Group>
 
-            <hr className="hr-border" />
-            <Button
-              className="m-button"
-              type="submit"
-              onClick={() => this.updateProfile()}
-            >
-              Submit
-            </Button>
+            <PassChange />
           </Col>
           <Col className="text-sm-center">
             <Avatar
@@ -100,7 +91,17 @@ class InfoChange extends React.Component {
               onChange={() => this.onFileSelect()}
             />
           </Col>
+
         </Row>
+        <hr className="hr-border" />
+        <Button
+          className="ml-3 m-button"
+          type="submit"
+          onClick={() => this.updateProfile()}
+        >
+          Submit
+        </Button>
+        <Button className="ml-3 m-button" href="info">Cancel</Button>
       </Container>
     );
   }
