@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import Feedback from 'react-bootstrap/Feedback';
 import NavigationBar from './components/navigation-bar';
 import Home from './pages/home';
 import About from './pages/about';
@@ -13,6 +12,7 @@ import NoMatch from './pages/no-match';
 import Events from './pages/events';
 import Restaurant from './components/restaurant/restaurant-item';
 import Profile from './components/profile/profile';
+import Feedback from './components/feedbacks/feedback';
 
 class App extends Component {
   render() {
