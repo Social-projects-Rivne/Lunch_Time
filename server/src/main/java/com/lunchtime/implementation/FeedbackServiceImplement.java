@@ -15,6 +15,10 @@ public class FeedbackServiceImplement implements FeedbackService {
         this.feedbackRepository = feedbackRepository;
     }
 
+    public Feedback save(Feedback feedback) {
+        return feedbackRepository.save(feedback);
+    }
+
     public List<Feedback> findByRestId_Id(Long id) {
         return feedbackRepository.findByRestId_Id(id);
     }
