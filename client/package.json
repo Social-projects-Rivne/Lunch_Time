@@ -15,13 +15,13 @@
     "rc-menu": "^8.0.2",
     "react": "^16.12.0",
     "react-avatar": "3.9.2",
+    "react-avatar-editor": "12.0.0-beta.0",
     "react-bootstrap": "1.0.0-beta.16",
     "react-datepicker": "^2.13.0",
     "react-dom": "^16.12.0",
     "react-openlayers": "^0.3.0",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.4.0",
-    "shortid": "^2.2.15"
+    "react-scripts": "3.4.0"
   },
   "scripts": {
     "start": "react-scripts start",

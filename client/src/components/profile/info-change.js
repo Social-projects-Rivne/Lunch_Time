@@ -14,11 +14,19 @@ class InfoChange extends React.Component {
       isShowAlert: false,
       isSuccessUpdate: true,
     };
+    this.fileInputRef = React.createRef();
+  }
+
+  onAvatarClick() {
+    this.fileInputRef.current.click();
+  }
+
+  onFileSelect() {
+    console.log('Selected');
   }
 
   updateProfile() {
     this.setState({
-      // TODO: add isSuccess logic there
       isShowAlert: true,
     });
   }
@@ -77,7 +85,20 @@ class InfoChange extends React.Component {
             </Button>
           </Col>
           <Col className="text-sm-center">
-            <Avatar name={user.name} size="150" round src={user.avatarUrl} />
+            <Avatar
+              name={user.name}
+              size="150"
+              round
+              src={user.avatarUrl}
+              onClick={() => this.onAvatarClick()}
+            />
+            <input
+              ref={this.fileInputRef}
+              type="file"
+              accept="image/jpeg,image/png"
+              hidden
+              onChange={() => this.onFileSelect()}
+            />
           </Col>
         </Row>
       </Container>
