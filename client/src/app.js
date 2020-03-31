@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import Feedback from 'react-bootstrap/Feedback';
 import NavigationBar from './components/navigation-bar';
 import Home from './pages/home';
 import About from './pages/about';
@@ -23,6 +24,7 @@ class App extends Component {
           <Route path="/about" component={About} />
           <Route path="/events" component={Events} />
           <Route path="/restaurants/:id" component={Restaurant} />
+          <Route path="/restaurants/:id/feedback" component={Feedback} />
           <Route path="/restaurants" component={ListRestaurant} />
           <Route path="/login" component={Login} />
           <Route path="/registration" component={Registration} />
