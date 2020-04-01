@@ -43,7 +43,11 @@ public class Order {
     private String description;
 
     @NotNull
-    @OneToOne(cascade = CascadeType.ALL)
+    @Column(name = "visitors")
+    private Integer visitors;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "table_id", referencedColumnName = "id")
     private RestaurantTable table;
 
