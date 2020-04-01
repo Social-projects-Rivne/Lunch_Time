@@ -10,7 +10,7 @@ import java.time.Instant;
 
 @Entity
 @Data
-public class OrderedTableStatus {
+public class OrderStatus {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
