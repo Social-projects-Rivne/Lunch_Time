@@ -36,9 +36,6 @@ public class RestaurantTable {
     @JoinColumn(name = "restaurant_id", referencedColumnName = "id")
     private Restaurant restaurant;
 
-    @OneToOne(mappedBy = "table")
-    private Order order;
-
     @ColumnDefault("false")
     @Column(name = "is_deleted")
     private boolean isDeleted;
