@@ -7,6 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.Instant;
 import java.util.Date;
 
@@ -36,9 +37,11 @@ public class Order {
     @Column(name = "finish_time")
     private Date finishTime;
 
-    @Column(name = "status_id")
-    private Long status;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "status_id", referencedColumnName = "id")
+    private OrderStatus status;
 
+    @Size(min = 0, max = 999)
     @Column(name = "description")
     private String description;
 

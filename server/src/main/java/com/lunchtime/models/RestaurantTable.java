@@ -7,6 +7,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.Instant;
 
 @Entity
@@ -28,6 +29,7 @@ public class RestaurantTable {
     @Column(name = "is_available")
     private boolean isAvailable;
 
+    @Size(min = 0, max = 999)
     @Column(name = "description")
     private String description;
 

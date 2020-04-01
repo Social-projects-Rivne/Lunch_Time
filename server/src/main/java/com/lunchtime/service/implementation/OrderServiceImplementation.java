@@ -48,14 +48,19 @@ public class OrderServiceImplementation implements OrderService {
     }
 
     public Page<Order> findAll(Pageable pageable) {
-        return null;
+        return orderRepository.findAll(pageable);
     }
 
     public Optional<Order> findById(Long id) {
-        return Optional.empty();
+        return orderRepository.findById(id);
     }
 
     public Order delete(Long id) {
-        return null;
+        return findById(id)
+            .map(order -> {
+                order.setDeleted(true);
+                return save(order);
+            })
+            .orElseGet(null);
     }
 }
