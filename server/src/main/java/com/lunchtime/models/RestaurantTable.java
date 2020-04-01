@@ -25,10 +25,6 @@ public class RestaurantTable {
     @Column(name = "capacity")
     private Integer capacity;
 
-    @ColumnDefault("false")
-    @Column(name = "is_available")
-    private boolean isAvailable;
-
     @Size(min = 0, max = 999)
     @Column(name = "description")
     private String description;
