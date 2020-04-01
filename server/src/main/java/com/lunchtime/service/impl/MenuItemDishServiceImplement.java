@@ -13,7 +13,11 @@ import java.util.Optional;
 @Service
 public class MenuItemDishServiceImplement implements MenuItemDishService {
 
-    private final MenuItemDishRepository menuItemDishRepository;
+    private MenuItemDishRepository menuItemDishRepository;
+
+    public MenuItemDishServiceImplement() {
+
+    }
 
     public MenuItemDishServiceImplement(MenuItemDishRepository menuItemDishRepository) {
         this.menuItemDishRepository = menuItemDishRepository;

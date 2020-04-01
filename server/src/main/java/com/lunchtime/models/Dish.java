@@ -28,7 +28,6 @@ public class Dish {
     private Boolean isDeleted;
 
     public Dish() {
-
     }
 
     public Boolean isDeleted() {

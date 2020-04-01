@@ -1,16 +1,21 @@
 package com.lunchtime.models;
 
 import org.junit.Assert;
-
-import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.Test;
 
 public class DishTest {
 
-    @org.junit.Test
-    public void getName() {
-        Dish dishitem = new Dish();
-        dishitem.setName("Pizza");
-        String expected = "Pizza";
-        Assert.assertEquals(expected, dishitem.getName());
+    Dish dish1 = new Dish();
+
+    @Before
+    public void setUp() {
+
+    }
+
+    @Test
+    public void isDeleted() {
+        dish1.setIsDeleted(true);
+        Assert.assertTrue(dish1.getIsDeleted());
     }
 }
