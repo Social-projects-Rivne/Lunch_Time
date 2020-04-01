@@ -5,7 +5,7 @@ import {
 import Avatar from 'react-avatar';
 import PropTypes from 'prop-types';
 import '../../styles/profile-info.css';
-import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
+import { Link } from 'react-router-dom';
 
 class Info extends Component {
   render() {
@@ -39,10 +39,10 @@ class Info extends Component {
           <hr className="hr-border" />
           <Button className="btn-inf m-button ml-3">Add restaurant</Button>
           <hr className="hr-border" />
-          <ButtonToolbar>
-            <Button className="btn-inf m-button ml-3" href="edit">Update profile</Button>
-            <Button className="btn-inf ml-3" variant="danger">Remove account</Button>
-          </ButtonToolbar>
+          <Link to="edit">
+            <Button className="btn-inf m-button ml-3">Update profile</Button>
+          </Link>
+          <Button className="btn-inf ml-3" variant="danger">Remove account</Button>
         </Container>
       );
     }

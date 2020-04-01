@@ -2,12 +2,13 @@ import * as React from 'react';
 import {
   Button, Col, Container, Row,
 } from 'react-bootstrap';
-import Form from 'react-bootstrap/Form';
 import Avatar from 'react-avatar';
 import PropTypes from 'prop-types';
+import validator from 'validator';
 import AlertBase from '../shared/alert-base';
 import PassChange from './pass-change';
 import Api from '../../services/api';
+import Input from '../shared/input';
 
 class InfoChange extends React.Component {
   constructor(props) {
@@ -17,6 +18,9 @@ class InfoChange extends React.Component {
       isSuccessUpdate: true,
       user: this.props.user,
       updatedUser: this.props.user,
+      errors: {
+        name: '', email: '', phone: '', err: 'Profile is not changed',
+      },
     };
     this.fileInputRef = React.createRef();
     this.handleChange = this.handleChange.bind(this);
@@ -30,42 +34,68 @@ class InfoChange extends React.Component {
     console.log('Selected');
   }
 
+  setAlertState(showAlert, success) {
+    this.setState({
+      isShowAlert: showAlert,
+      isSuccessUpdate: success,
+    });
+  }
+
   handleChange(event) {
     const { name, value } = event.target;
+    const { errors } = this.state;
+    const validEmailRegex = RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g);
+    switch (name) {
+      case 'name':
+        errors.name = value.length < 3 ? 'Name must be 3 characters long! ' : '';
+        break;
+      case 'email':
+        errors.email = validEmailRegex.test(value) ? '' : 'Email is not valid! ';
+        break;
+      case 'phone':
+        errors.phone = validator.isMobilePhone(value) ? '' : 'Invalid phone number! ';
+        break;
+      default:
+        break;
+    }
+
+    errors.err = '';
     this.setState((prevState) => ({
       updatedUser: {
         ...prevState.updatedUser,
         [name]: value,
       },
+      errors,
+      [name]: value,
+      isShowAlert: false,
     }));
   }
 
   updateProfile() {
-    const { updatedUser, user } = this.state;
-    if (updatedUser === user) {
-      this.setState({
-        isShowAlert: true,
-        isSuccessUpdate: false,
-      });
+    const { updatedUser, user, errors } = this.state;
+    if (updatedUser === user || !this.validateForm(errors)) {
+      this.setAlertState(true, false);
     } else {
       this.sendData(updatedUser);
     }
+  }
+
+  validateForm(errors) {
+    let valid = true;
+    Object.values(errors).forEach(
+      (val) => { if (val.length > 0) valid = false; },
+    );
+    return valid;
   }
 
   sendData(user) {
     Api.put('persons', user)
       .then((response) => {
         if (response.error) {
-          this.setState({
-            isShowAlert: true,
-            isSuccessUpdate: false,
-          });
+          this.setAlertState(true, false);
           return;
         }
-        this.setState({
-          isShowAlert: true,
-          isSuccessUpdate: true,
-        });
+        this.setAlertState(true, true);
       });
   }
 
@@ -79,13 +109,16 @@ class InfoChange extends React.Component {
   }
 
   render() {
-    const { isShowAlert, isSuccessUpdate, user } = this.state;
+    const {
+      isShowAlert, isSuccessUpdate, updatedUser, errors,
+    } = this.state;
     let alert;
 
     if (isSuccessUpdate) {
       alert = this.initAlert('success', 'Your profile was successfully updated');
     } else {
-      alert = this.initAlert('danger', 'Profile is not updated');
+      alert = this.initAlert('danger', errors.name + errors.email
+        + errors.phone + errors.err);
     }
 
     return (
@@ -93,43 +126,31 @@ class InfoChange extends React.Component {
         {isShowAlert ? (alert) : ('')}
         <Row className="profile-row">
           <Col md="6">
-            <Form.Group controlId="name">
-              <Form.Label>Name</Form.Label>
-              <Form.Control
-                type="text"
-                name="name"
-                onChange={this.handleChange}
-                placeholder={user.name}
-              />
-            </Form.Group>
+            <Input
+              name="name"
+              placeholder={updatedUser.name}
+              onChange={this.handleChange}
+            />
 
-            <Form.Group controlId="email">
-              <Form.Label>Email address</Form.Label>
-              <Form.Control
-                name="email"
-                type="email"
-                onChange={this.handleChange}
-                placeholder={user.email}
-              />
-            </Form.Group>
+            <Input
+              name="email"
+              placeholder={updatedUser.email}
+              onChange={this.handleChange}
+            />
 
-            <Form.Group controlId="phone">
-              <Form.Label>Phone</Form.Label>
-              <Form.Control
-                name="phoneNumber"
-                type="phone"
-                onChange={this.handleChange}
-                placeholder={user.phoneNumber}
-              />
-            </Form.Group>
+            <Input
+              name="phone"
+              placeholder={updatedUser.phoneNumber}
+              onChange={this.handleChange}
+            />
             <PassChange />
           </Col>
           <Col className="text-sm-center">
             <Avatar
-              name={user.name}
+              name={updatedUser.name}
               size="150"
               round
-              src={user.avatarUrl}
+              src={updatedUser.avatarUrl}
               onClick={() => this.onAvatarClick()}
             />
             <input
