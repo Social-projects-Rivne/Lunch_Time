@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Button, Form } from 'react-bootstrap';
-import '../../style/feedback-send.css';
+import '../../styles/feedback-send.css';
 
 class FeedbackSend extends Component {
   render() {

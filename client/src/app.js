@@ -6,49 +6,30 @@ import About from './pages/about';
 import Contact from './pages/contact';
 import ListRestaurant from './pages/restaurant-list';
 import Login from './pages/login';
-import Registartion from './pages/registartion';
+import Registration from './pages/registration';
 import Map from './pages/map';
 import NoMatch from './pages/no-match';
 import Events from './pages/events';
-import Restaurant from './components/restaurant-item';
-import Profile from './components/profile';
+import Restaurant from './components/restaurant/restaurant-item';
+import Profile from './components/profile/profile';
 
 class App extends Component {
   render() {
     return (
       <Router>
-
-
         <NavigationBar />
-
         <Switch>
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route path="/about">
-            <About />
-          </Route>
-          <Route path="/events">
-            <Events />
-          </Route>
+          <Route exact path="/" component={Home} />
+          <Route path="/about" component={About} />
+          <Route path="/events" component={Events} />
           <Route path="/restaurants/:id" component={Restaurant} />
           <Route path="/restaurants" component={ListRestaurant} />
-          <Route path="/login">
-            <Login />
-          </Route>
-          <Route path="/registartion">
-            <Registartion />
-          </Route>
-          <Route path="/map">
-            <Map />
-          </Route>
-          <Route path="/contact">
-            <Contact />
-          </Route>
+          <Route path="/login" component={Login} />
+          <Route path="/registration" component={Registration} />
+          <Route path="/map" component={Map} />
+          <Route path="/contact" component={Contact} />
           <Route path="/profile" component={Profile} />
-          <Route>
-            <NoMatch />
-          </Route>
+          <Route path="" component={NoMatch} />
         </Switch>
 
       </Router>

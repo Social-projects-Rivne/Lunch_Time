@@ -4,9 +4,9 @@ import DatePicker from 'react-datepicker';
 import DropdownToggle from 'react-bootstrap/DropdownToggle';
 import moment from 'moment';
 import PropTypes from 'prop-types';
+// import MyDatePicker from '../button/date-picker';
 
-
-class DropdownWithDate extends React.Component {
+class DateMenu extends React.Component {
   constructor(props) {
     super(props);
     const date = new Date();
@@ -93,10 +93,10 @@ class DropdownWithDate extends React.Component {
   }
 }
 
-DropdownWithDate.propTypes = {
+DateMenu.propTypes = {
   onApply: PropTypes.any.isRequired,
   oneDate: PropTypes.string.isRequired,
   rangeDate: PropTypes.string.isRequired,
 };
 
-export default DropdownWithDate;
+export default DateMenu;

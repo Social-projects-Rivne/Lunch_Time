@@ -1,39 +1,36 @@
 import React from 'react';
 import { ButtonToolbar } from 'react-bootstrap';
-import Button from 'react-bootstrap/Button';
 import PropTypes from 'prop-types';
-import DropdownWithDate from './custom-dropdown';
-import MyDropdown from './my-dropdown';
-import CategoryDropdown from './category-dropdown';
+import Button from 'react-bootstrap/Button';
+import DateMenu from '../shared/button/date-menu';
+import View from '../shared/dropdown/view';
+import Category from '../shared/dropdown/category';
+import info from '../info/events';
 
-class DropdownGroup extends React.Component {
+class FilterBar extends React.Component {
   onSelectCategory(path) {
     this.props.onChangeEvents(path);
   }
 
   render() {
-    const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
-      'August', 'September', 'October', 'November', 'December'];
-    const eventsType = ['Party', 'Karaoke', 'Concert', 'For children',
-      'Master class', 'Tasting', 'Sports broadcasting'];
     return (
       <ButtonToolbar className="justify-content-center pb-4 pt-4">
 
-        <CategoryDropdown
-          items={eventsType}
+        <Category
           homePath="events"
           path="events/categories/"
+          items={info[0].values}
           onApply={(path) => this.onSelectCategory(path)}
         />
 
-        <MyDropdown
+        <View
           id="sort-by-month"
           name="By month"
-          items={months}
+          values={info[1].values}
           onSelect={(e) => this.onSelectCategory(`events/month/${e}`)}
         />
 
-        <DropdownWithDate
+        <DateMenu
           oneDate="events/date/"
           rangeDate="events/dates?from="
           onApply={(path) => this.onSelectCategory(path)}
@@ -50,8 +47,8 @@ class DropdownGroup extends React.Component {
   }
 }
 
-DropdownGroup.propTypes = {
+FilterBar.propTypes = {
   onChangeEvents: PropTypes.any.isRequired,
 };
 
-export default DropdownGroup;
+export default FilterBar;

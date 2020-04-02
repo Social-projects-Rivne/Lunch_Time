@@ -2,16 +2,16 @@ import React from 'react';
 import { Dropdown } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-class MyDropdown extends React.Component {
+class View extends React.Component {
   render() {
     const {
-      id, name, items, onSelect,
+      id, name, values, onSelect,
     } = this.props;
     return (
       <Dropdown className="ml-3" onSelect={onSelect}>
         <Dropdown.Toggle id={id} className="m-button">{name}</Dropdown.Toggle>
         <Dropdown.Menu>
-          {items.map((item) => (
+          {values.map((item) => (
             <Dropdown.Item
               className="m-dropdown-item"
               key={item}
@@ -26,11 +26,11 @@ class MyDropdown extends React.Component {
   }
 }
 
-MyDropdown.propTypes = {
+View.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  items: PropTypes.any.isRequired,
+  values: PropTypes.array.isRequired,
   onSelect: PropTypes.any.isRequired,
 };
 
-export default MyDropdown;
+export default View;

@@ -1,9 +1,21 @@
 import React, { Component } from 'react';
 import { Nav, Navbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import NavigationItem from './shared/navigation/navigation-item';
+import info from './info/navigation';
 
 class NavigationBar extends Component {
   render() {
+    const className = 'mr-3';
+    const navBarContent = info.map((e) => (
+      <NavigationItem
+        className={className}
+        link={e.link}
+        name={e.name}
+        key={e.link}
+
+      />
+    ));
     return (
       <Navbar expand="lg" bg="light">
         <Navbar.Brand>
@@ -21,31 +33,7 @@ class NavigationBar extends Component {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="ml-auto" bg="dark">
-
-            <Nav.Item className="mr-3">
-              <Link to="/restaurants">Restaurants</Link>
-            </Nav.Item>
-            <Nav.Item className="mr-3">
-              <Link to="/events">Events</Link>
-            </Nav.Item>
-            <Nav.Item className="mr-3">
-              <Link to="/map">Map</Link>
-            </Nav.Item>
-            <Nav.Item className="mr-3">
-              <Link to="/about">About</Link>
-            </Nav.Item>
-            <Nav.Item className="mr-3">
-              <Link to="/contact">Contact</Link>
-            </Nav.Item>
-            <Nav.Item className="mr-3">
-              <Link to="/login">Login</Link>
-            </Nav.Item>
-            <Nav.Item className="mr-3">
-              <Link to="/registartion">Registartion</Link>
-            </Nav.Item>
-            <Nav.Item className="mr-3">
-              <Link to="/profile">Profile</Link>
-            </Nav.Item>
+            {navBarContent}
           </Nav>
         </Navbar.Collapse>
       </Navbar>
