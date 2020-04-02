@@ -24,7 +24,7 @@ class Events extends React.Component {
   }
 
   getAll(path) {
-    Api.getAll(path)
+    Api.get(path)
       .then((response) => {
         if (response.error) {
           // eslint-disable-next-line no-console

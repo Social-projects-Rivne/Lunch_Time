@@ -5,7 +5,7 @@ class Api {
     this.apiUrl = 'http://localhost:8080/api/';
   }
 
-  getAll(endpoint) {
+  get(endpoint) {
     return axios.get(this.getApiEndpoint(endpoint))
       .then((response) => {
         return { error: null, data: response.data };
