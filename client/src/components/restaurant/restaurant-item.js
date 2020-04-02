@@ -48,7 +48,7 @@ class Restaurant extends Component {
             <About restaurant={restaurant} isFetching={isFetching} />
           </Tab>
           <Tab eventKey="menu" title="Menu">
-            <Menu restaurants={restaurant} />
+            <Menu id={id} />
           </Tab>
           <Tab eventKey="events" title="Events">
             <h3>Events</h3>

@@ -15,7 +15,7 @@ class Dish extends Component {
   async componentDidMount() {
     const { dish, isFetching } = this.props;
     if (isFetching) {
-      this.getOne(dish.categoryfoodId);
+      this.getCategoryFood(dish.categoryfoodId);
     }
   }
 
