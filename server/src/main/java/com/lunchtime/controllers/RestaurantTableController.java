@@ -4,6 +4,7 @@ import com.lunchtime.models.RestaurantTable;
 import com.lunchtime.service.RestaurantTableService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -13,10 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/tables")
@@ -61,6 +59,17 @@ public class RestaurantTableController {
         Page<RestaurantTable> page = restaurantTableService.findAllByRestaurantId(pageable, id);
         return ResponseEntity.ok()
             .body(page.getContent());
+    }
+
+    @GetMapping("available")
+    public ResponseEntity<List<RestaurantTable>> getTablesByRestaurantIdInTime(
+        @RequestParam("id") Long id,
+        @RequestParam("start") @DateTimeFormat(pattern = "yyyy-MM-dd H:m") Date start,
+        @RequestParam("finish") @DateTimeFormat(pattern = "yyyy-MM-dd H:m") Date finish
+    ) {
+        List<RestaurantTable> tables = restaurantTableService.findAllAvailableTablesByRestaurantId(id, start, finish);
+        return ResponseEntity.ok()
+            .body(tables);
     }
 
     @GetMapping("{id}")
