@@ -15,15 +15,16 @@ class InfoChange extends React.Component {
     super(props);
     this.state = {
       isShowAlert: false,
-      isSuccessUpdate: true,
+      isSuccessUpdate: false,
       user: this.props.user,
       updatedUser: this.props.user,
       errors: {
-        name: '', email: '', phone: '', err: 'Profile is not changed',
+        name: '', email: '', phone: '', password: '', err: 'Profile is not changed',
       },
     };
     this.fileInputRef = React.createRef();
     this.handleChange = this.handleChange.bind(this);
+    this.saveFormState = this.saveFormState.bind(this);
   }
 
   onAvatarClick() {
@@ -53,13 +54,16 @@ class InfoChange extends React.Component {
         errors.email = validEmailRegex.test(value) ? '' : 'Email is not valid! ';
         break;
       case 'phone':
-        errors.phone = validator.isMobilePhone(value) ? '' : 'Invalid phone number! ';
+        errors.phone = validator.isMobilePhone(value) ? '' : 'Phone number is not valid! ';
         break;
       default:
         break;
     }
-
     errors.err = '';
+    this.saveFormState(errors, name, value);
+  }
+
+  saveFormState(errors, name, value) {
     this.setState((prevState) => ({
       updatedUser: {
         ...prevState.updatedUser,
@@ -110,15 +114,14 @@ class InfoChange extends React.Component {
 
   render() {
     const {
-      isShowAlert, isSuccessUpdate, updatedUser, errors,
+      isShowAlert, isSuccessUpdate, user, updatedUser, errors,
     } = this.state;
     let alert;
 
     if (isSuccessUpdate) {
       alert = this.initAlert('success', 'Your profile was successfully updated');
     } else {
-      alert = this.initAlert('danger', errors.name + errors.email
-        + errors.phone + errors.err);
+      alert = this.initAlert('danger', Object.values(errors).join(''));
     }
 
     return (
@@ -129,24 +132,29 @@ class InfoChange extends React.Component {
             <Input
               name="name"
               placeholder={updatedUser.name}
+              label="Name"
               onChange={this.handleChange}
             />
-
             <Input
               name="email"
               placeholder={updatedUser.email}
+              label="Email address"
               onChange={this.handleChange}
             />
-
             <Input
               name="phone"
               placeholder={updatedUser.phoneNumber}
+              label="Phone number"
               onChange={this.handleChange}
             />
-            <PassChange />
+            <PassChange
+              user={user}
+              onChange={this.saveFormState}
+            />
           </Col>
           <Col className="text-sm-center">
             <Avatar
+              className="mt-2"
               name={updatedUser.name}
               size="150"
               round
@@ -179,7 +187,6 @@ class InfoChange extends React.Component {
 
 InfoChange.propTypes = {
   user: PropTypes.any.isRequired,
-
 };
 
 export default InfoChange;

@@ -3,18 +3,19 @@ import Form from 'react-bootstrap/Form';
 import PropTypes from 'prop-types';
 
 class Input extends React.Component {
-  capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
-
   render() {
-    const { placeholder, name, onChange } = this.props;
-    const labelName = this.capitalizeFirstLetter(name);
+    const {
+      placeholder, name, label, type, onChange,
+    } = this.props;
+    let newType = type;
+    if (type === null) {
+      newType = name;
+    }
     return (
       <Form.Group>
-        <Form.Label>{labelName}</Form.Label>
+        <Form.Label>{label}</Form.Label>
         <Form.Control
-          type={name}
+          type={newType}
           name={name}
           onChange={onChange}
           placeholder={placeholder}
@@ -27,7 +28,13 @@ class Input extends React.Component {
 Input.propTypes = {
   placeholder: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
   onChange: PropTypes.any.isRequired,
+  type: PropTypes.string,
+};
+
+Input.defaultProps = {
+  type: null,
 };
 
 export default Input;
