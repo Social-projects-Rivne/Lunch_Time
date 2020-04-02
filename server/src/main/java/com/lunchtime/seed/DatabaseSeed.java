@@ -10,7 +10,10 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.Date;
 import java.time.Instant;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 //TODO remove redundant empty lines in class
 
@@ -84,12 +87,12 @@ public class DatabaseSeed {
             seedFeedback();
         }
 
-        if (dishRepository.count() == 0L) {
-            seedDish();
-        }
-
         if (categoryFoodRepository.count() == 0L) {
             seedCategoryFood();
+        }
+
+        if (dishRepository.count() == 0L) {
+            seedDish();
         }
 
         if (menuItemDishRepository.count() == 0L) {
@@ -111,6 +114,7 @@ public class DatabaseSeed {
 
         List<Dish> dishesList = dishRepository.findAll();
         List<Restaurant> restaurantList = restaurantRepository.findAll();
+
         for (Long i = 0L; i < dishesList.size(); i++) {
             MenuItemDish menuItemDish = new MenuItemDish();
             menuItemDish.setPortionSize(dishPortion[i.intValue()]);
@@ -118,20 +122,23 @@ public class DatabaseSeed {
             menuItemDish.setDish(dishesList.get(i.intValue()));
             menuItemDish.setPortionUnit(i.longValue() + 70L);
             menuItemDish.setImageUrl("https://www.allstar-pizza.com/images/Pizza.jpg");
-            menuItemDish.setRestaurant(restaurantList);
+            menuItemDish.setRestaurant(restaurantList.get(i.intValue()));
             menuItemDishRepository.save(menuItemDish);
         }
     }
 
     private void seedCategoryFood() {
 
-
         List<Dish> dishesList = dishRepository.findAll();
+        Set<Dish> dishSet = new HashSet<>();
+        for (int i = 0; i < dishesList.size(); i++) {
+            dishSet.add(dishesList.get(i));
+        }
         for (Long i = 0L; i < categoryFood.length; i++) {
 
             CategoryFood category = new CategoryFood();
             category.setName(categoryFood[i.intValue()]);
-            category.setDishes(dishesList);
+            category.setDishes(dishSet);
             categoryFoodRepository.save(category);
         }
 
@@ -140,12 +147,16 @@ public class DatabaseSeed {
     private void seedDish() {
 
         List<CategoryFood> categoryFoodList = categoryFoodRepository.findAll();
+        Set<CategoryFood> categoryFoodSet = new HashSet<>();
+        for (int i = 0; i < categoryFoodList.size(); i++) {
+            categoryFoodSet.add(categoryFoodList.get(i));
+        }
 
         for (Long i = 0L; i < dishesName.length; i++) {
             Dish dish = new Dish();
             dish.setName(dishesName[i.intValue()]);
             dish.setIngredients(i.toString() + " example," + " example second," + " third ingr ");
-            dish.setCategoryFood(categoryFoodList);
+            dish.setCategoryFoods(categoryFoodSet);
             dishRepository.save(dish);
         }
     }
@@ -154,7 +165,6 @@ public class DatabaseSeed {
     public void seedRestaurant() {
 
         List<Person> person = personRepository.findAll();
-        List<MenuItemDish> menuItemDishList = menuItemDishRepository.findAll();
 
         for (Long i = Long.valueOf(0); i < restaurantName.length; i++) {
 
@@ -167,7 +177,6 @@ public class DatabaseSeed {
                  person.get(i.intValue()), i.intValue() + 1, cordLongitude[i.intValue()],
                  cordLatitude[i.intValue()], Instant.now(),
                 i + 1L, Instant.now(), i + 1L);
-            rest.setMenuItemDish(menuItemDishList);
 
             restaurantRepository.save(rest);
         }

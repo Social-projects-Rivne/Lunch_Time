@@ -15,10 +15,6 @@ public class MenuItemDishServiceImplement implements MenuItemDishService {
 
     private MenuItemDishRepository menuItemDishRepository;
 
-    public MenuItemDishServiceImplement() {
-
-    }
-
     public MenuItemDishServiceImplement(MenuItemDishRepository menuItemDishRepository) {
         this.menuItemDishRepository = menuItemDishRepository;
     }

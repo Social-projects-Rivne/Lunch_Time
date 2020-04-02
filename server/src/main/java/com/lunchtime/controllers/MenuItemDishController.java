@@ -48,7 +48,7 @@ public class MenuItemDishController {
             .build();
     }
 
-    @GetMapping(params = ("restaurantId"))
+    @GetMapping("/restaurantId")
     public ResponseEntity<List<MenuItemDish>> getAllByRestaurantId(@RequestParam("restaurantId") Long id) {
 
         List<MenuItemDish> menuItemDishList = menuItemDishServiceImplement.findByRestaurantId(id);

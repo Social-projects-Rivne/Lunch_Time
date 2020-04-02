@@ -2,20 +2,16 @@ package com.lunchtime.models;
 
 import java.time.Instant;
 import java.util.List;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
+import java.util.Set;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.hibernate.annotations.Where;
@@ -26,6 +22,7 @@ import org.hibernate.annotations.Where;
 @Where(clause = "is_deleted = false or is_deleted is NULL")
 @Setter
 @Getter
+@ToString(exclude = "menuItemDish")
 public class Restaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -34,7 +31,6 @@ public class Restaurant {
     @NotBlank
     @Column(name = "name", length = 100)
     private String name;
-
 
     @NotBlank
     @Email
@@ -58,9 +54,6 @@ public class Restaurant {
 
     @Column(name = "is_deleted")
     private Boolean isDeleted; //TODO I believe you will need the primitive type here. Use boolean
-
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "restaurant")
-    private List<MenuItemDish> menuItemDish;
 
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER)

@@ -39,17 +39,13 @@ class Api {
   }
 
   async getAllMenuItemDishes(endpoint, id) {
-    let response;
-    let data;
-
-    try {
-      response = await axios.get(`${this.apiUrl}${endpoint}${id}`);
-      data = await response.data;
-    } catch (error) {
-      return null;
-    }
-
-    return data;
+    return axios.get(`${this.apiUrl}${endpoint}${id}`)
+      .then((response) => {
+        return { error: null, data: response.data };
+      })
+      .catch((error) => {
+        return { error: error };
+      });
   }
 
   async getAllCategoryFood(endpoint, id) {

@@ -8,7 +8,6 @@ import '../../styles/menu.css';
 import '../../styles/restaurant-item.css';
 import Feedback from '../feedbacks/feedback';
 
-
 class Restaurant extends Component {
   constructor(props) {
     super(props);

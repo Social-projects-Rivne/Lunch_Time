@@ -19,8 +19,8 @@ class Menu extends Component {
   }
 
   getAllMenuItemDishes() {
-    const { restaurant } = this.props;
-    Api.getAllMenuItemDishes('menuitemdish?restaurantId=', restaurant.id)
+    const { id } = this.props;
+    Api.getAllMenuItemDishes('menuitemdish/restaurantId?restaurantId=', id)
       .then((response) => {
         if (response.error) {
         // eslint-disable-next-line no-console
@@ -35,25 +35,20 @@ class Menu extends Component {
   }
 
   render() {
-    const { restaurant } = this.props;
     const { menuitemdishes, isFetching } = this.state;
     return (
 
       <Container fluid className="menu">
-        <Header restaurant={restaurant} />
-        <MenuItemDish menuitemdish={menuitemdishes} isFetching={isFetching} />
-        <Container>
-          <Row>
-            Pizza salami.
-            Ingredients: pizza sousse, salami, sold, pfeffer
-          </Row>
-        </Container>
+        <Header />
+        <Row>
+          <MenuItemDish menuitemdish={menuitemdishes} isFetching={isFetching} />
+        </Row>
       </Container>
-
     );
   }
 }
+
 Menu.propTypes = {
-  restaurant: PropTypes.any.isRequired,
+  id: PropTypes.any.isRequired,
 };
 export default Menu;

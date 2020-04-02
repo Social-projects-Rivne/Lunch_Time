@@ -1,6 +1,7 @@
 package com.lunchtime.models;
 
 import java.util.List;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,6 +17,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -59,17 +62,13 @@ public class MenuItemDish {
         isDeleted = deleted;
     }
 
-
-    @ManyToMany
-    @JoinTable(name = "menu",
-              joinColumns = @JoinColumn(name = "menu_item_dish_id", referencedColumnName = "id"),
-              inverseJoinColumns = @JoinColumn(name = "restaurant_id", referencedColumnName = "id")
-    )
-    private List<Restaurant> restaurant;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "restaurant_id", referencedColumnName = "id")
+    private Restaurant restaurant;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @NotNull
-    @JoinColumn(name = "dish_id")
+    @JoinColumn(name = "dish_id", referencedColumnName = "id")
     private Dish dish;
 
 

@@ -1,8 +1,11 @@
 package com.lunchtime.models;
 
 import java.util.List;
+import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -41,8 +44,12 @@ public class Dish {
         isDeleted = deleted;
     }
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "dishes")
-    private List<CategoryFood> categoryFood;
-
+    @ManyToMany
+    @JoinTable(name = "category_to_dish",
+        joinColumns = @JoinColumn(name = "dish_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id")
+    )
+    @JsonIgnore
+    private Set<CategoryFood> categoryFoods;
 
 }
