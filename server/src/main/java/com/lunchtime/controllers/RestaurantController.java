@@ -5,12 +5,12 @@ import com.lunchtime.models.Restaurant;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 import com.lunchtime.service.RestaurantService;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -62,11 +62,10 @@ public class RestaurantController {
             .body(result);
     }
 
-    @GetMapping
-    public ResponseEntity<List<Restaurant>> getAll(Pageable pageable) {
-        Page<Restaurant> page = restaurantService.findAll(pageable);
+    @GetMapping()
+    public ResponseEntity<Page<Restaurant>> getAll(Pageable pageable) {
         return ResponseEntity.ok()
-            .body(page.getContent());
+            .body(restaurantService.findAll(PageRequest.of(pageable.getPageNumber(), 21)));
     }
 
     @GetMapping("{id}")

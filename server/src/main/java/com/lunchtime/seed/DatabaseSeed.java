@@ -58,9 +58,15 @@ public class DatabaseSeed {
 
     @EventListener
     public void seed(ContextRefreshedEvent event) {
-        if (personRepository.count() == 0L) seedPerson();
-        if (restaurantRepository.count() == 0L) seedRestaurant();
-        if (feedbackRepository.count() == 0L) seedFeedback();
+        if (personRepository.count() == 0L) {
+            seedPerson();
+        }
+        if (restaurantRepository.count() == 0L) {
+            seedRestaurant();
+        }
+        if (feedbackRepository.count() == 0L) {
+            seedFeedback();
+        }
         if (eventRepository.count() == 0L) {
             try {
                 seedEvent();
@@ -77,7 +83,9 @@ public class DatabaseSeed {
                 restaurantName[i.intValue()].concat("@gmail.com").toLowerCase(),
                 "Rivne, street ".concat("1" + i.toString()),
                 "www.".concat(restaurantName[i.intValue()]).concat(".ua").toLowerCase(),
-                "A short description about restaurant ".concat(restaurantName[i.intValue()]).concat(", and some other info."),
+                "A short description about restaurant "
+                    .concat(restaurantName[i.intValue()])
+                    .concat(", and some other info."),
                 "12-24",
                 false,
                 i + 1L,
