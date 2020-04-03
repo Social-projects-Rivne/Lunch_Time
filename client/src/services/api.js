@@ -25,6 +25,16 @@ class Api {
       });
   }
 
+  post(endpoint, data) {
+    return axios.post(`${this.getApiEndpoint(endpoint)}`, data)
+      .then((response) => {
+        return { error: null, data: response.data };
+      })
+      .catch((error) => {
+        return { error: error };
+      });
+  }
+
   async getAllRestaurantFeedback(endpoint, id) {
     let response; let data;
 
