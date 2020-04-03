@@ -5,7 +5,7 @@ import {
 import Avatar from 'react-avatar';
 import PropTypes from 'prop-types';
 import validator from 'validator';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import AlertBase from '../shared/alert-base';
 import PassChange from './pass-change';
 import Api from '../../services/api';
@@ -22,17 +22,8 @@ class InfoChange extends React.Component {
         name: '', email: '', phone: '', password: '', err: 'Profile is not changed',
       },
     };
-    this.fileInputRef = React.createRef();
     this.handleChange = this.handleChange.bind(this);
     this.saveFormState = this.saveFormState.bind(this);
-  }
-
-  onAvatarClick() {
-    this.fileInputRef.current.click();
-  }
-
-  onFileSelect() {
-    console.log('Selected');
   }
 
   setAlertState(showAlert) {
@@ -142,21 +133,15 @@ class InfoChange extends React.Component {
             />
           </Col>
           <Col className="text-sm-center">
-            <Avatar
-              className="mt-2"
-              name={updatedUser.name}
-              size="150"
-              round
-              src={updatedUser.avatarUrl}
-              onClick={() => this.onAvatarClick()}
-            />
-            <input
-              ref={this.fileInputRef}
-              type="file"
-              accept="image/jpeg,image/png"
-              hidden
-              onChange={() => this.onFileSelect()}
-            />
+            <Link to="avatar">
+              <Avatar
+                className="mt-2"
+                name={updatedUser.name}
+                size="150"
+                round
+                src={updatedUser.avatarUrl}
+              />
+            </Link>
           </Col>
 
         </Row>
@@ -182,4 +167,4 @@ InfoChange.propTypes = {
   updateUser: PropTypes.any.isRequired,
 };
 
-export default InfoChange;
+export default withRouter(InfoChange);
