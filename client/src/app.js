@@ -12,6 +12,7 @@ import NoMatch from './pages/no-match';
 import Events from './pages/events';
 import Restaurant from './components/restaurant/restaurant-item';
 import Profile from './components/profile/profile';
+import NewOrder from './components/order/new-order';
 
 class App extends Component {
   render() {
@@ -29,6 +30,7 @@ class App extends Component {
           <Route path="/map" component={Map} />
           <Route path="/contact" component={Contact} />
           <Route path="/profile" component={Profile} />
+          <Route path="/new-order" component={NewOrder} />
           <Route path="" component={NoMatch} />
         </Switch>
 

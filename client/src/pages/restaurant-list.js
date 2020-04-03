@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 class ListRestaurant extends Component {
   render() {
-    const restaurantId = 393;
+    const restaurantId = 7;
     const { match } = this.props;
     return (
       <div>

@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import { Tab, Tabs, Container } from 'react-bootstrap';
+import {
+  Tab, Tabs, Container, Button,
+} from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import Api from '../../services/api';
 import About from './restaurant-about';
 import '../../styles/restaurant-item.css';
@@ -42,6 +45,13 @@ class Restaurant extends Component {
     return (
       <Container className="restaurant-container">
         <h2>{restaurant.name}</h2>
+        <Link to={{
+          pathname: '/new-order',
+          restaurantId: restaurant.id,
+        }}
+        >
+          <Button className="btn-inf m-button ml-5">Make order</Button>
+        </Link>
         <Tabs defaultActiveKey="about">
           <Tab eventKey="about" title="About">
             <About restaurant={restaurant} isFetching={isFetching} />
