@@ -1,10 +1,16 @@
 import axios from 'axios';
 // eslint-disabled-next
-
 axios.interceptors.request.use((config) => {
   const token = localStorage.getItem('Bearer ');
 
   if (token != null) {
+    // eslint-disable-next-line no-param-reassign
+    config.headers['Content-Type'] = 'application/json';
+    // eslint-disable-next-line no-param-reassign
+    config.headers = {
+      'Access-Control-Allow-Origin': 'http://localhost:3000/',
+      'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT, DELETE',
+    };
     // eslint-disable-next-line no-param-reassign
     config.headers.Authorization = `Bearer ${token}`;
   }
@@ -18,6 +24,18 @@ axios.interceptors.request.use((config) => {
 class Api {
   constructor() {
     this.apiUrl = 'http://localhost:8080/api/';
+  }
+
+
+  // eslint-disable-next-line no-unused-vars
+  getLogedin(_email, _password) {
+    axios.post('/authenticate', {
+      email: _email,
+      password: _password,
+
+    }).then((res) => {
+      localStorage.setItem('Bearer ', res.data);
+    });
   }
 
   getAll(endpoint) {
