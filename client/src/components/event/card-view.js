@@ -1,10 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
-import PropTypes from 'prop-types';
 
-class EventCard extends React.Component {
+class CardView extends React.Component {
   render() {
     const { event } = this.props;
     const link = `/restaurants/${event.restaurant.id}`;
@@ -24,8 +24,8 @@ class EventCard extends React.Component {
   }
 }
 
-EventCard.propTypes = {
+CardView.propTypes = {
   event: PropTypes.shape([]).isRequired,
 };
 
-export default EventCard;
+export default CardView;
