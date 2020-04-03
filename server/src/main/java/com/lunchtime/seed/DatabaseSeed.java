@@ -119,7 +119,7 @@ public class DatabaseSeed {
             Person person = new Person(
                 userName[i.intValue()],
                 userName[i.intValue()].concat("@gmail.com").toLowerCase(),
-                userName[i.intValue()],
+                userName[i.intValue()].concat("password").toLowerCase(),
                 "096-77-77-77".concat(i.toString())
             );
 
