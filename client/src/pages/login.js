@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import '../style/login.css';
-import axios from 'axios';
+import Api from '../services/api';
 
 
 class Login extends Component {
@@ -19,7 +19,7 @@ class Login extends Component {
   validateForm() {
     const { email } = this.state;
     const { password } = this.state;
-    return email.length > 0 && password.length > 0;
+    return email.length > 0 && password.length > 7;
   }
 
   handleChange(event) {
@@ -30,15 +30,10 @@ class Login extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    axios.post('/authenticate', {
-      email: this.state.email,
-      password: this.state.password,
-
-    }).then((res) => {
-      localStorage.setItem('Bearer ', res.data);
-      // eslint-disable-next-line react/prop-types
-      this.props.history.push('/');
-    });
+    // eslint-disable-next-line no-undef
+    Api.getLogedin(this.state.email, this.state.password);
+    // eslint-disable-next-line react/prop-types
+    this.props.history.push('/');
   }
 
 
@@ -50,7 +45,7 @@ class Login extends Component {
           <Form.Group controlId="email">
             <Form.Control
               autoFocus
-              name="uname"
+              name="email"
               type="email"
               value={this.state.email}
               onChange={this.handleChange.bind(this)}
@@ -65,7 +60,6 @@ class Login extends Component {
           </Form.Group>
           <Button
             block
-            bsSize="large"
             disabled={!this.validateForm()}
             type="submit"
           >
