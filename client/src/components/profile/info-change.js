@@ -52,7 +52,7 @@ class InfoChange extends React.Component {
       case 'email':
         errors.email = validEmailRegex.test(value) ? '' : 'Email is not valid! ';
         break;
-      case 'phone':
+      case 'phoneNumber':
         errors.phone = validator.isMobilePhone(value) ? '' : 'Phone number is not valid! ';
         break;
       default:
@@ -131,7 +131,7 @@ class InfoChange extends React.Component {
               onChange={this.handleChange}
             />
             <Input
-              name="phone"
+              name="phoneNumber"
               placeholder={updatedUser.phoneNumber}
               label="Phone number"
               onChange={this.handleChange}
