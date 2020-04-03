@@ -5,6 +5,7 @@ import {
 import Avatar from 'react-avatar';
 import PropTypes from 'prop-types';
 import validator from 'validator';
+import { Link } from 'react-router-dom';
 import AlertBase from '../shared/alert-base';
 import PassChange from './pass-change';
 import Api from '../../services/api';
@@ -15,7 +16,6 @@ class InfoChange extends React.Component {
     super(props);
     this.state = {
       isShowAlert: false,
-      isSuccessUpdate: false,
       user: this.props.user,
       updatedUser: this.props.user,
       errors: {
@@ -35,10 +35,9 @@ class InfoChange extends React.Component {
     console.log('Selected');
   }
 
-  setAlertState(showAlert, success) {
+  setAlertState(showAlert) {
     this.setState({
       isShowAlert: showAlert,
-      isSuccessUpdate: success,
     });
   }
 
@@ -78,7 +77,7 @@ class InfoChange extends React.Component {
   updateProfile() {
     const { updatedUser, user, errors } = this.state;
     if (updatedUser === user || !this.validateForm(errors)) {
-      this.setAlertState(true, false);
+      this.setAlertState(true);
     } else {
       this.sendData(updatedUser);
     }
@@ -96,37 +95,27 @@ class InfoChange extends React.Component {
     Api.put('persons', user)
       .then((response) => {
         if (response.error) {
-          this.setAlertState(true, false);
+          this.setAlertState(true);
           return;
         }
-        this.setAlertState(true, true);
+        this.props.onChangeData();
+        this.props.updateUser(user);
       });
-  }
-
-  initAlert(type, title) {
-    return (
-      <AlertBase
-        type={type}
-        title={title}
-      />
-    );
   }
 
   render() {
     const {
-      isShowAlert, isSuccessUpdate, user, updatedUser, errors,
+      isShowAlert, user, updatedUser, errors,
     } = this.state;
-    let alert;
-
-    if (isSuccessUpdate) {
-      alert = this.initAlert('success', 'Your profile was successfully updated');
-    } else {
-      alert = this.initAlert('danger', Object.values(errors).join(''));
-    }
 
     return (
       <Container fluid>
-        {isShowAlert ? (alert) : ('')}
+        {isShowAlert ? (
+          <AlertBase
+            type="danger"
+            title={Object.values(errors).join('')}
+          />
+        ) : ('')}
         <Row className="profile-row">
           <Col md="6">
             <Input
@@ -179,7 +168,9 @@ class InfoChange extends React.Component {
         >
           Submit
         </Button>
-        <Button className="ml-3 m-button" href="info">Cancel</Button>
+        <Link to="info">
+          <Button className="ml-3 m-button">Cancel</Button>
+        </Link>
       </Container>
     );
   }
@@ -187,6 +178,8 @@ class InfoChange extends React.Component {
 
 InfoChange.propTypes = {
   user: PropTypes.any.isRequired,
+  onChangeData: PropTypes.any.isRequired,
+  updateUser: PropTypes.any.isRequired,
 };
 
 export default InfoChange;

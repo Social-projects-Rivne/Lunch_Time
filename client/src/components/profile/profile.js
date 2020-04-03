@@ -14,7 +14,6 @@ import Sharing from './sharing';
 import Subscriptions from './subscriptions';
 import Api from '../../services/api';
 import '../../styles/profile.css';
-import InfoChange from './info-change';
 import PhotoEditor from '../shared/photo-editor';
 
 class Profile extends Component {
@@ -86,12 +85,6 @@ class Profile extends Component {
                   path="/profile/info"
                   component={() => {
                     return <Info isFetching={isFetching} user={user} />;
-                  }}
-                />
-                <Route
-                  path="/profile/edit"
-                  component={() => {
-                    return <InfoChange user={user} />;
                   }}
                 />
                 <Route path="/profile/avatar" component={PhotoEditor} />
