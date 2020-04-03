@@ -24,6 +24,7 @@ axios.interceptors.request.use((config) => {
 class Api {
   constructor() {
     this.apiUrl = 'http://localhost:8080/api/';
+    this.isAuthenticated = false;
   }
 
 
@@ -35,6 +36,8 @@ class Api {
 
     }).then((res) => {
       localStorage.setItem('Bearer ', res.data);
+      const auth = localStorage.getItem('Bearer ');
+      if (auth != null) { this.isAuthenticated = true; }
     });
   }
 

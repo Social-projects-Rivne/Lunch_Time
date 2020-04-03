@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import '../style/login.css';
+// eslint-disable-next-line import/no-unresolved
+// import '../style/login.css';
 import Api from '../services/api';
 
 
