@@ -7,10 +7,12 @@ import Api from '../../services/api';
 class NewOrder extends Component {
   constructor(props) {
     super(props);
-    const date = new Date();
+    this.timeInterval = 15;
+    this.milliseconds = 60000;
+    this.currentDate = new Date();
     this.state = {
-      startDate: date,
-      finishDate: date,
+      startDate: this.timeFormatter(this.currentDate),
+      finishDate: this.timeFormatter((new Date(this.currentDate.getTime() + this.timeInterval * this.milliseconds))),
       availableTables: [],
       table: null,
       visitors: 1,
@@ -51,8 +53,8 @@ class NewOrder extends Component {
     }
     const order = {
       person: { id: 1 },
-      startTime: this.state.startDate,
-      finishTime: this.state.finishDate,
+      startTime: this.state.startDate.toUTCString(),
+      finishTime: this.state.finishDate.toUTCString(),
       visitors: this.state.visitors,
       table: { id: tableId },
     };
@@ -73,11 +75,21 @@ class NewOrder extends Component {
         onChange={(date) => this.handleDateTimePicker(label, date)}
         showTimeSelect
         timeFormat="HH:mm"
-        timeIntervals={15}
+        minDate={this.currentDate}
+        timeIntervals={this.timeInterval}
         timeCaption="time"
         dateFormat="yyyy-MM-dd HH:mm"
       />
     );
+  }
+
+  timeFormatter(time) {
+    if (time.getMinutes() % this.timeInterval) {
+      const intervalCount = time.getMinutes() / this.timeInterval;
+      const formattedMinutes = (intervalCount - (intervalCount % 1) + 1) * this.timeInterval;
+      time.setMinutes(formattedMinutes);
+    }
+    return time;
   }
 
   handleDateTimePicker(label, date) {
