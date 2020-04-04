@@ -37,4 +37,8 @@ public class OrderStatusServiceImplementation implements OrderStatusService {
             })
             .orElseGet(null);
     }
+
+    public Optional<OrderStatus> findByName(String name) {
+        return orderStatusRepository.findByName(name);
+    }
 }

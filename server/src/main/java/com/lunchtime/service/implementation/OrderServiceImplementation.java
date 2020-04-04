@@ -1,10 +1,12 @@
 package com.lunchtime.service.implementation;
 
 import com.lunchtime.models.Order;
+import com.lunchtime.models.OrderStatus;
 import com.lunchtime.models.Person;
 import com.lunchtime.models.RestaurantTable;
 import com.lunchtime.repository.OrderRepository;
 import com.lunchtime.service.OrderService;
+import com.lunchtime.service.OrderStatusService;
 import com.lunchtime.service.PersonService;
 import com.lunchtime.service.RestaurantTableService;
 import org.springframework.data.domain.Page;
@@ -21,14 +23,18 @@ public class OrderServiceImplementation implements OrderService {
     private final OrderRepository orderRepository;
     private final RestaurantTableService restaurantTableService;
     private final PersonService personService;
+    private final OrderStatusService orderStatusService;
+
+    private final String newOrderStatus = "new";
 
     public OrderServiceImplementation(
         OrderRepository orderRepository,
         RestaurantTableService restaurantTableService,
-        PersonService personService) {
+        PersonService personService, OrderStatusService orderStatusService) {
         this.orderRepository = orderRepository;
         this.restaurantTableService = restaurantTableService;
         this.personService = personService;
+        this.orderStatusService = orderStatusService;
     }
 
     public Order save(Order order) {
@@ -59,6 +65,10 @@ public class OrderServiceImplementation implements OrderService {
         } else {
             return null;
         }
+
+        Optional<OrderStatus> status = orderStatusService.findByName(newOrderStatus);
+        status.ifPresent(order::setStatus);
+
         return orderRepository.save(order);
     }
 

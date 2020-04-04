@@ -13,4 +13,6 @@ public interface OrderStatusService {
     List<OrderStatus> findAll();
 
     OrderStatus delete(Long id);
+
+    Optional<OrderStatus> findByName(String name);
 }
