@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,14 +24,19 @@ public class OrderServiceImplementation implements OrderService {
     public OrderServiceImplementation(
         OrderRepository orderRepository,
         RestaurantTableService restaurantTableService,
-        PersonService personService
-    ) {
+        PersonService personService) {
         this.orderRepository = orderRepository;
         this.restaurantTableService = restaurantTableService;
         this.personService = personService;
     }
 
     public Order save(Order order) {
+        List<Order> orders = orderRepository
+            .findAllOrdersByTableInTime(order.getTable().getId(), order.getStartTime(), order.getFinishTime());
+        if (!orders.isEmpty()) {
+            return null;
+        }
+
         Optional<Person> person = personService.findById(order.getPerson().getId());
         if (person.isPresent()) {
             order.setPerson(person.get());

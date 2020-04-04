@@ -18,4 +18,11 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
         + "or (:start <= o.startTime and :finish >= o.finishTime))")
     List<Order> findAllOrdersByRestaurantIdInTime(
         @Param("id") Long id, @Param("start") Date start, @Param("finish") Date finish);
+
+    @Query("select o from Order o where (o.table.id = :id) and "
+        + "((:start >= o.startTime and :start < o.finishTime) "
+        + "or (:finish > o.startTime and :finish < o.finishTime) "
+        + "or (:start <= o.startTime and :finish >= o.finishTime))")
+    List<Order> findAllOrdersByTableInTime(
+        @Param("id") Long id, @Param("start") Date start, @Param("finish") Date finish);
 }

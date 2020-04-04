@@ -32,6 +32,9 @@ public class OrderController {
         }
 
         Order result = orderService.save(order);
+        if (result == null) {
+            return ResponseEntity.badRequest().build();
+        }
         return ResponseEntity.created(new URI("/api/orders"))
             .body(result);
     }
