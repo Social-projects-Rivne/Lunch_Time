@@ -20,26 +20,13 @@ import java.util.List;
 
 @Component
 public class DatabaseSeed {
-    String[] restaurantName = new String[]{"Celentano", "Manhattan", "Egoista", "CasaNuova", "LaRiva",
-        "TrattoriaDaVentotto", "Father", "Avocado", "PuriRivne", "Brooklyn", "Masuri",
-        "Melrose", "Valenca", "Marlow&Sons", "BonefishGrill", "Rubirosa", "LunaStella", "Beso", "Burgerclub",
-        "Gavana", "Amadeus", "Semifreddo", "Bigoli", "RedLobster", "Semifreddo", "Chachapuri", "Citronelle"};
-    String[] userName = new String[]{"Bob", "Devid", "Tania", "Pleasure", "Kruz", "Tom", "Alan", "Oksana",
-        "Leo", "Fred", "Olena", "Andriy", "Tania", "Pleasure", "Kruz", "Tom", "Alan", "Bob", "Yura", "Roma",
-        "Oleg", "Nazar", "Kolia", "David", "Olia", "Sasha", "Yulia", "Ivan", "Vova"};
+    String[] restaurantName = new String[]{"Celentano", "Manhattan", "CasaNuova", "LaRiva", "PuriRivne"};
+    String[] userName = new String[]{"Bob", "Devid", "Andriy", "Yura", "Roma"};
     String[] eventName = new String[]{"Party", "Karaoke", "Concert", "Party", "Tasting"};
     String[] eventDate = new String[]{"2020-03-25 10:20", "2020-03-26 17:05",
         "2020-04-05 12:00", "2020-12-31 15:00", "2021-01-20 22:00"};
-    Float[] cordLatitude = new Float[]{50.616294f, 50.618261f, 50.620219f, 50.616146f, 50.618318f,
-        50.624449f, 50.616294f, 50.618261f, 50.620219f, 50.616146f, 50.618318f, 50.624449f, 50.616294f,
-        50.618261f, 50.620219f, 50.616146f, 50.618318f, 50.624449f, 50.616294f, 50.618261f, 50.620219f,
-        50.616146f, 50.618318f, 50.624449f, 50.616294f, 50.618261f, 50.620219f, 50.616146f, 50.618318f,
-        50.624449f};
-    Float[] cordLongitude = new Float[]{26.275728f, 26.260064f, 26.241863f, 26.253994f, 26.252249f,
-        26.249677f, 26.275728f, 26.260064f, 26.241863f, 26.253994f, 26.252249f, 26.249677f, 26.275728f,
-        26.260064f, 26.241863f, 26.253994f, 26.252249f, 26.249677f, 26.275728f, 26.260064f, 26.241863f,
-        26.253994f, 26.252249f, 26.249677f, 26.275728f, 26.260064f, 26.241863f, 26.253994f, 26.252249f,
-        26.249677f};
+    Float[] cordLatitude = new Float[]{50.616294f, 50.618261f, 50.620219f, 50.616146f, 50.618318f};
+    Float[] cordLongitude = new Float[]{26.275728f, 26.260064f, 26.241863f, 26.253994f, 26.252249f};
 
     private final RestaurantRepository restaurantRepository;
     private final FeedbackRepository feedbackRepository;
