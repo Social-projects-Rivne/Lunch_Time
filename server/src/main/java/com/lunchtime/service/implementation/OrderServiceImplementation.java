@@ -84,7 +84,7 @@ public class OrderServiceImplementation implements OrderService {
         return findById(id)
             .map(order -> {
                 order.setDeleted(true);
-                return save(order);
+                return orderRepository.save(order);
             })
             .orElseGet(null);
     }
