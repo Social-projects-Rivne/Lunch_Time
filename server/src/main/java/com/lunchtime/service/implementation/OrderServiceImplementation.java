@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +32,14 @@ public class OrderServiceImplementation implements OrderService {
     }
 
     public Order save(Order order) {
+        Date currentDate = new Date();
+        if (currentDate.after(order.getStartTime())) {
+            return null;
+        }
+        if (order.getStartTime().after(order.getFinishTime())) {
+            return null;
+        }
+
         List<Order> orders = orderRepository
             .findAllOrdersByTableInTime(order.getTable().getId(), order.getStartTime(), order.getFinishTime());
         if (!orders.isEmpty()) {
