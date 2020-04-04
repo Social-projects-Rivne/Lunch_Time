@@ -69,4 +69,13 @@ public class RestaurantTableServiceImplement implements RestaurantTableService {
                     .count()) < 1)
                     .collect(Collectors.toList());
     }
+
+    public RestaurantTable delete(Long id) {
+        return findById(id)
+            .map(table -> {
+                table.setDeleted(true);
+                return restaurantTableRepository.save(table);
+            })
+            .orElseGet(null);
+    }
 }

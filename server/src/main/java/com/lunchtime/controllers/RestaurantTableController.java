@@ -46,19 +46,19 @@ public class RestaurantTableController {
     }
 
     @GetMapping
-    public ResponseEntity<List<RestaurantTable>> getAllTables(Pageable pageable) {
+    public ResponseEntity<Page<RestaurantTable>> getAllTables(Pageable pageable) {
         Page<RestaurantTable> page = restaurantTableService.findAll(pageable);
         return ResponseEntity.ok()
-            .body(page.getContent());
+            .body(page);
     }
 
     @GetMapping(params = ("restaurantId"))
-    public ResponseEntity<List<RestaurantTable>> getTablesByRestaurantId(
+    public ResponseEntity<Page<RestaurantTable>> getTablesByRestaurantId(
         Pageable pageable, @RequestParam("restaurantId") Long id
     ) {
         Page<RestaurantTable> page = restaurantTableService.findAllByRestaurantId(pageable, id);
         return ResponseEntity.ok()
-            .body(page.getContent());
+            .body(page);
     }
 
     @GetMapping("available")
