@@ -33,7 +33,7 @@ public class OrderStatusServiceImplementation implements OrderStatusService {
         return findById(id)
             .map(status -> {
                 status.setDeleted(true);
-                return save(status);
+                return orderStatusRepository.save(status);
             })
             .orElseGet(null);
     }
