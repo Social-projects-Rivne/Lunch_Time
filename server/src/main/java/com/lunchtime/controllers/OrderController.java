@@ -40,10 +40,10 @@ public class OrderController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Order>> getAllOrders(Pageable pageable) {
+    public ResponseEntity<Page<Order>> getAllOrders(Pageable pageable) {
         Page<Order> page = orderService.findAll(pageable);
         return ResponseEntity.ok()
-            .body(page.getContent());
+            .body(page);
     }
 
     @GetMapping("{id}")
