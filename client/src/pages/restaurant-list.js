@@ -23,7 +23,7 @@ class ListRestaurant extends Component {
   }
 
   getAll(props) {
-    Api.getAll(`restaurants?page=${props}`)
+    Api.getAll(`restaurants?page=${props}&size=21`)
       .then((response) => {
         if (response.error) {
           // eslint-disable-next-line no-console

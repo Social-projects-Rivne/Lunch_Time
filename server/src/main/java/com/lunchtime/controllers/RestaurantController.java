@@ -65,7 +65,7 @@ public class RestaurantController {
     @GetMapping()
     public ResponseEntity<Page<Restaurant>> getAll(Pageable pageable) {
         return ResponseEntity.ok()
-            .body(restaurantService.findAll(PageRequest.of(pageable.getPageNumber(), 21)));
+            .body(restaurantService.findAll(pageable));
     }
 
     @GetMapping("{id}")
