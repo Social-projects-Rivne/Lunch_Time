@@ -24,22 +24,20 @@ class NewOrder extends Component {
   }
 
   getAvailableTables() {
-    const { location } = this.props;
-    if (location.restaurantId) {
-      const start = this.formatDateTime(this.state.startDate);
-      const finish = this.formatDateTime(this.state.finishDate);
-      Api.get(`tables/available?id=${location.restaurantId}&start=${start}&finish=${finish}`)
-        .then((response) => {
-          if (response.error) {
-            // eslint-disable-next-line no-console
-            console.error(response);
-            return;
-          }
-          this.setState({
-            availableTables: response.data,
-          });
+    const { match } = this.props;
+    const start = this.formatDateTime(this.state.startDate);
+    const finish = this.formatDateTime(this.state.finishDate);
+    Api.get(`tables/available?id=${match.params.id}&start=${start}&finish=${finish}`)
+      .then((response) => {
+        if (response.error) {
+          // eslint-disable-next-line no-console
+          console.error(response);
+          return;
+        }
+        this.setState({
+          availableTables: response.data,
         });
-    }
+      });
   }
 
   saveOrder() {
@@ -163,7 +161,7 @@ class NewOrder extends Component {
 }
 
 NewOrder.propTypes = {
-  location: PropTypes.any.isRequired,
+  match: PropTypes.any.isRequired,
 };
 
 export default NewOrder;
