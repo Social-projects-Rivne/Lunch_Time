@@ -83,8 +83,9 @@ class NewOrder extends Component {
   handleDateTimePicker(label, date) {
     this.setState({
       [label]: date,
+    }, () => {
+      this.getAvailableTables();
     });
-    this.getAvailableTables();
   }
 
   handleFormControl(data) {
