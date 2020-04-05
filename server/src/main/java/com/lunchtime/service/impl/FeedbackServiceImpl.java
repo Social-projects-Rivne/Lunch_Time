@@ -1,6 +1,6 @@
-package com.lunchtime.implementation;
+package com.lunchtime.service.impl;
 
-import com.lunchtime.dto.FeedbackDto;
+import com.lunchtime.service.dto.FeedbackDto;
 import com.lunchtime.models.Feedback;
 import com.lunchtime.models.Person;
 import com.lunchtime.models.Restaurant;
@@ -13,14 +13,12 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.Valid;
-import java.sql.Date;
 import java.time.Instant;
-import java.util.Calendar;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class FeedbackServiceImplement implements FeedbackService {
+public class FeedbackServiceImpl implements FeedbackService {
 
     private final FeedbackRepository feedbackRepository;
     private final PersonRepository personRepository;

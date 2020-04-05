@@ -1,24 +1,18 @@
 package com.lunchtime.controllers;
 
-import com.lunchtime.LunchTimeApplication;
-import com.lunchtime.dto.FeedbackDto;
-import com.lunchtime.implementation.FeedbackServiceImplement;
+import com.lunchtime.service.dto.FeedbackDto;
+import com.lunchtime.service.impl.FeedbackServiceImpl;
 import com.lunchtime.models.Feedback;
 import com.lunchtime.models.Person;
 import com.lunchtime.models.Restaurant;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.JUnit4;
 import org.mockito.Mock;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultMatcher;
 
-import java.net.URISyntaxException;
 import java.time.Instant;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -28,14 +22,13 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class FeedbackControllerTest {
 
     @Mock
-    private FeedbackServiceImplement mockFeedbackServiceImpl;
+    private FeedbackServiceImpl mockFeedbackServiceImpl;
 
     private FeedbackController feedbackControllerUnderTest;
 
