@@ -13,7 +13,7 @@ class Feedback extends Component {
     this.state = {
       allFeedback: [],
       pieceFeedback: [],
-      maxCommentShow: 1,
+      maxCommentShow: 5,
       start: 0,
       last: 0,
     };

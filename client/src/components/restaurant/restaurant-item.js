@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Tab, Tabs, Container } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
 import Api from '../../services/api';
 import About from './restaurant-about';
 import '../../styles/restaurant-item.css';
+import Feedback from '../feedbacks/feedback';
 
 class Restaurant extends Component {
   constructor(props) {
@@ -37,6 +37,7 @@ class Restaurant extends Component {
 
   render() {
     const { isFetching, restaurant } = this.state;
+    const { match: { params: { id } } } = this.props;
     return (
       <Container className="restaurant-container">
         <h2>{restaurant.name}</h2>
@@ -51,7 +52,7 @@ class Restaurant extends Component {
             <h3>Events</h3>
           </Tab>
           <Tab eventKey="feedback" title="Feedback">
-            <Link to="/feedback">Feedback</Link>
+            <Feedback id={id} />
           </Tab>
         </Tabs>
       </Container>

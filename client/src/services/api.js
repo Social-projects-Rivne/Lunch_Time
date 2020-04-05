@@ -3,6 +3,7 @@ import axios from 'axios';
 class Api {
   constructor() {
     this.apiUrl = 'http://localhost:8080/api/';
+    this.source = axios.CancelToken.source();
   }
 
   getAll(endpoint) {
@@ -34,12 +35,11 @@ class Api {
     } catch (error) {
       return null;
     }
-
     return data;
   }
 
   post(endpoint, body) {
-    return axios.post(endpoint, { body })
+    return axios.post(`${this.apiUrl}${endpoint}`, body)
       .then((response) => {
         return { error: null, data: response.data };
       })
