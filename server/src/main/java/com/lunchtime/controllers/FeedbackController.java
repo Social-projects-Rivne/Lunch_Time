@@ -10,6 +10,8 @@ import com.lunchtime.service.impl.FeedbackServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping("/api/feedback")
 public class FeedbackController {

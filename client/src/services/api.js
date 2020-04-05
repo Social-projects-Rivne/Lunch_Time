@@ -3,7 +3,6 @@ import axios from 'axios';
 class Api {
   constructor() {
     this.apiUrl = 'http://localhost:8080/api/';
-    this.source = axios.CancelToken.source();
   }
 
   getAll(endpoint) {

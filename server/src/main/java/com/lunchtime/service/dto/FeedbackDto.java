@@ -15,7 +15,7 @@ public class FeedbackDto {
     private long id;
 
     @NotNull
-    @Size(min = 10, max = 400) // Feedback also?
+    @Size(min = 10, max = 400)
     private String description;
 
     @NotNull
@@ -25,6 +25,7 @@ public class FeedbackDto {
 
     private Instant instant;
 
+    @NotNull
     private long personId;
 
     private int counterLike;

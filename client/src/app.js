@@ -12,7 +12,6 @@ import NoMatch from './pages/no-match';
 import Events from './pages/events';
 import Restaurant from './components/restaurant/restaurant-item';
 import Profile from './components/profile/profile';
-import Feedback from './components/feedback/feedback';
 
 class App extends Component {
   render() {
@@ -24,7 +23,6 @@ class App extends Component {
           <Route path="/about" component={About} />
           <Route path="/events" component={Events} />
           <Route path="/restaurants/:id" component={Restaurant} />
-          <Route path="/restaurants/:id/feedback" component={Feedback} />
           <Route path="/restaurants" component={ListRestaurant} />
           <Route path="/login" component={Login} />
           <Route path="/registration" component={Registration} />
