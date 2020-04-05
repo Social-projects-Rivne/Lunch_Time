@@ -10,8 +10,6 @@ import com.lunchtime.service.impl.FeedbackServiceImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-//TODO remove redundant lines
-
 @RestController
 @RequestMapping("/api/feedback")
 public class FeedbackController {
@@ -43,6 +41,4 @@ public class FeedbackController {
         }
         return ResponseEntity.ok(feedback);
     }
-
-    //TODO remove redundant lines
 }
