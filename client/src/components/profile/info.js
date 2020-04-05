@@ -18,10 +18,9 @@ class Info extends Component {
     };
   }
 
-  showEditForm(isShowEdit, isShowAlert) {
+  showEditForm(isShowEdit) {
     this.setState({
       isEditProfile: isShowEdit,
-      isShowAlert: isShowAlert,
     });
   }
 
@@ -31,12 +30,11 @@ class Info extends Component {
     if (isFetching && !isEditProfile) {
       return (
         <Container fluid>
-          {isShowAlert ? (
-            <AlertBase
-              type="success"
-              title="Your profile was successfully updated"
-            />
-          ) : ('')}
+          <AlertBase
+            show={isShowAlert}
+            type="success"
+            title="Your profile was successfully updated"
+          />
           <Row className="profile-row">
             <Col md="6">
               <p>
@@ -64,7 +62,7 @@ class Info extends Component {
           <Button className="btn-inf m-button ml-3">Add restaurant</Button>
           <hr className="hr-border" />
           <Button
-            onClick={() => this.showEditForm(true, false)}
+            onClick={() => this.showEditForm(true)}
             className="btn-inf m-button ml-3"
           >
             Update profile
@@ -76,8 +74,8 @@ class Info extends Component {
     if (isEditProfile) {
       return (
         <InfoChange
-          onChangeData={() => this.showEditForm(false, true)}
-          updateUser={(updatedUser) => this.setState({ user: updatedUser })}
+          onChangeData={() => this.showEditForm(false)}
+          updateUser={(updatedUser) => this.setState({ user: updatedUser, isShowAlert: true })}
           user={user}
         />
       );

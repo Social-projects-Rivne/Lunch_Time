@@ -98,15 +98,14 @@ class InfoChange extends React.Component {
     const {
       isShowAlert, user, updatedUser, errors,
     } = this.state;
-
+    console.log(isShowAlert);
     return (
       <Container fluid>
-        {isShowAlert ? (
-          <AlertBase
-            type="danger"
-            title={Object.values(errors).join('')}
-          />
-        ) : ('')}
+        <AlertBase
+          show={isShowAlert}
+          type="danger"
+          title={Object.values(errors).join('')}
+        />
         <Row className="profile-row">
           <Col md="6">
             <Input

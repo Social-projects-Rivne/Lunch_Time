@@ -6,17 +6,24 @@ class AlertBase extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      show: true,
+      isShow: this.props.show,
     };
+  }
+
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (nextProps.show !== this.state.isShow) {
+      this.setState({ isShow: nextProps.show });
+    }
   }
 
   render() {
     const { type, title } = this.props;
-    const { show } = this.state;
+    const { isShow } = this.state;
     return (
       <div>
-        {show && (
-        <Alert variant={type} onClose={() => this.setState({ show: false })} dismissible>
+        {isShow && (
+        <Alert variant={type} onClose={() => this.setState({ isShow: false })} dismissible>
           <Alert.Heading>{title}</Alert.Heading>
         </Alert>
         )}
@@ -28,6 +35,7 @@ class AlertBase extends React.Component {
 AlertBase.propTypes = {
   type: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
+  show: PropTypes.bool.isRequired,
 };
 
 export default AlertBase;
