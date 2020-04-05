@@ -79,7 +79,6 @@ class FeedbackSend extends Component {
       attemptCount: true,
       tooLongFeedback: true,
     });
-    // if (currentCallId !== this.state.currentCallId) return;
     setTimeout(() => {
       if (currentCallId !== this.state.currentCallId) return;
       this.setState({
