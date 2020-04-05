@@ -89,8 +89,8 @@ class InfoChange extends React.Component {
           this.setAlertState(true);
           return;
         }
-        this.props.onChangeData();
         this.props.updateUser(user);
+        this.props.history.push('/profile');
       });
   }
 
@@ -98,7 +98,6 @@ class InfoChange extends React.Component {
     const {
       isShowAlert, user, updatedUser, errors,
     } = this.state;
-    console.log(isShowAlert);
     return (
       <Container fluid>
         <AlertBase
@@ -162,8 +161,8 @@ class InfoChange extends React.Component {
 
 InfoChange.propTypes = {
   user: PropTypes.any.isRequired,
-  onChangeData: PropTypes.any.isRequired,
   updateUser: PropTypes.any.isRequired,
+  history: PropTypes.any.isRequired,
 };
 
 export default withRouter(InfoChange);

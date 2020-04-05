@@ -5,29 +5,17 @@ import {
 import Avatar from 'react-avatar';
 import PropTypes from 'prop-types';
 import '../../styles/profile-info.css';
+import { Link } from 'react-router-dom';
 import AlertBase from '../shared/alert-base';
-import InfoChange from './info-change';
 
 class Info extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isShowAlert: false,
-      isEditProfile: false,
-      user: this.props.user,
-    };
-  }
-
-  showEditForm(isShowEdit) {
-    this.setState({
-      isEditProfile: isShowEdit,
-    });
+  componentWillUnmount() {
+    this.props.showAlert(false);
   }
 
   render() {
-    const { isFetching } = this.props;
-    const { isShowAlert, isEditProfile, user } = this.state;
-    if (isFetching && !isEditProfile) {
+    const { isFetching, user, isShowAlert } = this.props;
+    if (isFetching) {
       return (
         <Container fluid>
           <AlertBase
@@ -61,23 +49,15 @@ class Info extends Component {
           <hr className="hr-border" />
           <Button className="btn-inf m-button ml-3">Add restaurant</Button>
           <hr className="hr-border" />
-          <Button
-            onClick={() => this.showEditForm(true)}
-            className="btn-inf m-button ml-3"
-          >
-            Update profile
-          </Button>
+          <Link to="edit">
+            <Button
+              className="btn-inf m-button ml-3"
+            >
+              Update profile
+            </Button>
+          </Link>
           <Button className="btn-inf ml-3" variant="danger">Remove account</Button>
         </Container>
-      );
-    }
-    if (isEditProfile) {
-      return (
-        <InfoChange
-          onChangeData={() => this.showEditForm(false)}
-          updateUser={(updatedUser) => this.setState({ user: updatedUser, isShowAlert: true })}
-          user={user}
-        />
       );
     }
     return (
@@ -88,7 +68,9 @@ class Info extends Component {
 
 Info.propTypes = {
   isFetching: PropTypes.bool.isRequired,
+  isShowAlert: PropTypes.bool.isRequired,
   user: PropTypes.any.isRequired,
+  showAlert: PropTypes.any.isRequired,
 };
 
 export default Info;
