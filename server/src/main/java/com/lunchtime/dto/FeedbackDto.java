@@ -6,7 +6,7 @@ import lombok.Setter;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
-import java.sql.Date;
+import java.time.Instant;
 
 @Getter
 @Setter
@@ -23,7 +23,7 @@ public class FeedbackDto {
 
     private boolean isActive;
 
-    private Date date;
+    private Instant instant;
 
     private long personId;
 

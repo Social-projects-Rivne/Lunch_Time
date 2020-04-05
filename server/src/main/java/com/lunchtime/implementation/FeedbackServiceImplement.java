@@ -37,13 +37,16 @@ public class FeedbackServiceImplement implements FeedbackService {
             feedback.setPerson(person);
             feedback.setRestId(restaurant);
             feedback.setDescription(feedbackDto.getDescription());
-            feedback.setDate(new Date(Calendar.getInstance().getTimeInMillis()));
+            feedback.setInstant(Instant.now());
+            System.out.println(feedback.getInstant());
             feedbackRepository.save(feedback);
             feedbackDto.setId(feedback.getId());
             feedbackDto.setActive(feedback.getIsActive());
             feedbackDto.setCounterDislike(feedback.getCounterDislike());
             feedbackDto.setCounterLike(feedback.getCounterLike());
-            feedbackDto.setDate(new Date(Calendar.getInstance().getTimeInMillis()));
+            System.out.println(feedback.getInstant());
+            System.out.println(feedback.getInstant().toEpochMilli());
+            feedbackDto.setInstant(feedback.getInstant());
             System.out.println(1);
             return feedbackDto;
         } catch (EntityNotFoundException e) {

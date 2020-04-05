@@ -12,6 +12,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.Date;
@@ -98,10 +99,11 @@ public class DatabaseSeed {
 
         for (Long i = Long.valueOf(0); i < restaurantName.length; i++) {
 
+            Instant instant = Instant.now();
             Feedback feedback = new Feedback(
                 "User ".concat(userName[i.intValue()]).concat(" write comment to restaurant"),
                 true,
-                new Date(System.currentTimeMillis()),
+                instant,
                 person.get(i.intValue()),
                 restaurants.get(i.intValue()),
                 3 + i.intValue(),
