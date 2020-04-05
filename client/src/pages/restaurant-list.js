@@ -12,6 +12,7 @@ class ListRestaurant extends Component {
     this.state = {
       totalPages: 0,
       number: 0,
+      pageSize: 21,
       restaurants: [],
       isFetching: false,
     };
@@ -19,11 +20,11 @@ class ListRestaurant extends Component {
   }
 
   componentDidMount() {
-    this.getAll(this.state.number);
+    this.getAll(this.state.number, this.state.pageSize);
   }
 
-  getAll(props) {
-    Api.getAll(`restaurants?page=${props}&size=21`)
+  getAll(page, pageSize) {
+    Api.getAll(`restaurants?page=${page}&size=${pageSize}`)
       .then((response) => {
         if (response.error) {
           // eslint-disable-next-line no-console
@@ -44,7 +45,7 @@ class ListRestaurant extends Component {
   }
 
   handlePageChange(page) {
-    this.getAll(page - 1);
+    this.getAll(page - 1, this.state.pageSize);
   }
 
   initRestaurantResultCard() {
@@ -67,9 +68,8 @@ class ListRestaurant extends Component {
   initPagination() {
     const { number, totalPages } = this.state;
     if (totalPages === 1) {
-      return;
+      return null;
     }
-    // eslint-disable-next-line consistent-return
     return (
       <Pagination
         current_page={number + 1}
