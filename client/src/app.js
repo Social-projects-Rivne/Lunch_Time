@@ -12,7 +12,7 @@ import NoMatch from './pages/no-match';
 import Events from './pages/events';
 import Restaurant from './components/restaurant/restaurant-item';
 import Profile from './components/profile/profile';
-import Feedback from './components/feedbacks/feedback';
+import Feedback from './components/feedback/feedback';
 
 class App extends Component {
   render() {
