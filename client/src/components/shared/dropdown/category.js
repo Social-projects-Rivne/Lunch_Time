@@ -17,6 +17,16 @@ class Category extends Component {
     this.onVisibleChange = this.onVisibleChange.bind(this);
   }
 
+  shouldComponentUpdate(nextProps) {
+    if (
+      this.props.categories
+      && nextProps.categories
+      && this.props.categories.length !== nextProps.categories.length
+    ) {
+      this.setState({ selected: nextProps.categories });
+    }
+  }
+
   onVisibleChange(visible) {
     this.setState({
       visible: visible,
@@ -90,6 +100,7 @@ Category.propTypes = {
   items: PropTypes.any.isRequired,
   path: PropTypes.string.isRequired,
   homePath: PropTypes.string.isRequired,
+  categories: PropTypes.string.isRequired,
 };
 
 export default Category;

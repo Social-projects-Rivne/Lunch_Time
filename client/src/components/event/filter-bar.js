@@ -8,6 +8,13 @@ import Category from '../shared/dropdown/category';
 import info from '../info/events';
 
 class FilterBar extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      categories: [],
+    };
+  }
+
   onSelectCategory(path) {
     this.props.onChangeEvents(path);
   }
@@ -20,6 +27,7 @@ class FilterBar extends React.Component {
           homePath="events"
           path="events/categories/"
           items={info[0].values}
+          categories={this.state.categories}
           onApply={(path) => this.onSelectCategory(path)}
         />
 
