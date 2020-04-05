@@ -36,16 +36,12 @@ public class FeedbackServiceImpl implements FeedbackService {
             feedback.setRestId(restaurant);
             feedback.setDescription(feedbackDto.getDescription());
             feedback.setInstant(Instant.now());
-            System.out.println(feedback.getInstant());
             feedbackRepository.save(feedback);
             feedbackDto.setId(feedback.getId());
             feedbackDto.setActive(feedback.getIsActive());
             feedbackDto.setCounterDislike(feedback.getCounterDislike());
             feedbackDto.setCounterLike(feedback.getCounterLike());
-            System.out.println(feedback.getInstant());
-            System.out.println(feedback.getInstant().toEpochMilli());
             feedbackDto.setInstant(feedback.getInstant());
-            System.out.println(1);
             return feedbackDto;
         } catch (EntityNotFoundException e) {
             e.printStackTrace();
