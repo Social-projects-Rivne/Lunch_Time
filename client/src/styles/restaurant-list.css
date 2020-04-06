@@ -1,0 +1,10 @@
+.restaurant-list-container{
+  background-size: cover;
+  background: url("/img/events-bkg.jpg") no-repeat center center fixed;
+  min-height: 100vh;
+}
+
+.spinner-container{
+  height: 100%;
+  min-height: 50vh;
+}

@@ -5,6 +5,7 @@ import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import Spinner from 'react-bootstrap/Spinner';
 import Api from '../services/api';
 import RestaurantCardResults from '../components/restaurant/restaurant-card-results';
+import '../styles/restaurant-list.css';
 
 class RestaurantList extends Component {
   constructor(props) {
@@ -12,7 +13,7 @@ class RestaurantList extends Component {
     this.state = {
       totalPages: 0,
       number: 0,
-      pageSize: 21,
+      pageSize: 2,
       restaurants: [],
       isFetching: false,
     };
@@ -84,14 +85,14 @@ class RestaurantList extends Component {
     const { isFetching } = this.state;
     if (isFetching) {
       return (
-        <Container fluid className="page-container p-0">
+        <Container fluid className="restaurant-list-container">
           {this.initRestaurantResultCard()}
           {this.initPagination()}
         </Container>
       );
     }
     return (
-      <Container fluid className="page-container p-0">
+      <Container className="restaurant-list-container">
         {this.initButtonToolbar()}
       </Container>
     );
