@@ -33,7 +33,7 @@ class Api {
 
   // eslint-disable-next-line no-unused-vars
   getLogedin(_email, _password) {
-    axios.post('/authenticate', {
+    axios.post('/api/authenticate', {
       email: _email,
       password: _password,
 
