@@ -6,26 +6,21 @@ import java.util.List;
 
 import com.lunchtime.service.dto.FeedbackDto;
 import com.lunchtime.models.Feedback;
-import com.lunchtime.service.impl.FeedbackServiceImpl;
+import com.lunchtime.service.impl.FeedbackService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/feedback")
 public class FeedbackController {
 
-    //TODO rename variable name to normal CamelCase
-    private final FeedbackServiceImpl feedbackServiceimplementation;
-
-    public FeedbackController(FeedbackServiceImpl feedbackServiceimplementation) {
-        this.feedbackServiceimplementation = feedbackServiceimplementation;
-    }
+    private final FeedbackService feedbackService;
 
     @PostMapping
     public ResponseEntity<FeedbackDto> create(@RequestBody FeedbackDto feedbackDto) throws URISyntaxException {
-        FeedbackDto savedFeedbackDto = feedbackServiceimplementation.save(feedbackDto);
+        FeedbackDto savedFeedbackDto = feedbackService.save(feedbackDto);
         if (savedFeedbackDto == null) {
             return ResponseEntity.badRequest()
                 .build();
@@ -37,7 +32,7 @@ public class FeedbackController {
     @GetMapping(params = ("restaurantId"))
     public ResponseEntity<List<Feedback>> getAllByRestaurantId(@RequestParam("restaurantId") Long id) {
 
-        List<Feedback> feedback = feedbackServiceimplementation.findByRestId_Id(id);
+        List<Feedback> feedback = feedbackService.findByRestId_Id(id);
         if (feedback.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
