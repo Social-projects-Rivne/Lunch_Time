@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 
 @Service
-public class MyUserDetailsServiceImpl implements UserService {
+public class MyPersonDetailsServiceImpl implements UserService {
 
     @Autowired
     private PersonRepository personRepository;

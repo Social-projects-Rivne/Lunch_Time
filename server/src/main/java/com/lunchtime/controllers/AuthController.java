@@ -3,7 +3,7 @@ package com.lunchtime.controllers;
 import com.lunchtime.models.JwtAuthenticationToken;
 import com.lunchtime.models.JwtPersonDetails;
 import com.lunchtime.security.JwtUtil;
-import com.lunchtime.service.impl.MyUserDetailsServiceImpl;
+import com.lunchtime.service.impl.MyPersonDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,7 +23,7 @@ public class AuthController {
     private JwtUtil jwtTokenUtil;
 
     @Autowired
-    private MyUserDetailsServiceImpl userDetailsService;
+    private MyPersonDetailsServiceImpl userDetailsService;
 
     @PostMapping("/authenticate")
     public ResponseEntity<?> createAuthenticationToken(
