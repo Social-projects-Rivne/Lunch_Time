@@ -135,9 +135,9 @@ class NewOrder extends Component {
     return this.state.startDate >= this.state.finishDate;
   }
 
-  showErrorAlert(message) {
+  showAlert(message, variant = 'danger') {
     return (
-      <Alert variant="danger">
+      <Alert variant={variant}>
         {message}
       </Alert>
     );
@@ -161,12 +161,13 @@ class NewOrder extends Component {
           <Form.Group>
             <Form.Label>Finish time: </Form.Label>
             <br />
-            {this.isDateTimesInvalid() ? this.showErrorAlert('Finish time should be more than Start time!') : null}
+            {this.isDateTimesInvalid() ? this.showAlert('Finish time should be more than Start time!') : null}
             {this.selectDateTime('finishDate')}
           </Form.Group>
 
           <Form.Group>
             <Form.Label>Example select</Form.Label>
+            {!this.state.availableTables.length ? this.showAlert('There are not available tables', 'warning') : null}
             <Form.Control
               as="select"
               defaultValue={this.state.availableTables.length ? this.state.availableTables[0] : null}
@@ -191,7 +192,7 @@ class NewOrder extends Component {
           <Form.Group>
             <Form.Label>Number of visitors</Form.Label>
             { this.state.availableTables.length && this.state.visitors > this.getMaximumOfVisitors()
-              ? this.showErrorAlert('Number of visitors shouldn\'t be more than maximum number of visitors!') : null}
+              ? this.showAlert('Number of visitors shouldn\'t be more than maximum number of visitors!') : null}
             <Form.Control
               type="number"
               name="visitors"
