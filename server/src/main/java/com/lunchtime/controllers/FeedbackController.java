@@ -24,12 +24,12 @@ public class FeedbackController {
             return null;
         }
         FeedbackDto savedFeedbackDto = feedbackService.save(feedbackDto);
-        if (savedFeedbackDto == null) {
-            return ResponseEntity.badRequest()
-                .build();
+        if (savedFeedbackDto != null) {
+            return ResponseEntity.created(new URI("/api/restaurants"))
+                .body(savedFeedbackDto);
         }
-        return ResponseEntity.created(new URI("/api/restaurants"))
-            .body(savedFeedbackDto);
+        return ResponseEntity.badRequest()
+            .build();
     }
 
     @GetMapping(params = ("restaurantId"))

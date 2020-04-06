@@ -22,7 +22,7 @@ public class FeedbackDto {
 
     private boolean isActive;
 
-    private Instant instant;
+    private Instant date;
 
     @NotNull
     private long personId;

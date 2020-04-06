@@ -36,7 +36,7 @@ public class FeedbackMapper {
         feedback.setCounterLike(0);
         feedback.setPerson(person);
         feedback.setRestId(restaurant);
-        feedback.setInstant(Instant.now());
+        feedback.setDate(Instant.now());
 
         return feedback;
     }
@@ -53,7 +53,7 @@ public class FeedbackMapper {
         feedbackDto.setCounterLike(feedback.getCounterLike());
         feedbackDto.setPersonId(person.getId());
         feedbackDto.setRestId(restaurant.getId());
-        feedbackDto.setInstant(feedback.getInstant());
+        feedbackDto.setDate(feedback.getDate());
 
         return feedbackDto;
     }

@@ -25,7 +25,7 @@ public class Feedback {
 
     @NotNull
     @Column(name = "date")
-    private Instant instant;
+    private Instant date;
 
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
@@ -47,11 +47,11 @@ public class Feedback {
 
     public Feedback() {   }
 
-    public Feedback(String description, Boolean isActive, Instant instant,
+    public Feedback(String description, Boolean isActive, Instant date,
                     Person person, Restaurant restId, Integer counterLike, Integer counterDislike) {
         this.description = description;
         this.isActive = isActive;
-        this.instant = instant;
+        this.date = date;
         this.person = person;
         this.restId = restId;
         this.counterLike = counterLike;
