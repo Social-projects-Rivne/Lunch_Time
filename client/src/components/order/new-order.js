@@ -109,10 +109,11 @@ class NewOrder extends Component {
   }
 
   render() {
+    const { match } = this.props;
     return (
       <div>
         Restaurant №
-        {this.state.restaurantId}
+        {match.params.id}
         Start time:
         {this.selectDateTime('startDate')}
         Finish time:
