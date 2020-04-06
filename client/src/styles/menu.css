@@ -1,11 +1,37 @@
 .header {
-    
+   
     background-image: url('/img/dish-back.jpeg');
-    height: 10fr;
+    height: 70px;
 }
 
-.header span {
+.header h2 {
     text-align: center;
-    height: 5fr;
     color: black;
 }
+
+.menu-item {
+    text-align: left;
+    border: darkorange;
+    border-style: groove;
+    
+}
+
+.headers-item {
+    text-align: center;
+    border: yellow;
+    border-style: solid;
+    background-color: darkslategray;
+}
+
+.menu-item hr {
+    border: 1px solid #E1E1E1;
+}
+
+.headers-item p {
+    margin: 0px;
+}
+
+.col-item {
+    text-align: center;
+}
+

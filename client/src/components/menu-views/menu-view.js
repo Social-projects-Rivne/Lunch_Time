@@ -23,7 +23,6 @@ class Menu extends Component {
     Api.getAllMenuItemDishes('menuitemdish/restaurantId?restaurantId=', id)
       .then((response) => {
         if (response.error) {
-        // eslint-disable-next-line no-console
           console.error(response);
           return;
         }
@@ -37,7 +36,6 @@ class Menu extends Component {
   render() {
     const { menuitemdishes, isFetching } = this.state;
     return (
-
       <Container fluid className="menu">
         <Header />
         <Row>
