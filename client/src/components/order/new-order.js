@@ -54,6 +54,13 @@ class NewOrder extends Component {
     return null;
   }
 
+  getMaximumOfVisitors() {
+    if (this.state.table) {
+      return this.getTableCapacity(this.state.table);
+    }
+    return this.state.availableTables.length && this.state.availableTables[0].capacity;
+  }
+
   saveOrder() {
     let tableId;
     if (this.state.table) {
@@ -183,6 +190,8 @@ class NewOrder extends Component {
 
           <Form.Group>
             <Form.Label>Number of visitors</Form.Label>
+            { this.state.availableTables.length && this.state.visitors > this.getMaximumOfVisitors()
+              ? this.showErrorAlert('Number of visitors shouldn\'t be more than maximum number of visitors!') : null}
             <Form.Control
               type="number"
               name="visitors"
@@ -190,10 +199,7 @@ class NewOrder extends Component {
               onChange={(event) => this.handleFormControl(event)}
               placeholder="Number of visitors"
               min="1"
-              max={
-                this.state.table ? this.getTableCapacity(this.state.table)
-                  : (this.state.availableTables.length && this.state.availableTables[0].capacity)
-              }
+              max={this.getMaximumOfVisitors()}
             />
           </Form.Group>
 
@@ -209,7 +215,12 @@ class NewOrder extends Component {
             />
           </Form.Group>
         </Form>
-        <Button onClick={() => this.saveOrder()} disabled={this.isDateTimesInvalid()}>Create new order</Button>
+        <Button
+          onClick={() => this.saveOrder()}
+          disabled={this.isDateTimesInvalid() || (this.state.visitors > this.getMaximumOfVisitors())}
+        >
+          Create new order
+        </Button>
       </Container>
     );
   }
