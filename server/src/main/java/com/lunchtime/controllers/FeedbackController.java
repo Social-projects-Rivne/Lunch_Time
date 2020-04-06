@@ -20,7 +20,7 @@ public class FeedbackController {
 
     @PostMapping
     public ResponseEntity<FeedbackDto> create(@RequestBody FeedbackDto feedbackDto) throws URISyntaxException {
-        if(feedbackDto.getId() != 0) {
+        if (feedbackDto.getId() != 0) {
             return null;
         }
         FeedbackDto savedFeedbackDto = feedbackService.save(feedbackDto);
