@@ -5,13 +5,6 @@ axios.interceptors.request.use((config) => {
 
   if (token != null) {
     // eslint-disable-next-line no-param-reassign
-    config.headers['Content-Type'] = 'application/json';
-    // eslint-disable-next-line no-param-reassign
-    config.headers = {
-      'Access-Control-Allow-Origin': 'http://localhost:3000/',
-      'Access-Control-Allow-Methods': 'POST, GET, OPTIONS, PUT, DELETE',
-    };
-    // eslint-disable-next-line no-param-reassign
     config.headers.Authorization = `Bearer ${token}`;
   }
 
