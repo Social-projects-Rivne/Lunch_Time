@@ -19,6 +19,7 @@ class NewOrder extends Component {
       availableTables: [],
       table: null,
       visitors: 1,
+      description: '',
     };
   }
 
@@ -58,6 +59,7 @@ class NewOrder extends Component {
       finishTime: this.state.finishDate.toUTCString(),
       visitors: this.state.visitors,
       table: { id: tableId },
+      description: this.state.description,
     };
 
     Api.post('orders', order)
@@ -121,7 +123,7 @@ class NewOrder extends Component {
           {' '}
           {match.params.id}
         </h5>
-        <Form>
+        <Form name="orderForm">
           <Form.Group>
             <Form.Label>Start time:</Form.Label>
             <br />
@@ -165,6 +167,18 @@ class NewOrder extends Component {
               onChange={(event) => this.handleFormControl(event)}
               placeholder="Number of visitors"
               min="1"
+            />
+          </Form.Group>
+
+          <Form.Group>
+            <Form.Label>Description</Form.Label>
+            <Form.Control
+              as="textarea"
+              rows="3"
+              name="description"
+              placeholder="Write any comments to order"
+              maxLength="999"
+              onChange={(event) => this.handleFormControl(event)}
             />
           </Form.Group>
         </Form>
