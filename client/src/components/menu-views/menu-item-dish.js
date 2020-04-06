@@ -48,7 +48,6 @@ class MenuItemDish extends Component {
               </Row>
             );
           })}
-          <hr className="menu-item" />
           <Button variant="primary" type="submit" block>
             Make order
           </Button>

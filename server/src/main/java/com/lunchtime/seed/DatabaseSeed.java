@@ -1,6 +1,5 @@
 package com.lunchtime.seed;
 
-
 import com.lunchtime.models.*;
 import com.lunchtime.repository.*;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -10,19 +9,18 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.Date;
 import java.time.Instant;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-
-//TODO remove redundant empty lines in class
 
 @Component
 public class DatabaseSeed {
 
-    String[] dishesName = new String[] {"Pizza(salami)", "Soup", "Hamburger", "Potato with meet", "Stake"};
-    String[] categoryFood = new String[] {"Drinks", "Snacks", "Main cource", "Dessert"};
-    String[] dishPortion = new String[] {"500 gr", "300 gr", "230 gr", "150 gr", "400 gr"};
+    String[] dishesName = new String[] {"Salami", "Soup", "Hamburger", "Ice"};
+    String[] categoryFood = new String[] {"Pizza", "Main cource", "Snacks", "Dessert"};
+    String[] dishPortion = new String[] {"500 gr", "300 gr", "230 gr", "150 gr"};
+    String[] dishUrl = new String[] { "https://www.allstar-pizza.com/images/Pizza.jpg",
+                                      "https://art-lunch.ru/wp-content/uploads/2017/12/Soup_with_meatballs_001.jpg",
+                                      "https://apelsinka-rezept.ru/wp-content/uploads/domachniy-gamburger.jpg",
+                                      "https://ukr.media/static/ba/aimg/3/0/3/303704_1.jpg"};
     String[] restaurantName = new String[] {"Celentano", "Manhattan", "Egoista", "CasaNuova", "LaRiva",
         "TrattoriaDaVentotto", "Father", "Avocado", "PuriRivne", "Brooklyn", "Masuri",
         "Melrose", "Valenca", "Marlow&Sons", "BonefishGrill", "Rubirosa", "LunaStella", "Beso", "Burgerclub",
@@ -115,15 +113,17 @@ public class DatabaseSeed {
         List<Dish> dishesList = dishRepository.findAll();
         List<Restaurant> restaurantList = restaurantRepository.findAll();
 
-        for (Long i = 0L; i < dishesList.size(); i++) {
-            MenuItemDish menuItemDish = new MenuItemDish();
-            menuItemDish.setPortionSize(dishPortion[i.intValue()]);
-            menuItemDish.setPortionPrice(i.toString() + "00 grn");
-            menuItemDish.setDish(dishesList.get(i.intValue()));
-            menuItemDish.setPortionUnit(i.longValue() + 70L);
-            menuItemDish.setImageUrl("https://www.allstar-pizza.com/images/Pizza.jpg");
-            menuItemDish.setRestaurant(restaurantList.get(i.intValue()));
-            menuItemDishRepository.save(menuItemDish);
+        for (Long j = 0L; j < restaurantList.size(); j++) {
+            for (Long i = 0L; i < dishesList.size(); i++) {
+                MenuItemDish menuItemDish = new MenuItemDish();
+                menuItemDish.setPortionSize(dishPortion[i.intValue()]);
+                menuItemDish.setPortionPrice(i.toString() + "10 grn");
+                menuItemDish.setDish(dishesList.get(i.intValue()));
+                menuItemDish.setPortionUnit(i.longValue() + 70L);
+                menuItemDish.setImageUrl(dishUrl[i.intValue()]);
+                menuItemDish.setRestaurant(restaurantList.get(j.intValue()));
+                menuItemDishRepository.save(menuItemDish);
+            }
         }
     }
 
@@ -145,7 +145,7 @@ public class DatabaseSeed {
         for (Long i = 0L; i < dishesName.length; i++) {
             Dish dish = new Dish();
             dish.setName(dishesName[i.intValue()]);
-            dish.setIngredients(i.toString() + " example," + " example second," + " third ingr ");
+            dish.setIngredients(" first ingredient," + " second ingredient," + " third ingredient");
             dish.setCategoryfood(categoryFoodList.get(i.intValue()));
             dishRepository.save(dish);
         }
