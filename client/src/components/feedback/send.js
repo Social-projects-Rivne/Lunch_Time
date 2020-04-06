@@ -122,7 +122,7 @@ class FeedbackSend extends Component {
           console.log(error);
           this.showFeedbackNotSent();
         })
-        .then(() => {
+        .finally(() => {
           if (currentCallId !== this.state.currentCallId) return;
           this.setState({ isLoading: false, inputDisabled: false });
         });
