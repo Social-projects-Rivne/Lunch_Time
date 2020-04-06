@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.lunchtime.service.dto.FeedbackDto;
 import com.lunchtime.models.Feedback;
-import com.lunchtime.service.impl.FeedbackService;
+import com.lunchtime.service.FeedbackService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +20,9 @@ public class FeedbackController {
 
     @PostMapping
     public ResponseEntity<FeedbackDto> create(@RequestBody FeedbackDto feedbackDto) throws URISyntaxException {
+        if(feedbackDto.getId() != 0) {
+            return null;
+        }
         FeedbackDto savedFeedbackDto = feedbackService.save(feedbackDto);
         if (savedFeedbackDto == null) {
             return ResponseEntity.badRequest()

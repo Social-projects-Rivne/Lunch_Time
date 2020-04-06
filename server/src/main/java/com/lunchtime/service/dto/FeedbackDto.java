@@ -11,7 +11,6 @@ import java.time.Instant;
 @Getter
 @Setter
 public class FeedbackDto {
-    @Null
     private long id;
 
     @NotNull

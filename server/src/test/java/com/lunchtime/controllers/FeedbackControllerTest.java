@@ -4,7 +4,7 @@ import com.lunchtime.models.Feedback;
 import com.lunchtime.models.Person;
 import com.lunchtime.models.Restaurant;
 import com.lunchtime.service.dto.FeedbackDto;
-import com.lunchtime.service.impl.FeedbackService;
+import com.lunchtime.service.FeedbackService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,14 +22,14 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class FeedbackControllerTest {
 
     @Mock
-    private FeedbackService mockFeedbackServiceImpl;
+    private FeedbackService mockFeedbackService;
 
     private FeedbackController feedbackControllerUnderTest;
 
     @Before
     public void setUp() {
         initMocks(this);
-        feedbackControllerUnderTest = new FeedbackController(mockFeedbackServiceImpl);
+        feedbackControllerUnderTest = new FeedbackController(mockFeedbackService);
     }
 
     @Test
@@ -46,8 +46,8 @@ public class FeedbackControllerTest {
 
         feedbackControllerUnderTest.create(feedbackDto);
 
-        verify(mockFeedbackServiceImpl, times(1)).save(feedbackDto);
-        verifyNoMoreInteractions(mockFeedbackServiceImpl);
+        verify(mockFeedbackService, times(1)).save(feedbackDto);
+        verifyNoMoreInteractions(mockFeedbackService);
     }
 
 
@@ -62,10 +62,10 @@ public class FeedbackControllerTest {
                     Instant.ofEpochSecond(0L), 0L, Instant.ofEpochSecond(0L),
                     0L), 0, 0));
 
-        when(mockFeedbackServiceImpl.findByRestId_Id(0L)).thenReturn(feedback);
+        when(mockFeedbackService.findByRestId_Id(0L)).thenReturn(feedback);
         feedbackControllerUnderTest.getAllByRestaurantId(0L);
 
-        verify(mockFeedbackServiceImpl, times(1)).findByRestId_Id(0L);
-        verifyNoMoreInteractions(mockFeedbackServiceImpl);
+        verify(mockFeedbackService, times(1)).findByRestId_Id(0L);
+        verifyNoMoreInteractions(mockFeedbackService);
     }
 }

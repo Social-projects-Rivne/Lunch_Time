@@ -19,6 +19,14 @@ public class FeedbackMapper {
 
     public Feedback fromDtoToFeedback(FeedbackDto feedbackDto) {
         Feedback feedback = new Feedback();
+
+        //TODO (from narek developer)
+        // There is no necessary to make a request to DB here
+        // We just need to set POJO objects with only 'id' and it should work
+        // BUT: due to this, we need also another DTOs
+        // https://stackoverflow.com/a/6229149/11699467
+
+
         Person person = personRepository.getOne(feedbackDto.getPersonId());
         Restaurant restaurant = restaurantRepository.getOne(feedbackDto.getRestId());
 
