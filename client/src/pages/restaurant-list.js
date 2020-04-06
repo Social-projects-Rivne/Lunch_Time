@@ -6,7 +6,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import Api from '../services/api';
 import RestaurantCardResults from '../components/restaurant/restaurant-card-results';
 
-class ListRestaurant extends Component {
+class RestaurantList extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -98,4 +98,4 @@ class ListRestaurant extends Component {
   }
 }
 
-export default ListRestaurant;
+export default RestaurantList;
