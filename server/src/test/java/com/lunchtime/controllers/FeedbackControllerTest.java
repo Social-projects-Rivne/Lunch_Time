@@ -42,7 +42,7 @@ public class FeedbackControllerTest {
         feedbackDto.setDescription("description");
         feedbackDto.setRestId(0L);
         feedbackDto.setActive(false);
-        feedbackDto.setInstant(Instant.ofEpochSecond(0L));
+        feedbackDto.setDate(Instant.ofEpochSecond(0L));
         feedbackDto.setPersonId(0L);
         feedbackDto.setCounterLike(0);
         feedbackDto.setCounterDislike(0);
