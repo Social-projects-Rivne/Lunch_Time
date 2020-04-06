@@ -60,7 +60,7 @@ public class OrderServiceImplementation implements OrderService {
         }
 
         Optional<RestaurantTable> table = restaurantTableService.findById(order.getTable().getId());
-        if (table.isPresent()) {
+        if (table.isPresent() && table.get().getCapacity() >= order.getVisitors()) {
             order.setTable(table.get());
         } else {
             return null;
