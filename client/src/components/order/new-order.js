@@ -44,6 +44,16 @@ class NewOrder extends Component {
       });
   }
 
+  getTableCapacity(id) {
+    const table = this.state.availableTables.find((t) => {
+      return t.id === +id;
+    });
+    if (table) {
+      return table.capacity;
+    }
+    return null;
+  }
+
   saveOrder() {
     let tableId;
     if (this.state.table) {
@@ -171,7 +181,7 @@ class NewOrder extends Component {
             </Form.Control>
           </Form.Group>
 
-          <Form.Group controlId="exampleForm.ControlInput2">
+          <Form.Group>
             <Form.Label>Number of visitors</Form.Label>
             <Form.Control
               type="number"
@@ -180,6 +190,10 @@ class NewOrder extends Component {
               onChange={(event) => this.handleFormControl(event)}
               placeholder="Number of visitors"
               min="1"
+              max={
+                this.state.table ? this.getTableCapacity(this.state.table)
+                  : (this.state.availableTables.length && this.state.availableTables[0].capacity)
+              }
             />
           </Form.Group>
 
