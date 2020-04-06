@@ -6,9 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
 import javax.validation.Valid;
-
 import com.lunchtime.service.impl.CategoryFoodServiceImplement;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,9 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-
 import com.lunchtime.models.CategoryFood;
-
 
 @RestController
 @RequestMapping("/api/category")
@@ -52,15 +48,11 @@ public class CategoryFoodController {
     @PostMapping
     public ResponseEntity<CategoryFood> newCategory(@Valid @RequestBody CategoryFood categoryFood)
                throws URISyntaxException {
-
         CategoryFood newCategory = categoryFoodServiceImplement.save(categoryFood);
-
         return  ResponseEntity
                .created(new URI("/api/category"))
                .body(newCategory);
-
     }
-
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -73,5 +65,4 @@ public class CategoryFoodController {
         });
         return errors;
     }
-
 }

@@ -6,11 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
 import javax.validation.Valid;
-
-import com.lunchtime.models.CategoryFood;
-import com.lunchtime.models.Feedback;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -18,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-
 import com.lunchtime.models.Dish;
 import com.lunchtime.service.impl.DishServiseImplement;
 
@@ -62,7 +57,6 @@ public class DishController {
 
     }
 
-
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     private Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {
@@ -74,5 +68,4 @@ public class DishController {
         });
         return errors;
     }
-
 }

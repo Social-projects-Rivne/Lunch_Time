@@ -6,9 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
 import javax.validation.Valid;
-
 import com.lunchtime.service.impl.MenuItemDishServiceImplement;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -50,28 +48,21 @@ public class MenuItemDishController {
 
     @GetMapping("/restaurantId")
     public ResponseEntity<List<MenuItemDish>> getAllByRestaurantId(@RequestParam("restaurantId") Long id) {
-
         List<MenuItemDish> menuItemDishList = menuItemDishServiceImplement.findByRestaurantId(id);
         if (menuItemDishList.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-
         return ResponseEntity.ok(menuItemDishList);
-
     }
 
     @PostMapping
     public ResponseEntity<MenuItemDish> newMenuItemDish(@Valid @RequestBody MenuItemDish menuItemDish)
                throws URISyntaxException {
-
         MenuItemDish newMenuItemDish = menuItemDishServiceImplement.save(menuItemDish);
-
         return  ResponseEntity
                .created(new URI("/api/menuitemdish"))
                .body(newMenuItemDish);
-
     }
-
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -84,5 +75,4 @@ public class MenuItemDishController {
         });
         return errors;
     }
-
 }
