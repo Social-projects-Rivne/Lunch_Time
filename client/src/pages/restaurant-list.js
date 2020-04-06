@@ -92,7 +92,7 @@ class RestaurantList extends Component {
       );
     }
     return (
-      <Container className="restaurant-list-container">
+      <Container fluid className="restaurant-list-container">
         {this.initButtonToolbar()}
       </Container>
     );
