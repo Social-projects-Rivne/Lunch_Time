@@ -3,16 +3,16 @@ package com.lunchtime.controllers;
 import com.lunchtime.models.Event;
 import com.lunchtime.service.EventService;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
-//TODO do not use ? wildcard for generics. It would be better specifically mark the generic type.
 @RestController
 @RequestMapping("/api/events")
 public class EventController {
@@ -24,77 +24,75 @@ public class EventController {
     }
 
     @GetMapping
-    public ResponseEntity<?> getAll() {
+    public ResponseEntity<List<Event>> getAll() {
         List<Event> result = eventService.findAll();
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/categories/{category}")
-    public ResponseEntity<?> getByCategory(@PathVariable String[] category) {
+    public ResponseEntity<List<Event>> getByCategory(@PathVariable String[] category) {
         List<Event> result = eventService.findByCategory(category);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("date/{date}")
-    public ResponseEntity<?> getByDay(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+    public ResponseEntity<List<Event>> getByDay(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
         List<Event> result = eventService.findByDay(date);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("dates")
-    public ResponseEntity<?> getByDateBetween(
+    public ResponseEntity<List<Event>> getByDateBetween(
         @RequestParam("from") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
         @RequestParam("to") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate) {
         List<Event> result = eventService.findByDateBetween(startDate, endDate);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("month/{month}")
-    public ResponseEntity<?> getByMonth(@PathVariable("month") String month) {
+    public ResponseEntity<List<Event>> getByMonth(@PathVariable("month") String month) {
         try {
             List<Event> result = eventService.findByMonth(month);
-            return new ResponseEntity<>(result, HttpStatus.OK);
+            return ResponseEntity.ok(result);
         } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return ResponseEntity.badRequest().build();
         }
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable Long id) {
+    public ResponseEntity<Event> getById(@PathVariable Long id) {
         Optional<Event> result = eventService.findById(id);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return result.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound()
+            .build());
     }
 
     @PostMapping
-    public ResponseEntity<?> addEvent(@Valid @RequestBody Event event) {
+    public ResponseEntity<Event> create(@Valid @RequestBody Event event) {
         try {
             eventService.save(event);
-            return new ResponseEntity<>(event, HttpStatus.CREATED);
-        } catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return ResponseEntity.created(new URI("/api/events")).body(event);
+        } catch (IllegalArgumentException | URISyntaxException e) {
+            return  ResponseEntity.badRequest().build();
         }
     }
 
     @PutMapping
-    public ResponseEntity<?> updateEvent(@Valid @RequestBody Event event) {
+    public ResponseEntity<Event> update(@Valid @RequestBody Event event) {
         Optional<Event> result = eventService.findById(event.getId());
         if (result.isPresent()) {
             try {
                 eventService.save(event);
-                return new ResponseEntity<>(event, HttpStatus.OK);
+                return ResponseEntity.ok(result.get());
             } catch (IllegalArgumentException e) {
-                return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+                return ResponseEntity.badRequest().build();
             }
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return ResponseEntity.badRequest().build();
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<?> deleteEvent(@PathVariable Long id) {
+    public ResponseEntity<Event> delete(@PathVariable Long id) {
         Optional<Event> result = eventService.deleteById(id);
-        if (result.isPresent()) {
-            return new ResponseEntity<>(result, HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return result.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.badRequest().build());
     }
 }

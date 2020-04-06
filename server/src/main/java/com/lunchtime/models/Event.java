@@ -54,9 +54,8 @@ public class Event {
     @Column(name = "description")
     private String description;
 
-    @NotNull
     @Column(name = "is_active")
-    private Boolean isActive; //TODO primitive type
+    private boolean isActive;
 
     public void setDate(String date) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");

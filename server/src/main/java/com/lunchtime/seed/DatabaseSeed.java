@@ -141,7 +141,7 @@ public class DatabaseSeed {
             event.setCategory(eventName[i].toLowerCase());
             event.setDescription("Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do"
                 + " eiusmod tempor incididunt ut labore et dolore magna aliqua " + eventName[i]);
-            event.setIsActive(true);
+            event.setActive(true);
             eventRepository.save(event);
         }
     }
