@@ -54,8 +54,8 @@ public class Event {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "is_active")
-    private boolean isActive;
+    @Column(name = "is_deleted")
+    private Boolean isDeleted;
 
     public void setDate(String date) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");

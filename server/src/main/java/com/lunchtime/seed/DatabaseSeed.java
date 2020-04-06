@@ -136,7 +136,7 @@ public class DatabaseSeed {
             event.setName(eventName[i]);
             event.setCategory(eventType[i]);
             event.setDescription(eventDesc[i]);
-            event.setActive(true);
+            event.setIsDeleted(false);
             eventRepository.save(event);
         }
     }
