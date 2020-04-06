@@ -26,14 +26,10 @@ public class FeedbackMapper {
         // BUT: due to this, we need also another DTOs
         // https://stackoverflow.com/a/6229149/11699467
 
-
         Person person = personRepository.getOne(feedbackDto.getPersonId());
         Restaurant restaurant = restaurantRepository.getOne(feedbackDto.getRestId());
 
-        feedback.setIsActive(true);
         feedback.setDescription(feedbackDto.getDescription());
-        feedback.setCounterDislike(0);
-        feedback.setCounterLike(0);
         feedback.setPerson(person);
         feedback.setRestId(restaurant);
         feedback.setDate(Instant.now());
