@@ -1,6 +1,8 @@
 package com.lunchtime.service;
 
 import java.util.Optional;
+
+import com.lunchtime.models.CategoryFood;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

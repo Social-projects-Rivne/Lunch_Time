@@ -129,16 +129,10 @@ public class DatabaseSeed {
 
     private void seedCategoryFood() {
 
-        List<Dish> dishesList = dishRepository.findAll();
-        Set<Dish> dishSet = new HashSet<>();
-        for (int i = 0; i < dishesList.size(); i++) {
-            dishSet.add(dishesList.get(i));
-        }
         for (Long i = 0L; i < categoryFood.length; i++) {
 
             CategoryFood category = new CategoryFood();
             category.setName(categoryFood[i.intValue()]);
-            category.setDishes(dishSet);
             categoryFoodRepository.save(category);
         }
 
@@ -147,16 +141,12 @@ public class DatabaseSeed {
     private void seedDish() {
 
         List<CategoryFood> categoryFoodList = categoryFoodRepository.findAll();
-        Set<CategoryFood> categoryFoodSet = new HashSet<>();
-        for (int i = 0; i < categoryFoodList.size(); i++) {
-            categoryFoodSet.add(categoryFoodList.get(i));
-        }
 
         for (Long i = 0L; i < dishesName.length; i++) {
             Dish dish = new Dish();
             dish.setName(dishesName[i.intValue()]);
             dish.setIngredients(i.toString() + " example," + " example second," + " third ingr ");
-            dish.setCategoryFoods(categoryFoodSet);
+            dish.setCategoryfood(categoryFoodList.get(i.intValue()));
             dishRepository.save(dish);
         }
     }

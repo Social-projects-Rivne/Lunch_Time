@@ -9,46 +9,39 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import com.lunchtime.models.CategoryFood;
+import com.lunchtime.models.Feedback;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.lunchtime.models.Dish;
-import com.lunchtime.service.DishService;
+import com.lunchtime.service.impl.DishServiseImplement;
 
 @RestController
 @RequestMapping("/api/dish")
 public class DishController {
 
-    private final DishService dishService;
+    private final DishServiseImplement dishServiceImplement;
 
-    public DishController(DishService dishService) {
-        this.dishService = dishService;
+    public DishController(DishServiseImplement dishServiceImplement) {
+        this.dishServiceImplement = dishServiceImplement;
     }
 
     @GetMapping
     public ResponseEntity<List<Dish>> getAll(Pageable pageable) {
-        Page<Dish> page = dishService.findAll(pageable);
+        Page<Dish> page = dishServiceImplement.findAll(pageable);
         return ResponseEntity.ok()
             .body(page.getContent());
     }
 
     @GetMapping("{id}")
     public ResponseEntity<Dish> getOne(@PathVariable Long id) {
-        Optional<Dish> dish = dishService.findById(id);
+        Optional<Dish> dish = dishServiceImplement.findById(id);
         if (dish.isPresent()) {
             return ResponseEntity.ok()
                 .body(dish.get());
@@ -57,12 +50,11 @@ public class DishController {
             .build();
     }
 
-
     @PostMapping
     public ResponseEntity<Dish> newDish(@Valid @RequestBody Dish dish)
                throws URISyntaxException {
 
-        Dish newDish = dishService.save(dish);
+        Dish newDish = dishServiceImplement.save(dish);
 
         return  ResponseEntity
                .created(new URI("/api/dish"))

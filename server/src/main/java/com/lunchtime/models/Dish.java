@@ -1,11 +1,9 @@
 package com.lunchtime.models;
 
-import java.util.List;
-import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,28 +26,14 @@ public class Dish {
     private String ingredients;
 
     @Column(name = "is_deleted")
-    private Boolean isDeleted;
+    private boolean isDeleted;
 
     public Dish() {
     }
 
-    public Boolean isDeleted() {
-        if (isDeleted == null) {
-            return false;
-        }
-        return isDeleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        isDeleted = deleted;
-    }
-
-    @ManyToMany
-    @JoinTable(name = "category_to_dish",
-        joinColumns = @JoinColumn(name = "dish_id", referencedColumnName = "id"),
-        inverseJoinColumns = @JoinColumn(name = "category_id", referencedColumnName = "id")
-    )
-    @JsonIgnore
-    private Set<CategoryFood> categoryFoods;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @NotNull
+    @JoinColumn(name = "categoryfood_id", referencedColumnName = "id")
+    private CategoryFood categoryfood;
 
 }

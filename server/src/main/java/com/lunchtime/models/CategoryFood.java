@@ -24,24 +24,8 @@ public class CategoryFood {
     private String name;
 
     @Column(name = "is_deleted")
-    private Boolean isDeleted;
+    private boolean isDeleted;
 
     public CategoryFood() {
     }
-
-    public Boolean isDeleted() {
-        if (isDeleted == null) {
-            return false;
-        }
-        return isDeleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        isDeleted = deleted;
-    }
-
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "categoryFoods")
-    private Set<Dish> dishes;
-
-
 }

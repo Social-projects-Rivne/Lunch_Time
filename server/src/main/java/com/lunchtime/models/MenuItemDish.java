@@ -51,17 +51,6 @@ public class MenuItemDish {
     public MenuItemDish() {
     }
 
-    public Boolean isDeleted() {
-        if (isDeleted == null) {
-            return false;
-        }
-        return isDeleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        isDeleted = deleted;
-    }
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "restaurant_id", referencedColumnName = "id")
     private Restaurant restaurant;

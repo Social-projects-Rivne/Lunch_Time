@@ -49,18 +49,6 @@ public class CategoryFoodController {
             .build();
     }
 
-    @GetMapping(params = ("dishId"))
-    public ResponseEntity<List<CategoryFood>> getAllByDishId(@RequestParam("dishId") Long id) {
-
-        List<CategoryFood> categoryFoodList = categoryFoodServiceImplement.findByDishesId(id);
-        if (categoryFoodList.isEmpty()) {
-            return ResponseEntity.notFound().build();
-        }
-
-        return ResponseEntity.ok(categoryFoodList);
-
-    }
-
     @PostMapping
     public ResponseEntity<CategoryFood> newCategory(@Valid @RequestBody CategoryFood categoryFood)
                throws URISyntaxException {

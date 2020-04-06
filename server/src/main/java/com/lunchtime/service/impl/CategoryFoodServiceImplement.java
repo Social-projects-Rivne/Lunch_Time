@@ -32,10 +32,6 @@ public class CategoryFoodServiceImplement implements CategoryFoodService {
         return categoryFoodRepository.findById(id);
     }
 
-    public List<CategoryFood> findByDishesId(Long id) {
-        return categoryFoodRepository.findByDishesId(id);
-    }
-
 }
 
 
