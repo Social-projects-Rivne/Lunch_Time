@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
-import { Button, Form } from 'react-bootstrap';
+import {
+  Button, Form, Container,
+} from 'react-bootstrap';
 import Api from '../../services/api';
+import '../../styles/order.css';
 
 class NewOrder extends Component {
   constructor(props) {
@@ -73,6 +76,7 @@ class NewOrder extends Component {
         onChange={(date) => this.handleDateTimePicker(label, date)}
         showTimeSelect
         timeFormat="HH:mm"
+        className="date-time-input"
         minDate={this.currentDate}
         timeIntervals={this.timeInterval}
         timeCaption="time"
@@ -111,16 +115,25 @@ class NewOrder extends Component {
   render() {
     const { match } = this.props;
     return (
-      <div>
-        Restaurant №
-        {match.params.id}
-        Start time:
-        {this.selectDateTime('startDate')}
-        Finish time:
-        {this.selectDateTime('finishDate')}
-
+      <Container fluid>
+        <h5>
+          Restaurant №
+          {' '}
+          {match.params.id}
+        </h5>
         <Form>
-          <Form.Group controlId="exampleForm.ControlSelect1">
+          <Form.Group>
+            <Form.Label>Start time:</Form.Label>
+            <br />
+            {this.selectDateTime('startDate')}
+          </Form.Group>
+          <Form.Group>
+            <Form.Label>Finish time: </Form.Label>
+            <br />
+            {this.selectDateTime('finishDate')}
+          </Form.Group>
+
+          <Form.Group>
             <Form.Label>Example select</Form.Label>
             <Form.Control
               as="select"
@@ -156,7 +169,7 @@ class NewOrder extends Component {
           </Form.Group>
         </Form>
         <Button onClick={() => this.saveOrder()}>Save order</Button>
-      </div>
+      </Container>
     );
   }
 }

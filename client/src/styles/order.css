@@ -1,0 +1,10 @@
+.date-time-input {
+  border-radius: 0.25rem;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  margin-top: 0 !important;
+}
+
+h5 {
+  padding-top: 16px;
+}
