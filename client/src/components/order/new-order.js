@@ -217,7 +217,11 @@ class NewOrder extends Component {
         </Form>
         <Button
           onClick={() => this.saveOrder()}
-          disabled={this.isDateTimesInvalid() || (this.state.visitors > this.getMaximumOfVisitors())}
+          disabled={
+            !this.state.availableTables.length
+            || this.isDateTimesInvalid()
+            || this.state.visitors > this.getMaximumOfVisitors()
+          }
         >
           Create new order
         </Button>
