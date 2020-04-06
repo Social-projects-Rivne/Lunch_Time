@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
 import {
-  Button, Form, Container,
+  Button, Form, Container, Alert,
 } from 'react-bootstrap';
 import Api from '../../services/api';
 import '../../styles/order.css';
@@ -114,6 +114,18 @@ class NewOrder extends Component {
     return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()} ${date.getHours()}:${date.getMinutes()}`;
   }
 
+  isDateTimesInvalid() {
+    return this.state.startDate >= this.state.finishDate;
+  }
+
+  showErrorAlert(message) {
+    return (
+      <Alert variant="danger">
+        {message}
+      </Alert>
+    );
+  }
+
   render() {
     const { match } = this.props;
     return (
@@ -132,6 +144,7 @@ class NewOrder extends Component {
           <Form.Group>
             <Form.Label>Finish time: </Form.Label>
             <br />
+            {this.isDateTimesInvalid() ? this.showErrorAlert('Finish time should be more than Start time!') : null}
             {this.selectDateTime('finishDate')}
           </Form.Group>
 
@@ -149,7 +162,7 @@ class NewOrder extends Component {
                     Table №
                     {table.id}
                     {' '}
-                    Capacity:
+                    Maximum number of visitors:
                     {' '}
                     {table.capacity}
                   </option>
@@ -182,7 +195,7 @@ class NewOrder extends Component {
             />
           </Form.Group>
         </Form>
-        <Button onClick={() => this.saveOrder()}>Save order</Button>
+        <Button onClick={() => this.saveOrder()} disabled={this.isDateTimesInvalid()}>Create new order</Button>
       </Container>
     );
   }
