@@ -24,7 +24,10 @@ axios.interceptors.request.use((config) => {
 class Api {
   constructor() {
     this.apiUrl = 'http://localhost:8080/api/';
-    this.isAuthenticated = false;
+    this.flag = false;
+    this.state = {
+      error: '',
+    };
   }
 
 
@@ -34,10 +37,10 @@ class Api {
       email: _email,
       password: _password,
 
-    }).then((res) => {
-      localStorage.setItem('Bearer ', res.data);
-      const auth = localStorage.getItem('Bearer ');
-      if (auth != null) { this.isAuthenticated = true; }
+    }).then((response) => {
+      if (response.status >= 200 && response.status < 300) {
+        localStorage.setItem('Bearer ', response.data);
+      }
     });
   }
 

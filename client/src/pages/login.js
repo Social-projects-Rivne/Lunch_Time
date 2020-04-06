@@ -3,8 +3,6 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-// eslint-disable-next-line import/no-unresolved
-// import '../style/login.css';
 import Api from '../services/api';
 
 
@@ -33,8 +31,10 @@ class Login extends Component {
     event.preventDefault();
     // eslint-disable-next-line no-undef
     Api.getLogedin(this.state.email, this.state.password);
-    // eslint-disable-next-line react/prop-types
-    this.props.history.push('/');
+    if (localStorage.getItem('Bearer ') != null) {
+      // eslint-disable-next-line react/prop-types
+      this.props.history.push('/');
+    }
   }
 
 
