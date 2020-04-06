@@ -116,6 +116,7 @@ class FeedbackSend extends Component {
             && !this.state.isLoading
             && response) return;
           this.showFeedbackSent();
+          this.props.refreshed();
         })
         .catch((error) => {
           // eslint-disable-next-line no-console
@@ -215,6 +216,7 @@ class FeedbackSend extends Component {
 
 FeedbackSend.propTypes = {
   id: PropTypes.any.isRequired,
+  refreshed: PropTypes.any.isRequired,
 };
 
 export default FeedbackSend;

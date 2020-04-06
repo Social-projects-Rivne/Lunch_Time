@@ -16,43 +16,89 @@ class Feedback extends Component {
       maxCommentShow: 5,
       start: 0,
       last: 0,
+      firstLoad: false,
     };
+    this.refresh = this.refresh.bind(this);
   }
 
   async componentDidMount() {
+    const { firstLoad, maxCommentShow, last } = this.state;
     const { id } = this.props;
     const data = await Api.getAllRestaurantFeedback('feedback?restaurantId=', id);
 
-    this.setState((prevState) => {
+    this.setState(() => {
       if (data == null) {
         return null;
       }
+      data.reverse();
+      if (!firstLoad) {
+        return {
+          allFeedback: data,
+          pieceFeedback: data.slice(0, maxCommentShow),
+        };
+      }
       return {
         allFeedback: data,
-        pieceFeedback: data.slice(prevState.last, prevState.maxCommentShow),
-        last: prevState.maxCommentShow,
+        pieceFeedback: data.slice(0, last + 1),
       };
     });
   }
 
   onClickShowMoreComment() {
+    const {
+      firstLoad, allFeedback, last, maxCommentShow,
+    } = this.state;
+    if (!firstLoad) {
+      this.setState({
+        last: last + maxCommentShow,
+        firstLoad: true,
+      });
+    }
+    if (allFeedback.length >= last + maxCommentShow) {
+      this.setState((prevState) => {
+        return {
+          pieceFeedback: prevState.allFeedback.slice(prevState.start,
+            prevState.last + prevState.maxCommentShow),
+          last: prevState.last + prevState.maxCommentShow,
+        };
+      });
+    } else if (allFeedback.length - last > 0) {
+      this.setState((prevState) => {
+        return {
+          pieceFeedback: prevState.allFeedback.slice(prevState.start,
+            prevState.last + prevState.maxCommentShow),
+          last: allFeedback.length,
+        };
+      });
+    }
+  }
+
+  onClickShowLessComment() {
+    const { maxCommentShow } = this.state;
     this.setState((prevState) => {
+      if (prevState.last - prevState.maxCommentShow > maxCommentShow) {
+        return {
+          pieceFeedback: prevState.allFeedback.slice(prevState.start,
+            prevState.last - prevState.maxCommentShow),
+          last: prevState.last - prevState.maxCommentShow,
+        };
+      }
       return {
-        pieceFeedback: prevState.allFeedback.slice(prevState.start, prevState.last + prevState.maxCommentShow),
-        last: prevState.last + prevState.maxCommentShow,
+        last: 5,
+        pieceFeedback: prevState.allFeedback.slice(prevState.start, 5),
       };
     });
   }
 
-  onKey() {
-    this.onClickShowMoreComment();
+  refresh() {
+    this.componentDidMount();
   }
 
   render() {
     const stateFeed = this.state;
     return (
       <Container className="feedback">
-        <FeedbackSend id={this.props.id} />
+        <FeedbackSend id={this.props.id} refreshed={this.refresh} />
         {
           stateFeed.pieceFeedback.map((item) => {
             return (
@@ -65,10 +111,19 @@ class Feedback extends Component {
             className="commSpan"
             tabIndex="0"
             role="button"
-            onClick={this.onClickShowMoreComment.bind(this)}
-            onKeyPress={this.onKey.bind(this)}
+            onClick={this.onClickShowLessComment.bind(this)}
+            onKeyPress={this.onClickShowLessComment.bind(this)}
           >
-            show more comments
+            less comments
+          </span>
+          <span
+            className="commSpan"
+            tabIndex="0"
+            role="button"
+            onClick={this.onClickShowMoreComment.bind(this)}
+            onKeyPress={this.onClickShowMoreComment.bind(this)}
+          >
+            more comments
           </span>
         </div>
       </Container>
