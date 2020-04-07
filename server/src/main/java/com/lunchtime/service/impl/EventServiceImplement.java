@@ -20,21 +20,21 @@ public class EventServiceImplement implements EventService {
     }
 
     public List<Event> findAll() {
-        return eventRepository.findAll(new Date());
+        return eventRepository.findByDateGreaterThanAndIsDeletedFalseOrderByDateAsc(new Date());
     }
 
     public List<Event> findByCategory(String[] category) {
-        return eventRepository.findByCategory(new Date(), category);
+        return eventRepository.findByDateGreaterThanAndCategoryInAndIsDeletedFalse(new Date(), category);
     }
 
     public List<Event> findByDay(Date date) {
         Date end = new Date(date.getTime() + TimeUnit.DAYS.toMillis(1));
-        return eventRepository.findByDateBetweenAndIsActiveTrueOrderByDateAsc(date, end);
+        return eventRepository.findByDateBetweenAndIsDeletedFalseOrderByDateAsc(date, end);
     }
 
     public List<Event> findByDateBetween(Date startDate, Date endDate) {
         Date end = new Date(endDate.getTime() + TimeUnit.DAYS.toMillis(1));
-        return eventRepository.findByDateBetweenAndIsActiveTrueOrderByDateAsc(startDate, end);
+        return eventRepository.findByDateBetweenAndIsDeletedFalseOrderByDateAsc(startDate, end);
     }
 
     public List<Event> findByMonth(String month) throws IllegalArgumentException {
@@ -46,7 +46,7 @@ public class EventServiceImplement implements EventService {
         }
         Date start = new GregorianCalendar(currentYear, monthOrdinal, 1).getTime();
         Date end = new GregorianCalendar(currentYear, monthOrdinal + 1, 1).getTime();
-        return eventRepository.findByDateBetweenAndIsActiveTrueOrderByDateAsc(start, end);
+        return eventRepository.findByDateBetweenAndIsDeletedFalseOrderByDateAsc(start, end);
     }
 
     public Optional<Event> findById(Long id) {
@@ -57,7 +57,7 @@ public class EventServiceImplement implements EventService {
         Optional<Event> result = findById(id);
         if (result.isPresent()) {
             Event event = result.get();
-            event.setIsActive(false);
+            event.setIsDeleted(true);
             save(event);
             return Optional.of(event);
         }
