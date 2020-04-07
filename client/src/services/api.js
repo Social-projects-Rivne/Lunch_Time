@@ -21,15 +21,15 @@ class Api {
 
 
   // eslint-disable-next-line no-unused-vars
-  getLogedin(_email, _password) {
-    axios.post('/api/authenticate', {
+  getLogedin(_email, _password, _error) {
+    return axios.post('/api/authenticate', {
       email: _email,
       password: _password,
 
     }).then((response) => {
-      if (response.status >= 200 && response.status < 300) {
-        localStorage.setItem('Bearer ', response.data);
-      }
+      return { error: null, data: response.data };
+    }).catch((error) => {
+      return { _error: error };
     });
   }
 

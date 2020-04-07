@@ -12,9 +12,11 @@ class Login extends Component {
     this.state = {
       email: '',
       password: '',
+      errorMessage: '',
     };
   }
 
+  // eslint-disable-next-line react/sort-comp
   validateForm() {
     const { email } = this.state;
     const { password } = this.state;
@@ -27,14 +29,19 @@ class Login extends Component {
     });
   }
 
+  getLogedin() {
+    Api.getLogedin(this.state.email, this.state.password, this.state.errorMessage)
+      .then((response) => {
+        localStorage.setItem('Bearer ', response.data);
+        // eslint-disable-next-line react/prop-types
+        this.props.history.push('/');
+      });
+  }
+
   handleSubmit(event) {
     event.preventDefault();
     // eslint-disable-next-line no-undef
-    Api.getLogedin(this.state.email, this.state.password);
-    if (localStorage.getItem('Bearer ') != null) {
-      // eslint-disable-next-line react/prop-types
-      this.props.history.push('/');
-    }
+    this.getLogedin();
   }
 
   render() {
