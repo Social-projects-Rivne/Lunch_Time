@@ -1,5 +1,5 @@
 const info = [
-  { link: '/restaurants', name: 'ListRestaurant' },
+  { link: '/restaurants', name: 'Restaurants' },
   { link: '/events', name: 'Events' },
   { link: '/map', name: 'Map' },
   { link: '/about', name: 'About' },
