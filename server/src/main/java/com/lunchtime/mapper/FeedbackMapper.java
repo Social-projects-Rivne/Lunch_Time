@@ -26,7 +26,7 @@ public class FeedbackMapper {
         // BUT: due to this, we need also another DTOs
         // https://stackoverflow.com/a/6229149/11699467
 
-        Person person = personRepository.getOne(feedbackDto.getPersonId());
+        Person person = personRepository.getOne((long) feedbackDto.getPersonId());
         Restaurant restaurant = restaurantRepository.getOne(feedbackDto.getRestId());
 
         feedback.setDescription(feedbackDto.getDescription());
@@ -44,7 +44,7 @@ public class FeedbackMapper {
 
         feedbackDto.setId(feedback.getId());
         feedbackDto.setDescription(feedback.getDescription());
-        feedbackDto.setPersonId(person.getId());
+        feedbackDto.setPersonId(person.getId().intValue());
         feedbackDto.setRestId(restaurant.getId());
         feedbackDto.setDate(feedback.getDate());
 

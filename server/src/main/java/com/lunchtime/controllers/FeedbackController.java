@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/feedback")
@@ -19,7 +21,7 @@ public class FeedbackController {
     private final FeedbackService feedbackService;
 
     @PostMapping
-    public ResponseEntity<FeedbackDto> create(@RequestBody FeedbackDto feedbackDto) throws URISyntaxException {
+    public ResponseEntity<FeedbackDto> create(@Valid @RequestBody FeedbackDto feedbackDto) throws URISyntaxException {
         if (feedbackDto.getId() != 0) {
             return null;
         }

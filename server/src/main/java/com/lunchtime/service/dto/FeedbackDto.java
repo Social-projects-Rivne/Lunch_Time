@@ -25,7 +25,7 @@ public class FeedbackDto {
     private Instant date;
 
     @NotNull
-    private long personId;
+    private int personId;
 
     private int counterLike;
 
