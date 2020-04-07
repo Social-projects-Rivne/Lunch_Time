@@ -5,7 +5,6 @@ import com.lunchtime.models.Restaurant;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -62,11 +61,10 @@ public class RestaurantController {
             .body(result);
     }
 
-    @GetMapping
-    public ResponseEntity<List<Restaurant>> getAll(Pageable pageable) {
-        Page<Restaurant> page = restaurantService.findAll(pageable);
+    @GetMapping()
+    public ResponseEntity<Page<Restaurant>> getAll(Pageable pageable) {
         return ResponseEntity.ok()
-            .body(page.getContent());
+            .body(restaurantService.findAll(pageable));
     }
 
     @GetMapping("{id}")

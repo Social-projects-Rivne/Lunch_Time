@@ -20,9 +20,8 @@ import java.util.List;
 
 @Component
 public class DatabaseSeed {
-
-    String[] restaurantName = new String[] {"Avocado", "Masuri", "Gavana", "Cake", "Green", "Nuts"};
-    String[] userName = new String[] {"Bob", "Devid", "Tom", "Alan", "Leo", "Fred"};
+    String[] restaurantName = new String[]{"Celentano", "Manhattan", "CasaNuova", "LaRiva", "PuriRivne"};
+    String[] userName = new String[]{"Bob", "Devid", "Andriy", "Yura", "Roma"};
     String[] eventName = new String[] {"New Year Party", "Karaoke evening", "Concert Mikhail Poplavskiy",
         "CAKE DEGUSTATION", "Chillout every Thursday!"};
     String[] eventImage = new String[] {
@@ -38,14 +37,14 @@ public class DatabaseSeed {
         "Do you like to sing? Come have a great evening and perform your favorite songs!",
         "November 28 at 8:00 pm - Mikhail Poplavskiy with a concert \"Birthday with Friends\"",
         "Coconut candies, strawberry cake, and matcha-mint dessert - ALL THIS you can try on Sunday in "
-             + "The Cake Restaurant!",
-        "Every Thursday from 19:00 in \"Green\" sets from DJ from the best chillout venues in Rivne and not only will"
+             + "The LaRiva Restaurant!",
+        "Every Thursday from 19:00 sets from DJ from the best chillout venues in Rivne and not only will"
              + " be waiting for you! The best place to relax while waiting for the weekend!"};
     String[] eventDate = new String[] {"2020-12-31 23:00", "2020-05-09 17:00",
-        "2020-11-28 20:00", "2020-05-21 15:00", "2021-05-23 22:00"};
+        "2020-11-28 20:00", "2020-05-21 15:00", "2020-05-23 22:00"};
     String[] eventType = new String[] {"party", "karaoke", "concert", "tasting", "party"};
-    Float[] cordLatitude = new Float[] { 50.616294f, 50.618261f, 50.620219f, 50.616146f, 50.618318f, 50.624449f };
-    Float[] cordLongitude = new Float[] { 26.275728f, 26.260064f, 26.241863f, 26.253994f, 26.252249f, 26.249677f };
+    Float[] cordLatitude = new Float[]{50.616294f, 50.618261f, 50.620219f, 50.616146f, 50.618318f};
+    Float[] cordLongitude = new Float[]{26.275728f, 26.260064f, 26.241863f, 26.253994f, 26.252249f};
 
     private final RestaurantRepository restaurantRepository;
     private final FeedbackRepository feedbackRepository;
@@ -83,54 +82,59 @@ public class DatabaseSeed {
     }
 
     public void seedRestaurant() {
-        List<Person> person = personRepository.findAll();
         for (int i = 0; i < restaurantName.length; i++) {
-            Restaurant rest = new Restaurant(restaurantName[i],
+            Restaurant rest = new Restaurant(
+                restaurantName[i],
                 restaurantName[i].concat("@gmail.com").toLowerCase(),
                 "Rivne, street ".concat("1" + i),
                 "www.".concat(restaurantName[i]).concat(".ua").toLowerCase(),
-                "Description for restaurant ".concat(restaurantName[i]),
-                "12-24", false,
-                i + 1L, person.get(i), i + 1, cordLongitude[i],
-                cordLatitude[i], Instant.now(),
-                i + 1L, Instant.now(), i + 1L);
+                "A short description about restaurant "
+                    .concat(restaurantName[i])
+                    .concat(", and some other info."),
+                "12-24",
+                false,
+                i + 1L,
+                getPersonList().get(i),
+                i + 1,
+                cordLongitude[i],
+                cordLatitude[i],
+                Instant.now(),
+                i + 1L,
+                Instant.now(),
+                i + 1L);
             restaurantRepository.save(rest);
         }
     }
 
     public void seedFeedback() {
-        List<Restaurant> restaurants = restaurantRepository.findAll();
-        List<Person> person = personRepository.findAll();
         for (int i = 0; i < restaurantName.length; i++) {
             Feedback feedback = new Feedback(
                 "User ".concat(userName[i].concat(" write comment to restaurant")),
                 true,
                 new Date(System.currentTimeMillis()),
-                person.get(i),
-                restaurants.get(i),
+                getPersonList().get(i),
+                getRestaurantList().get(i),
                 3 + i,
                 12 + i);
             feedbackRepository.save(feedback);
         }
     }
 
-    public void  seedPerson() {
+    public void seedPerson() {
         for (int i = 0; i < userName.length; i++) {
             Person person = new Person(
                 userName[i],
                 userName[i].concat("@gmail.com").toLowerCase(),
                 userName[i],
-                "096-77-77-77".concat(String.valueOf(i))
-            );
+                "096-77-77-77".concat(String.valueOf(i)));
             personRepository.save(person);
         }
     }
 
-    public void  seedEvent() throws URISyntaxException {
-        List<Restaurant> restaurantList = restaurantRepository.findAll();
+    public void seedEvent() throws URISyntaxException {
         for (int i = 0; i < eventName.length; i++) {
             Event event = new Event();
-            event.setRestaurant(restaurantList.get(i));
+            event.setRestaurant(getRestaurantList().get(i));
             event.setDate(eventDate[i]);
             event.setImage(new URI(eventImage[i]));
             event.setName(eventName[i]);
@@ -139,5 +143,13 @@ public class DatabaseSeed {
             event.setIsDeleted(false);
             eventRepository.save(event);
         }
+    }
+
+    private List<Person> getPersonList() {
+        return personRepository.findAll();
+    }
+
+    private List<Restaurant> getRestaurantList() {
+        return restaurantRepository.findAll();
     }
 }
