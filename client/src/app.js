@@ -4,7 +4,7 @@ import NavigationBar from './components/navigation-bar';
 import Home from './pages/home';
 import About from './pages/about';
 import Contact from './pages/contact';
-import ListRestaurant from './pages/restaurant-list';
+import RestaurantList from './pages/restaurant-list';
 import Login from './pages/login';
 import Registration from './pages/registration';
 import Map from './pages/map';
@@ -25,7 +25,7 @@ class App extends Component {
           <Route path="/events" component={Events} />
           <Route path="/restaurants/:id/new-order" component={NewOrder} />
           <Route path="/restaurants/:id" component={Restaurant} />
-          <Route path="/restaurants" component={ListRestaurant} />
+          <Route path="/restaurants" component={RestaurantList} />
           <Route path="/login" component={Login} />
           <Route path="/registration" component={Registration} />
           <Route path="/map" component={Map} />
