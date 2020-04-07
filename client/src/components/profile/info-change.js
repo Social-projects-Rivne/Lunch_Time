@@ -38,7 +38,7 @@ class InfoChange extends React.Component {
     const validEmailRegex = RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g);
     switch (name) {
       case 'name':
-        errors.name = value.length < 3 ? 'Name must be 3 characters long! ' : '';
+        errors.name = value.length < 3 ? 'Name must be at least 3 characters! ' : '';
         break;
       case 'email':
         errors.email = validEmailRegex.test(value) ? '' : 'Email is not valid! ';
@@ -143,7 +143,7 @@ class InfoChange extends React.Component {
           </Col>
 
         </Row>
-        <hr className="hr-border" />
+        <hr className="hr-border mt-0" />
         <Button
           className="ml-3 m-button"
           type="submit"

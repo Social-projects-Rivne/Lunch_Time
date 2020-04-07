@@ -32,7 +32,7 @@ class PassChange extends React.Component {
         errors.oldPass = user.password === value ? '' : 'Old password is wrong! ';
         break;
       case 'newPass':
-        errors.newPass = value.length > 7 ? '' : 'Password must be 8 characters long! ';
+        errors.newPass = value.length > 7 ? '' : 'Password must be at least 8 characters! ';
         break;
       case 'password':
         errors.password = newPass === value ? '' : 'Passwords do not match! ';
@@ -80,7 +80,7 @@ class PassChange extends React.Component {
           <Input
             name="password"
             type="password"
-            label="Old password"
+            label="Repeat new password"
             placeholder="Repeat new password"
             onChange={this.handleChange}
           />

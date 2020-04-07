@@ -40,7 +40,7 @@ class Profile extends Component {
   }
 
   getProfile() {
-    Api.getOne('persons', 1)
+    Api.getOne('persons', 44)
       .then((response) => {
         if (response.error) {
           // eslint-disable-next-line no-console
