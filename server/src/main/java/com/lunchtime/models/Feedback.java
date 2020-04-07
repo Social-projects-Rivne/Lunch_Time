@@ -5,6 +5,7 @@ import lombok.Getter;
 import org.hibernate.annotations.ColumnDefault;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.Instant;
 
 @Entity
@@ -16,7 +17,8 @@ public class Feedback {
     private Long id;
 
     @NotNull
-    @Column(name = "description", length = 400)
+    @Column(name = "description")
+    @Size(min = 10, max = 400)
     private String description;
 
     @ColumnDefault("true")
