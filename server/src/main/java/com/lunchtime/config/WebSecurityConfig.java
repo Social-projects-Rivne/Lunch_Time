@@ -1,6 +1,5 @@
 package com.lunchtime.config;
 
-
 import com.lunchtime.security.JwtAuthenticationTokenFilter;
 
 import org.springframework.beans.factory.annotation.Autowired;

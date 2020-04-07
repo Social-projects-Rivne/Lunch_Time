@@ -21,7 +21,7 @@ public class JwtUtil {
     private int miliseconds = 1000;
     private int seconds = 60;
     private int minutes = 60;
-    private int index = 10;
+    private int hours = 10;
 
     String extractEmail(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -52,7 +52,7 @@ public class JwtUtil {
     private String createToken(Map<String, Object> claims, String subject) {
 
         return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))
-            .setExpiration(new Date(System.currentTimeMillis() + miliseconds * seconds * minutes * index))
+            .setExpiration(new Date(System.currentTimeMillis() + miliseconds * seconds * minutes * hours))
             .signWith(SignatureAlgorithm.HS256, secretKey).compact();
     }
 
