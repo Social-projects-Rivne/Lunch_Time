@@ -1,5 +1,5 @@
 import axios from 'axios';
-// eslint-disabled-next
+
 axios.interceptors.request.use((config) => {
   const token = localStorage.getItem('Bearer ');
 
