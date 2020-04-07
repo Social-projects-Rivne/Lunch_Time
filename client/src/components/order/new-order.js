@@ -5,7 +5,7 @@ import {
   Button, Form, Container, Alert,
 } from 'react-bootstrap';
 import Api from '../../services/api';
-import '../../styles/order.css';
+import '../../styles/new-order.css';
 
 class NewOrder extends Component {
   constructor(props) {
@@ -150,7 +150,7 @@ class NewOrder extends Component {
   render() {
     const { match, history } = this.props;
     return (
-      <Container fluid>
+      <Container fluid className="new-order-container">
         <h5>
           Restaurant №
           {' '}
