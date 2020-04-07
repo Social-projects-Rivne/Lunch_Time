@@ -72,27 +72,8 @@ public class Person {
 
     private Role role;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-
     public Person() {
     }
-
 
     public Boolean isDeleted() {
         // TODO no need for this check use primitive value. I mean boolean,
@@ -108,7 +89,6 @@ public class Person {
     public void setDeleted(Boolean deleted) {
         isDeleted = deleted;
     }
-
     public Person(String name, String email,
                   String password, String phoneNumber) {
         this.name = name;
@@ -116,7 +96,5 @@ public class Person {
         this.password = password;
         this.phoneNumber = phoneNumber;
     }
-
-
 }
 
