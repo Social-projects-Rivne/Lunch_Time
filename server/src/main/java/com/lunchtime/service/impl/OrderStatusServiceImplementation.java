@@ -1,4 +1,4 @@
-package com.lunchtime.service.implementation;
+package com.lunchtime.service.impl;
 
 import com.lunchtime.models.OrderStatus;
 import com.lunchtime.repository.OrderStatusRepository;

@@ -1,4 +1,4 @@
-package com.lunchtime.service.implementation;
+package com.lunchtime.service.impl;
 
 import com.lunchtime.models.Event;
 import com.lunchtime.repository.EventRepository;
