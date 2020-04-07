@@ -19,7 +19,7 @@ import org.hibernate.annotations.Where;
 @Where(clause = "is_deleted = false or is_deleted is NULL")
 @Setter
 @Getter
-@ToString(exclude = "menuItemDish")
+
 public class Restaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -50,7 +50,8 @@ public class Restaurant {
     private String workingTime;
 
     @Column(name = "is_deleted")
-    private Boolean isDeleted; //TODO I believe you will need the primitive type here. Use boolean
+    private Boolean isDeleted;
+    //TODO I believe you will need the primitive type here. Use boolean
 
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
@@ -92,13 +93,14 @@ public class Restaurant {
         isDeleted = deleted;
     }
 
+    public Restaurant(){
 
-    public Restaurant() {    }
-
+    }
     //TODO I believe that you are not using this constructor somewhere in app (except seed).
     // just FYI if you have some constructor with such a huge number of params use Builder pattern.
     // It will help to construct
     // object without any mistakes. Currently, you have 6 strings in a row and you can put textAddress as a website.
+
     public Restaurant(String name,
                       String email, String textAddress,
                       String website, String description,
