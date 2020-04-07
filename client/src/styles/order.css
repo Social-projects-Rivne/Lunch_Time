@@ -8,3 +8,12 @@
 h5 {
   padding-top: 16px;
 }
+
+.order-btn-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.order-btn-cancel {
+  margin-right: 16px;
+}

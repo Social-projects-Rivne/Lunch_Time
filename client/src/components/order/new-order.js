@@ -144,7 +144,7 @@ class NewOrder extends Component {
   }
 
   render() {
-    const { match } = this.props;
+    const { match, history } = this.props;
     return (
       <Container fluid>
         <h5>
@@ -216,16 +216,19 @@ class NewOrder extends Component {
             />
           </Form.Group>
         </Form>
-        <Button
-          onClick={() => this.saveOrder()}
-          disabled={
-            !this.state.availableTables.length
-            || this.isDateTimesInvalid()
-            || this.state.visitors > this.getMaximumOfVisitors()
-          }
-        >
-          Create new order
-        </Button>
+        <div className="order-btn-container">
+          <Button onClick={() => history.goBack()} variant="secondary" className="order-btn-cancel">Cancel</Button>
+          <Button
+            onClick={() => this.saveOrder()}
+            disabled={
+              !this.state.availableTables.length
+              || this.isDateTimesInvalid()
+              || this.state.visitors > this.getMaximumOfVisitors()
+            }
+          >
+            Create new order
+          </Button>
+        </div>
       </Container>
     );
   }
@@ -233,6 +236,7 @@ class NewOrder extends Component {
 
 NewOrder.propTypes = {
   match: PropTypes.any.isRequired,
+  history: PropTypes.any.isRequired,
 };
 
 export default NewOrder;
