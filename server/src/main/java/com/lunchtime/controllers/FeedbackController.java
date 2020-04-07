@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 //TODO remove redundant lines
-
 @RestController
 @RequestMapping("/api/feedback")
 public class FeedbackController {
