@@ -13,6 +13,7 @@ class NewOrder extends Component {
     this.timeInterval = 15;
     this.milliseconds = 60000;
     this.currentDate = new Date();
+    this.path = '/new-order';
     this.state = {
       startDate: this.timeFormatter(this.currentDate),
       finishDate: this.timeFormatter((new Date(this.currentDate.getTime() + this.timeInterval * this.milliseconds))),
@@ -62,6 +63,7 @@ class NewOrder extends Component {
   }
 
   saveOrder() {
+    const { match, history } = this.props;
     let tableId;
     if (this.state.table) {
       tableId = this.state.table;
@@ -84,7 +86,9 @@ class NewOrder extends Component {
         if (response.error) {
           // eslint-disable-next-line no-console
           console.error(response);
+          return;
         }
+        history.push(match.url.replace(this.path, ''));
       });
   }
 
