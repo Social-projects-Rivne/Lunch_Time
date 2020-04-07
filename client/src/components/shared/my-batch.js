@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import { Alert } from 'react-bootstrap';
+import { Badge } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-class MyAlert extends Component {
+class MyBadge extends Component {
   render() {
     return (
-      <Alert
+      <Badge
         variant={this.props.variant}
         style={{
           marginTop: 10,
@@ -13,14 +13,14 @@ class MyAlert extends Component {
         }}
       >
         {this.props.message}
-      </Alert>
+      </Badge>
     );
   }
 }
 
-MyAlert.propTypes = {
+MyBadge.propTypes = {
   variant: PropTypes.string.isRequired,
   message: PropTypes.string.isRequired,
 };
 
-export default MyAlert;
+export default MyBadge;

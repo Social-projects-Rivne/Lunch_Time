@@ -11,3 +11,10 @@
   margin-top: 10px;
   width: 90px;
 }
+
+.badge {
+  margin-left: 15px;
+  font-size: 14px;
+  width: 350px;
+  height: 25px;
+}

@@ -3,7 +3,7 @@ import { Button, Form } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import Api from '../../services/api';
 import '../../styles/feedback-send.css';
-import MyAlert from '../shared/my-alert';
+import MyBadge from '../shared/my-batch';
 import CancelButton from '../shared/button/cancel';
 
 class FeedbackSend extends Component {
@@ -179,36 +179,52 @@ class FeedbackSend extends Component {
           disabled={inputDisabled}
           type="text"
         />
-        <Button
-          className="btnFormSend"
-          variant="outline-success"
-          disabled={isLoading}
-          onClick={this.onSubmit}
-        >
-          {isLoading ? 'Sending...' : 'Send feedback'}
-        </Button>
-        {isLoading && showTimer && (
-          <CancelButton
-            showTimer={this.showTimer}
-            timerCount={timerCount}
-            cancel={this.cancel}
-          />
-        )}
-        {tooShortFeedback && !isLoading && (
-          <MyAlert variant="warning" message="Your feedback must be more than 10 symbols" />
-        )}
-        {attemptCount && (
-          <MyAlert variant="danger" message={tooLong} />
-        )}
-        {tooLongFeedback && !attemptCount && (
-          <MyAlert variant="warning" message={tooLong} />
-        )}
-        {feedbackNotSent && !isLoading && (
-          <MyAlert variant="danger" message="Your feedback was not sent. Try again" />
-        )}
-        {feedbackSent && !isLoading && (
-          <MyAlert variant="success" message="Your feedback was sent!" />
-        )}
+        <div>
+          <span>
+            <Button
+              className="btnFormSend"
+              variant="outline-success"
+              disabled={isLoading}
+              onClick={this.onSubmit}
+            >
+              {isLoading ? 'Sending...' : 'Send feedback'}
+            </Button>
+          </span>
+          <span>
+            {isLoading && showTimer && (
+            <CancelButton
+              showTimer={this.showTimer}
+              timerCount={timerCount}
+              cancel={this.cancel}
+            />
+            )}
+          </span>
+          <span>
+            {tooShortFeedback && !isLoading && (
+            <MyBadge className="badge" variant="warning" message="Your feedback must be more than 10 symbols" />
+            )}
+          </span>
+          <span>
+            {attemptCount && (
+            <MyBadge className="badge" variant="danger" message={tooLong} />
+            )}
+          </span>
+          <span>
+            {tooLongFeedback && !attemptCount && (
+            <MyBadge className="badge" variant="warning" message={tooLong} />
+            )}
+          </span>
+          <span>
+            {feedbackNotSent && !isLoading && (
+            <MyBadge className="badge" variant="danger" message="Your feedback was not sent. Try again" />
+            )}
+          </span>
+          <span>
+            {feedbackSent && !isLoading && (
+            <MyBadge className="badge" variant="success" message="Your feedback was sent!" />
+            )}
+          </span>
+        </div>
       </Form.Group>
     );
   }
