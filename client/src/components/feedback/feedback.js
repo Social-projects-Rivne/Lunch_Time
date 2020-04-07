@@ -107,6 +107,8 @@ class Feedback extends Component {
           })
         }
         <div className="showComments">
+          {this.state.last > 5
+          && (
           <span
             className="commSpan"
             tabIndex="0"
@@ -116,15 +118,19 @@ class Feedback extends Component {
           >
             less comments
           </span>
-          <span
-            className="commSpan"
-            tabIndex="0"
-            role="button"
-            onClick={this.onClickShowMoreComment.bind(this)}
-            onKeyPress={this.onClickShowMoreComment.bind(this)}
-          >
-            more comments
-          </span>
+          )}
+          {this.state.allFeedback.length > 5 && this.state.last < this.state.allFeedback.length
+          && (
+            <span
+              className="commSpan"
+              tabIndex="0"
+              role="button"
+              onClick={this.onClickShowMoreComment.bind(this)}
+              onKeyPress={this.onClickShowMoreComment.bind(this)}
+            >
+              more comments
+            </span>
+          )}
         </div>
       </Container>
     );

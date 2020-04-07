@@ -8,8 +8,7 @@ class MyBadge extends Component {
       <Badge
         variant={this.props.variant}
         style={{
-          marginTop: 10,
-          marginBottom: 10,
+          marginTop: 12,
         }}
       >
         {this.props.message}
