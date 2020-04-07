@@ -20,7 +20,7 @@ public class FeedbackDto {
     @NotNull
     private long restId;
 
-    private boolean isActive;
+    private boolean isActive = true;
 
     private Instant date;
 

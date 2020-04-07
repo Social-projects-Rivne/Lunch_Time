@@ -30,9 +30,6 @@ public class FeedbackMapper {
         Restaurant restaurant = restaurantRepository.getOne(feedbackDto.getRestId());
 
         feedback.setDescription(feedbackDto.getDescription());
-        feedback.setIsActive(true);
-        feedback.setCounterLike(0);
-        feedback.setCounterDislike(0);
         feedback.setPerson(person);
         feedback.setRestId(restaurant);
         feedback.setDate(Instant.now());
@@ -46,10 +43,7 @@ public class FeedbackMapper {
         Restaurant restaurant = restaurantRepository.getOne(feedback.getRestId().getId());
 
         feedbackDto.setId(feedback.getId());
-        feedbackDto.setActive(feedback.getIsActive());
         feedbackDto.setDescription(feedback.getDescription());
-        feedbackDto.setCounterDislike(feedback.getCounterDislike());
-        feedbackDto.setCounterLike(feedback.getCounterLike());
         feedbackDto.setPersonId(person.getId());
         feedbackDto.setRestId(restaurant.getId());
         feedbackDto.setDate(feedback.getDate());
