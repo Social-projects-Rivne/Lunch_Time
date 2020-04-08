@@ -6,6 +6,7 @@ class Header extends Component {
     return (
       <Container>
         <Container className="header">
+          <br />
           <h2>Menu </h2>
         </Container>
         <br />

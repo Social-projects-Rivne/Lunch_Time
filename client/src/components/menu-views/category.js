@@ -8,13 +8,13 @@ class Category extends Component {
     return (
       <Container className="col-item">
         <br />
-        {category}
+        {category.name}
       </Container>
     );
   }
 }
 
 Category.propTypes = {
-  category: PropTypes.string.isRequired,
+  category: PropTypes.any.isRequired,
 };
 export default Category;

@@ -18,7 +18,7 @@ class MenuItemDish extends Component {
             return (
               <Row key={menuitemdishs.id}>
                 <Col>
-                  <Category category={menuitemdishs.dish.categoryfood.name} />
+                  <Category category={menuitemdishs.dish.categoryfood} />
                 </Col>
                 <Col>
                   <Dish dish={menuitemdishs} />
@@ -43,7 +43,7 @@ class MenuItemDish extends Component {
                 </Col>
                 <Col className="col-item">
                   <br />
-                  <Form.Check type="checkbox" size="lg" />
+                  <Form.Check type="checkbox" />
                 </Col>
               </Row>
             );
