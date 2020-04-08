@@ -26,6 +26,8 @@ class Category extends Component {
   saveSelected(selectedKeys) {
     this.setState({
       selected: selectedKeys,
+    }, () => {
+      this.confirm();
     });
   }
 
@@ -40,12 +42,17 @@ class Category extends Component {
     this.onVisibleChange(false);
   }
 
+  reset() {
+    this.saveSelected([]);
+  }
+
   render() {
-    const { visible } = this.state;
+    const { visible, selected } = this.state;
     const { items } = this.props;
     const menu = (
       <Menu
         multiple
+        selectedKeys={selected}
         onSelect={(e) => { this.saveSelected(e.selectedKeys); }}
         onDeselect={(e) => { this.saveSelected(e.selectedKeys); }}
       >

@@ -8,8 +8,17 @@ import Category from '../shared/dropdown/category';
 import info from '../info/events';
 
 class FilterBar extends React.Component {
+  constructor(props) {
+    super(props);
+    this.element = React.createRef();
+  }
+
   onSelectCategory(path) {
     this.props.onChangeEvents(path);
+  }
+
+  reset() {
+    this.element.current.reset();
   }
 
   render() {
@@ -21,6 +30,7 @@ class FilterBar extends React.Component {
           path="events/categories/"
           items={info[0].values}
           onApply={(path) => this.onSelectCategory(path)}
+          ref={this.element}
         />
 
         <View
@@ -37,7 +47,9 @@ class FilterBar extends React.Component {
         />
 
         <Button
-          onClick={() => window.location.reload()}
+          onClick={() => {
+            this.reset();
+          }}
           className="m-button ml-5"
         >
           Reset
