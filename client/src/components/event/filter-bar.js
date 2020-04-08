@@ -10,7 +10,8 @@ import info from '../info/events';
 class FilterBar extends React.Component {
   constructor(props) {
     super(props);
-    this.element = React.createRef();
+    this.categoryElement = React.createRef();
+    this.dateElement = React.createRef();
   }
 
   onSelectCategory(path) {
@@ -18,7 +19,8 @@ class FilterBar extends React.Component {
   }
 
   reset() {
-    this.element.current.reset();
+    this.categoryElement.current.reset();
+    this.dateElement.current.reset();
   }
 
   render() {
@@ -30,7 +32,7 @@ class FilterBar extends React.Component {
           path="events/categories/"
           items={info[0].values}
           onApply={(path) => this.onSelectCategory(path)}
-          ref={this.element}
+          ref={this.categoryElement}
         />
 
         <View
@@ -44,6 +46,7 @@ class FilterBar extends React.Component {
           oneDate="events/date/"
           rangeDate="events/dates?from="
           onApply={(path) => this.onSelectCategory(path)}
+          ref={this.dateElement}
         />
 
         <Button
