@@ -183,36 +183,38 @@ class FeedbackSend extends Component {
           disabled={inputDisabled}
           type="text"
         />
-        <Button
-          className="btnFormSend"
-          variant="outline-success"
-          disabled={isLoading}
-          onClick={this.onSubmit}
-        >
-          {isLoading ? 'Sending...' : 'Send feedback'}
-        </Button>
-        {isLoading && showTimer && (
+        <>
+          <Button
+            className="btnFormSend"
+            variant="outline-success"
+            disabled={isLoading}
+            onClick={this.onSubmit}
+          >
+            {isLoading ? 'Sending...' : 'Send feedback'}
+          </Button>
+          {isLoading && showTimer && (
           <CancelButton
             showTimer={this.showTimer}
             timerCount={timerCount}
             cancel={this.cancel}
           />
-        )}
-        {tooShortFeedback && !isLoading && (
+          )}
+          {tooShortFeedback && !isLoading && (
           <MyBadge className="badge" variant="warning" message="Your feedback must be more than 10 symbols" />
-        )}
-        {attemptCount && (
+          )}
+          {attemptCount && (
           <MyBadge className="badge" variant="danger" message={tooLong} />
-        )}
-        {tooLongFeedback && !attemptCount && (
+          )}
+          {tooLongFeedback && !attemptCount && (
           <MyBadge className="badge" variant="warning" message={tooLong} />
-        )}
-        {feedbackNotSent && !isLoading && (
+          )}
+          {feedbackNotSent && !isLoading && (
           <MyBadge className="badge" variant="danger" message="Your feedback was not sent. Try again" />
-        )}
-        {feedbackSent && !isLoading && (
+          )}
+          {feedbackSent && !isLoading && (
           <MyBadge className="badge" variant="success" message="Your feedback was sent!" />
-        )}
+          )}
+        </>
       </Form.Group>
     );
   }
