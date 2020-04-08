@@ -40,7 +40,7 @@ class Api {
   post(endpoint, body) {
     return axios.post(`${this.apiUrl}${endpoint}`, body)
       .then((response) => {
-        return { error: null, data: response.data };
+        return { error: null, data: response.data, status: response.status };
       })
       .catch((error) => {
         return { error: error };

@@ -115,8 +115,12 @@ class FeedbackSend extends Component {
           if (currentCallId !== this.state.currentCallId
             && !this.state.isLoading
             && response) return;
-          this.showFeedbackSent();
-          this.props.refreshed();
+          if (response.status === 201) {
+            this.showFeedbackSent();
+            this.props.refreshed();
+          } else {
+            this.showFeedbackNotSent();
+          }
         })
         .catch((error) => {
           // eslint-disable-next-line no-console
