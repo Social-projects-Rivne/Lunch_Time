@@ -20,6 +20,7 @@ class FeedbackSend extends Component {
       feedbackNotSent: false,
       inputDisabled: false,
       attemptCount: false,
+      validInput: true,
     };
     this.onSubmit = this.onSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -33,29 +34,57 @@ class FeedbackSend extends Component {
   }
 
   onSubmit() {
-    if (this.state.description.length < 10) {
-      this.tooShortFeedback();
-    } else if (this.state.description.length > 400) {
-      this.tooLongFeedback();
+    if (this.state.validInput) {
+      if (this.state.description.length < 10) {
+        this.tooShortFeedback();
+      } else if (this.state.description.length > 400) {
+        this.tooLongFeedback();
+      } else {
+        this.sendApi();
+      }
+    }
+  }
+
+  setInputFalse() {
+    this.setState(() => {
+      this.setState({
+        validInput: false,
+      });
+    });
+  }
+
+  validateDescription() {
+    const { description } = this.state;
+    const regex = /(^[a-zA-Z1-9]+[a-zA-Z1-9. ]+)$/;
+    const match = regex.test(description);
+    if (description.length > 1 && match !== false) {
+      // eslint-disable-next-line no-unused-expressions
+      description > 400
+        ? this.setState({
+          tooLongFeedback: true,
+          validInput: true,
+        })
+        : this.setState({
+          tooLongFeedback: false,
+          attemptCount: false,
+          validInput: true,
+        });
+      // eslint-disable-next-line no-mixed-operators
+    } else if (description.length === 0
+      // eslint-disable-next-line no-mixed-operators
+      || description.length === 1 && /([a-zA-Z1-9])/.test(description)) {
+      this.setState({
+        validInput: true,
+      });
     } else {
-      this.sendApi();
+      this.setInputFalse();
     }
   }
 
   handleChange(e) {
-    this.setState({
-      description: e.target.value,
-      tooShortFeedback: false,
+    this.setState({ description: e.target.value, tooShortFeedback: false }, () => {
+      this.validateDescription();
     });
-    // eslint-disable-next-line no-unused-expressions
-    e.target.value.length > 400
-      ? this.setState({
-        tooLongFeedback: true,
-      })
-      : this.setState({
-        tooLongFeedback: false,
-        attemptCount: false,
-      });
   }
 
   tooShortFeedback() {
@@ -168,7 +197,7 @@ class FeedbackSend extends Component {
     const {
       inputDisabled, description, isLoading, tooShortFeedback,
       tooLongFeedback, feedbackNotSent, timerCount,
-      showTimer, attemptCount, feedbackSent,
+      showTimer, attemptCount, feedbackSent, validInput,
     } = this.state;
     const tooLong = 'Your feedback must be not more than 400 symbols';
     return (
@@ -187,7 +216,7 @@ class FeedbackSend extends Component {
           <Button
             className="btnFormSend"
             variant="outline-success"
-            disabled={isLoading}
+            disabled={isLoading && validInput}
             onClick={this.onSubmit}
           >
             {isLoading ? 'Sending...' : 'Send feedback'}
@@ -199,7 +228,7 @@ class FeedbackSend extends Component {
             cancel={this.cancel}
           />
           )}
-          {tooShortFeedback && !isLoading && (
+          {tooShortFeedback && !isLoading && validInput && (
           <MyBadge className="badge" variant="warning" message="Your feedback must be more than 10 symbols" />
           )}
           {attemptCount && (
@@ -212,7 +241,10 @@ class FeedbackSend extends Component {
           <MyBadge className="badge" variant="danger" message="Your feedback was not sent. Try again" />
           )}
           {feedbackSent && !isLoading && (
-          <MyBadge className="badge" variant="success" message="Your feedback was sent!" />
+            <MyBadge className="badge" variant="success" message="Your feedback was sent!" />
+          )}
+          {!this.state.validInput && (
+            <MyBadge className="badge" variant="success" message="Use only letters, numbers, comma or dot" />
           )}
         </>
       </Form.Group>
