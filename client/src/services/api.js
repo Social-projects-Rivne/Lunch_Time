@@ -22,7 +22,7 @@ class Api {
 
   // eslint-disable-next-line no-unused-vars
   getLogedin(_email, _password, _error) {
-    return axios.post('/api/authenticate', {
+    return axios.post('http://localhost:8080/api/authenticate', {
       email: _email,
       password: _password,
 
