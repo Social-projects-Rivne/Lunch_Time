@@ -55,7 +55,7 @@ class FeedbackSend extends Component {
 
   validateDescription() {
     const { description } = this.state;
-    const regex = /(^[a-zA-Z1-9]+[a-zA-Z1-9. ]+)$/;
+    const regex = /(^[a-zA-Z1-9]+[a-zA-Z1-9., ]+)$/;
     const match = regex.test(description);
     if (description.length > 1 && match !== false) {
       // eslint-disable-next-line no-unused-expressions
