@@ -26,8 +26,6 @@ class Category extends Component {
   saveSelected(selectedKeys) {
     this.setState({
       selected: selectedKeys,
-    }, () => {
-      this.confirm();
     });
   }
 
@@ -43,7 +41,11 @@ class Category extends Component {
   }
 
   reset() {
-    this.saveSelected([]);
+    this.setState({
+      selected: [],
+    }, () => {
+      this.confirm();
+    });
   }
 
   render() {
