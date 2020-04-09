@@ -1,4 +1,4 @@
-package com.lunchtime.implementation;
+package com.lunchtime.service.implementation;
 
 import com.lunchtime.models.Restaurant;
 import com.lunchtime.repository.RestaurantRepository;
