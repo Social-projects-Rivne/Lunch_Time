@@ -15,12 +15,15 @@ import java.util.List;
 public class DatabaseSeed {
 
     String[] dishesName = new String[] {"Salami", "Soup", "Hamburger", "Ice"};
-    String[] categoryFood = new String[] {"Pizza", "Main cource", "Snacks", "Dessert"};
+    String[] categoryFood = new String[] {"Pizza", "Pizza", "Pizza",
+                                          "Main course", "Snacks", "Dessert"};
     String[] dishPortion = new String[] {"500 gr", "300 gr", "230 gr", "150 gr"};
-    String[] dishUrl = new String[] { "https://www.allstar-pizza.com/images/Pizza.jpg",
-                                      "https://art-lunch.ru/wp-content/uploads/2017/12/Soup_with_meatballs_001.jpg",
-                                      "https://apelsinka-rezept.ru/wp-content/uploads/domachniy-gamburger.jpg",
-                                      "https://ukr.media/static/ba/aimg/3/0/3/303704_1.jpg"};
+    String[] dishUrl = new String[] { "pizza-salami.jpg",
+                                      "pizza-margarita.jpg",
+                                      "pizza-manhattan.jpg",
+                                      "Soup_with_meatballs.jpg",
+                                      "hamburger.jpg",
+                                      "ice.jpg"};
     String[] restaurantName = new String[]{"Celentano", "Manhattan", "CasaNuova", "LaRiva", "PuriRivne"};
     String[] userName = new String[]{"Bob", "Devid", "Andriy", "Yura", "Roma"};
     String[] eventName = new String[] {"New Year Party", "Karaoke evening", "Concert Mikhail Poplavskiy",
