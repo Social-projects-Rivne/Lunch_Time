@@ -12,8 +12,28 @@ class Login extends Component {
     this.state = {
       email: '',
       password: '',
-      errorMessage: '',
+      errorMessage: [],
     };
+  }
+
+
+  // eslint-disable-next-line react/sort-comp
+  validate(email, password) {
+    const errorMessage = [];
+
+    if (email.length < 5) {
+      errorMessage.push('Email should be at least 5 charcters long');
+    }
+    if (email.split('').filter((x) => x === '@').length !== 1) {
+      errorMessage.push('Email should contain a @');
+    }
+    if (email.indexOf('.') === -1) {
+      errorMessage.push('Email should contain at least one dot');
+    }
+    if (password.length < 7) {
+      errorMessage.push('Password should be at least 8 characters long');
+    }
+    return errorMessage;
   }
 
   // eslint-disable-next-line react/sort-comp
@@ -30,8 +50,14 @@ class Login extends Component {
   }
 
   getLogedin() {
-    Api.getLogedin(this.state.email, this.state.password, this.state.errorMessage)
+    Api.getLogedin(this.state.email, this.state.password, this.state.errors)
       .then((response) => {
+        // eslint-disable-next-line eqeqeq
+        if (response.data == undefined) {
+          this.setState({
+            errorMessage: response.error,
+          });
+        }
         localStorage.setItem('Bearer ', response.data);
         // eslint-disable-next-line react/prop-types
         this.props.history.push('/');
@@ -45,6 +71,7 @@ class Login extends Component {
   }
 
   render() {
+    const { errorMessage } = this.state;
     return (
       <div className="Login">
         <Form onSubmit={this.handleSubmit.bind(this)}>
@@ -72,6 +99,10 @@ class Login extends Component {
           >
             Login
           </Button>
+          <p key={errorMessage}>
+            {' '}
+            {errorMessage}
+          </p>
         </Form>
       </div>
     );
