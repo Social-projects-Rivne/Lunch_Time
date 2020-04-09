@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Navbar } from 'react-bootstrap';
 import NavigationItem from './shared/navigation/navigation-item';
 import footerInfo from './info/footer';
-import '../styles/footer.css';
+import '../styles/footer-bar.css';
 
 class FooterBar extends Component {
   render() {
