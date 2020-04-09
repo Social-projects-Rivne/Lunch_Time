@@ -21,7 +21,7 @@ public class Feedback {
 
     @ColumnDefault("true")
     @Column(name = "is_active")
-    private Boolean isActive; //TODO use primitive type
+    private boolean isActive;
 
     @NotNull
     @Column(name = "date")

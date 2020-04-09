@@ -1,6 +1,7 @@
 package com.lunchtime.models;
 
 //TODO remove unused imports
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
@@ -49,14 +50,14 @@ public class Restaurant {
     private String workingTime;
 
     @Column(name = "is_deleted")
-    private Boolean isDeleted; //TODO I believe you will need the primitive type here. Use boolean
+    private boolean isDeleted;
 
     @Column(name = "menu_id")
     private Long menuId;
 
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "person_id",referencedColumnName = "id")
+    @JoinColumn(name = "person_id", referencedColumnName = "id")
     private Person person;
 
     @Column(name = "tables")
@@ -82,18 +83,8 @@ public class Restaurant {
     @Column(name = "modify_by")
     private Long modifyBy;
 
-    public Boolean isDeleted() {
-        if (isDeleted == null) {
-            return false;
-        }
-        return isDeleted;
+    public Restaurant() {
     }
-
-    public void setDeleted(Boolean deleted) {
-        isDeleted = deleted;
-    }
-
-    public Restaurant() {    }
 
     //TODO I believe that you are not using this constructor somewhere in app (except seed).
     // just FYI if you have some constructor with such a huge number of params use Builder pattern.

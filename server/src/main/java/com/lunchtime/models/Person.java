@@ -39,7 +39,7 @@ public class Person {
     private String avatarUrl;
 
     @Column(name = "is_deleted")
-    private Boolean isDeleted;
+    private boolean isDeleted;
 
     @Column(name = "role_id")
     private Long roleId;
@@ -57,21 +57,6 @@ public class Person {
 
     @Column(name = "modify_by")
     private Long modifyBy;
-
-    public Boolean isDeleted() {
-        // TODO no need for this check use primitive value. I mean boolean,
-        //  not Boolean (you will need to change data schema)
-        // You can use wrapper (Boolean) if you need 3 values: null (not set), true, false
-        // Or use ternary: return isDeleted == null ? false : isDeleted
-        if (isDeleted == null) {
-            return false;
-        }
-        return isDeleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        isDeleted = deleted;
-    }
 
     public Person() {}
 

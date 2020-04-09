@@ -66,7 +66,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     public Restaurant deleteRestaurantById(Long id) {
         return getRestaurantById(id)
             .map(restaurant -> {
-                restaurant.setIsDeleted(true);
+                restaurant.setDeleted(true);
                 return saveRestaurant(restaurant);
             })
             .orElseGet(() -> {

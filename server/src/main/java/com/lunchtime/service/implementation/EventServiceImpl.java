@@ -57,7 +57,7 @@ public class EventServiceImpl implements EventService {
         Optional<Event> result = getEventById(id);
         if (result.isPresent()) {
             Event event = result.get();
-            event.setIsDeleted(true);
+            event.setDeleted(true);
             saveEvent(event);
             return Optional.of(event);
         }
