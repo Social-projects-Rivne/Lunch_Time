@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class DishServiseImplement implements DishService {
+public class DishServiceImpl implements DishService {
     private final DishRepository dishRepository;
 
-    public DishServiseImplement(DishRepository dishRepository) {
+    public DishServiceImpl(DishRepository dishRepository) {
         this.dishRepository = dishRepository;
     }
 

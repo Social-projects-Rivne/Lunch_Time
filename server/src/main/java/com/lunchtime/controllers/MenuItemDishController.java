@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import javax.validation.Valid;
-import com.lunchtime.service.impl.MenuItemDishServiceImplement;
+
+import com.lunchtime.service.MenuItemDishService;
+import com.lunchtime.service.impl.MenuItemDishServiceImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -22,22 +24,22 @@ import com.lunchtime.models.MenuItemDish;
 @RequestMapping("/api/menuitemdish")
 public class MenuItemDishController {
 
-    private final MenuItemDishServiceImplement menuItemDishServiceImplement;
+    private final MenuItemDishService menuItemDishService;
 
-    public MenuItemDishController(MenuItemDishServiceImplement menuItemDishServiceImplement) {
-        this.menuItemDishServiceImplement = menuItemDishServiceImplement;
+    public MenuItemDishController(MenuItemDishService menuItemDishService) {
+        this.menuItemDishService = menuItemDishService;
     }
 
     @GetMapping
     public ResponseEntity<List<MenuItemDish>> getAll(Pageable pageable) {
-        Page<MenuItemDish> page = menuItemDishServiceImplement.findAll(pageable);
+        Page<MenuItemDish> page = menuItemDishService.findAll(pageable);
         return ResponseEntity.ok()
             .body(page.getContent());
     }
 
     @GetMapping("{id}")
     public ResponseEntity<MenuItemDish> getOne(@PathVariable Long id) {
-        Optional<MenuItemDish> menuItemDish = menuItemDishServiceImplement.findById(id);
+        Optional<MenuItemDish> menuItemDish = menuItemDishService.findById(id);
         if (menuItemDish.isPresent()) {
             return ResponseEntity.ok()
                 .body(menuItemDish.get());
@@ -48,7 +50,7 @@ public class MenuItemDishController {
 
     @GetMapping("/restaurantId")
     public ResponseEntity<List<MenuItemDish>> getAllByRestaurantId(@RequestParam("restaurantId") Long id) {
-        List<MenuItemDish> menuItemDishList = menuItemDishServiceImplement.findByRestaurantId(id);
+        List<MenuItemDish> menuItemDishList = menuItemDishService.findByRestaurantId(id);
         if (menuItemDishList.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
@@ -58,7 +60,7 @@ public class MenuItemDishController {
     @PostMapping
     public ResponseEntity<MenuItemDish> newMenuItemDish(@Valid @RequestBody MenuItemDish menuItemDish)
                throws URISyntaxException {
-        MenuItemDish newMenuItemDish = menuItemDishServiceImplement.save(menuItemDish);
+        MenuItemDish newMenuItemDish = menuItemDishService.save(menuItemDish);
         return  ResponseEntity
                .created(new URI("/api/menuitemdish"))
                .body(newMenuItemDish);

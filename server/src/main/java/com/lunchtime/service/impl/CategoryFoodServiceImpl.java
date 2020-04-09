@@ -12,11 +12,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class CategoryFoodServiceImplement implements CategoryFoodService {
+public class CategoryFoodServiceImpl implements CategoryFoodService {
 
     private final CategoryFoodRepository categoryFoodRepository;
 
-    public CategoryFoodServiceImplement(CategoryFoodRepository categoryFoodRepository) {
+    public CategoryFoodServiceImpl(CategoryFoodRepository categoryFoodRepository) {
         this.categoryFoodRepository = categoryFoodRepository;
     }
 

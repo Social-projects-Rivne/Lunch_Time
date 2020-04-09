@@ -7,7 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import javax.validation.Valid;
-import com.lunchtime.service.impl.CategoryFoodServiceImplement;
+
+import com.lunchtime.service.CategoryFoodService;
+import com.lunchtime.service.impl.CategoryFoodServiceImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -21,22 +23,22 @@ import com.lunchtime.models.CategoryFood;
 @RequestMapping("/api/category")
 public class CategoryFoodController {
 
-    private final CategoryFoodServiceImplement categoryFoodServiceImplement;
+    private final CategoryFoodService categoryFoodService;
 
-    public CategoryFoodController(CategoryFoodServiceImplement categoryFoodServiceImplement) {
-        this.categoryFoodServiceImplement = categoryFoodServiceImplement;
+    public CategoryFoodController(CategoryFoodService categoryFoodService) {
+        this.categoryFoodService = categoryFoodService;
     }
 
     @GetMapping
     public ResponseEntity<List<CategoryFood>> getAll(Pageable pageable) {
-        Page<CategoryFood> page = categoryFoodServiceImplement.findAll(pageable);
+        Page<CategoryFood> page = categoryFoodService.findAll(pageable);
         return ResponseEntity.ok()
             .body(page.getContent());
     }
 
     @GetMapping("{id}")
     public ResponseEntity<CategoryFood> getOne(@PathVariable Long id) {
-        Optional<CategoryFood> dish = categoryFoodServiceImplement.findById(id);
+        Optional<CategoryFood> dish = categoryFoodService.findById(id);
         if (dish.isPresent()) {
             return ResponseEntity.ok()
                 .body(dish.get());
@@ -48,7 +50,7 @@ public class CategoryFoodController {
     @PostMapping
     public ResponseEntity<CategoryFood> newCategory(@Valid @RequestBody CategoryFood categoryFood)
                throws URISyntaxException {
-        CategoryFood newCategory = categoryFoodServiceImplement.save(categoryFood);
+        CategoryFood newCategory = categoryFoodService.save(categoryFood);
         return  ResponseEntity
                .created(new URI("/api/category"))
                .body(newCategory);

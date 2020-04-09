@@ -11,11 +11,11 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class MenuItemDishServiceImplement implements MenuItemDishService {
+public class MenuItemDishServiceImpl implements MenuItemDishService {
 
     private MenuItemDishRepository menuItemDishRepository;
 
-    public MenuItemDishServiceImplement(MenuItemDishRepository menuItemDishRepository) {
+    public MenuItemDishServiceImpl(MenuItemDishRepository menuItemDishRepository) {
         this.menuItemDishRepository = menuItemDishRepository;
     }
 
