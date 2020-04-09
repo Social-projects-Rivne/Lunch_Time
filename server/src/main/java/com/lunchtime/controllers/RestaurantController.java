@@ -22,7 +22,6 @@ import javax.validation.Valid;
 @RestController
 @RequestMapping("/api/restaurants")
 public class RestaurantController {
-
     private final RestaurantService restaurantService;
 
     public RestaurantController(RestaurantService restaurantService) {
@@ -30,24 +29,22 @@ public class RestaurantController {
     }
 
     @PostMapping
-    public ResponseEntity<Restaurant> create(@Valid @RequestBody Restaurant restaurant) throws URISyntaxException {
+    public ResponseEntity<Restaurant> createRestaurant(@Valid @RequestBody Restaurant restaurant) throws URISyntaxException {
         if (restaurant.getId() != null) {
             return ResponseEntity.badRequest()
                 .build();
         }
-
         Restaurant result = restaurantService.save(restaurant);
         if (result == null) {
             return ResponseEntity.badRequest()
                 .build();
         }
-
         return ResponseEntity.created(new URI("/api/restaurants"))
             .body(result);
     }
 
     @PutMapping
-    public ResponseEntity<Restaurant> update(@Valid @RequestBody Restaurant restaurant) throws URISyntaxException {
+    public ResponseEntity<Restaurant> updateRestaurant(@Valid @RequestBody Restaurant restaurant) throws URISyntaxException {
         if (restaurant.getId() == null) {
             return ResponseEntity.badRequest()
                 .build();
@@ -62,26 +59,21 @@ public class RestaurantController {
     }
 
     @GetMapping()
-    public ResponseEntity<Page<Restaurant>> getAll(Pageable pageable) {
+    public ResponseEntity<Page<Restaurant>> getRestaurantPage(Pageable pageable) {
         return ResponseEntity.ok()
             .body(restaurantService.findAll(pageable));
     }
 
     @GetMapping("{id}")
-    //TODO incorrect method name getRestaurant would be better or getRestaurantById as you wish
-    public ResponseEntity<Restaurant> getOne(@PathVariable Long id) {
+    public ResponseEntity<Restaurant> getRestaurantById(@PathVariable Long id) {
         Optional<Restaurant> restaurant = restaurantService.findById(id);
-        // TODO can be replaced with lambda
-        if (restaurant.isPresent()) {
-            return ResponseEntity.ok()
-                .body(restaurant.get());
-        }
-        return ResponseEntity.notFound()
-            .build();
+        return restaurant.map(value -> ResponseEntity.ok()
+            .body(value)).orElseGet(() -> ResponseEntity.notFound()
+            .build());
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteRestaurantById(@PathVariable Long id) {
         Restaurant restaurant = restaurantService.delete(id);
         if (restaurant == null) {
             return ResponseEntity.notFound().build();
