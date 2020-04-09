@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Nav, Navbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import NavigationItem from './shared/navigation/navigation-item';
-import info from './info/navigation';
+import info from './info/header';
 
 class NavigationBar extends Component {
   render() {
