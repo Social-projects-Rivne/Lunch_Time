@@ -11,11 +11,11 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Service
-public class EventServiceImplement implements EventService {
+public class EventServiceImpl implements EventService {
 
     private final EventRepository eventRepository;
 
-    public EventServiceImplement(EventRepository eventRepository) {
+    public EventServiceImpl(EventRepository eventRepository) {
         this.eventRepository = eventRepository;
     }
 

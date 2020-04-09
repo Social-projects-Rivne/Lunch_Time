@@ -7,11 +7,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class FeedbackServiceImplement implements FeedbackService {
+public class FeedbackServiceImpl implements FeedbackService {
 
     private final FeedbackRepository feedbackRepository;
 
-    public FeedbackServiceImplement(FeedbackRepository feedbackRepository) {
+    public FeedbackServiceImpl(FeedbackRepository feedbackRepository) {
         this.feedbackRepository = feedbackRepository;
     }
 

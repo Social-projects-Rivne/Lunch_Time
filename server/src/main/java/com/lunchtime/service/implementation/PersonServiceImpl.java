@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class PersonServiceImplement implements PersonService {
+public class PersonServiceImpl implements PersonService {
 
     private final PersonRepository personRepository;
 
-    public PersonServiceImplement(PersonRepository personRepository) {
+    public PersonServiceImpl(PersonRepository personRepository) {
         this.personRepository = personRepository;
     }
 
