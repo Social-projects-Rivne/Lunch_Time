@@ -22,7 +22,6 @@ Filter.propTypes = {
   info: PropTypes.array.isRequired,
   showDate: PropTypes.bool.isRequired,
   onChangeEvents: PropTypes.any.isRequired,
-
 };
 
 export default Filter;
