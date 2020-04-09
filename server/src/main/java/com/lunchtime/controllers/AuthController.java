@@ -44,5 +44,4 @@ public class AuthController {
         return ResponseEntity.ok(token.getJwt());
     }
 
-
 }
