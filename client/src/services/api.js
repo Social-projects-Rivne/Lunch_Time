@@ -1,8 +1,14 @@
 import axios from 'axios';
+import { config as configDev } from '../environments/environment.dev';
+import { config as configProd } from '../environments/environment.prod';
 
 class Api {
   constructor() {
-    this.apiUrl = 'http://localhost:8080/api/';
+    if (process.env.NODE_ENV === 'development') {
+      this.apiUrl = configDev.apiUrl;
+    } else {
+      this.apiUrl = configProd.apiUrl;
+    }
   }
 
   getAll(endpoint) {
