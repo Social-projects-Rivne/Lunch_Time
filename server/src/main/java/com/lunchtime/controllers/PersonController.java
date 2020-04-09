@@ -25,14 +25,14 @@ public class PersonController {
             return ResponseEntity.badRequest()
                 .build();
         }
-        Person result = personService.save(person);
+        Person result = personService.savePerson(person);
         return ResponseEntity.created(new URI("/api/persons"))
             .body(result);
     }
 
     @GetMapping("{id}")
     public ResponseEntity<Person> getPersonById(@PathVariable Long id) {
-        Optional<Person> person = personService.findById(id);
+        Optional<Person> person = personService.getPersonById(id);
         return person.map(value -> ResponseEntity.ok()
             .body(value)).orElseGet(() -> ResponseEntity.notFound()
             .build());

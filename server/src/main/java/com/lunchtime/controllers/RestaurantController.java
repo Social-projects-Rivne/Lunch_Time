@@ -34,7 +34,7 @@ public class RestaurantController {
             return ResponseEntity.badRequest()
                 .build();
         }
-        Restaurant result = restaurantService.save(restaurant);
+        Restaurant result = restaurantService.saveRestaurant(restaurant);
         if (result == null) {
             return ResponseEntity.badRequest()
                 .build();
@@ -49,7 +49,7 @@ public class RestaurantController {
             return ResponseEntity.badRequest()
                 .build();
         }
-        Restaurant result = restaurantService.update(restaurant);
+        Restaurant result = restaurantService.updateRestaurant(restaurant);
         if (result == null) {
             return ResponseEntity.notFound()
                 .build();
@@ -61,12 +61,12 @@ public class RestaurantController {
     @GetMapping()
     public ResponseEntity<Page<Restaurant>> getRestaurantPage(Pageable pageable) {
         return ResponseEntity.ok()
-            .body(restaurantService.findAll(pageable));
+            .body(restaurantService.getRestaurantPage(pageable));
     }
 
     @GetMapping("{id}")
     public ResponseEntity<Restaurant> getRestaurantById(@PathVariable Long id) {
-        Optional<Restaurant> restaurant = restaurantService.findById(id);
+        Optional<Restaurant> restaurant = restaurantService.getRestaurantById(id);
         return restaurant.map(value -> ResponseEntity.ok()
             .body(value)).orElseGet(() -> ResponseEntity.notFound()
             .build());
@@ -74,7 +74,7 @@ public class RestaurantController {
 
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteRestaurantById(@PathVariable Long id) {
-        Restaurant restaurant = restaurantService.delete(id);
+        Restaurant restaurant = restaurantService.deleteRestaurantById(id);
         if (restaurant == null) {
             return ResponseEntity.notFound().build();
         }

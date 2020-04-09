@@ -16,11 +16,11 @@ public class PersonServiceImpl implements PersonService {
         this.personRepository = personRepository;
     }
 
-    public Person save(Person person) {
+    public Person savePerson(Person person) {
         return personRepository.save(person);
     }
 
-    public Optional<Person> findById(Long id) {
+    public Optional<Person> getPersonById(Long id) {
         return personRepository.findById(id);
     }
 }

@@ -5,7 +5,7 @@ import com.lunchtime.models.Person;
 import java.util.Optional;
 
 public interface PersonService {
-    Person save(Person person);
+    Person savePerson(Person person);
 
-    Optional<Person> findById(Long id);
+    Optional<Person> getPersonById(Long id);
 }

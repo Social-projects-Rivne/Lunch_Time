@@ -19,25 +19,25 @@ public class EventServiceImpl implements EventService {
         this.eventRepository = eventRepository;
     }
 
-    public List<Event> findAll() {
+    public List<Event> getEventList() {
         return eventRepository.findByDateGreaterThanAndIsDeletedFalseOrderByDateAsc(new Date());
     }
 
-    public List<Event> findByCategory(String[] category) {
+    public List<Event> getEventListByCategory(String[] category) {
         return eventRepository.findByDateGreaterThanAndCategoryInAndIsDeletedFalse(new Date(), category);
     }
 
-    public List<Event> findByDay(Date date) {
+    public List<Event> getEventListByDay(Date date) {
         Date end = new Date(date.getTime() + TimeUnit.DAYS.toMillis(1));
         return eventRepository.findByDateBetweenAndIsDeletedFalseOrderByDateAsc(date, end);
     }
 
-    public List<Event> findByDateBetween(Date startDate, Date endDate) {
+    public List<Event> getEventListByDateBetween(Date startDate, Date endDate) {
         Date end = new Date(endDate.getTime() + TimeUnit.DAYS.toMillis(1));
         return eventRepository.findByDateBetweenAndIsDeletedFalseOrderByDateAsc(startDate, end);
     }
 
-    public List<Event> findByMonth(String month) throws IllegalArgumentException {
+    public List<Event> getEventListByMonth(String month) throws IllegalArgumentException {
         int monthOrdinal = Month.valueOf(month.toUpperCase()).ordinal();
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
         int currentMonth = Calendar.getInstance().get(Calendar.MONTH);
@@ -49,22 +49,22 @@ public class EventServiceImpl implements EventService {
         return eventRepository.findByDateBetweenAndIsDeletedFalseOrderByDateAsc(start, end);
     }
 
-    public Optional<Event> findById(Long id) {
+    public Optional<Event> getEventById(Long id) {
         return eventRepository.findById(id);
     }
 
-    public Optional<Event> deleteById(Long id) {
-        Optional<Event> result = findById(id);
+    public Optional<Event> deleteEventById(Long id) {
+        Optional<Event> result = getEventById(id);
         if (result.isPresent()) {
             Event event = result.get();
             event.setIsDeleted(true);
-            save(event);
+            saveEvent(event);
             return Optional.of(event);
         }
         return Optional.empty();
     }
 
-    public void save(Event event) throws IllegalArgumentException {
+    public void saveEvent(Event event) throws IllegalArgumentException {
         String category = event.getCategory();
         if (Validator.checkCategory(category)) {
             eventRepository.save(event);

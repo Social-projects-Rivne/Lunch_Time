@@ -21,8 +21,8 @@ public class RestaurantServiceImpl implements RestaurantService {
         this.personService = personService;
     }
 
-    public Restaurant save(Restaurant restaurant) {
-        return personService.findById(restaurant.getPerson().getId())
+    public Restaurant saveRestaurant(Restaurant restaurant) {
+        return personService.getPersonById(restaurant.getPerson().getId())
             .map(person -> {
                 restaurant.setPerson(person);
                 return restaurantRepository.save(restaurant);
@@ -33,16 +33,16 @@ public class RestaurantServiceImpl implements RestaurantService {
             });
     }
 
-    public Page<Restaurant> findAll(Pageable pageable) {
+    public Page<Restaurant> getRestaurantPage(Pageable pageable) {
         return restaurantRepository.findAll(pageable);
     }
 
-    public Optional<Restaurant> findById(Long id) {
+    public Optional<Restaurant> getRestaurantById(Long id) {
         return restaurantRepository.findById(id);
     }
 
-    public Restaurant update(Restaurant newRestaurant) {
-        return findById(newRestaurant.getId())
+    public Restaurant updateRestaurant(Restaurant newRestaurant) {
+        return getRestaurantById(newRestaurant.getId())
             .map(restaurant -> {
                 restaurant.setName(newRestaurant.getName());
                 restaurant.setEmail(newRestaurant.getEmail());
@@ -55,7 +55,7 @@ public class RestaurantServiceImpl implements RestaurantService {
                 restaurant.setTables(newRestaurant.getTables());
                 restaurant.setLongitude(newRestaurant.getLongitude());
                 restaurant.setLatitude(newRestaurant.getLatitude());
-                return save(restaurant);
+                return saveRestaurant(restaurant);
             })
             // TODO simple ... .orElseGet(null)
             .orElseGet(() -> {
@@ -63,11 +63,11 @@ public class RestaurantServiceImpl implements RestaurantService {
             });
     }
 
-    public Restaurant delete(Long id) {
-        return findById(id)
+    public Restaurant deleteRestaurantById(Long id) {
+        return getRestaurantById(id)
             .map(restaurant -> {
                 restaurant.setIsDeleted(true);
-                return save(restaurant);
+                return saveRestaurant(restaurant);
             })
             .orElseGet(() -> {
                 return null;

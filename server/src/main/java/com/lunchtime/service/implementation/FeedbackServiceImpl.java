@@ -15,7 +15,7 @@ public class FeedbackServiceImpl implements FeedbackService {
         this.feedbackRepository = feedbackRepository;
     }
 
-    public List<Feedback> findByRestId_Id(Long id) {
+    public List<Feedback> getFeedbackListByRestaurantId(Long id) {
         return feedbackRepository.findByRestId_Id(id);
     }
 
