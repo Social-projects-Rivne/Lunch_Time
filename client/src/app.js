@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import NavigationBar from './components/navigation-bar';
+import FooterBar from './components/footer-bar';
 import Home from './pages/home';
 import About from './pages/about';
 import Contact from './pages/contact';
@@ -31,6 +32,7 @@ class App extends Component {
           <Route path="/profile" component={Profile} />
           <Route path="" component={NoMatch} />
         </Switch>
+        <FooterBar />
 
       </Router>
     );
