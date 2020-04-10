@@ -105,13 +105,13 @@ class InfoChange extends React.Component {
           <Col md="6">
             <Input
               name="name"
-              placeholder={updatedUser.name}
+              placeholder={user.name}
               label="Name"
               onChange={this.handleChange}
             />
             <Input
               name="phoneNumber"
-              placeholder={updatedUser.phoneNumber}
+              placeholder={user.phoneNumber}
               label="Phone number"
               onChange={this.handleChange}
             />
@@ -124,7 +124,7 @@ class InfoChange extends React.Component {
             <Link to="avatar">
               <Avatar
                 className="mt-2"
-                name={updatedUser.name}
+                name={user.name}
                 size="150"
                 round
                 src={updatedUser.avatarUrl}
