@@ -12,29 +12,18 @@ class Login extends Component {
     this.state = {
       email: '',
       password: '',
-      errorMessage: [],
+      errorKey: false,
+      errorMessage: '',
+      errorMess: [],
     };
+    this.errorMessageRewiew = this.errorMessageRewiew.bind(this);
   }
-
 
   // eslint-disable-next-line react/sort-comp
-  validate(email, password) {
-    const errorMessage = [];
-
-    if (email.length < 5) {
-      errorMessage.push('Email should be at least 5 charcters long');
-    }
-    if (email.split('').filter((x) => x === '@').length !== 1) {
-      errorMessage.push('Email should contain a @');
-    }
-    if (email.indexOf('.') === -1) {
-      errorMessage.push('Email should contain at least one dot');
-    }
-    if (password.length < 7) {
-      errorMessage.push('Password should be at least 8 characters long');
-    }
-    return errorMessage;
+  errorMessageRewiew() {
+    this.setState({ errorKey: true });
   }
+
 
   // eslint-disable-next-line react/sort-comp
   validateForm() {
@@ -42,6 +31,7 @@ class Login extends Component {
     const { password } = this.state;
     return email.length > 0 && password.length > 7;
   }
+
 
   handleChange(event) {
     this.setState({
@@ -57,11 +47,14 @@ class Login extends Component {
           localStorage.setItem('Bearer ', response.data);
           // eslint-disable-next-line react/prop-types
           this.props.history.push('/');
+        } else if (response.status > 400) {
+          this.errorMessageRewiew(); this.setState({ errorMessage: 'something goes wrong' });
+          this.setState({ errorMess: 'errror suka' });
         }
       }).catch((error) => {
-        // eslint-disable-next-line no-console
-        console.log(error);
-        this.showFeedbackNotSent();
+        this.errorMessageRewiew();
+        this.setState({ errorMessage: error.message });
+        this.setState({ errorMess: error.message });
       });
   }
 
@@ -72,7 +65,7 @@ class Login extends Component {
   }
 
   render() {
-    const { errorMessage } = this.state;
+    const { errorKey } = this.state;
     return (
       <div className="Login">
         <Form onSubmit={this.handleSubmit.bind(this)}>
@@ -101,12 +94,30 @@ class Login extends Component {
           >
             Login
           </Button>
-          { errorMessage && (
-          <div className="error">
+          {errorKey && (
+          // eslint-disable-next-line react/jsx-no-undef
+          <MyBadge className="badge" variant="warning" message="Invalid email or password" />
+          )}
+          { errorKey && (
+          <h3 className="error">
             {' '}
-            { errorMessage }
+            { errorKey }
             {' '}
-          </div>
+          </h3>
+          )}
+          { this.state.errorMessage && (
+          <h3 className="error">
+            {' '}
+            { this.state.errorMessage }
+            {' '}
+          </h3>
+          )}
+          { this.state.errorMess && (
+          <h3 className="error">
+            {' '}
+            { this.state.errorMess }
+            {' '}
+          </h3>
           )}
         </Form>
       </div>
