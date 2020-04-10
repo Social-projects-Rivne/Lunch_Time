@@ -6,6 +6,7 @@ import {
 import PropTypes from 'prop-types';
 import Dish from './dish';
 import Category from './category';
+import Api from '../../services/api';
 
 
 class MenuItemDish extends Component {
@@ -26,7 +27,7 @@ class MenuItemDish extends Component {
                 <Col className="col-item">
                   <Image
                     className="image-menu-item"
-                    src={menuitemdishs.imageUrl}
+                    src={`${Api.apiUrl}images/dishes/${menuitemdishs.imageUrl}`}
                     roundedCircle
                     width="150"
                     height="75"
