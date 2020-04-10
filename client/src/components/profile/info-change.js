@@ -19,7 +19,7 @@ class InfoChange extends React.Component {
       user: this.props.user,
       updatedUser: this.props.user,
       errors: {
-        name: '', email: '', phone: '', password: '', err: 'Profile is not changed',
+        name: '', phone: '', password: '', err: 'Profile is not changed',
       },
     };
     this.handleChange = this.handleChange.bind(this);
@@ -35,13 +35,9 @@ class InfoChange extends React.Component {
   handleChange(event) {
     const { name, value } = event.target;
     const { errors } = this.state;
-    const validEmailRegex = RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g);
     switch (name) {
       case 'name':
-        errors.name = value.length < 3 ? 'Name must be at least 3 characters! ' : '';
-        break;
-      case 'email':
-        errors.email = validEmailRegex.test(value) ? '' : 'Email is not valid! ';
+        errors.name = value.length < 1 ? 'The name cannot be empty ' : '';
         break;
       case 'phoneNumber':
         errors.phone = validator.isMobilePhone(value) ? '' : 'Phone number is not valid! ';
@@ -111,12 +107,6 @@ class InfoChange extends React.Component {
               name="name"
               placeholder={updatedUser.name}
               label="Name"
-              onChange={this.handleChange}
-            />
-            <Input
-              name="email"
-              placeholder={updatedUser.email}
-              label="Email address"
               onChange={this.handleChange}
             />
             <Input
