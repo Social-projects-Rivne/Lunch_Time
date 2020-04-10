@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import PasswordStrengthBar from 'react-password-strength-bar';
 import Input from '../shared/input';
 
 class PassChange extends React.Component {
@@ -52,6 +53,7 @@ class PassChange extends React.Component {
   }
 
   render() {
+    const { newPass } = this.state;
     return (
       <div>
         {!this.state.showForm
@@ -77,6 +79,13 @@ class PassChange extends React.Component {
             placeholder="Enter new password"
             onChange={this.handleChange}
           />
+          {newPass.length > 0
+          && (
+          <PasswordStrengthBar
+            minLength="8"
+            password={newPass}
+          />
+          )}
           <Input
             name="password"
             type="password"

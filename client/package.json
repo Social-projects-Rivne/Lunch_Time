@@ -23,7 +23,8 @@
     "react-openlayers": "^0.3.0",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
-    "validator": "^13.0.0"
+    "validator": "^13.0.0",
+    "react-password-strength-bar": "latest"
   },
   "scripts": {
     "start": "react-scripts start",
