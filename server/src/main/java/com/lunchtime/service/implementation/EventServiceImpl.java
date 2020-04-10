@@ -1,4 +1,4 @@
-package com.lunchtime.service.implementation; //TODO should be in service package
+package com.lunchtime.service.implementation;
 
 import com.lunchtime.models.Event;
 import com.lunchtime.repository.EventRepository;
@@ -20,21 +20,21 @@ public class EventServiceImpl implements EventService {
     }
 
     public List<Event> getEventList() {
-        return eventRepository.findByDateGreaterThanAndIsDeletedFalseOrderByDateAsc(new Date());
+        return eventRepository.findByDateGreaterThan(new Date());
     }
 
     public List<Event> getEventListByCategory(String[] category) {
-        return eventRepository.findByDateGreaterThanAndCategoryInAndIsDeletedFalse(new Date(), category);
+        return eventRepository.findByDateGreaterThanAndCategoryIn(new Date(), category);
     }
 
     public List<Event> getEventListByDay(Date date) {
         Date end = new Date(date.getTime() + TimeUnit.DAYS.toMillis(1));
-        return eventRepository.findByDateBetweenAndIsDeletedFalseOrderByDateAsc(date, end);
+        return eventRepository.findByDateBetween(date, end);
     }
 
     public List<Event> getEventListByDateBetween(Date startDate, Date endDate) {
         Date end = new Date(endDate.getTime() + TimeUnit.DAYS.toMillis(1));
-        return eventRepository.findByDateBetweenAndIsDeletedFalseOrderByDateAsc(startDate, end);
+        return eventRepository.findByDateBetween(startDate, end);
     }
 
     public List<Event> getEventListByMonth(String month) throws IllegalArgumentException {
@@ -46,7 +46,7 @@ public class EventServiceImpl implements EventService {
         }
         Date start = new GregorianCalendar(currentYear, monthOrdinal, 1).getTime();
         Date end = new GregorianCalendar(currentYear, monthOrdinal + 1, 1).getTime();
-        return eventRepository.findByDateBetweenAndIsDeletedFalseOrderByDateAsc(start, end);
+        return eventRepository.findByDateBetween(start, end);
     }
 
     public Optional<Event> getEventById(Long id) {

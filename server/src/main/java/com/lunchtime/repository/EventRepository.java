@@ -1,17 +1,42 @@
 package com.lunchtime.repository;
 
 import com.lunchtime.models.Event;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.Date;
 import java.util.List;
 
-public interface EventRepository extends CrudRepository<Event, Long> {
+public interface EventRepository extends JpaRepository<Event, Long> {
+    /**Returns the list of events which date of creation is greater than it comes in params.
+     * It also returns all records that are NOT marked as deleted.
+     * The list is ordered by column date in ascending direction.
+     *
+     * @param date all events needs to be newer than this date
+     * @return the number of elements in this list
+     */
+    @Query("select e from Event e where e.isDeleted = false order by e.date asc")
+    List<Event> findByDateGreaterThan(Date date);
 
-    //TODO Add more simple method name and provide it with more specific javaDoc
-    List<Event> findByDateGreaterThanAndIsDeletedFalseOrderByDateAsc(Date date);
+    /**Returns the list of events which date of creation is greater than it comes in params,
+     * and which belong to category that comes in params.
+     * It also returns all records that are NOT marked as deleted.
+     *
+     * @param date all events needs to be newer than this date
+     * @param category the name of category that needs to be returned
+     * @return the number of elements in this list
+     */
+    @Query("select e from Event e where e.isDeleted = false")
+    List<Event> findByDateGreaterThanAndCategoryIn(Date date, String[] category);
 
-    List<Event> findByDateGreaterThanAndCategoryInAndIsDeletedFalse(Date date, String[] category);
-
-    List<Event> findByDateBetweenAndIsDeletedFalseOrderByDateAsc(Date startDate, Date endDate);
+    /**Returns the list of events which date of creation is between dates that comes in params.
+     * It also returns all records that are NOT marked as deleted.
+     * The list is ordered by column date in ascending direction.
+     *
+     * @param startDate all events needs to be newer than this date
+     * @param endDate all events should NOT be newer than this date
+     * @return the number of elements in this list
+     */
+    @Query("select e from Event e where e.isDeleted = false order by e.date asc")
+    List<Event> findByDateBetween(Date startDate, Date endDate);
 }
