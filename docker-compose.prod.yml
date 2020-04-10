@@ -3,7 +3,7 @@ version: "3.3"
 services:
   db:
     image: postgres:12.2
-    container_name: lunch-time-db
+    container_name: lunch-time-db-prod
     ports:
       - "5432:5432"
     environment:
@@ -13,24 +13,22 @@ services:
   server:
     build:
       context: ./server/
-    container_name: lunch-time-server
+      dockerfile: Dockerfile.prod
+    container_name: lunch-time-server-prod
     depends_on:
       - db
     ports:
       - "8080:8080"
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/postgres?useUnicode=true&characterEncoding=utf8&useSSL=false
-    volumes:
-      - ./server/:/app/
     working_dir: /app
-    user: appuser
-    command: mvn clean spring-boot:run
+    command: java -jar target/LunchTime-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod
 
   client:
     build:
       context: ./client/
       dockerfile: Dockerfile.prod
-    container_name: lunch-time-client
+    container_name: lunch-time-client-prod
     depends_on:
       - server
     ports:
