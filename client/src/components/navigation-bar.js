@@ -3,7 +3,7 @@ import { Nav, Navbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import NavigationItem from './shared/navigation/navigation-item';
 import info from './info/navigation';
-import lognavigation from './info/lognavigation';
+import navigationForLoggedIn from './info/navigationForLoggedIn';
 
 class NavigationBar extends Component {
   // eslint-disable-next-line consistent-return
@@ -30,7 +30,7 @@ class NavigationBar extends Component {
 
   renderFunctio(className) {
     if (this.state.isAuthentificated) {
-      return lognavigation.map((e) => (
+      return navigationForLoggedIn.map((e) => (
         <NavigationItem
           className={className}
           link={e.link}
