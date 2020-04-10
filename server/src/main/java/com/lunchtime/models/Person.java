@@ -17,9 +17,6 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "username", unique = true)
-    private String userName;
-
     @Column(name = "avatar_url")
     private String photoUrl;
 
