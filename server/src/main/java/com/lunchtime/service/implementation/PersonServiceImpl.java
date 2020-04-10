@@ -9,7 +9,6 @@ import java.util.Optional;
 
 @Service
 public class PersonServiceImpl implements PersonService {
-
     private final PersonRepository personRepository;
 
     public PersonServiceImpl(PersonRepository personRepository) {
