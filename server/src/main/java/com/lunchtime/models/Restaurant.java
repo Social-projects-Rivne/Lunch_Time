@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -13,8 +12,6 @@ import javax.validation.constraints.NotNull;
 import java.time.Instant;
 
 @Entity
-//TODO It is a bad idea to add this stuff here. You should use it in repository.
-@Where(clause = "is_deleted = false or is_deleted is NULL")
 @Setter
 @Getter
 public class Restaurant {

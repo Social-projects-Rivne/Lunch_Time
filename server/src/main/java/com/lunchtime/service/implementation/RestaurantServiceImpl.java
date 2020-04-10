@@ -12,7 +12,6 @@ import java.util.Optional;
 
 @Service
 public class RestaurantServiceImpl implements RestaurantService {
-
     private final RestaurantRepository restaurantRepository;
     private final PersonService personService;
 
@@ -27,18 +26,15 @@ public class RestaurantServiceImpl implements RestaurantService {
                 restaurant.setPerson(person);
                 return restaurantRepository.save(restaurant);
             })
-            // TODO simple ... .orElseGet(null)
-            .orElseGet(() -> {
-                return null;
-            });
+            .orElse(null);
     }
 
     public Page<Restaurant> getRestaurantPage(Pageable pageable) {
-        return restaurantRepository.findAll(pageable);
+        return restaurantRepository.findByIsDeletedFalse(pageable);
     }
 
     public Optional<Restaurant> getRestaurantById(Long id) {
-        return restaurantRepository.findById(id);
+        return restaurantRepository.findByIdAndIsDeletedFalse(id);
     }
 
     public Restaurant updateRestaurant(Restaurant newRestaurant) {
@@ -57,10 +53,7 @@ public class RestaurantServiceImpl implements RestaurantService {
                 restaurant.setLatitude(newRestaurant.getLatitude());
                 return saveRestaurant(restaurant);
             })
-            // TODO simple ... .orElseGet(null)
-            .orElseGet(() -> {
-                return null;
-            });
+            .orElse(null);
     }
 
     public Restaurant deleteRestaurantById(Long id) {
@@ -69,9 +62,6 @@ public class RestaurantServiceImpl implements RestaurantService {
                 restaurant.setDeleted(true);
                 return saveRestaurant(restaurant);
             })
-            .orElseGet(() -> {
-                return null;
-            });
-        // TODO simple ... .orElseGet(null)
+            .orElse(null);
     }
 }
