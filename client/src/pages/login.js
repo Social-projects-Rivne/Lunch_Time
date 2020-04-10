@@ -50,17 +50,18 @@ class Login extends Component {
   }
 
   getLogedin() {
-    Api.getLogedin(this.state.email, this.state.password, this.state.errors)
+    Api.getLogedin(this.state.email, this.state.password)
       .then((response) => {
         // eslint-disable-next-line eqeqeq
-        if (response.data == undefined) {
-          this.setState({
-            errorMessage: response.error,
-          });
+        if (response.status >= 200 && response.status < 300) {
+          localStorage.setItem('Bearer ', response.data);
+          // eslint-disable-next-line react/prop-types
+          this.props.history.push('/');
         }
-        localStorage.setItem('Bearer ', response.data);
-        // eslint-disable-next-line react/prop-types
-        this.props.history.push('/');
+      }).catch((error) => {
+        // eslint-disable-next-line no-console
+        console.log(error);
+        this.showFeedbackNotSent();
       });
   }
 
@@ -75,7 +76,7 @@ class Login extends Component {
     return (
       <div className="Login">
         <Form onSubmit={this.handleSubmit.bind(this)}>
-          Login
+          Email
           <Form.Group controlId="email">
             <Form.Control
               autoFocus
@@ -85,6 +86,7 @@ class Login extends Component {
               onChange={this.handleChange.bind(this)}
             />
           </Form.Group>
+          Password
           <Form.Group controlId="password">
             <Form.Control
               value={this.state.password}
@@ -99,10 +101,13 @@ class Login extends Component {
           >
             Login
           </Button>
-          <p key={errorMessage}>
+          { errorMessage && (
+          <div className="error">
             {' '}
-            {errorMessage}
-          </p>
+            { errorMessage }
+            {' '}
+          </div>
+          )}
         </Form>
       </div>
     );
