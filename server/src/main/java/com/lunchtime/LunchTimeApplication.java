@@ -31,6 +31,7 @@ public class LunchTimeApplication {
                     // this list without creating new PR, for example for prod env, you will need only ssh
                     .allowedOrigins("http://localhost:3000");
             }
+
             @Override
             public void addResourceHandlers(ResourceHandlerRegistry registry) {
                 registry.addResourceHandler("/api/**")
@@ -38,7 +39,4 @@ public class LunchTimeApplication {
             }
         };
     }
-
-
-
 }

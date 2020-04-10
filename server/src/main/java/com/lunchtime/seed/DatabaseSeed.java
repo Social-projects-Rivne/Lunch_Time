@@ -14,10 +14,10 @@ import java.util.List;
 @Component
 public class DatabaseSeed {
 
-    String[] dishesName = new String[] {"Salami", "Soup", "Hamburger", "Ice"};
+    String[] dishesName = new String[] {"Salami", "Margarita", "Manhattan", "Soup", "Hamburger", "Ice"};
     String[] categoryFood = new String[] {"Pizza", "Pizza", "Pizza",
                                           "Main course", "Snacks", "Dessert"};
-    String[] dishPortion = new String[] {"500 gr", "300 gr", "230 gr", "150 gr"};
+    String[] dishPortion = new String[] {"500 gr", "300 gr", "230 gr", "150 gr", "500 gr", "200 gr"};
     String[] dishUrl = new String[] { "pizza-salami.jpg",
                                       "pizza-margarita.jpg",
                                       "pizza-manhattan.jpg",
@@ -110,9 +110,8 @@ public class DatabaseSeed {
     private void seedMeuItemDish() {
 
         List<Dish> dishesList = dishRepository.findAll();
-        List<Restaurant> restaurantList = restaurantRepository.findAll();
 
-        for (Long j = 0L; j < restaurantList.size(); j++) {
+        for (Long j = 0L; j < getRestaurantList().size(); j++) {
             for (Long i = 0L; i < dishesList.size(); i++) {
                 MenuItemDish menuItemDish = new MenuItemDish();
                 menuItemDish.setPortionSize(dishPortion[i.intValue()]);
@@ -120,7 +119,7 @@ public class DatabaseSeed {
                 menuItemDish.setDish(dishesList.get(i.intValue()));
                 menuItemDish.setPortionUnit(i.longValue() + 70L);
                 menuItemDish.setImageUrl(dishUrl[i.intValue()]);
-                menuItemDish.setRestaurant(restaurantList.get(j.intValue()));
+                menuItemDish.setRestaurant(getRestaurantList().get(j.intValue()));
                 menuItemDishRepository.save(menuItemDish);
             }
         }
