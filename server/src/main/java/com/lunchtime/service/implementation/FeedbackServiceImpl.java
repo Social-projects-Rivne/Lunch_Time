@@ -16,7 +16,7 @@ public class FeedbackServiceImpl implements FeedbackService {
     }
 
     public List<Feedback> getFeedbackListByRestaurantId(Long id) {
-        return feedbackRepository.findByRestId_Id(id);
+        return feedbackRepository.findByRestaurantId(id);
     }
 
 }

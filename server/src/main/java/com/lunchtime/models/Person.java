@@ -58,15 +58,6 @@ public class Person {
     @Column(name = "modify_by")
     private Long modifyBy;
 
-    public Person() {}
-
-    public Person(String name, String email,
-                  String password, String phoneNumber) {
-        this.name = name;
-        this.email = email;
-        this.password = password;
-        this.phoneNumber = phoneNumber;
+    public Person() {
     }
-
-
 }

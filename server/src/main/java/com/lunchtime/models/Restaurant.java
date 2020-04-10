@@ -1,8 +1,5 @@
 package com.lunchtime.models;
 
-//TODO remove unused imports
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -84,37 +81,5 @@ public class Restaurant {
     private Long modifyBy;
 
     public Restaurant() {
-    }
-
-    //TODO I believe that you are not using this constructor somewhere in app (except seed).
-    // just FYI if you have some constructor with such a huge number of params use Builder pattern.
-    // It will help to construct
-    // object without any mistakes. Currently, you have 6 strings in a row and you can put textAddress as a website.
-    public Restaurant(String name,
-                      String email, String textAddress,
-                      String website, String description,
-                      String workingTime, Boolean isDeleted,
-                      Long menuId, Person person,
-                      Integer tables, Float longitude,
-                      Float latitude, Instant createdAt,
-                      Long createdBy, Instant modifyAt,
-                      Long modifyBy) {
-
-        this.name = name;
-        this.email = email;
-        this.textAddress = textAddress;
-        this.website = website;
-        this.description = description;
-        this.workingTime = workingTime;
-        this.isDeleted = isDeleted;
-        this.menuId = menuId;
-        this.person = person;
-        this.tables = tables;
-        this.longitude = longitude;
-        this.latitude = latitude;
-        this.createdAt = createdAt;
-        this.createdBy = createdBy;
-        this.modifyAt = modifyAt;
-        this.modifyBy = modifyBy;
     }
 }

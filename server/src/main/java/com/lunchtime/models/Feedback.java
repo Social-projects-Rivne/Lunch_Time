@@ -3,6 +3,7 @@ package com.lunchtime.models;
 import lombok.Setter;
 import lombok.Getter;
 import org.hibernate.annotations.ColumnDefault;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.sql.Date;
@@ -29,13 +30,13 @@ public class Feedback {
 
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "person_id",referencedColumnName = "id")
+    @JoinColumn(name = "person_id", referencedColumnName = "id")
     private Person person;
 
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "rest_id",referencedColumnName = "id")
-    private Restaurant restId;
+    @JoinColumn(name = "restaurant_id", referencedColumnName = "id")
+    private Restaurant restaurant;
 
     @ColumnDefault("0")
     @Column(name = "counter_like")
@@ -45,17 +46,6 @@ public class Feedback {
     @Column(name = "counter_dislike")
     private Integer counterDislike;
 
-    public Feedback() {   }
-
-    public Feedback(String description, Boolean isActive, Date date,
-                    Person person, Restaurant restId, Integer counterLike, Integer counterDislike) {
-        this.description = description;
-        this.isActive = isActive;
-        this.date = date;
-        this.person = person;
-        this.restId = restId;
-        this.counterLike = counterLike;
-        this.counterDislike = counterDislike;
+    public Feedback() {
     }
-
 }

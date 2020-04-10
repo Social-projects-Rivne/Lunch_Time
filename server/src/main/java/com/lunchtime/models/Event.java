@@ -19,7 +19,6 @@ import java.util.Date;
 @Entity
 @Table(name = "event")
 public class Event {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -28,7 +27,7 @@ public class Event {
     //TODO EAGER is not a good option, because if you will have a huge amount of restaurants your app can crash.
     //Use LAZY and modify logic
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "restaurant",referencedColumnName = "id")
+    @JoinColumn(name = "restaurant", referencedColumnName = "id")
     private Restaurant restaurant;
 
     @NotNull
@@ -65,5 +64,8 @@ public class Event {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    public Event() {
     }
 }

@@ -8,5 +8,5 @@ import java.util.List;
 //TODO remove redundant empty lines
 @Repository
 public interface FeedbackRepository extends JpaRepository<Feedback, Long> {
-    List<Feedback> findByRestId_Id(Long id);
+    List<Feedback> findByRestaurantId(Long id);
 }
