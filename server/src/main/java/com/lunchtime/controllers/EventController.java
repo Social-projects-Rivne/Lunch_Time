@@ -35,7 +35,8 @@ public class EventController {
     }
 
     @GetMapping("date/{date}")
-    public ResponseEntity<List<Event>> getEventListByDay(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
+    public ResponseEntity<List<Event>> getEventListByDay(
+        @PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") Date date) {
         List<Event> result = eventService.getEventListByDay(date);
         return ResponseEntity.ok(result);
     }

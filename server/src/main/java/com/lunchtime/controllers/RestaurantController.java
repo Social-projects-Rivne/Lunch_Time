@@ -29,7 +29,8 @@ public class RestaurantController {
     }
 
     @PostMapping
-    public ResponseEntity<Restaurant> createRestaurant(@Valid @RequestBody Restaurant restaurant) throws URISyntaxException {
+    public ResponseEntity<Restaurant> createRestaurant(
+        @Valid @RequestBody Restaurant restaurant) throws URISyntaxException {
         if (restaurant.getId() != null) {
             return ResponseEntity.badRequest()
                 .build();
@@ -44,7 +45,8 @@ public class RestaurantController {
     }
 
     @PutMapping
-    public ResponseEntity<Restaurant> updateRestaurant(@Valid @RequestBody Restaurant restaurant) throws URISyntaxException {
+    public ResponseEntity<Restaurant> updateRestaurant(
+        @Valid @RequestBody Restaurant restaurant) throws URISyntaxException {
         if (restaurant.getId() == null) {
             return ResponseEntity.badRequest()
                 .build();
