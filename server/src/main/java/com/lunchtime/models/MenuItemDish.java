@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.Getter;
@@ -27,8 +28,10 @@ public class MenuItemDish {
     private String portionSize;
 
     @NotBlank
+    @DecimalMin(message = "Price is not valid",
+                           value = "0")
     @Column(name = "portion_price", length = 20)
-    private String portionPrice;
+    private Long portionPrice;
 
     @Column(name = "portion_unit")
     private Long portionUnit;
