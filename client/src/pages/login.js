@@ -1,9 +1,9 @@
-/* eslint-disable react/jsx-no-bind */
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Api from '../services/api';
+import '../styles/login.css';
 
 
 class Login extends Component {
@@ -12,18 +12,11 @@ class Login extends Component {
     this.state = {
       email: '',
       password: '',
-      errorKey: false,
       errorMessage: '',
-      errorMess: [],
     };
-    this.errorMessageRewiew = this.errorMessageRewiew.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
-
-  // eslint-disable-next-line react/sort-comp
-  errorMessageRewiew() {
-    this.setState({ errorKey: true });
-  }
-
 
   // eslint-disable-next-line react/sort-comp
   validateForm() {
@@ -31,7 +24,6 @@ class Login extends Component {
     const { password } = this.state;
     return email.length > 0 && password.length > 7;
   }
-
 
   handleChange(event) {
     this.setState({
@@ -42,19 +34,15 @@ class Login extends Component {
   getLogedin() {
     Api.getLogedin(this.state.email, this.state.password)
       .then((response) => {
-        // eslint-disable-next-line eqeqeq
         if (response.status >= 200 && response.status < 300) {
           localStorage.setItem('Bearer ', response.data);
           // eslint-disable-next-line react/prop-types
           this.props.history.push('/');
-        } else if (response.status > 400) {
-          this.errorMessageRewiew(); this.setState({ errorMessage: 'something goes wrong' });
-          this.setState({ errorMess: 'errror suka' });
+        } else if (response.error.status === 403) {
+          this.setState({ errorMessage: 'Email or password incorrect' });
         }
       }).catch((error) => {
-        this.errorMessageRewiew();
         this.setState({ errorMessage: error.message });
-        this.setState({ errorMess: error.message });
       });
   }
 
@@ -65,10 +53,10 @@ class Login extends Component {
   }
 
   render() {
-    const { errorKey } = this.state;
+    const { errorMessage } = this.state;
     return (
       <div className="Login">
-        <Form onSubmit={this.handleSubmit.bind(this)}>
+        <Form onSubmit={this.handleSubmit}>
           Email
           <Form.Group controlId="email">
             <Form.Control
@@ -76,14 +64,14 @@ class Login extends Component {
               name="email"
               type="email"
               value={this.state.email}
-              onChange={this.handleChange.bind(this)}
+              onChange={this.handleChange}
             />
           </Form.Group>
           Password
           <Form.Group controlId="password">
             <Form.Control
               value={this.state.password}
-              onChange={this.handleChange.bind(this)}
+              onChange={this.handleChange}
               type="password"
             />
           </Form.Group>
@@ -94,30 +82,12 @@ class Login extends Component {
           >
             Login
           </Button>
-          {errorKey && (
-          // eslint-disable-next-line react/jsx-no-undef
-          <MyBadge className="badge" variant="warning" message="Invalid email or password" />
-          )}
-          { errorKey && (
-          <h3 className="error">
+          { errorMessage && (
+          <h2 className="error">
             {' '}
-            { errorKey }
+            { errorMessage }
             {' '}
-          </h3>
-          )}
-          { this.state.errorMessage && (
-          <h3 className="error">
-            {' '}
-            { this.state.errorMessage }
-            {' '}
-          </h3>
-          )}
-          { this.state.errorMess && (
-          <h3 className="error">
-            {' '}
-            { this.state.errorMess }
-            {' '}
-          </h3>
+          </h2>
           )}
         </Form>
       </div>
