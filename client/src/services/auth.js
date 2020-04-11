@@ -2,18 +2,18 @@ class Auth {
   constructor() {
     this.tokenKey = 'token';
     this.token = '';
-    this.isAuthenticated = false;
+    this.isAuth = false;
     if (localStorage.getItem(this.tokenKey) && localStorage.getItem(this.tokenKey).length) {
       this.token = localStorage.getItem(this.tokenKey);
-      this.isAuthenticated = true;
+      this.isAuth = true;
     } else {
       this.token = '';
-      this.isAuthenticated = false;
+      this.isAuth = false;
     }
   }
 
   isAuthenticated() {
-    return this.isAuthenticated;
+    return this.isAuth;
   }
 
   getToken() {
@@ -23,13 +23,13 @@ class Auth {
   setToken(token) {
     this.token = token;
     localStorage.setItem(this.tokenKey, token);
-    this.isAuthenticated = true;
+    this.isAuth = true;
   }
 
   removeToken() {
     this.token = '';
     localStorage.removeItem(this.tokenKey);
-    this.isAuthenticated = false;
+    this.isAuth = false;
   }
 }
 
