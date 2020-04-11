@@ -1,14 +1,16 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Api from '../services/api';
+import Auth from '../services/auth';
 import '../styles/login.css';
-
 
 class Login extends Component {
   constructor(props) {
     super(props);
+    this.endpoint = 'authenticate';
     this.state = {
       email: '',
       password: '',
@@ -18,7 +20,6 @@ class Login extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  // eslint-disable-next-line react/sort-comp
   validateForm() {
     const { email } = this.state;
     const { password } = this.state;
@@ -31,12 +32,11 @@ class Login extends Component {
     });
   }
 
-  getLogedin() {
-    Api.getLogedin(this.state.email, this.state.password)
+  login() {
+    Api.post(this.endpoint, { email: this.state.email, password: this.state.password })
       .then((response) => {
-        if (response.status >= 200 && response.status < 300) {
-          localStorage.setItem('Bearer ', response.data);
-          // eslint-disable-next-line react/prop-types
+        if (response.status === 200) {
+          Auth.setToken(response.data);
           this.props.history.push('/');
         } else if (response.error.status === 403) {
           this.setState({ errorMessage: 'Email or password incorrect' });
@@ -48,8 +48,7 @@ class Login extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    // eslint-disable-next-line no-undef
-    this.getLogedin();
+    this.login();
   }
 
   render() {
@@ -95,5 +94,8 @@ class Login extends Component {
   }
 }
 
+Login.propTypes = {
+  history: PropTypes.any.isRequired,
+};
 
 export default withRouter(Login);

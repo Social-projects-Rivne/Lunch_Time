@@ -1,14 +1,15 @@
 import axios from 'axios';
+import Auth from './auth';
 
 axios.interceptors.request.use((config) => {
-  const token = localStorage.getItem('Bearer ');
-
-  if (token != null) {
-    // eslint-disable-next-line no-param-reassign
-    config.headers.Authorization = `Bearer ${token}`;
+  const resultConfig = config;
+  let token;
+  if (Auth.isAuthenticated()) {
+    token = Auth.getToken();
+    resultConfig.headers.Authorization = `Bearer ${token}`;
+    return resultConfig;
   }
-
-  return config;
+  return resultConfig;
 }, (err) => {
   return Promise.reject(err);
 });
@@ -19,16 +20,11 @@ class Api {
     this.apiUrl = 'http://localhost:8080/api/';
   }
 
-
-  // eslint-disable-next-line no-unused-vars
-  getLogedin(_email, _password) {
-    return axios.post('http://localhost:8080/api/authenticate', {
-      email: _email,
-      password: _password,
-
-    }).then((response) => {
-      return { error: null, data: response.data, status: response.status };
-    })
+  post(endpoint, data) {
+    return axios.post(this.getApiEndpoint(endpoint), data)
+      .then((response) => {
+        return { error: null, data: response.data, status: response.status };
+      })
       .catch((error) => {
         return { error: error.response };
       });
