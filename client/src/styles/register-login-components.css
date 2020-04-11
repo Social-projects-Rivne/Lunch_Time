@@ -1,0 +1,64 @@
+.base-container {
+	 width: 100%;
+	 display: flex;
+	 flex-direction: column;
+	 align-items: center;
+}
+ .base-container .header {
+  position: absolute;
+  top: 0;
+	 font-size: 28px;
+	 font-family: "Open Sans", sans-serif;
+}
+ .base-container .content {
+  position: absolute;
+ top: 50px;
+	 display: flex;
+	 flex-direction: column;
+}
+ .base-container .content .image {
+	 width: 21em;
+}
+ .base-container .content .image img {
+	 width: 70%;
+	 height: 70%;
+}
+ .base-container .content .form {
+	 margin-top: 2em;
+	 display: flex;
+	 flex-direction: column;
+	 align-items: center;
+}
+ .base-container .content .form .form-group {
+	 display: flex;
+	 flex-direction: column;
+	 align-items: flex-start;
+	 width: fit-content;
+}
+ .base-container .content .form .form-group label {
+	 font-size: 20px;
+}
+ .base-container .content .form .form-group input {
+	 margin-top: 1px;
+	 min-width: 18em;
+	 height: 37px;
+	 padding: 0px 10px;
+	 font-size: 16px;
+	 font-family: "Open Sans", sans-serif;
+	 background-color: #dff1ff4a;
+	 border: 0;
+	 border-radius: 9px;
+	 margin-bottom: 11px;
+	 transition: all 250ms ease-in-out;
+}
+ .base-container .content .form .form-group input:hover {
+ 	 background-color: #82bdec4a;
+}
+ .base-container .content .form .form-group input:focus {
+	 outline: none;
+	 box-shadow: 0px 0px 12px 0.8px #3474db b2;
+	  	 background-color: #82bdec4a;
+}
+ .base-container .footer {
+	 margin-top: 37em;
+}
