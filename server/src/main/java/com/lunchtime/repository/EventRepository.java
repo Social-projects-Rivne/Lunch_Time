@@ -23,7 +23,7 @@ public interface EventRepository extends JpaRepository<Event, Long> {
      * It also returns all records that are NOT marked as deleted.
      *
      * @param date all events needs to be newer than this date
-     * @param category the name of category that needs to be returned
+     * @param category the name of category that events should belong
      * @return the number of elements in this list
      */
     @Query("select e from Event e where e.isDeleted = false")
