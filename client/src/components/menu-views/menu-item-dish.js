@@ -12,6 +12,7 @@ import Api from '../../services/api';
 class MenuItemDish extends Component {
   render() {
     const { menuitemdish, isFetching } = this.props;
+
     if (isFetching) {
       return (
         <Container>
@@ -41,6 +42,9 @@ class MenuItemDish extends Component {
                 <Col className="col-item">
                   <br />
                   {menuitemdishs.portionPrice}
+                  {' '}
+                  {'  '}
+                  grn
                 </Col>
                 <Col className="col-item">
                   <br />
@@ -63,7 +67,7 @@ class MenuItemDish extends Component {
 }
 
 MenuItemDish.propTypes = {
-  menuitemdish: PropTypes.any.isRequired,
+  menuitemdish: PropTypes.shape([]).isRequired,
   isFetching: PropTypes.bool.isRequired,
 };
 export default MenuItemDish;
