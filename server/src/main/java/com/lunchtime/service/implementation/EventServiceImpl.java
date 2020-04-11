@@ -20,21 +20,21 @@ public class EventServiceImpl implements EventService {
     }
 
     public List<Event> getEventList() {
-        return eventRepository.findByDateGreaterThan(new Date());
+        return eventRepository.findAll(new Date());
     }
 
     public List<Event> getEventListByCategory(String[] category) {
-        return eventRepository.findByDateGreaterThanAndCategoryIn(new Date(), category);
+        return eventRepository.findAllByCategory(new Date(), category);
     }
 
     public List<Event> getEventListByDay(Date date) {
         Date end = new Date(date.getTime() + TimeUnit.DAYS.toMillis(1));
-        return eventRepository.findByDateBetween(date, end);
+        return eventRepository.findAllByDateBetween(date, end);
     }
 
     public List<Event> getEventListByDateBetween(Date startDate, Date endDate) {
         Date end = new Date(endDate.getTime() + TimeUnit.DAYS.toMillis(1));
-        return eventRepository.findByDateBetween(startDate, end);
+        return eventRepository.findAllByDateBetween(startDate, end);
     }
 
     public List<Event> getEventListByMonth(String month) throws IllegalArgumentException {
@@ -46,7 +46,7 @@ public class EventServiceImpl implements EventService {
         }
         Date start = new GregorianCalendar(currentYear, monthOrdinal, 1).getTime();
         Date end = new GregorianCalendar(currentYear, monthOrdinal + 1, 1).getTime();
-        return eventRepository.findByDateBetween(start, end);
+        return eventRepository.findAllByDateBetween(start, end);
     }
 
     public Optional<Event> getEventById(Long id) {
