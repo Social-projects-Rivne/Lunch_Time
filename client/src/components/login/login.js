@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Form, FormLabel } from 'react-bootstrap';
-import loginImg from './sign.in.png';
+import loginImg from './sign-in.png';
 import '../../styles/register-login-components.css';
 
 class Login extends Component {
