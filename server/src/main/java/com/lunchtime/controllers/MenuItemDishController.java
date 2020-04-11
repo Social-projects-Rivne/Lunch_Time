@@ -9,7 +9,6 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import com.lunchtime.service.MenuItemDishService;
-import com.lunchtime.service.impl.MenuItemDishServiceImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -49,12 +48,13 @@ public class MenuItemDishController {
     }
 
     @GetMapping("/restaurantId")
-    public ResponseEntity<List<MenuItemDish>> getAllByRestaurantId(@RequestParam("restaurantId") Long id) {
-        List<MenuItemDish> menuItemDishList = menuItemDishService.findByRestaurantId(id);
-        if (menuItemDishList.isEmpty()) {
+    public ResponseEntity<Page<MenuItemDish>> getAllByRestaurantId(@RequestParam("restaurantId") Long id,
+                                                                   Pageable pageable) {
+        Page<MenuItemDish> menuItemDishPage = menuItemDishService.findByRestaurantId(id, pageable);
+        if (menuItemDishPage.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(menuItemDishList);
+        return ResponseEntity.ok(menuItemDishPage);
     }
 
     @PostMapping

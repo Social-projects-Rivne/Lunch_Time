@@ -27,7 +27,7 @@ public class MenuItemDish {
     @Column(name = "portion_size", length = 30)
     private String portionSize;
 
-    @NotBlank
+    @NotNull
     @DecimalMin(message = "Price is not valid",
                            value = "0")
     @Column(name = "portion_price", length = 20)

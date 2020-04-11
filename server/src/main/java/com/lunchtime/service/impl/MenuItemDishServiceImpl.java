@@ -31,8 +31,8 @@ public class MenuItemDishServiceImpl implements MenuItemDishService {
         return menuItemDishRepository.findById(id);
     }
 
-    public List<MenuItemDish> findByRestaurantId(Long id) {
-        return menuItemDishRepository.findByRestaurantId(id);
+    public Page<MenuItemDish> findByRestaurantId(Long id, Pageable pageable) {
+        return menuItemDishRepository.findByRestaurantId(id, pageable);
     }
 
 
