@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -33,10 +32,12 @@ class Login extends Component {
   }
 
   login() {
+    const { loginHandler } = this.props;
     Api.post(this.endpoint, { email: this.state.email, password: this.state.password })
       .then((response) => {
         if (response.status === 200) {
           Auth.setToken(response.data);
+          loginHandler();
           this.props.history.push('/');
         } else if (response.error.status === 403) {
           this.setState({ errorMessage: 'Email or password incorrect' });
@@ -96,6 +97,7 @@ class Login extends Component {
 
 Login.propTypes = {
   history: PropTypes.any.isRequired,
+  loginHandler: PropTypes.func.isRequired,
 };
 
-export default withRouter(Login);
+export default Login;
