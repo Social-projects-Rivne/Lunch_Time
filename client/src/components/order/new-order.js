@@ -178,18 +178,25 @@ class NewOrder extends Component {
               name="table"
               onChange={(event) => this.handleFormControl(event)}
             >
-              {this.state.availableTables.map((table) => {
-                return (
-                  <option key={table.id} value={table.id}>
-                    Table №
-                    {table.id}
-                    {' '}
-                    Maximum number of visitors:
-                    {' '}
-                    {table.capacity}
-                  </option>
-                );
-              })}
+              {this.state.availableTables
+                .sort((first, second) => {
+                  if (first.number < second.number) {
+                    return -1;
+                  }
+                  return 1;
+                })
+                .map((table) => {
+                  return (
+                    <option key={table.id} value={table.id}>
+                      Table №
+                      {table.number}
+                      {' '}
+                      Maximum number of visitors:
+                      {' '}
+                      {table.capacity}
+                    </option>
+                  );
+                })}
             </Form.Control>
           </Form.Group>
 
