@@ -148,13 +148,13 @@ class NewOrder extends Component {
   }
 
   render() {
-    const { match, history } = this.props;
+    const { history, location } = this.props;
     return (
       <Container fluid className="new-order-container">
         <h5>
-          Restaurant №
+          Make new order in
           {' '}
-          {match.params.id}
+          {location.state.restaurantName}
         </h5>
         <Form name="orderForm">
           <Form.Group>
@@ -248,6 +248,7 @@ class NewOrder extends Component {
 NewOrder.propTypes = {
   match: PropTypes.any.isRequired,
   history: PropTypes.any.isRequired,
+  location: PropTypes.any.isRequired,
 };
 
 export default NewOrder;

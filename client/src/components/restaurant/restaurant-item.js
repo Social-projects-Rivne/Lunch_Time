@@ -45,7 +45,13 @@ class Restaurant extends Component {
     return (
       <Container className="restaurant-container">
         <h2>{restaurant.name}</h2>
-        <Link to={`/restaurants/${id}/new-order`}>
+        <Link to={{
+          pathname: `/restaurants/${id}/new-order`,
+          state: {
+            restaurantName: restaurant.name,
+          },
+        }}
+        >
           <Button className="btn-inf m-button ml-5">Make order</Button>
         </Link>
         <Tabs defaultActiveKey="about">
