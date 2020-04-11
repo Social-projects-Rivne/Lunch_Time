@@ -64,7 +64,13 @@ class Api {
   }
 
   getApiEndpoint(endpoint) {
-    return this.apiUrl.endsWith('/') ? `${this.apiUrl}${endpoint}` : `${this.apiUrl}/${endpoint}`;
+    if (this.apiUrl.endsWith('/') && endpoint.startsWith('/')) {
+      return `${this.apiUrl.slice(0, -1)}${endpoint}`;
+    }
+    if (!this.apiUrl.endsWith('/') && !endpoint.startsWith('/')) {
+      return `${this.apiUrl}/${endpoint}`;
+    }
+    return `${this.apiUrl}${endpoint}`;
   }
 }
 export default new Api();
