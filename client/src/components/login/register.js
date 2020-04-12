@@ -4,10 +4,6 @@ import {
 } from 'react-bootstrap';
 import regImg from './register.png';
 
-// const emailRegex = RegExp(
-//   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
-// );
-const nameRegex = RegExp(/^[a-zA-Z]+$/);
 const valid = 'form-control is-valid';
 const invalid = 'form-control is-invalid';
 
@@ -16,19 +12,12 @@ class Register extends Component {
     super(props);
 
     this.state = {
-      name: '',
-      email: '',
-      password: '',
-      confirmPassword: '',
       nameInputStarted: false,
       nameInputTitle: '',
       nameInputClassName: '',
-      formErrors: {
-        name: true,
-        email: false,
-        password: true,
-        confirmPassword: true,
-      },
+      emailInputStarted: false,
+      emailInputTitle: '',
+      emailInputClassName: '',
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -46,7 +35,7 @@ class Register extends Component {
         this.validateInputName(value);
         break;
       case 'email':
-        this.validateInputName(value);
+        this.validateInputEmail(value);
         break;
       case 'password':
         this.validateInputName(value);
@@ -59,9 +48,10 @@ class Register extends Component {
   }
 
   validateInputName(value) {
-    if (value.length > 2) {
+    const nameRegex = RegExp(/^[a-zA-Z]+$/);
+    if (value.length >= 3) {
       if (!this.state.nameInputStarted) {
-        this.setState({ nameInputStarted: value.length > 2 });
+        this.setState({ nameInputStarted: value.length >= 3 });
       }
       const className = nameRegex.test(value) ? valid : invalid;
       this.setState({
@@ -77,12 +67,42 @@ class Register extends Component {
         nameInputClassName: invalid,
       });
     }
+    if (value.length > 16) {
+      this.setState({
+        nameInputClassName: invalid,
+      });
+    }
+  }
+
+  validateInputEmail(value) {
+    const emailRegex = RegExp(
+      /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
+    );
+    if (value.length > 4) {
+      if (!this.state.emailInputStarted) {
+        this.setState({ emailInputStarted: value.length >= 5 });
+      }
+      const className = emailRegex.test(value) ? valid : invalid;
+      this.setState({
+        emailInputClassName: className,
+        emailInputTitle: 'email must consist 5 or more symbols',
+      });
+    } else if (this.state.emailInputStarted && value.length <= 4) {
+      this.setState({
+        emailInputClassName: invalid,
+      });
+    }
+    if (value.length > 255) {
+      this.setState({
+        emailInputClassName: invalid,
+      });
+    }
   }
 
   render() {
     const {
       // eslint-disable-next-line no-unused-vars
-      formErrors, name, email, password, confirmPassword, nameInputTitle, nameInputClassName,
+      nameInputTitle, nameInputClassName, emailInputClassName, emailInputTitle,
     } = this.state;
     return (
       <Container className="base-container" style={{ color: '#3498db' }}>
@@ -105,6 +125,8 @@ class Register extends Component {
               />
               <FormLabel htmlFor="email">e-mail</FormLabel>
               <input
+                className={emailInputClassName}
+                title={emailInputTitle}
                 type="email"
                 name="email"
                 placeholder="email"
