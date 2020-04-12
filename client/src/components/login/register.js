@@ -21,7 +21,7 @@ class Register extends Component {
       password: '',
       confirmPassword: '',
       nameInputStarted: false,
-      nameInputTitle: 'Your name must be in range of 3-16 latin letters',
+      nameInputTitle: '',
       nameInputClassName: '',
       formErrors: {
         name: true,
@@ -68,23 +68,16 @@ class Register extends Component {
   validateInputName(value) {
     if (value.length > 2) {
       if (!this.state.nameInputStarted) {
-        this.setState({
-          nameInputStarted: value.length > 2,
-        });
+        this.setState({ nameInputStarted: value.length > 2 });
       }
-      if (nameRegex.test(value)) {
-        this.setState({
-          nameInputClassName: valid,
-        });
-      } else {
-        this.setState({
-          nameInputClassName: invalid,
-        });
-      }
+      const className = nameRegex.test(value) ? valid : invalid;
+      this.setState({
+        nameInputClassName: className,
+        nameInputTitle: 'Your name must be in range of 3-16 latin letters',
+      });
     } else if (!nameRegex.test(value)) {
       this.setState({
         nameInputClassName: invalid,
-        nameInputTitle: 'Only letters, no numbers here',
       });
     }
   }
