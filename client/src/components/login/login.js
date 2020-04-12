@@ -6,17 +6,17 @@ import '../../styles/register-login-components.css';
 class Login extends Component {
   render() {
     return (
-      <Container className="base-container">
-        <div className="header" style={{ color: '#52b5bb' }}>Login</div>
+      <Container className="base-container" style={{ color: '#52b5bb' }}>
+        <div className="header">Login</div>
         <div className="content">
           <div className="image">
             <img src={loginImg} alt="login" />
           </div>
           <Form className="form">
             <Form.Group>
-              <FormLabel htmlFor="email" style={{ color: '#52b5bb' }}>e-mail</FormLabel>
+              <FormLabel htmlFor="email">e-mail</FormLabel>
               <input type="text" name="email" placeholder="email" />
-              <FormLabel htmlFor="password" style={{ color: '#52b5bb' }}>Password</FormLabel>
+              <FormLabel htmlFor="password">Password</FormLabel>
               <input type="password" name="password" placeholder="password" />
             </Form.Group>
           </Form>
