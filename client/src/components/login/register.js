@@ -12,6 +12,8 @@ class Register extends Component {
     super(props);
 
     this.state = {
+      password: '',
+      confirmPassword: '',
       nameInputStarted: false,
       nameInputTitle: '',
       nameInputClassName: '',
@@ -21,6 +23,8 @@ class Register extends Component {
       passwordInputStarted: false,
       passwordInputTitle: '',
       passwordInputClassName: '',
+      confirmPasswordInputTitle: '',
+      confirmPasswordInputClassName: '',
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -44,7 +48,7 @@ class Register extends Component {
         this.validateInputPassword(value);
         break;
       case 'confirmPassword':
-        this.validateInputName(value);
+        this.validateConfirmPassword(value);
         break;
       default: break;
     }
@@ -112,6 +116,7 @@ class Register extends Component {
       }
       const className = passwordRegex.test(value) ? valid : invalid;
       this.setState({
+        password: value,
         passwordInputClassName: className,
         passwordInputTitle: 'Password must contain 8 symbols (upper case, lower case, number',
       });
@@ -125,12 +130,39 @@ class Register extends Component {
         passwordInputClassName: invalid,
       });
     }
+    if (this.state.passwordInputClassName === valid && this.state.confirmPassword.length >= 8) {
+      const { confirmPassword } = this.state;
+      const confirm = confirmPassword === value ? valid : invalid;
+      this.setState({
+        confirmPasswordInputClassName: confirm,
+      });
+    }
+  }
+
+  validateConfirmPassword(value) {
+    if (value.length >= 8) {
+      this.setState({
+        confirmPasswordInputTitle: 'Passwords must match each other',
+        confirmPassword: value,
+      }, () => {
+        this.checkPasswords();
+      });
+    }
+  }
+
+  checkPasswords() {
+    const { password, confirmPassword } = this.state;
+    const className = confirmPassword === password ? valid : invalid;
+    this.setState({
+      confirmPasswordInputClassName: className,
+    });
   }
 
   render() {
     const {
-      nameInputClassName, nameInputTitle, emailInputClassName, emailInputTitle,
-      passwordInputClassName, passwordInputTitle,
+      nameInputClassName, nameInputTitle, emailInputClassName,
+      emailInputTitle, passwordInputClassName, passwordInputTitle,
+      confirmPasswordInputClassName, confirmPasswordInputTitle,
     } = this.state;
     return (
       <Container className="base-container" style={{ color: '#3498db' }}>
@@ -172,6 +204,8 @@ class Register extends Component {
                 onChange={this.handleChange}
               />
               <input
+                className={confirmPasswordInputClassName}
+                title={confirmPasswordInputTitle}
                 type="password"
                 name="confirmPassword"
                 placeholder="confirm password"
