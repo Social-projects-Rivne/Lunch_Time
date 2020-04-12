@@ -7,12 +7,27 @@ import regImg from './register.png';
 class Register extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
+      name: '',
+      email: '',
+      password: '',
+      confirmPassword: '',
+      formErrors: {
+        name: true,
+        email: false,
+        password: true,
+        confirmPassword: true,
+      },
     };
   }
 
   render() {
+    const valid = 'form-control is-valid';
+    const invalid = 'form-control is-invalid';
+    const {
+      // eslint-disable-next-line no-unused-vars
+      formErrors, name, email, password, confirmPassword,
+    } = this.state;
     return (
       <Container className="base-container" style={{ color: '#3498db' }}>
         <div className="header">Register</div>
@@ -24,6 +39,7 @@ class Register extends Component {
             <FormGroup>
               <FormLabel htmlFor="text">Name</FormLabel>
               <input
+                className={formErrors.name ? invalid : valid}
                 type="text"
                 name="name"
                 placeholder="name"
@@ -32,6 +48,7 @@ class Register extends Component {
               />
               <FormLabel htmlFor="email">e-mail</FormLabel>
               <input
+                className={formErrors.email ? invalid : valid}
                 type="email"
                 name="email"
                 placeholder="email"
@@ -40,6 +57,7 @@ class Register extends Component {
               />
               <FormLabel htmlFor="password">Password</FormLabel>
               <input
+                className={formErrors.password ? invalid : valid}
                 type="password"
                 name="password"
                 placeholder="password"
@@ -47,6 +65,7 @@ class Register extends Component {
                 onChange={this.handleChange}
               />
               <input
+                className={formErrors.confirmPassword ? invalid : valid}
                 type="password"
                 name="confirmPassword"
                 placeholder="confirm password"
