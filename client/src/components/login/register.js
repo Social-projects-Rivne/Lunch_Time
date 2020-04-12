@@ -7,6 +7,7 @@ import regImg from './register.png';
 const emailRegex = RegExp(
   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
 );
+const nameRegex = RegExp(/^[a-zA-Z]+$/);
 const valid = 'form-control is-valid';
 const invalid = 'form-control is-invalid';
 
@@ -65,19 +66,25 @@ class Register extends Component {
   }
 
   validateInputName(value) {
-    if (!this.state.nameInputStarted) {
-      this.setState({
-        nameInputStarted: value.length > 2,
-      });
-    }
-    const nameRegex = RegExp(/[a-zA-Z]+/);
-    if (nameRegex.test(value)) {
-      this.setState({
-        nameInputClassName: valid,
-      });
-    } else {
+    if (value.length > 2) {
+      if (!this.state.nameInputStarted) {
+        this.setState({
+          nameInputStarted: value.length > 2,
+        });
+      }
+      if (nameRegex.test(value)) {
+        this.setState({
+          nameInputClassName: valid,
+        });
+      } else {
+        this.setState({
+          nameInputClassName: invalid,
+        });
+      }
+    } else if (!nameRegex.test(value)) {
       this.setState({
         nameInputClassName: invalid,
+        nameInputTitle: 'Only letters, no numbers here',
       });
     }
   }
