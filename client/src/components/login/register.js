@@ -20,6 +20,8 @@ class Register extends Component {
       password: '',
       confirmPassword: '',
       nameInputStarted: false,
+      nameInputTitle: 'Your name must be in range of 3-16 latin letters',
+      nameInputClassName: '',
       formErrors: {
         name: true,
         email: false,
@@ -33,7 +35,6 @@ class Register extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    console.log(1);
   }
 
   handleChange(e) {
@@ -43,10 +44,7 @@ class Register extends Component {
     const formErrors = { ...this.state.formErrors };
     switch (name) {
       case 'name':
-        formErrors.name = value.length < 3;
-        if (value.length > 2) {
-          this.setState({ name: value, nameInputStarted: true });
-        }
+        this.validateInputName(value);
         break;
       case 'email':
         formErrors.email = emailRegex.test(value);
@@ -66,17 +64,29 @@ class Register extends Component {
     this.setState({ formErrors, [name]: value });
   }
 
-  nameInputClass(formErrors) {
-    const inputAvailable = formErrors.name ? invalid : valid;
-    return this.state.nameInputStarted ? inputAvailable : '';
+  validateInputName(value) {
+    if (!this.state.nameInputStarted) {
+      this.setState({
+        nameInputStarted: value.length > 2,
+      });
+    }
+    const nameRegex = RegExp(/[a-zA-Z]+/);
+    if (nameRegex.test(value)) {
+      this.setState({
+        nameInputClassName: valid,
+      });
+    } else {
+      this.setState({
+        nameInputClassName: invalid,
+      });
+    }
   }
 
   render() {
     const {
       // eslint-disable-next-line no-unused-vars
-      formErrors, name, email, password, confirmPassword, nameInputStarted,
+      formErrors, name, email, password, confirmPassword, nameInputTitle, nameInputClassName,
     } = this.state;
-    const nameInputClassName = this.nameInputClass(formErrors);
     return (
       <Container className="base-container" style={{ color: '#3498db' }}>
         <div className="header">Register</div>
@@ -89,7 +99,7 @@ class Register extends Component {
               <FormLabel htmlFor="text">Name</FormLabel>
               <input
                 className={nameInputClassName}
-                title="Your name must contain at least 3 letters"
+                title={nameInputTitle}
                 type="text"
                 name="name"
                 placeholder="name"
