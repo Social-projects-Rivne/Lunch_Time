@@ -27,7 +27,7 @@ class Feedback extends Component {
     const data = await Api.getAllRestaurantFeedback('feedback?restaurantId=', id);
 
     this.setState(() => {
-      if (data == null) {
+      if (data === null) {
         return null;
       }
       data.reverse();
