@@ -4,7 +4,6 @@ import {
 } from 'react-bootstrap';
 import regImg from './register.png';
 
-// eslint-disable-next-line no-unused-vars
 const emailRegex = RegExp(
   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
 );
@@ -12,6 +11,7 @@ const emailRegex = RegExp(
 class Register extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       name: '',
       email: '',
@@ -24,6 +24,13 @@ class Register extends Component {
         confirmPassword: true,
       },
     };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    console.log(1);
   }
 
   handleChange(e) {
@@ -55,12 +62,12 @@ class Register extends Component {
   }
 
   render() {
-    const valid = 'form-control is-valid';
-    const invalid = 'form-control is-invalid';
     const {
       // eslint-disable-next-line no-unused-vars
       formErrors, name, email, password, confirmPassword,
     } = this.state;
+    const valid = 'form-control is-valid';
+    const invalid = 'form-control is-invalid';
     return (
       <Container className="base-container" style={{ color: '#3498db' }}>
         <div className="header">Register</div>
@@ -81,7 +88,7 @@ class Register extends Component {
               />
               <FormLabel htmlFor="email">e-mail</FormLabel>
               <input
-                className={formErrors.email ? invalid : valid}
+                className={formErrors.email ? valid : invalid}
                 type="email"
                 name="email"
                 placeholder="email"
