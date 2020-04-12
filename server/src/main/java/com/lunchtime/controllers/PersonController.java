@@ -1,6 +1,8 @@
 package com.lunchtime.controllers;
 
 import com.lunchtime.models.Person;
+import com.lunchtime.models.PersonDto;
+import com.lunchtime.models.PersonPassDto;
 import com.lunchtime.service.PersonService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,12 +34,30 @@ public class PersonController {
             .body(result);
     }
 
-    @PutMapping
+    /*@PutMapping
     public ResponseEntity<Person> update(@Valid @RequestBody Person person) {
         Optional<Person> result = personService.findById(person.getId());
         if (result.isPresent()) {
             personService.save(person);
             return ResponseEntity.ok(person);
+        }
+        return ResponseEntity.notFound().build();
+    }*/
+
+    @PutMapping
+    public ResponseEntity<Person> update(@Valid @RequestBody PersonDto personDto) {
+        Optional<Person> result = personService.findById(personDto.getId());
+        if (result.isPresent()) {
+            return ResponseEntity.ok(personService.update(personDto, result.get()));
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/password")
+    public ResponseEntity<Person> updatePassword(@Valid @RequestBody PersonPassDto personPassDto) {
+        Optional<Person> result = personService.findById(personPassDto.getId());
+        if (result.isPresent()) {
+            return ResponseEntity.ok(personService.updatePassword(personPassDto, result.get()));
         }
         return ResponseEntity.notFound().build();
     }
