@@ -16,10 +16,10 @@ public interface EventRepository extends JpaRepository<Event, Long> {
      * @param date all events needs to be newer than this date
      * @return the number of elements in this list
      */
-    @Query("select e from Event e " +
-        "where e.date > :date " +
-        "and e.isDeleted = false " +
-        "order by e.date asc")
+    @Query("select e from Event e "
+        + "where e.date > :date "
+        + "and e.isDeleted = false "
+        + "order by e.date asc")
     List<Event> findAll(Date date);
 
     /**
@@ -31,10 +31,10 @@ public interface EventRepository extends JpaRepository<Event, Long> {
      * @param category the name of category that events should belong
      * @return the number of elements in this list
      */
-    @Query("select e from Event e " +
-        "where e.date > :date " +
-        "and e.category in :category " +
-        "and e.isDeleted = false")
+    @Query("select e from Event e "
+        + "where e.date > :date "
+        + "and e.category in :category "
+        + "and e.isDeleted = false")
     List<Event> findAllByCategory(Date date, String[] category);
 
     /**
@@ -46,9 +46,9 @@ public interface EventRepository extends JpaRepository<Event, Long> {
      * @param endDate   all events should NOT be newer than this date
      * @return the number of elements in this list
      */
-    @Query("select e from Event e " +
-        "where (e.date > :startDate and e.date < :endDate) " +
-        "and e.isDeleted = false " +
-        "order by e.date asc")
+    @Query("select e from Event e "
+        + "where (e.date > :startDate and e.date < :endDate) "
+        + "and e.isDeleted = false "
+        + "order by e.date asc")
     List<Event> findAllByDateBetween(Date startDate, Date endDate);
 }
