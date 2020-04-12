@@ -7,6 +7,8 @@ import regImg from './register.png';
 const emailRegex = RegExp(
   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
 );
+const valid = 'form-control is-valid';
+const invalid = 'form-control is-invalid';
 
 class Register extends Component {
   constructor(props) {
@@ -41,8 +43,8 @@ class Register extends Component {
     const formErrors = { ...this.state.formErrors };
     switch (name) {
       case 'name':
+        formErrors.name = value.length < 3;
         if (value.length > 2) {
-          formErrors.name = value.length < 3;
           this.setState({ name: value, nameInputStarted: true });
         }
         break;
@@ -64,19 +66,17 @@ class Register extends Component {
     this.setState({ formErrors, [name]: value });
   }
 
+  nameInputClass(formErrors) {
+    const inputAvailable = formErrors.name ? invalid : valid;
+    return this.state.nameInputStarted ? inputAvailable : '';
+  }
+
   render() {
     const {
       // eslint-disable-next-line no-unused-vars
       formErrors, name, email, password, confirmPassword, nameInputStarted,
     } = this.state;
-    const valid = 'form-control is-valid';
-    const invalid = 'form-control is-invalid';
-    let nameInputClassName;
-    if (!nameInputStarted) {
-      nameInputClassName = '';
-    } else {
-      nameInputClassName = formErrors.name ? invalid : valid;
-    }
+    const nameInputClassName = this.nameInputClass(formErrors);
     return (
       <Container className="base-container" style={{ color: '#3498db' }}>
         <div className="header">Register</div>
@@ -89,6 +89,7 @@ class Register extends Component {
               <FormLabel htmlFor="text">Name</FormLabel>
               <input
                 className={nameInputClassName}
+                title="Your name must contain at least 3 letters"
                 type="text"
                 name="name"
                 placeholder="name"
