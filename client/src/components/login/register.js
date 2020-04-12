@@ -18,6 +18,9 @@ class Register extends Component {
       emailInputStarted: false,
       emailInputTitle: '',
       emailInputClassName: '',
+      passwordInputStarted: false,
+      passwordInputTitle: '',
+      passwordInputClassName: '',
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -38,7 +41,7 @@ class Register extends Component {
         this.validateInputEmail(value);
         break;
       case 'password':
-        this.validateInputName(value);
+        this.validateInputPassword(value);
         break;
       case 'confirmPassword':
         this.validateInputName(value);
@@ -99,10 +102,35 @@ class Register extends Component {
     }
   }
 
+  validateInputPassword(value) {
+    const passwordRegex = RegExp(
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
+    );
+    if (value.length >= 8) {
+      if (!this.state.passwordInputStarted) {
+        this.setState({ passwordInputStarted: value.length >= 8 });
+      }
+      const className = passwordRegex.test(value) ? valid : invalid;
+      this.setState({
+        passwordInputClassName: className,
+        passwordInputTitle: 'Password must contain 8 symbols (upper case, lower case, number',
+      });
+    } else if (this.state.passwordInputStarted && value.length <= 8) {
+      this.setState({
+        passwordInputClassName: invalid,
+      });
+    }
+    if (value.length > 40) {
+      this.setState({
+        passwordInputClassName: invalid,
+      });
+    }
+  }
+
   render() {
     const {
-      // eslint-disable-next-line no-unused-vars
-      nameInputTitle, nameInputClassName, emailInputClassName, emailInputTitle,
+      nameInputClassName, nameInputTitle, emailInputClassName, emailInputTitle,
+      passwordInputClassName, passwordInputTitle,
     } = this.state;
     return (
       <Container className="base-container" style={{ color: '#3498db' }}>
@@ -135,6 +163,8 @@ class Register extends Component {
               />
               <FormLabel htmlFor="password">Password</FormLabel>
               <input
+                className={passwordInputClassName}
+                title={passwordInputTitle}
                 type="password"
                 name="password"
                 placeholder="password"
