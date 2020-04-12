@@ -17,6 +17,7 @@ class Register extends Component {
       email: '',
       password: '',
       confirmPassword: '',
+      nameInputStarted: false,
       formErrors: {
         name: true,
         email: false,
@@ -40,8 +41,10 @@ class Register extends Component {
     const formErrors = { ...this.state.formErrors };
     switch (name) {
       case 'name':
-        formErrors.name = value.length < 3;
-        this.setState({ name: value });
+        if (value.length > 2) {
+          formErrors.name = value.length < 3;
+          this.setState({ name: value, nameInputStarted: true });
+        }
         break;
       case 'email':
         formErrors.email = emailRegex.test(value);
@@ -64,10 +67,16 @@ class Register extends Component {
   render() {
     const {
       // eslint-disable-next-line no-unused-vars
-      formErrors, name, email, password, confirmPassword,
+      formErrors, name, email, password, confirmPassword, nameInputStarted,
     } = this.state;
     const valid = 'form-control is-valid';
     const invalid = 'form-control is-invalid';
+    let nameInputClassName;
+    if (!nameInputStarted) {
+      nameInputClassName = '';
+    } else {
+      nameInputClassName = formErrors.name ? invalid : valid;
+    }
     return (
       <Container className="base-container" style={{ color: '#3498db' }}>
         <div className="header">Register</div>
@@ -79,7 +88,7 @@ class Register extends Component {
             <FormGroup>
               <FormLabel htmlFor="text">Name</FormLabel>
               <input
-                className={formErrors.name ? invalid : valid}
+                className={nameInputClassName}
                 type="text"
                 name="name"
                 placeholder="name"
