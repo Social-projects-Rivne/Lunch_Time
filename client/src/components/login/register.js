@@ -26,6 +26,34 @@ class Register extends Component {
     };
   }
 
+  handleChange(e) {
+    e.preventDefault();
+    const { name, value } = e.target;
+    // eslint-disable-next-line react/no-access-state-in-setstate
+    const formErrors = { ...this.state.formErrors };
+    switch (name) {
+      case 'name':
+        formErrors.name = value.length < 3;
+        this.setState({ name: value });
+        break;
+      case 'email':
+        formErrors.email = emailRegex.test(value);
+        this.setState({ email: value });
+        break;
+      case 'password':
+        formErrors.password = value.length < 6;
+        this.setState({ password: value });
+        break;
+      case 'confirmPassword':
+        formErrors.confirmPassword = value !== this.state.password;
+        this.setState({ confirmPassword: value });
+        break;
+      default:
+        break;
+    }
+    this.setState({ formErrors, [name]: value });
+  }
+
   render() {
     const valid = 'form-control is-valid';
     const invalid = 'form-control is-invalid';
