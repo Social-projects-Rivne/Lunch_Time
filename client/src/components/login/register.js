@@ -43,10 +43,10 @@ class Register extends Component {
           </div>
           <Form className="form">
             <FormGroup>
-              <FormLabel htmlFor="password">Name</FormLabel>
+              <FormLabel htmlFor="text">Name</FormLabel>
               <input
                 type="text"
-                name="password"
+                name="name"
                 placeholder="name"
                 value={passwordConfirm}
                 onChange={(e) => this.onChangePasswordConfirm(e)}
@@ -54,14 +54,14 @@ class Register extends Component {
               <FormLabel htmlFor="password">Phone number</FormLabel>
               <input
                 type="text"
-                name="password"
+                name="phone number"
                 placeholder="phone number"
                 value={passwordConfirm}
                 onChange={(e) => this.onChangePasswordConfirm(e)}
               />
               <FormLabel htmlFor="email">e-mail</FormLabel>
               <input
-                type="text"
+                type="email"
                 name="email"
                 placeholder="email"
                 value={email}
@@ -69,16 +69,16 @@ class Register extends Component {
               />
               <FormLabel htmlFor="password">Password</FormLabel>
               <input
-                type="text"
+                type="password"
                 name="password"
                 placeholder="password"
                 value={password}
                 onChange={(e) => this.onChangePassword(e)}
               />
               <input
-                type="text"
+                type="password"
                 name="password"
-                placeholder="repeat password"
+                placeholder="confirm password"
                 value={passwordConfirm}
                 onChange={(e) => this.onChangePasswordConfirm(e)}
               />
