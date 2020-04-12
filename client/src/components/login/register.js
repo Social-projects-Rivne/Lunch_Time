@@ -4,6 +4,11 @@ import {
 } from 'react-bootstrap';
 import regImg from './register.png';
 
+// eslint-disable-next-line no-unused-vars
+const emailRegex = RegExp(
+  /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+);
+
 class Register extends Component {
   constructor(props) {
     super(props);
