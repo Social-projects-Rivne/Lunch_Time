@@ -4,9 +4,9 @@ import {
 } from 'react-bootstrap';
 import regImg from './register.png';
 
-const emailRegex = RegExp(
-  /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
-);
+// const emailRegex = RegExp(
+//   /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
+// );
 const nameRegex = RegExp(/^[a-zA-Z]+$/);
 const valid = 'form-control is-valid';
 const invalid = 'form-control is-invalid';
@@ -41,28 +41,21 @@ class Register extends Component {
   handleChange(e) {
     e.preventDefault();
     const { name, value } = e.target;
-    // eslint-disable-next-line react/no-access-state-in-setstate
-    const formErrors = { ...this.state.formErrors };
     switch (name) {
       case 'name':
         this.validateInputName(value);
         break;
       case 'email':
-        formErrors.email = emailRegex.test(value);
-        this.setState({ email: value });
+        this.validateInputName(value);
         break;
       case 'password':
-        formErrors.password = value.length < 6;
-        this.setState({ password: value });
+        this.validateInputName(value);
         break;
       case 'confirmPassword':
-        formErrors.confirmPassword = value !== this.state.password;
-        this.setState({ confirmPassword: value });
+        this.validateInputName(value);
         break;
-      default:
-        break;
+      default: break;
     }
-    this.setState({ formErrors, [name]: value });
   }
 
   validateInputName(value) {
@@ -76,6 +69,10 @@ class Register extends Component {
         nameInputTitle: 'Your name must be in range of 3-16 latin letters',
       });
     } else if (!nameRegex.test(value)) {
+      this.setState({
+        nameInputClassName: invalid,
+      });
+    } else if (this.state.nameInputStarted && value.length < 3) {
       this.setState({
         nameInputClassName: invalid,
       });
@@ -108,7 +105,6 @@ class Register extends Component {
               />
               <FormLabel htmlFor="email">e-mail</FormLabel>
               <input
-                className={formErrors.email ? valid : invalid}
                 type="email"
                 name="email"
                 placeholder="email"
@@ -117,7 +113,6 @@ class Register extends Component {
               />
               <FormLabel htmlFor="password">Password</FormLabel>
               <input
-                className={formErrors.password ? invalid : valid}
                 type="password"
                 name="password"
                 placeholder="password"
@@ -125,7 +120,6 @@ class Register extends Component {
                 onChange={this.handleChange}
               />
               <input
-                className={formErrors.confirmPassword ? invalid : valid}
                 type="password"
                 name="confirmPassword"
                 placeholder="confirm password"
