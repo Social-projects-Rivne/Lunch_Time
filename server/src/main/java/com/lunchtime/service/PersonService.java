@@ -11,7 +11,7 @@ public interface PersonService {
 
     Optional<Person> findById(Long id);
 
-    Person update(PersonDto personDto, Person person);
+    PersonDto update(PersonDto personDto, Person person);
 
-    Person updatePassword(PersonPassDto personPassDto, Person person);
+    void updatePassword(PersonPassDto personPassDto, Person person);
 }

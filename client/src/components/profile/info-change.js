@@ -17,7 +17,11 @@ class InfoChange extends React.Component {
     this.state = {
       isShowAlert: false,
       user: this.props.user,
-      updatedUser: this.props.user,
+      data: {
+        id: this.props.user.id,
+        name: this.props.user.name,
+        phoneNumber: this.props.user.phoneNumber,
+      },
       errors: {
         name: '', phone: '', password: '', err: 'Profile is not changed',
       },
@@ -51,8 +55,8 @@ class InfoChange extends React.Component {
 
   saveFormState(errors, name, value) {
     this.setState((prevState) => ({
-      updatedUser: {
-        ...prevState.updatedUser,
+      data: {
+        ...prevState.data,
         [name]: value,
       },
       errors,
@@ -62,11 +66,13 @@ class InfoChange extends React.Component {
   }
 
   updateProfile() {
-    const { updatedUser, user, errors } = this.state;
-    if (updatedUser === user || !this.validateForm(errors)) {
+    const { data, errors } = this.state;
+    if (!this.validateForm(errors)) {
       this.setAlertState(true);
+    } else if (data.password !== undefined) {
+      this.sendData('persons/password', data);
     } else {
-      this.sendData(updatedUser);
+      this.sendData('persons', data);
     }
   }
 
@@ -78,13 +84,15 @@ class InfoChange extends React.Component {
     return valid;
   }
 
-  sendData(user) {
-    Api.put('persons', user)
+  sendData(path, data) {
+    const { user } = this.state;
+    Api.put(path, data)
       .then((response) => {
         if (response.error) {
           this.setAlertState(true);
           return;
         }
+        Object.assign(user, data);
         this.props.updateUser(user);
         this.props.history.push('/profile');
       });
@@ -92,7 +100,7 @@ class InfoChange extends React.Component {
 
   render() {
     const {
-      isShowAlert, user, updatedUser, errors,
+      isShowAlert, user, errors,
     } = this.state;
     return (
       <Container fluid>
@@ -127,7 +135,7 @@ class InfoChange extends React.Component {
                 name={user.name}
                 size="150"
                 round
-                src={updatedUser.avatarUrl}
+                src={user.avatarUrl}
               />
             </Link>
           </Col>

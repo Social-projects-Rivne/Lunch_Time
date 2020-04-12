@@ -22,15 +22,16 @@ public class PersonServiceImplement implements PersonService {
         return personRepository.save(person);
     }
 
-    public Person update(PersonDto personDto, Person person) {
+    public PersonDto update(PersonDto personDto, Person person) {
         person.setName(personDto.getName());
         person.setPhoneNumber(personDto.getPhoneNumber());
-        return personRepository.save(person);
+        personRepository.save(person);
+        return personDto;
     }
 
-    public Person updatePassword(PersonPassDto personPassDto, Person person) {
+    public void updatePassword(PersonPassDto personPassDto, Person person) {
         person.setPassword(personPassDto.getPassword());
-        return personRepository.save(person);
+        personRepository.save(person);
     }
 
     public Optional<Person> findById(Long id) {

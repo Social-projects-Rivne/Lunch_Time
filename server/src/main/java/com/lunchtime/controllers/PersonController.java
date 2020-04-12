@@ -45,7 +45,7 @@ public class PersonController {
     }*/
 
     @PutMapping
-    public ResponseEntity<Person> update(@Valid @RequestBody PersonDto personDto) {
+    public ResponseEntity<PersonDto> update(@Valid @RequestBody PersonDto personDto) {
         Optional<Person> result = personService.findById(personDto.getId());
         if (result.isPresent()) {
             return ResponseEntity.ok(personService.update(personDto, result.get()));
@@ -54,10 +54,11 @@ public class PersonController {
     }
 
     @PutMapping("/password")
-    public ResponseEntity<Person> updatePassword(@Valid @RequestBody PersonPassDto personPassDto) {
+    public ResponseEntity<Void> updatePassword(@Valid @RequestBody PersonPassDto personPassDto) {
         Optional<Person> result = personService.findById(personPassDto.getId());
         if (result.isPresent()) {
-            return ResponseEntity.ok(personService.updatePassword(personPassDto, result.get()));
+            personService.updatePassword(personPassDto, result.get());
+            return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();
     }

@@ -40,7 +40,7 @@ class Profile extends Component {
   }
 
   getProfile() {
-    Api.getOne('persons', 1)
+    Api.getOne('persons', 41)
       .then((response) => {
         if (response.error) {
           // eslint-disable-next-line no-console
@@ -54,7 +54,7 @@ class Profile extends Component {
       });
   }
 
-  hideAlert(show) {
+  saveAlertState(show) {
     const { isShowAlert } = this.state;
     if (isShowAlert !== show) {
       this.setState({
@@ -100,7 +100,7 @@ class Profile extends Component {
                         isFetching={isFetching}
                         user={user}
                         isShowAlert={isShowAlert}
-                        showAlert={(e) => this.hideAlert(e)}
+                        showAlert={(e) => this.saveAlertState(e)}
                       />
                     );
                   }}

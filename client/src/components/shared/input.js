@@ -53,15 +53,16 @@ class Input extends React.Component {
 }
 
 Input.propTypes = {
-  placeholder: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   onChange: PropTypes.any.isRequired,
   type: PropTypes.string,
+  placeholder: PropTypes.string,
 };
 
 Input.defaultProps = {
   type: null,
+  placeholder: null,
 };
 
 export default Input;
