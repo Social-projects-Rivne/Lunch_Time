@@ -136,6 +136,7 @@ class FeedbackSend extends Component {
     }, 4000);
     setTimeout(() => {
       if (currentCallId !== this.state.currentCallId) return;
+      if (!this.state.isLoading) return;
       Api.post('feedback', {
         personId: 1,
         restId: this.props.id,
