@@ -9,10 +9,10 @@ import PropTypes from 'prop-types';
 class DateMenu extends React.Component {
   constructor(props) {
     super(props);
-    const date = new Date();
+    this.currentDate = new Date();
     this.state = {
-      startDate: date,
-      endDate: date,
+      startDate: this.currentDate,
+      endDate: this.currentDate,
     };
     this.handleOnApplyClick = this.handleOnApplyClick.bind(this);
   }
@@ -37,6 +37,13 @@ class DateMenu extends React.Component {
 
   formatDate(date) {
     return moment(date).format('YYYY-MM-DD');
+  }
+
+  reset() {
+    this.setState({
+      startDate: this.currentDate,
+      endDate: this.currentDate,
+    });
   }
 
   render() {

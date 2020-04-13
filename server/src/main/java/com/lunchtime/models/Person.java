@@ -1,7 +1,7 @@
 package com.lunchtime.models;
 
-import lombok.Getter;
-import lombok.Setter;
+import com.lunchtime.enums.Status;
+import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -11,12 +11,15 @@ import javax.validation.constraints.NotBlank;
 import java.time.Instant;
 
 @Entity
-@Setter
-@Getter
+@Table(name = "person")
+@Data
 public class Person {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "avatar_url")
+    private String photoUrl;
 
     @NotBlank
     @Column(name = "name")
@@ -24,7 +27,7 @@ public class Person {
 
     @NotBlank
     @Email
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
     @NotBlank
@@ -34,9 +37,6 @@ public class Person {
     @NotBlank
     @Column(name = "phone_number")
     private String phoneNumber;
-
-    @Column(name = "avatar_url")
-    private String avatarUrl;
 
     @Column(name = "is_deleted")
     private Boolean isDeleted;
@@ -51,12 +51,27 @@ public class Person {
     @Column(name = "created_by")
     private Long createdBy;
 
+
     @Column(name = "modify_at")
     @UpdateTimestamp
     private Instant modifyAt;
 
     @Column(name = "modify_by")
     private Long modifyBy;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status", columnDefinition = "varchar(50) default 'ACTIVE'")
+    private Status status;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_roles",
+        joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+        inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
+
+    private Role role;
+
+    public Person() {
+    }
 
     public Boolean isDeleted() {
         // TODO no need for this check use primitive value. I mean boolean,
@@ -73,8 +88,6 @@ public class Person {
         isDeleted = deleted;
     }
 
-    public Person() {}
-
     public Person(String name, String email,
                   String password, String phoneNumber) {
         this.name = name;
@@ -82,7 +95,5 @@ public class Person {
         this.password = password;
         this.phoneNumber = phoneNumber;
     }
-
-
-
 }
+

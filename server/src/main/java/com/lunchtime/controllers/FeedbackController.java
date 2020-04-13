@@ -1,21 +1,25 @@
 package com.lunchtime.controllers;
 
 import java.util.List;
+
 import com.lunchtime.models.Feedback;
+<<<<<<< HEAD
 import com.lunchtime.service.impl.FeedbackServiceImplement;
+=======
+import com.lunchtime.service.impl.FeedbackServiceImpl;
+>>>>>>> dev
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 //TODO remove redundant lines
-
 @RestController
 @RequestMapping("/api/feedback")
 public class FeedbackController {
 
     //TODO rename variable name to normal CamelCase
-    private final FeedbackServiceImplement feedbackServiceimplementation;
+    private final FeedbackServiceImpl feedbackServiceimplementation;
 
-    public FeedbackController(FeedbackServiceImplement feedbackServiceimplementation) {
+    public FeedbackController(FeedbackServiceImpl feedbackServiceimplementation) {
         this.feedbackServiceimplementation = feedbackServiceimplementation;
     }
 
@@ -28,4 +32,10 @@ public class FeedbackController {
         }
         return ResponseEntity.ok(feedback);
     }
+<<<<<<< HEAD
+=======
+
+    //TODO remove redundant lines
+
+>>>>>>> dev
 }

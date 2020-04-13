@@ -33,6 +33,9 @@
     "react/destructuring-assignment": "off",
     "max-len": ["error", { "code": 120 }],
     "react/forbid-prop-types": 0,
-    "import/no-unresolved": "warn"
+    "import/no-unresolved": "warn",
+    "import/no-named-as-default" :"off",
+    "import/no-named-as-default-member" : "off",
+    "react/jsx-props-no-spreading": "off"
   }
 }
