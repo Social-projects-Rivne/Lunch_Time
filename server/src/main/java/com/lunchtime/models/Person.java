@@ -1,5 +1,6 @@
 package com.lunchtime.models;
 
+import com.lunchtime.enums.Status;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
