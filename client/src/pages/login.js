@@ -22,7 +22,7 @@ class Login extends Component {
   validateForm() {
     const { email } = this.state;
     const { password } = this.state;
-    return email.length > 0 && password.length > 7;
+    return email.length > 5 && password.length > 7;
   }
 
   handleChange(event) {
@@ -40,7 +40,7 @@ class Login extends Component {
           loginHandler();
           this.props.history.push('/');
         } else if (response.error.status === 403) {
-          this.setState({ errorMessage: 'Email or password incorrect' });
+          this.setState({ errorMessage: 'Invalid password or email' });
         }
       }).catch((error) => {
         this.setState({ errorMessage: error.message });

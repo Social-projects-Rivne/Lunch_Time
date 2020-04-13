@@ -1,6 +1,6 @@
 class Auth {
   constructor() {
-    this.tokenKey = 'token';
+    this.tokenKey = 'Bearer ';
     this.token = '';
     this.isAuth = false;
     if (localStorage.getItem(this.tokenKey) && localStorage.getItem(this.tokenKey).length) {
