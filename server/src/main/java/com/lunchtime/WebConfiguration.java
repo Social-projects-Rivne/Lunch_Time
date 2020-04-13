@@ -15,7 +15,9 @@ public class WebConfiguration implements WebMvcConfigurer {
             //TODO it would be better to have this list of urls in some property file. In such case,
             // you will be able to modify
             // this list without creating new PR, for example for prod env, you will need only ssh
-            .allowedOrigins("http://localhost:3000");
+            .allowedOrigins("http://localhost:3000")
+            .allowedHeaders("*")
+            .allowCredentials(true);
     }
 
     @Override
