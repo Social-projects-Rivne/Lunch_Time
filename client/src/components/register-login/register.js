@@ -234,9 +234,8 @@ class Register extends Component {
                 className={nameInputClassName}
                 title={nameInputTitle}
                 type="text"
-                name="name"
                 placeholder="name"
-                noValidate
+                value={this.state.name}
                 onChange={this.validateInputName}
               />
               <FormLabel htmlFor="text">Phone number</FormLabel>
@@ -244,9 +243,7 @@ class Register extends Component {
                 className={phoneInputClassName}
                 title={phoneInputTitle}
                 type="text"
-                name="phone"
                 placeholder="phone number"
-                noValidate
                 onChange={this.validateInputPhone}
               />
               <FormLabel htmlFor="email">e-mail</FormLabel>
@@ -254,9 +251,7 @@ class Register extends Component {
                 className={emailInputClassName}
                 title={emailInputTitle}
                 type="email"
-                name="email"
                 placeholder="email"
-                noValidate
                 onChange={this.validateInputEmail}
               />
               <FormLabel htmlFor="password">Password</FormLabel>
@@ -264,18 +259,14 @@ class Register extends Component {
                 className={passwordInputClassName}
                 title={passwordInputTitle}
                 type="password"
-                name="password"
                 placeholder="password"
-                noValidate
                 onChange={this.validateInputPassword}
               />
               <input
                 className={confirmPasswordInputClassName}
                 title={confirmPasswordInputTitle}
                 type="password"
-                name="confirmPassword"
                 placeholder="confirm password"
-                noValidate
                 onChange={this.validateConfirmPassword}
               />
             </FormGroup>
