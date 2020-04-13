@@ -92,7 +92,7 @@ class Register extends Component {
       this.setState({
         nameInputClassName: invalid,
       });
-    } else if (this.state.nameInputStarted && value.length < 3) {
+    } else if (this.state.nameInputStarted && value.length === 0) {
       this.setState({
         nameInputClassName: invalid,
       });
@@ -106,6 +106,11 @@ class Register extends Component {
 
   validateInputPhone(e) {
     const { value } = e.target;
+    if (value.charAt(0) !== '+') {
+      this.setState({
+        phoneInputClassName: invalid,
+      });
+    }
     const phoneRegex = RegExp(/^\+\d+/);
     const finalPhoneRegex = RegExp(/^\+[0-9]{12}$/);
     if (value.length === 13) {
