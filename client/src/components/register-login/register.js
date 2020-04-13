@@ -64,6 +64,7 @@ class Register extends Component {
           // eslint-disable-next-line no-console
           console.log(error);
         });
+      console.log(body);
     }
   }
 
@@ -98,6 +99,7 @@ class Register extends Component {
       }
       const className = nameRegex.test(value) ? valid : invalid;
       this.setState({
+        name: value,
         nameInputClassName: className,
         nameInputTitle: 'Your name must be in range of 3-16 latin letters',
       });
@@ -126,6 +128,7 @@ class Register extends Component {
       }
       const className = finalPhoneRegex.test(value) ? valid : invalid;
       this.setState({
+        phoneNumber: value,
         phoneInputClassName: className,
         phoneInputTitle: "Phone number must be in '+380...' format with 12 digits",
       });
@@ -150,6 +153,7 @@ class Register extends Component {
       }
       const className = emailRegex.test(value) ? valid : invalid;
       this.setState({
+        email: value,
         emailInputClassName: className,
         emailInputTitle: 'email must consist 5 or more symbols',
       });
