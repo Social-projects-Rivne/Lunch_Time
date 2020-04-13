@@ -111,7 +111,7 @@ class Register extends Component {
         phoneInputClassName: invalid,
       });
     }
-    const phoneRegex = RegExp(/^\+\d+/);
+    const phoneRegex = RegExp(/^\+\d+$/);
     const finalPhoneRegex = RegExp(/^\+[0-9]{12}$/);
     if (value.length === 13) {
       if (!this.state.phoneInputStarted) {
