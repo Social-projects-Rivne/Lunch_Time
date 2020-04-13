@@ -64,7 +64,6 @@ class Register extends Component {
           // eslint-disable-next-line no-console
           console.log(error);
         });
-      console.log(body);
     }
   }
 
@@ -92,6 +91,9 @@ class Register extends Component {
   }
 
   validateInputName(value) {
+    this.setState({
+      name: value,
+    });
     const nameRegex = RegExp(/^[a-zA-Z]+$/);
     if (value.length >= 3) {
       if (!this.state.nameInputStarted) {
