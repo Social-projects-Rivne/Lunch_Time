@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   Container, Form, FormGroup, FormLabel,
 } from 'react-bootstrap';
+import Api from '../../services/api';
 
 const valid = 'form-control is-valid';
 const invalid = 'form-control is-invalid';
@@ -11,6 +12,9 @@ class Register extends Component {
     super(props);
 
     this.state = {
+      name: '',
+      phoneNumber: '',
+      email: '',
       password: '',
       confirmPassword: '',
       nameInputStarted: false,
@@ -32,8 +36,35 @@ class Register extends Component {
     this.handleChange = this.handleChange.bind(this);
   }
 
-  handleSubmit(e) {
-    e.preventDefault();
+  handleSubmit() {
+    const {
+      nameInputClassName, phoneInputClassName, emailInputClassName,
+      passwordInputClassName, confirmPasswordInputClassName, name, phoneNumber,
+      email, password,
+    } = this.state;
+    if (nameInputClassName === valid
+      && phoneInputClassName === valid
+      && emailInputClassName === valid
+      && passwordInputClassName === valid
+      && confirmPasswordInputClassName === valid) {
+      const body = {
+        name: name,
+        phoneNumber: phoneNumber,
+        email: email,
+        password: password,
+      };
+      Api.post('registration', body)
+        .then((response) => {
+          if (response.status === 200) {
+            // eslint-disable-next-line no-console
+            console.log('Ok');
+          }
+        })
+        .catch((error) => {
+          // eslint-disable-next-line no-console
+          console.log(error);
+        });
+    }
   }
 
   handleChange(e) {
@@ -255,7 +286,7 @@ class Register extends Component {
           </Form>
         </div>
         <div className="footer">
-          <button type="submit" className="btn-reg">
+          <button type="submit" className="btn-reg" onClick={this.handleSubmit}>
             Register
           </button>
         </div>
