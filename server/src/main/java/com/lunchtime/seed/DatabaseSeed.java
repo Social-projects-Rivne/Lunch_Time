@@ -1,13 +1,7 @@
 package com.lunchtime.seed;
 
-import com.lunchtime.models.Event;
-import com.lunchtime.models.Feedback;
-import com.lunchtime.models.Person;
-import com.lunchtime.models.Restaurant;
-import com.lunchtime.repository.EventRepository;
-import com.lunchtime.repository.FeedbackRepository;
-import com.lunchtime.repository.PersonRepository;
-import com.lunchtime.repository.RestaurantRepository;
+import com.lunchtime.models.*;
+import com.lunchtime.repository.*;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -22,6 +16,8 @@ import java.util.List;
 public class DatabaseSeed {
     String[] restaurantName = new String[]{"Celentano", "Manhattan", "CasaNuova", "LaRiva", "PuriRivne"};
     String[] userName = new String[]{"Bob", "Devid", "Andriy", "Yura", "Roma"};
+    String[] eventCategoryName = new String[]{"party", "karaoke", "concert", "for_children",
+        "master_class", "tasting", "sports_broadcasting"};
     String[] eventName = new String[]{"New Year Party", "Karaoke evening", "Concert Mikhail Poplavskiy",
         "CAKE DEGUSTATION", "Chillout every Thursday!"};
     String[] eventImage = new String[]{
@@ -42,22 +38,25 @@ public class DatabaseSeed {
             + " be waiting for you! The best place to relax while waiting for the weekend!"};
     String[] eventDate = new String[]{"2020-12-31 23:00", "2020-05-09 17:00",
         "2020-11-28 20:00", "2020-05-21 15:00", "2020-05-23 22:00"};
-    String[] eventType = new String[]{"party", "karaoke", "concert", "tasting", "party"};
+    int[] eventType = {0, 1, 2, 5, 0};
     Float[] cordLatitude = new Float[]{50.616294f, 50.618261f, 50.620219f, 50.616146f, 50.618318f};
     Float[] cordLongitude = new Float[]{26.275728f, 26.260064f, 26.241863f, 26.253994f, 26.252249f};
 
     private final RestaurantRepository restaurantRepository;
     private final FeedbackRepository feedbackRepository;
     private final PersonRepository personRepository;
+    private final EventCategoryRepository eventCategoryRepository;
     private final EventRepository eventRepository;
 
     public DatabaseSeed(RestaurantRepository restaurantRepository,
                         FeedbackRepository feedbackRepository,
                         PersonRepository personRepository,
+                        EventCategoryRepository eventCategoryRepository,
                         EventRepository eventRepository) {
         this.restaurantRepository = restaurantRepository;
         this.feedbackRepository = feedbackRepository;
         this.personRepository = personRepository;
+        this.eventCategoryRepository = eventCategoryRepository;
         this.eventRepository = eventRepository;
     }
 
@@ -71,6 +70,9 @@ public class DatabaseSeed {
         }
         if (feedbackRepository.count() == 0) {
             seedFeedback();
+        }
+        if (eventCategoryRepository.count() == 0) {
+            seedEventCategory();
         }
         if (eventRepository.count() == 0) {
             try {
@@ -143,6 +145,18 @@ public class DatabaseSeed {
         return person;
     }
 
+    public void seedEventCategory() {
+        for (int i = 0; i < eventCategoryName.length; i++) {
+            eventCategoryRepository.save(createEventCategory(i));
+        }
+    }
+
+    private EventCategory createEventCategory(int i) {
+        EventCategory eventCategory = new EventCategory();
+        eventCategory.setCategory(eventCategoryName[i]);
+        return eventCategory;
+    }
+
     public void seedEvent() throws URISyntaxException {
         for (int i = 0; i < eventName.length; i++) {
             eventRepository.save(createEvent(i));
@@ -155,7 +169,7 @@ public class DatabaseSeed {
         event.setDate(eventDate[i]);
         event.setImage(new URI(eventImage[i]));
         event.setName(eventName[i]);
-        event.setCategory(eventType[i]);
+        event.setEventCategory(getEventCategoryList().get(eventType[i]));
         event.setDescription(eventDesc[i]);
         event.setDeleted(false);
         return event;
@@ -167,5 +181,9 @@ public class DatabaseSeed {
 
     private List<Restaurant> getRestaurantList() {
         return restaurantRepository.findAll();
+    }
+
+    private List<EventCategory> getEventCategoryList() {
+        return eventCategoryRepository.findAll();
     }
 }

@@ -20,7 +20,7 @@ import java.util.Date;
 @Table(name = "event")
 public class Event {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
@@ -44,9 +44,10 @@ public class Event {
     @Column(name = "name")
     private String name;
 
-    @NotBlank
-    @Column(name = "category")
-    private String category;
+    @NotNull
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "event_category_id", referencedColumnName = "id")
+    private EventCategory eventCategory;
 
     @NotBlank
     @Size(min = 6, max = 999)

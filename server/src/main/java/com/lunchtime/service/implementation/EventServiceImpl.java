@@ -1,9 +1,9 @@
 package com.lunchtime.service.implementation;
 
 import com.lunchtime.models.Event;
+import com.lunchtime.repository.EventCategoryRepository;
 import com.lunchtime.repository.EventRepository;
 import com.lunchtime.service.EventService;
-import com.lunchtime.util.Validator;
 import org.springframework.stereotype.Service;
 
 import java.time.Month;
@@ -12,11 +12,13 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 public class EventServiceImpl implements EventService {
-
     private final EventRepository eventRepository;
+    private final EventCategoryRepository eventCategoryRepository;
 
-    public EventServiceImpl(EventRepository eventRepository) {
+    public EventServiceImpl(EventRepository eventRepository,
+                            EventCategoryRepository eventCategoryRepository) {
         this.eventRepository = eventRepository;
+        this.eventCategoryRepository = eventCategoryRepository;
     }
 
     public List<Event> getEventList() {
@@ -24,7 +26,14 @@ public class EventServiceImpl implements EventService {
     }
 
     public List<Event> getEventListByCategory(String[] category) {
-        return eventRepository.findAllByCategory(new Date(), category);
+        return eventRepository.findAllByCategory(new Date(), getCategoryIdList(category));
+    }
+
+    private Long[] getCategoryIdList(String[] category) {
+        List<Long> categoryId = eventCategoryRepository.findIdOfCategory(category);
+        Long[] categoryIdArray = new Long[categoryId.size()];
+        categoryId.toArray(categoryIdArray);
+        return categoryIdArray;
     }
 
     public List<Event> getEventListByDay(Date date) {
@@ -64,12 +73,7 @@ public class EventServiceImpl implements EventService {
         return Optional.empty();
     }
 
-    public void saveEvent(Event event) throws IllegalArgumentException {
-        String category = event.getCategory();
-        if (Validator.checkCategory(category)) {
-            eventRepository.save(event);
-        } else {
-            throw new IllegalArgumentException();
-        }
+    public void saveEvent(Event event) {
+        eventRepository.save(event);
     }
 }

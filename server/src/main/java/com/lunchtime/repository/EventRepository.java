@@ -28,14 +28,14 @@ public interface EventRepository extends JpaRepository<Event, Long> {
      * It also returns all records that are NOT marked as deleted.
      *
      * @param date     all events needs to be newer than this date
-     * @param category the name of category that events should belong
+     * @param category the id of category that events should belong
      * @return the number of elements in this list
      */
     @Query("select e from Event e "
         + "where e.date > :date "
-        + "and e.category in :category "
+        + "and e.eventCategory.id in :category "
         + "and e.isDeleted = false")
-    List<Event> findAllByCategory(Date date, String[] category);
+    List<Event> findAllByCategory(Date date, Long[] category);
 
     /**
      * Returns the list of events which date of creation is between dates that comes in params.
