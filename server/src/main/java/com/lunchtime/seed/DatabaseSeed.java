@@ -12,7 +12,6 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
-import java.net.URI;
 import java.net.URISyntaxException;
 import java.sql.Date;
 import java.time.Instant;
@@ -25,11 +24,8 @@ public class DatabaseSeed {
     String[] eventName = new String[] {"New Year Party", "Karaoke evening", "Concert Mikhail Poplavskiy",
         "CAKE DEGUSTATION", "Chillout every Thursday!"};
     String[] eventImage = new String[] {
-        "https://cdn.pixabay.com/photo/2019/12/26/09/13/glasses-4720011_1280.jpg",
-        "https://cdn.pixabay.com/photo/2019/11/23/17/24/video-4647668_1280.jpg",
-        "https://cdn.pixabay.com/photo/2015/07/30/17/24/audience-868074_1280.jpg",
-        "https://cdn.pixabay.com/photo/2015/03/26/09/39/cupcakes-690040_1280.jpg",
-        "https://cdn.pixabay.com/photo/2014/05/03/01/02/concert-336695_1280.jpg"};
+        "glasses-4720011_640.jpg", "video-4647668_640.jpg", "audience-868074_640.jpg",
+        "cupcakes-690040_640.jpg", "concert-336695_640.jpg"};
     String[] eventDesc = new String[]{
         "Bring in 2020 with style and panache at the most famous and exquisite party in town. Cruise into the New Year"
             + " with delicacies crafted to perfection by The Café’s culinary team and enjoy refreshing drinks as"
@@ -136,7 +132,7 @@ public class DatabaseSeed {
             Event event = new Event();
             event.setRestaurant(getRestaurantList().get(i));
             event.setDate(eventDate[i]);
-            event.setImage(new URI(eventImage[i]));
+            event.setImage(eventImage[i]);
             event.setName(eventName[i]);
             event.setCategory(eventType[i]);
             event.setDescription(eventDesc[i]);
