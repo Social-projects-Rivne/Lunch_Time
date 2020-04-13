@@ -47,9 +47,9 @@ public class FeedbackControllerTest {
         feedbackDto.setCounterLike(0);
         feedbackDto.setCounterDislike(0);
 
-        final ResponseEntity<FeedbackDto> feedbackDto1 = feedbackControllerUnderTest.create(feedbackDto);
+        final ResponseEntity<FeedbackDto> feedbackDto1 = feedbackControllerUnderTest.saveFeedback(feedbackDto);
 
-        verify(mockFeedbackService).save(feedbackDto);
+        verify(mockFeedbackService).saveFeedback(feedbackDto);
         verifyNoMoreInteractions(mockFeedbackService);
 
         Assertions.assertNotNull(feedbackDto1);

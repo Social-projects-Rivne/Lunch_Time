@@ -17,7 +17,7 @@ class FeedbackServiceImpl implements FeedbackService {
     private final FeedbackRepository feedbackRepository;
     private final FeedbackMapper feedbackMapper;
 
-    public FeedbackDto save(@Valid FeedbackDto feedbackDto) {
+    public FeedbackDto saveFeedback(@Valid FeedbackDto feedbackDto) {
         Feedback feedback = feedbackMapper.fromDtoToFeedback(feedbackDto);
         feedbackRepository.save(feedback);
         return feedbackMapper.fromFeedbackToDto(feedback);

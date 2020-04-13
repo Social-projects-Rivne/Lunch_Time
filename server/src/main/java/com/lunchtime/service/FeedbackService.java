@@ -10,5 +10,5 @@ public interface FeedbackService {
     //TODO incorrect method name. Use Java Convention. You can use IDE refactor->rename to simplify :)
     List<Feedback> findByRestId_Id(Long id);
 
-    FeedbackDto save(FeedbackDto feedbackDto);
+    FeedbackDto saveFeedback(FeedbackDto feedbackDto);
 }

@@ -20,11 +20,11 @@ public class FeedbackController {
     private final FeedbackService feedbackService;
 
     @PostMapping
-    public ResponseEntity<FeedbackDto> create(@Valid @RequestBody FeedbackDto feedbackDto) throws URISyntaxException {
+    public ResponseEntity<FeedbackDto> saveFeedback(@Valid @RequestBody FeedbackDto feedbackDto) throws URISyntaxException {
         if (feedbackDto.getId() != 0) {
             return null;
         }
-        FeedbackDto savedFeedbackDto = feedbackService.save(feedbackDto);
+        FeedbackDto savedFeedbackDto = feedbackService.saveFeedback(feedbackDto);
         if (savedFeedbackDto != null) {
             return ResponseEntity.created(new URI("/api/restaurants"))
                 .body(savedFeedbackDto);
