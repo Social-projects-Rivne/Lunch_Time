@@ -57,6 +57,7 @@ class Register extends Component {
         email: email,
         password: password,
       };
+      console.log(body);
       Api.post('registration', body)
         .then((response) => {
           if (response.status === 200) {
@@ -173,7 +174,7 @@ class Register extends Component {
         password: value,
         passwordInputClassName: className,
       });
-    } else if (this.state.passwordInputStarted && value.length <= 8) {
+    } else if (this.state.passwordInputStarted && value.length < 8) {
       this.setState({
         passwordInputClassName: invalid,
       });
@@ -183,27 +184,32 @@ class Register extends Component {
         passwordInputClassName: invalid,
       });
     }
-    if (this.state.passwordInputClassName === valid && this.state.confirmPassword.length >= 8) {
+    if (passwordRegex.exec(value) && this.state.confirmPassword.length >= 8) {
       const { confirmPassword } = this.state;
-      const confirm = confirmPassword === value ? valid : invalid;
+      const className = confirmPassword === value ? valid : invalid;
       this.setState({
-        confirmPasswordInputClassName: confirm,
+        confirmPasswordInputClassName: className,
       });
     }
   }
 
   validateConfirmPassword(e) {
     const { value } = e.target;
-    if (value.length >= 8 && this.state.passwordInputClassName === valid) {
+    if (value.length >= 8) {
       this.setState({
         confirmPassword: value,
-      }, () => {
-        const { password, confirmPassword } = this.state;
-        const className = confirmPassword === password ? valid : invalid;
-        this.setState({
-          confirmPasswordInputClassName: className,
-        });
       });
+      if (value.length >= 8 && this.state.passwordInputClassName === valid) {
+        this.setState({
+          confirmPassword: value,
+        }, () => {
+          const { password, confirmPassword } = this.state;
+          const className = confirmPassword === password ? valid : invalid;
+          this.setState({
+            confirmPasswordInputClassName: className,
+          });
+        });
+      }
     }
   }
 
