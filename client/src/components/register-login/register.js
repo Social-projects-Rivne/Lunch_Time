@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
   Container, Form, FormGroup, FormLabel,
 } from 'react-bootstrap';
-import regImg from './register.png';
 
 const valid = 'form-control is-valid';
 const invalid = 'form-control is-invalid';
@@ -199,7 +198,7 @@ class Register extends Component {
         <div className="header">Register</div>
         <div className="content">
           <div className="image">
-            <img src={regImg} alt="register" />
+            <img src="/img/register.png" alt="register" />
           </div>
           <Form className="form" onSubmit={this.handleSubmit}>
             <FormGroup>

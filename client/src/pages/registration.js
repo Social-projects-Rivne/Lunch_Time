@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Container } from 'react-bootstrap';
-import Login from '../components/login/login';
-import Register from '../components/login/register';
-import RightSide from '../components/login/right-side';
+import Login from '../components/register-login/login';
+import Register from '../components/register-login/register';
+import RightSide from '../components/register-login/right-side';
 import '../styles/register-login-page.css';
 
 class Registration extends Component {

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Container, Form, FormLabel } from 'react-bootstrap';
-import loginImg from './login.png';
 import '../../styles/register-login-components.css';
 
 class Login extends Component {
@@ -10,7 +9,7 @@ class Login extends Component {
         <div className="header">Login</div>
         <div className="content">
           <div className="image">
-            <img src={loginImg} alt="login" />
+            <img src="/img/login.png" alt="login" />
           </div>
           <Form className="form">
             <Form.Group>
