@@ -30,10 +30,9 @@ public class MenuItemDishController {
     }
 
     @GetMapping
-    public ResponseEntity<List<MenuItemDish>> getAll(Pageable pageable) {
-        Page<MenuItemDish> page = menuItemDishService.findAll(pageable);
+    public ResponseEntity<Page<MenuItemDish>> getAll(Pageable pageable) {
         return ResponseEntity.ok()
-            .body(page.getContent());
+            .body(menuItemDishService.findAll(pageable));
     }
 
     @GetMapping("{id}")
