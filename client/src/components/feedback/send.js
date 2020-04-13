@@ -56,7 +56,7 @@ class FeedbackSend extends Component {
 
   validateDescription() {
     const { description } = this.state;
-    const regex = /(^[a-zA-Z1-9]+[a-zA-Z1-9., ]+)$/;
+    const regex = /^(?!.*[!@#$%()\-+=[\]|\\;:'",./?]{2}).+$/;
     const match = regex.test(description);
     if (description.length > 1 && match !== false) {
       // eslint-disable-next-line no-unused-expressions
@@ -246,7 +246,7 @@ class FeedbackSend extends Component {
           <MyBadge variant="success" message="Your feedback was sent!" />
         )}
         {!this.state.validInput && (
-          <MyBadge variant="danger" message="Use only latin letters, numbers, comma or dot" />
+          <MyBadge variant="danger" message="Prefer to use letters instead of symbols" />
         )}
       </Form.Group>
     );
