@@ -1,4 +1,4 @@
-package com.lunchtime.implementation;
+package com.lunchtime.service.impl;
 
 import com.lunchtime.models.Person;
 import com.lunchtime.repository.PersonRepository;
@@ -8,11 +8,11 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class PersonServiceImplement implements PersonService {
+public class PersonServiceImpl implements PersonService {
 
     private final PersonRepository personRepository;
 
-    public PersonServiceImplement(PersonRepository personRepository) {
+    public PersonServiceImpl(PersonRepository personRepository) {
         this.personRepository = personRepository;
     }
 
@@ -23,4 +23,6 @@ public class PersonServiceImplement implements PersonService {
     public Optional<Person> findById(Long id) {
         return personRepository.findById(id);
     }
+
+
 }

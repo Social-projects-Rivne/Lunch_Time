@@ -1,8 +1,33 @@
 import axios from 'axios';
+import Auth from './auth';
+
+axios.interceptors.request.use((config) => {
+  const resultConfig = config;
+  let token;
+  if (Auth.isAuthenticated()) {
+    token = Auth.getToken();
+    resultConfig.headers.Authorization = `Bearer ${token}`;
+    return resultConfig;
+  }
+  return resultConfig;
+}, (err) => {
+  return Promise.reject(err);
+});
+
 
 class Api {
   constructor() {
     this.apiUrl = 'http://localhost:8080/api/';
+  }
+
+  post(endpoint, data) {
+    return axios.post(this.getApiEndpoint(endpoint), data)
+      .then((response) => {
+        return { error: null, data: response.data, status: response.status };
+      })
+      .catch((error) => {
+        return { error: error.response };
+      });
   }
 
   getAll(endpoint) {
@@ -39,8 +64,13 @@ class Api {
   }
 
   getApiEndpoint(endpoint) {
-    return this.apiUrl.endsWith('/') ? `${this.apiUrl}${endpoint}` : `${this.apiUrl}/${endpoint}`;
+    if (this.apiUrl.endsWith('/') && endpoint.startsWith('/')) {
+      return `${this.apiUrl.slice(0, -1)}${endpoint}`;
+    }
+    if (!this.apiUrl.endsWith('/') && !endpoint.startsWith('/')) {
+      return `${this.apiUrl}/${endpoint}`;
+    }
+    return `${this.apiUrl}${endpoint}`;
   }
 }
-
 export default new Api();
