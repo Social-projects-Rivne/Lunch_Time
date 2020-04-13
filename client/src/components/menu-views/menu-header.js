@@ -1,7 +1,14 @@
 import React, { Component } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
+import PropTypes from 'prop-types';
+import View from '../shared/dropdown/view';
+import info from '../info/events';
 
 class Header extends Component {
+  onSelectCategory(path) {
+    this.props.onChangeMenu(path);
+  }
+
   render() {
     return (
       <Container>
@@ -11,8 +18,13 @@ class Header extends Component {
         </Container>
         <br />
         <Row>
-          <Col className="headers-item">
-            Category
+          <Col>
+            <View
+              id="sort-by-sort-by-dishcategory"
+              name="Category"
+              values={info[2].values}
+              onSelect={(e) => this.onSelectCategory(`${e}`)}
+            />
           </Col>
           <Col className="headers-item">
             Dish
@@ -38,4 +50,7 @@ class Header extends Component {
   }
 }
 
+Header.propTypes = {
+  onChangeMenu: PropTypes.any.isRequired,
+};
 export default Header;

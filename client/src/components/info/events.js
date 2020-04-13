@@ -4,6 +4,8 @@ const months = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
 const category = ['Party', 'Karaoke', 'Concert', 'For children',
   'Master class', 'Tasting', 'Sports broadcasting'];
 
+const dishcategory = ['Pizza', 'Main course', 'Snacks', 'Dessert'];
+
 const info = [
   {
     id: 'sort-by-category',
@@ -14,6 +16,11 @@ const info = [
     id: 'sort-by-month',
     name: 'By month',
     values: months,
+  },
+  {
+    id: 'sort-by-dishcategory',
+    name: 'By category',
+    values: dishcategory,
   },
 ];
 

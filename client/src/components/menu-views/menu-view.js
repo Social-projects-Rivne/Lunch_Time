@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Row } from 'react-bootstrap';
+import { Container, Spinner } from 'react-bootstrap';
 import Pagination from 'react-bootstrap-pagination-logic';
 import PropTypes from 'prop-types';
 import Header from './menu-header';
@@ -19,13 +19,14 @@ class Menu extends Component {
     this.handlePageChange = this.handlePageChange.bind(this);
   }
 
-  async componentDidMount() {
+  componentDidMount() {
     this.getAll(this.state.number, this.state.pageSize);
   }
 
   getAll(page, pageSize) {
     const { id } = this.props;
-    Api.getAll(`menuitemdish?restaurantId=${id}&page=${page}&size=${pageSize}`)
+    Api.getAll(`menuitemdish/restaurantId?restaurantId=${id}
+                &page=${page}&size=${pageSize}`)
       .then((response) => {
         if (response.error) {
           console.error(response);
@@ -34,7 +35,7 @@ class Menu extends Component {
         this.setState({
           totalPages: response.data.totalPages,
           number: response.data.number,
-          menuitemdishes: response.data,
+          menuitemdishes: response.data.content,
           isFetching: true,
         });
       });
@@ -59,16 +60,26 @@ class Menu extends Component {
     );
   }
 
-  render() {
-    const { menuitemdishes, isFetching } = this.state;
+  initMenuItemDish() {
+    const { menuitemdishes } = this.state;
     return (
-      <Container fluid className="menu">
-        <Header />
-        <Row>
-          <MenuItemDish menuitemdish={menuitemdishes} isFetching={isFetching} />
-          {this.initPagination}
-        </Row>
-      </Container>
+      <MenuItemDish menuitemdishes={menuitemdishes} />
+    );
+  }
+
+  render() {
+    const { isFetching } = this.state;
+    if (isFetching) {
+      return (
+        <Container className="menu">
+          <Header />
+          {this.initMenuItemDish()}
+          {this.initPagination()}
+        </Container>
+      );
+    }
+    return (
+      <Spinner animation="border" variant="warning" />
     );
   }
 }
