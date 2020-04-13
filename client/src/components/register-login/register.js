@@ -194,11 +194,11 @@ class Register extends Component {
 
   validateConfirmPassword(e) {
     const { value } = e.target;
-    const { password, confirmPassword } = this.state;
     if (value.length >= 8 && this.state.passwordInputClassName === valid) {
       this.setState({
         confirmPassword: value,
       }, () => {
+        const { password, confirmPassword } = this.state;
         const className = confirmPassword === password ? valid : invalid;
         this.setState({
           confirmPasswordInputClassName: className,
