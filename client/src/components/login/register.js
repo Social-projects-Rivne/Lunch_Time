@@ -17,6 +17,9 @@ class Register extends Component {
       nameInputStarted: false,
       nameInputTitle: '',
       nameInputClassName: '',
+      phoneInputStarted: false,
+      phoneInputTitle: '',
+      phoneInputClassName: '',
       emailInputStarted: false,
       emailInputTitle: '',
       emailInputClassName: '',
@@ -40,6 +43,9 @@ class Register extends Component {
     switch (name) {
       case 'name':
         this.validateInputName(value);
+        break;
+      case 'phone':
+        this.validateInputPhone(value);
         break;
       case 'email':
         this.validateInputEmail(value);
@@ -77,6 +83,29 @@ class Register extends Component {
     if (value.length > 16) {
       this.setState({
         nameInputClassName: invalid,
+      });
+    }
+  }
+
+  validateInputPhone(value) {
+    const phoneRegex = RegExp(/^\+\d+/);
+    const finalPhoneRegex = RegExp(/^\+[0-9]{12}$/);
+    if (value.length === 13) {
+      if (!this.state.phoneInputStarted) {
+        this.setState({ phoneInputStarted: value.length >= 13 });
+      }
+      const className = finalPhoneRegex.test(value) ? valid : invalid;
+      this.setState({
+        phoneInputClassName: className,
+        phoneInputTitle: "Phone number must be in '+380...' format with 12 digits",
+      });
+    } else if (value.length > 1 && !phoneRegex.test(value)) {
+      this.setState({
+        phoneInputClassName: invalid,
+      });
+    } else if (this.state.phoneInputStarted) {
+      this.setState({
+        phoneInputClassName: invalid,
       });
     }
   }
@@ -163,6 +192,7 @@ class Register extends Component {
       nameInputClassName, nameInputTitle, emailInputClassName,
       emailInputTitle, passwordInputClassName, passwordInputTitle,
       confirmPasswordInputClassName, confirmPasswordInputTitle,
+      phoneInputClassName, phoneInputTitle,
     } = this.state;
     return (
       <Container className="base-container" style={{ color: '#3498db' }}>
@@ -180,6 +210,16 @@ class Register extends Component {
                 type="text"
                 name="name"
                 placeholder="name"
+                noValidate
+                onChange={this.handleChange}
+              />
+              <FormLabel htmlFor="text">Phone number</FormLabel>
+              <input
+                className={phoneInputClassName}
+                title={phoneInputTitle}
+                type="text"
+                name="phone"
+                placeholder="phone number"
                 noValidate
                 onChange={this.handleChange}
               />
