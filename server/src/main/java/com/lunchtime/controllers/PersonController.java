@@ -1,6 +1,7 @@
 package com.lunchtime.controllers;
 
 import com.lunchtime.models.Person;
+import com.lunchtime.service.PersonDto;
 import com.lunchtime.service.PersonService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,13 +22,13 @@ public class PersonController {
     }
 
     @PostMapping
-    public ResponseEntity<Person> create(@Valid @RequestBody Person person) throws URISyntaxException {
-        if (person.getId() != null) {
+    public ResponseEntity<PersonDto> create(@Valid @RequestBody PersonDto personDto) throws URISyntaxException {
+        if (personDto.getId() != null) {
             return ResponseEntity.badRequest()
                 .build();
         }
 
-        Person result = personService.save(person);
+        PersonDto result = personService.save(personDto);
         return ResponseEntity.created(new URI("/api/persons"))
             .body(result);
     }
