@@ -39,12 +39,21 @@ class Category extends Component {
     this.onVisibleChange(false);
   }
 
+  reset() {
+    this.setState({
+      selected: [],
+    }, () => {
+      this.confirm();
+    });
+  }
+
   render() {
-    const { visible } = this.state;
+    const { visible, selected } = this.state;
     const { items } = this.props;
     const menu = (
       <Menu
         multiple
+        selectedKeys={selected}
         onSelect={(e) => { this.saveSelected(e.selectedKeys); }}
         onDeselect={(e) => { this.saveSelected(e.selectedKeys); }}
       >

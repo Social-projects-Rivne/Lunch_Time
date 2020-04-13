@@ -126,7 +126,7 @@ public class DatabaseSeed {
             Person person = new Person(
                 userName[i],
                 userName[i].concat("@gmail.com").toLowerCase(),
-                userName[i],
+                userName[i].concat("password").toLowerCase(),
                 "096-77-77-77".concat(String.valueOf(i)));
             personRepository.save(person);
         }

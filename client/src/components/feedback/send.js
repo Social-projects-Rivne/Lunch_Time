@@ -59,7 +59,7 @@ class FeedbackSend extends Component {
     const match = regex.test(description);
     if (description.length > 1 && match !== false) {
       // eslint-disable-next-line no-unused-expressions
-      description > 400
+      description.length > 400
         ? this.setState({
           tooLongFeedback: true,
           validInput: true,
@@ -136,7 +136,7 @@ class FeedbackSend extends Component {
     setTimeout(() => {
       if (currentCallId !== this.state.currentCallId) return;
       Api.post('feedback', {
-        personId: 555,
+        personId: 1,
         restId: this.props.id,
         description: this.state.description,
       })

@@ -1,0 +1,9 @@
+  .Login {
+    margin: 0 auto;
+    max-width: 320px;
+    position: center;
+  }
+  .error {
+    color: red;
+  }
+
