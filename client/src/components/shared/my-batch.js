@@ -6,6 +6,7 @@ class MyBadge extends Component {
   render() {
     return (
       <Badge
+        className="badge"
         variant={this.props.variant}
         style={{
           marginTop: 12,

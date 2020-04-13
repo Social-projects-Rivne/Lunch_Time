@@ -49,6 +49,7 @@ class FeedbackSend extends Component {
     this.setState(() => {
       this.setState({
         validInput: false,
+        tooLongFeedback: false,
       });
     });
   }
@@ -230,22 +231,22 @@ class FeedbackSend extends Component {
           />
         )}
         {tooShortFeedback && !isLoading && validInput && (
-          <MyBadge className="badge" variant="warning" message="Your feedback must be more than 10 symbols" />
+          <MyBadge variant="warning" message="Your feedback must be more than 10 symbols" />
         )}
         {attemptCount && (
-          <MyBadge className="badge" variant="danger" message={tooLong} />
+          <MyBadge variant="danger" message={tooLong} />
         )}
         {tooLongFeedback && !attemptCount && (
-          <MyBadge className="badge" variant="warning" message={tooLong} />
+          <MyBadge variant="warning" message={tooLong} />
         )}
         {feedbackNotSent && !isLoading && (
-          <MyBadge className="badge" variant="danger" message="Your feedback was not sent. Try again" />
+          <MyBadge variant="danger" message="Your feedback was not sent. Try again" />
         )}
         {feedbackSent && !isLoading && (
-          <MyBadge className="badge" variant="success" message="Your feedback was sent!" />
+          <MyBadge variant="success" message="Your feedback was sent!" />
         )}
         {!this.state.validInput && (
-          <MyBadge className="badge" variant="success" message="Use only latin letters, numbers, comma or dot" />
+          <MyBadge variant="success" message="Use only latin letters, numbers, comma or dot" />
         )}
       </Form.Group>
     );
