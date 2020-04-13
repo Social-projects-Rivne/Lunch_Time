@@ -78,20 +78,11 @@
 			<artifactId>spring-restdocs-mockmvc</artifactId>
 			<scope>test</scope>
 		</dependency>
-<<<<<<< HEAD
-		<dependency>
-			<groupId>org.springframework.security</groupId>
-			<artifactId>spring-security-test</artifactId>
-			<scope>test</scope>
-		</dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <scope>test</scope>
     </dependency>
-  </dependencies>
-=======
-
     <dependency>
       <groupId>org.springframework.restdocs</groupId>
       <artifactId>spring-restdocs-asciidoctor</artifactId>
@@ -111,7 +102,6 @@
       <scope>test</scope>
     </dependency>
 	</dependencies>
->>>>>>> dev
 
 	<build>
 		<plugins>

@@ -5,11 +5,6 @@ import com.lunchtime.repository.*;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
-<<<<<<< HEAD
-import java.net.URI;
-=======
-
->>>>>>> dev
 import java.net.URISyntaxException;
 import java.sql.Date;
 import java.time.Instant;
