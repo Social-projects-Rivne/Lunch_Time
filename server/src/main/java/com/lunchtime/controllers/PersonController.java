@@ -22,13 +22,13 @@ public class PersonController {
     }
 
     @PostMapping
-    public ResponseEntity<PersonDto> create(@Valid @RequestBody PersonDto personDto) throws URISyntaxException {
+    public ResponseEntity<PersonDto> createPerson(@Valid @RequestBody PersonDto personDto) throws URISyntaxException {
         if (personDto.getId() != null) {
             return ResponseEntity.badRequest()
                 .build();
         }
 
-        PersonDto result = personService.save(personDto);
+        PersonDto result = personService.savePerson(personDto);
         return ResponseEntity.created(new URI("/api/persons"))
             .body(result);
     }

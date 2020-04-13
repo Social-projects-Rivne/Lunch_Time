@@ -17,7 +17,7 @@ public class PersonServiceImpl implements PersonService {
     private final PersonRepository personRepository;
     private final PersonMapper personMapper;
 
-    public PersonDto save(PersonDto personDto) {
+    public PersonDto savePerson(PersonDto personDto) {
         Person person = personMapper.fromDtoToPerson(personDto);
         personRepository.save(person);
         return personMapper.fromPersonToDto(person);
