@@ -246,7 +246,7 @@ class FeedbackSend extends Component {
           <MyBadge variant="success" message="Your feedback was sent!" />
         )}
         {!this.state.validInput && (
-          <MyBadge variant="success" message="Use only latin letters, numbers, comma or dot" />
+          <MyBadge variant="danger" message="Use only latin letters, numbers, comma or dot" />
         )}
       </Form.Group>
     );

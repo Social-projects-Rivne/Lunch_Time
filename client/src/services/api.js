@@ -73,4 +73,5 @@ class Api {
     return `${this.apiUrl}${endpoint}`;
   }
 }
+
 export default new Api();
