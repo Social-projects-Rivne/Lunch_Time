@@ -33,7 +33,11 @@ class Register extends Component {
       confirmPasswordInputClassName: '',
     };
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleChange = this.handleChange.bind(this);
+    this.validateInputName = this.validateInputName.bind(this);
+    this.validateInputPhone = this.validateInputPhone.bind(this);
+    this.validateInputEmail = this.validateInputEmail.bind(this);
+    this.validateInputPassword = this.validateInputPassword.bind(this);
+    this.validateConfirmPassword = this.validateConfirmPassword.bind(this);
   }
 
   handleSubmit() {
@@ -67,30 +71,8 @@ class Register extends Component {
     }
   }
 
-  handleChange(e) {
-    e.preventDefault();
-    const { name, value } = e.target;
-    switch (name) {
-      case 'name':
-        this.validateInputName(value);
-        break;
-      case 'phone':
-        this.validateInputPhone(value);
-        break;
-      case 'email':
-        this.validateInputEmail(value);
-        break;
-      case 'password':
-        this.validateInputPassword(value);
-        break;
-      case 'confirmPassword':
-        this.validateConfirmPassword(value);
-        break;
-      default: break;
-    }
-  }
-
-  validateInputName(value) {
+  validateInputName(e) {
+    const { value } = e.target;
     this.setState({
       name: value,
     });
@@ -121,7 +103,8 @@ class Register extends Component {
     }
   }
 
-  validateInputPhone(value) {
+  validateInputPhone(e) {
+    const { value } = e.target;
     const phoneRegex = RegExp(/^\+\d+/);
     const finalPhoneRegex = RegExp(/^\+[0-9]{12}$/);
     if (value.length === 13) {
@@ -145,7 +128,8 @@ class Register extends Component {
     }
   }
 
-  validateInputEmail(value) {
+  validateInputEmail(e) {
+    const { value } = e.target;
     const emailRegex = RegExp(
       /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
     );
@@ -171,7 +155,12 @@ class Register extends Component {
     }
   }
 
-  validateInputPassword(value) {
+  validateInputPassword(e) {
+    const { value } = e.target;
+    this.setState({
+      passwordInputTitle: 'Password must contain 8 symbols (upper case, lower case, number',
+      confirmPasswordInputTitle: 'Passwords must match each other',
+    });
     const passwordRegex = RegExp(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
     );
@@ -183,7 +172,6 @@ class Register extends Component {
       this.setState({
         password: value,
         passwordInputClassName: className,
-        passwordInputTitle: 'Password must contain 8 symbols (upper case, lower case, number',
       });
     } else if (this.state.passwordInputStarted && value.length <= 8) {
       this.setState({
@@ -204,11 +192,11 @@ class Register extends Component {
     }
   }
 
-  validateConfirmPassword(value) {
+  validateConfirmPassword(e) {
+    const { value } = e.target;
     const { password, confirmPassword } = this.state;
     if (value.length >= 8 && this.state.passwordInputClassName === valid) {
       this.setState({
-        confirmPasswordInputTitle: 'Passwords must match each other',
         confirmPassword: value,
       }, () => {
         const className = confirmPassword === password ? valid : invalid;
@@ -243,7 +231,7 @@ class Register extends Component {
                 name="name"
                 placeholder="name"
                 noValidate
-                onChange={this.handleChange}
+                onChange={this.validateInputName}
               />
               <FormLabel htmlFor="text">Phone number</FormLabel>
               <input
@@ -253,7 +241,7 @@ class Register extends Component {
                 name="phone"
                 placeholder="phone number"
                 noValidate
-                onChange={this.handleChange}
+                onChange={this.validateInputPhone}
               />
               <FormLabel htmlFor="email">e-mail</FormLabel>
               <input
@@ -263,7 +251,7 @@ class Register extends Component {
                 name="email"
                 placeholder="email"
                 noValidate
-                onChange={this.handleChange}
+                onChange={this.validateInputEmail}
               />
               <FormLabel htmlFor="password">Password</FormLabel>
               <input
@@ -273,7 +261,7 @@ class Register extends Component {
                 name="password"
                 placeholder="password"
                 noValidate
-                onChange={this.handleChange}
+                onChange={this.validateInputPassword}
               />
               <input
                 className={confirmPasswordInputClassName}
@@ -282,7 +270,7 @@ class Register extends Component {
                 name="confirmPassword"
                 placeholder="confirm password"
                 noValidate
-                onChange={this.handleChange}
+                onChange={this.validateConfirmPassword}
               />
             </FormGroup>
           </Form>
