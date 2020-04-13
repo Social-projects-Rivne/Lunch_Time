@@ -1,4 +1,4 @@
-package com.lunchtime.implementation; //TODO should be in service package
+package com.lunchtime.service.impl; //TODO should be in service package
 
 import com.lunchtime.models.Event;
 import com.lunchtime.repository.EventRepository;
@@ -11,11 +11,11 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Service
-public class EventServiceImplement implements EventService {
+public class EventServiceImpl implements EventService {
 
     private final EventRepository eventRepository;
 
-    public EventServiceImplement(EventRepository eventRepository) {
+    public EventServiceImpl(EventRepository eventRepository) {
         this.eventRepository = eventRepository;
     }
 
