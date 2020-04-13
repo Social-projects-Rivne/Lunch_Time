@@ -18,12 +18,6 @@ class NavigationBar extends Component {
         link: '/map', name: 'Map', isUnAuthenticatedSee: true, isAuthenticatedSee: true,
       },
       {
-        link: '/about', name: 'About', isUnAuthenticatedSee: true, isAuthenticatedSee: true,
-      },
-      {
-        link: '/contact', name: 'Contact', isUnAuthenticatedSee: true, isAuthenticatedSee: true,
-      },
-      {
         link: '/login', name: 'Login', isUnAuthenticatedSee: true, isAuthenticatedSee: false,
       },
       {
