@@ -203,12 +203,16 @@ class Register extends Component {
   }
 
   validateConfirmPassword(value) {
-    if (value.length >= 8) {
+    if (value.length >= 8 && this.state.passwordInputClassName === valid) {
       this.setState({
         confirmPasswordInputTitle: 'Passwords must match each other',
         confirmPassword: value,
       }, () => {
         this.checkPasswords();
+      });
+    } else {
+      this.setState({
+        confirmPasswordInputClassName: invalid,
       });
     }
   }
