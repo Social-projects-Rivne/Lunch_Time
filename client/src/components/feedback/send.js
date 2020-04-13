@@ -75,6 +75,7 @@ class FeedbackSend extends Component {
       || description.length === 1 && /([a-zA-Z1-9])/.test(description)) {
       this.setState({
         validInput: true,
+        tooLongFeedback: false,
       });
     } else {
       this.setInputFalse();
