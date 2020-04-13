@@ -34,16 +34,6 @@ public class PersonController {
             .body(result);
     }
 
-    /*@PutMapping
-    public ResponseEntity<Person> update(@Valid @RequestBody Person person) {
-        Optional<Person> result = personService.findById(person.getId());
-        if (result.isPresent()) {
-            personService.save(person);
-            return ResponseEntity.ok(person);
-        }
-        return ResponseEntity.notFound().build();
-    }*/
-
     @PutMapping
     public ResponseEntity<PersonDto> update(@Valid @RequestBody PersonDto personDto) {
         Optional<Person> result = personService.findById(personDto.getId());
