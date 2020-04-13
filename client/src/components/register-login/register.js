@@ -159,11 +159,12 @@ class Register extends Component {
   validateInputPassword(e) {
     const { value } = e.target;
     this.setState({
-      passwordInputTitle: 'Password must contain 8 symbols (upper case, lower case, number',
+      passwordInputTitle: 'Use at least one upper and lower case letter with number.'
+        + 'Password should be 8 or more symbols length',
       confirmPasswordInputTitle: 'Passwords must match each other',
     });
     const passwordRegex = RegExp(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/,
+      /^(?=.*[a-zа-я])(?=.*[A-ZА-Я])(?=.*\d)[a-zA-Z\dа-яА-Я]{8,}$/,
     );
     if (value.length >= 8) {
       if (!this.state.passwordInputStarted) {
