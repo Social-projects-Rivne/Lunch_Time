@@ -205,7 +205,7 @@ class Register extends Component {
       this.setState({
         confirmPassword: value,
       });
-      if (value.length >= 8 && this.state.passwordInputClassName === valid) {
+      if (value.length === this.state.password.length && this.state.passwordInputClassName === valid) {
         this.setState({
           confirmPassword: value,
         }, () => {
@@ -214,6 +214,10 @@ class Register extends Component {
           this.setState({
             confirmPasswordInputClassName: className,
           });
+        });
+      } else if (value.length > this.state.password.length && this.state.passwordInputClassName === valid) {
+        this.setState({
+          confirmPasswordInputClassName: invalid,
         });
       }
     }
