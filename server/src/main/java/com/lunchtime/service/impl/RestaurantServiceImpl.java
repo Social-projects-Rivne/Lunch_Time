@@ -1,4 +1,4 @@
-package com.lunchtime.implementation;
+package com.lunchtime.service.impl;
 
 import com.lunchtime.models.Restaurant;
 import com.lunchtime.repository.RestaurantRepository;
@@ -11,12 +11,12 @@ import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
-public class RestaurantServiceImplement implements RestaurantService {
+public class RestaurantServiceImpl implements RestaurantService {
 
     private final RestaurantRepository restaurantRepository;
     private final PersonService personService;
 
-    public RestaurantServiceImplement(RestaurantRepository restaurantRepository, PersonService personService) {
+    public RestaurantServiceImpl(RestaurantRepository restaurantRepository, PersonService personService) {
         this.restaurantRepository = restaurantRepository;
         this.personService = personService;
     }
