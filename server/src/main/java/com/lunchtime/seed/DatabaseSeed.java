@@ -13,7 +13,6 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 
 import java.net.URISyntaxException;
-import java.sql.Date;
 import java.time.Instant;
 import java.util.List;
 
@@ -107,7 +106,7 @@ public class DatabaseSeed {
             Feedback feedback = new Feedback(
                 "User ".concat(userName[i].concat(" write comment to restaurant")),
                 true,
-                new Date(System.currentTimeMillis()),
+                Instant.now(),
                 getPersonList().get(i),
                 getRestaurantList().get(i),
                 3 + i,
