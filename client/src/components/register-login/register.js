@@ -3,6 +3,7 @@ import {
   Container, Form, FormGroup, FormLabel,
 } from 'react-bootstrap';
 import Api from '../../services/api';
+import MyBadge from '../shared/my-batch';
 
 const valid = 'form-control is-valid';
 const invalid = 'form-control is-invalid';
@@ -33,6 +34,8 @@ class Register extends Component {
       confirmPasswordInputClassName: '',
       isRegistered: false,
       invalidEmailOrPassword: false,
+      unexpectedError: false,
+      checkCount: 0,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.validateInputName = this.validateInputName.bind(this);
@@ -80,6 +83,16 @@ class Register extends Component {
           // eslint-disable-next-line no-console
           console.log(error);
         });
+      if (this.state.checkCount !== 1) {
+        this.setState({
+          checkCount: 1,
+        });
+      }
+      setTimeout(() => {
+        this.setState({
+          checkCount: 0,
+        });
+      }, 3900);
     }
   }
 
@@ -240,9 +253,9 @@ class Register extends Component {
       emailInputTitle, passwordInputClassName, passwordInputTitle,
       confirmPasswordInputClassName, confirmPasswordInputTitle,
       phoneInputClassName, phoneInputTitle, isRegistered,
-      invalidEmailOrPassword,
+      invalidEmailOrPassword, unexpectedError, checkCount,
     } = this.state;
-    if (!isRegistered && !invalidEmailOrPassword) {
+    if (!isRegistered && !invalidEmailOrPassword && !unexpectedError) {
       return (
         <Container className="base-container" style={{ color: '#3498db' }}>
           <div className="header">Register</div>
@@ -299,10 +312,14 @@ class Register extends Component {
             <button type="submit" className="btn-reg" onClick={this.handleSubmit}>
               Register
             </button>
+            {checkCount !== 0 && (
+              <MyBadge variant="danger" message="Something went wrong on server!" />
+            )}
           </div>
         </Container>
       );
-    } if (invalidEmailOrPassword) {
+    }
+    if (invalidEmailOrPassword && !unexpectedError) {
       return (
         <div>
           <div
@@ -336,33 +353,58 @@ class Register extends Component {
           </div>
         </div>
       );
+    } if (isRegistered && !unexpectedError) {
+      return (
+        <div>
+          <div className="main">
+            <div className="before">
+              <div className="after" />
+            </div>
+          </div>
+          <div
+            className="focus-in-contract-bck"
+            style={{
+              fontSize: 30,
+              color: '#3498db',
+              marginTop: 220,
+            }}
+          >
+            <b>You are registered!</b>
+          </div>
+          <div
+            className="text-focus-in"
+            style={{
+              fontSize: 30,
+              color: '#3498db',
+              marginBottom: 40,
+            }}
+          >
+            Now you can log in :)
+          </div>
+        </div>
+      );
     }
     return (
       <div>
-        <div className="main">
-          <div className="before">
-            <div className="after" />
-          </div>
-        </div>
         <div
           className="focus-in-contract-bck"
           style={{
-            fontSize: 30,
+            fontSize: 27,
             color: '#3498db',
             marginTop: 220,
           }}
         >
-          <b>You are registered!</b>
+          <b>Something went wrong</b>
         </div>
         <div
           className="text-focus-in"
           style={{
-            fontSize: 30,
+            fontSize: 25,
             color: '#3498db',
-            marginBottom: 40,
+            marginBottom: 10,
           }}
         >
-          Now you can log in :)
+          Try again later
         </div>
       </div>
     );
