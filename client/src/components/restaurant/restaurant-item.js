@@ -6,7 +6,7 @@ import About from './restaurant-about';
 import Menu from '../menu-views/menu-view';
 import '../../styles/menu.css';
 import '../../styles/restaurant-item.css';
-import Feedback from '../feedbacks/feedback';
+import Feedback from '../feedback/feedback';
 
 class Restaurant extends Component {
   constructor(props) {

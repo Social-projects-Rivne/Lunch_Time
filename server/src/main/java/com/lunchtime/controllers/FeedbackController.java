@@ -1,28 +1,43 @@
 package com.lunchtime.controllers;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
 
+import com.lunchtime.service.dto.FeedbackDto;
 import com.lunchtime.models.Feedback;
-import com.lunchtime.service.impl.FeedbackServiceImpl;
+import com.lunchtime.service.FeedbackService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import javax.validation.Valid;
 
-//TODO remove redundant lines
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/feedback")
 public class FeedbackController {
 
-    //TODO rename variable name to normal CamelCase
-    private final FeedbackServiceImpl feedbackServiceimplementation;
+    private final FeedbackService feedbackService;
 
-    public FeedbackController(FeedbackServiceImpl feedbackServiceimplementation) {
-        this.feedbackServiceimplementation = feedbackServiceimplementation;
+    @PostMapping
+    public ResponseEntity<FeedbackDto> saveFeedback(
+        @Valid @RequestBody FeedbackDto feedbackDto) throws URISyntaxException {
+        if (feedbackDto.getId() != 0) {
+            return null;
+        }
+        FeedbackDto savedFeedbackDto = feedbackService.saveFeedback(feedbackDto);
+        if (savedFeedbackDto != null) {
+            return ResponseEntity.created(new URI("/api/restaurants"))
+                .body(savedFeedbackDto);
+        }
+        return ResponseEntity.badRequest()
+            .build();
     }
 
     @GetMapping(params = ("restaurantId"))
     public ResponseEntity<List<Feedback>> getAllByRestaurantId(@RequestParam("restaurantId") Long id) {
 
-        List<Feedback> feedback = feedbackServiceimplementation.findByRestId_Id(id);
+        List<Feedback> feedback = feedbackService.findByRestId_Id(id);
         if (feedback.isEmpty()) {
             return ResponseEntity.notFound().build();
         }

@@ -5,7 +5,8 @@ import lombok.Getter;
 import org.hibernate.annotations.ColumnDefault;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.sql.Date;
+import javax.validation.constraints.Size;
+import java.time.Instant;
 
 @Entity
 @Setter
@@ -16,7 +17,8 @@ public class Feedback {
     private Long id;
 
     @NotNull
-    @Column(name = "description", length = 400)
+    @Column(name = "description")
+    @Size(min = 10, max = 400)
     private String description;
 
     @ColumnDefault("true")
@@ -25,7 +27,7 @@ public class Feedback {
 
     @NotNull
     @Column(name = "date")
-    private Date date;
+    private Instant date;
 
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
@@ -47,7 +49,7 @@ public class Feedback {
 
     public Feedback() {   }
 
-    public Feedback(String description, Boolean isActive, Date date,
+    public Feedback(String description, Boolean isActive, Instant date,
                     Person person, Restaurant restId, Integer counterLike, Integer counterDislike) {
         this.description = description;
         this.isActive = isActive;

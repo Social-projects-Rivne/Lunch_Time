@@ -12,8 +12,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.net.URISyntaxException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+
 
 import static org.mockito.ArgumentMatchers.longThat;
 import static org.mockito.Mockito.*;
@@ -35,11 +35,12 @@ public class CategoryFoodControllerTest {
     @Test
     public void getAll() {
 
+
     }
 
     @Test
     public void getCategory() {
-        final List<CategoryFood> categoryFood = new ArrayList<CategoryFood>();
+        final List<CategoryFood> categoryFood = new ArrayList<>();
         CategoryFood category1 = new CategoryFood();
         CategoryFood category2 = new CategoryFood();
         CategoryFood category3 = new CategoryFood();
@@ -54,8 +55,9 @@ public class CategoryFoodControllerTest {
         categoryFood.add(category3);
         Long id = 1L;
 
-        when(mockCategoryFoodService.findById(id).isPresent()).thenReturn(true);
+        when(mockCategoryFoodService.findById(id).get()).thenReturn(category1);
         categoryFoodControllerUnderTest.getCategory(id);
+
         verify(mockCategoryFoodService, times(1)).findById(id);
         verifyNoMoreInteractions(mockCategoryFoodService);
     }
