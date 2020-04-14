@@ -9,9 +9,9 @@ import java.util.Optional;
 public interface PersonService {
     PersonDto savePerson(PersonDto person);
 
-    Optional<Person> findById(Long id);
-
     Person findByEmail(String email);
 
     Person findByPhoneNumber(String phoneNumber);
+
+    Optional<Person> getPersonById(Long id);
 }

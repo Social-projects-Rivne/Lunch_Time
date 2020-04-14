@@ -14,7 +14,6 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class PersonServiceImpl implements PersonService {
-
     private final PersonRepository personRepository;
     private final PersonMapper personMapper;
 
@@ -24,7 +23,7 @@ public class PersonServiceImpl implements PersonService {
         return personMapper.fromPersonToDto(person);
     }
 
-    public Optional<Person> findById(Long id) {
+    public Optional<Person> getPersonById(Long id) {
         return personRepository.findById(id);
     }
 

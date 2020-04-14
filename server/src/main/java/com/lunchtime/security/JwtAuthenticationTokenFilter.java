@@ -1,6 +1,5 @@
 package com.lunchtime.security;
 
-
 import com.lunchtime.service.impl.PersonDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,7 +18,6 @@ import java.io.IOException;
 
 @Component
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
-
     @Autowired
     private PersonDetailsImpl userDetailsService;
 

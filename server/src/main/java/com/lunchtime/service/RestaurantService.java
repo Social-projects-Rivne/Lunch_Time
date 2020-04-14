@@ -7,14 +7,13 @@ import org.springframework.data.domain.Pageable;
 import java.util.Optional;
 
 public interface RestaurantService {
+    Restaurant saveRestaurant(Restaurant restaurant);
 
-    Restaurant save(Restaurant restaurant);
+    Page<Restaurant> getRestaurantPage(Pageable pageable);
 
-    Page<Restaurant> findAll(Pageable pageable);
+    Optional<Restaurant> getRestaurantById(Long id);
 
-    Optional<Restaurant> findById(Long id);
+    Restaurant updateRestaurant(Restaurant restaurant);
 
-    Restaurant update(Restaurant restaurant);
-
-    Restaurant delete(Long id);
+    Restaurant deleteRestaurantById(Long id);
 }

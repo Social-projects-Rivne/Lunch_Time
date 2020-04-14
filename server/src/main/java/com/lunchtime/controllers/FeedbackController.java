@@ -1,22 +1,21 @@
 package com.lunchtime.controllers;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-
-import com.lunchtime.service.dto.FeedbackDto;
 import com.lunchtime.models.Feedback;
 import com.lunchtime.service.FeedbackService;
+import com.lunchtime.service.dto.FeedbackDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/feedback")
 public class FeedbackController {
-
     private final FeedbackService feedbackService;
 
     @PostMapping
@@ -36,8 +35,7 @@ public class FeedbackController {
 
     @GetMapping(params = ("restaurantId"))
     public ResponseEntity<List<Feedback>> getAllByRestaurantId(@RequestParam("restaurantId") Long id) {
-
-        List<Feedback> feedback = feedbackService.findByRestId_Id(id);
+        List<Feedback> feedback = feedbackService.getFeedbackListByRestaurantId(id);
         if (feedback.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
