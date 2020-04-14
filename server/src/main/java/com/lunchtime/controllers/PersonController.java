@@ -4,6 +4,7 @@ import com.lunchtime.models.Person;
 import com.lunchtime.service.PersonDto;
 import com.lunchtime.service.PersonService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -26,7 +27,14 @@ public class PersonController {
         if (personDto.getId() != null) {
             return ResponseEntity.badRequest()
                 .build();
+        } else if (personService.findByEmail(personDto.getEmail()) != null) {
+            return ResponseEntity.badRequest()
+                .build();
+        } else if (personService.findByPhoneNumber(personDto.getPhoneNumber()) != null) {
+            return ResponseEntity.badRequest()
+                .build();
         }
+        personService.findByPhoneNumber(personDto.getPhoneNumber());
 
         PersonDto savedPersonDto = personService.savePerson(personDto);
 

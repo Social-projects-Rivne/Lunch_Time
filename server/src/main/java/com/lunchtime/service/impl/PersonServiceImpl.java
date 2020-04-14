@@ -6,6 +6,7 @@ import com.lunchtime.service.PersonDto;
 import com.lunchtime.service.PersonMapper;
 import com.lunchtime.service.PersonService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -25,5 +26,15 @@ public class PersonServiceImpl implements PersonService {
 
     public Optional<Person> findById(Long id) {
         return personRepository.findById(id);
+    }
+
+    @Override
+    public Person findByEmail(String email) {
+        return personRepository.findFirstByEmail(email);
+    }
+
+    @Override
+    public Person findByPhoneNumber(String phoneNumber) {
+        return personRepository.findPersonByPhoneNumber(phoneNumber);
     }
 }
