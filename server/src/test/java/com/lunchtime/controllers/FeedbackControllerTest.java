@@ -87,7 +87,6 @@ public class FeedbackControllerTest {
         restaurant.setDescription("description");
         restaurant.setWorkingTime("workingTime");
         restaurant.setDeleted(false);
-        restaurant.setMenuId(0L);
         restaurant.setPerson(initPerson());
         restaurant.setTables(0);
         restaurant.setLongitude(0.0f);
