@@ -4,4 +4,6 @@
 .dockerignore
 .factorypath
 .mvn/
+target/
 Dockerfile
+Dockerfile.prod

@@ -1,0 +1,37 @@
+version: "3.3"
+
+services:
+  db:
+    image: postgres:12.2
+    container_name: lunch-time-db-prod
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: "lunchtime"
+      POSTGRES_USER: "lunchTimeAppUser"
+      POSTGRES_PASSWORD: "kfyxnfqVRv54"
+
+  server:
+    build:
+      context: ./server/
+      dockerfile: Dockerfile.prod
+    container_name: lunch-time-server-prod
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/lunchtime?useUnicode=true&characterEncoding=utf8&useSSL=false
+    working_dir: /app
+    command: java -jar target/LunchTime-0.0.1-SNAPSHOT.jar --spring.profiles.active=prod
+
+  client:
+    build:
+      context: ./client/
+      dockerfile: Dockerfile.prod
+    container_name: lunch-time-client-prod
+    depends_on:
+      - server
+    ports:
+      - "80:3000"
+    command: npm run start:server

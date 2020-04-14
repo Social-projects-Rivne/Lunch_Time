@@ -1,21 +1,28 @@
 package com.lunchtime.config;
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.Environment;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class WebConfiguration implements WebMvcConfigurer {
+
+    private Environment env;
+
+    public WebConfiguration(Environment env) {
+        this.env = env;
+    }
+
     @Override
     public void addCorsMappings(CorsRegistry registry) {
+        String urls = env.getProperty("cors.urls");
+
         registry
             .addMapping("/api/**")
             .allowedMethods("POST", "PUT", "GET", "DELETE")
-            //TODO it would be better to have this list of urls in some property file. In such case,
-            // you will be able to modify
-            // this list without creating new PR, for example for prod env, you will need only ssh
-            .allowedOrigins("http://localhost:3000")
+            .allowedOrigins(urls)
             .allowedHeaders("*")
             .allowCredentials(true);
     }
