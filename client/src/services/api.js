@@ -59,9 +59,9 @@ class Api {
     } catch (error) {
       return null;
     }
-
     return data;
   }
+
 
   getApiEndpoint(endpoint) {
     if (this.apiUrl.endsWith('/') && endpoint.startsWith('/')) {
@@ -73,4 +73,5 @@ class Api {
     return `${this.apiUrl}${endpoint}`;
   }
 }
+
 export default new Api();
