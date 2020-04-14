@@ -1,11 +1,9 @@
 package com.lunchtime.controllers;
 
-import com.lunchtime.mapper.PersonMapper;
 import com.lunchtime.models.Person;
 import com.lunchtime.models.PersonDto;
 import com.lunchtime.models.PersonPassDto;
 import com.lunchtime.service.PersonService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,11 +14,14 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/persons")
-@RequiredArgsConstructor
 public class PersonController {
 
     private final PersonService personService;
-    private final PersonMapper personMapper;
+
+    public PersonController(PersonService personService) {
+        this.personService = personService;
+    }
+
 
     @PostMapping
     public ResponseEntity<Person> create(@Valid @RequestBody Person person) throws URISyntaxException {
@@ -60,9 +61,8 @@ public class PersonController {
     @GetMapping("{id}")
     //TODO create some better name for method. see other comments
     public ResponseEntity<PersonDto> getOne(@PathVariable Long id) {
-        Optional<Person> person = personService.findById(id);
-        if (person.isPresent()) {
-            PersonDto personDto = personMapper.fromPersonToDto(person.get());
+        PersonDto personDto = personService.getPersonDtoById(id);
+        if (personDto != null) {
             return ResponseEntity.ok()
                 .body(personDto);
         }

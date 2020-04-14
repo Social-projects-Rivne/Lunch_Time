@@ -150,7 +150,7 @@ class InfoChange extends React.Component {
           Submit
         </Button>
         <Link to="info">
-          <Button className="ml-3 m-button">Cancel</Button>
+          <Button variant="danger" className="ml-3">Cancel</Button>
         </Link>
       </Container>
     );

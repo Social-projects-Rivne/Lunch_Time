@@ -40,4 +40,9 @@ public class PersonServiceImpl implements PersonService {
     public Optional<Person> findById(Long id) {
         return personRepository.findById(id);
     }
+
+    public PersonDto getPersonDtoById(Long id) {
+        Optional<Person> result = personRepository.findById(id);
+        return result.map(personMapper::fromPersonToDto).orElse(null);
+    }
 }
