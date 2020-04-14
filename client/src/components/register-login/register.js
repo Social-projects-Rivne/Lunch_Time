@@ -293,8 +293,12 @@ class Register extends Component {
       );
     }
     return (
-      <div>
-        You are registered!
+      <div className="main">
+        <div className="before">
+          <div className="after">
+            You are registered!
+          </div>
+        </div>
       </div>
     );
   }
