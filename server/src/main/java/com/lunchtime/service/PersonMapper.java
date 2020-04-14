@@ -10,14 +10,13 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class PersonMapper {
     final PersonRepository personRepository;
-    final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public Person fromDtoToPerson(PersonDto personDto) {
         Person person = new Person();
         person.setName(personDto.getName());
         person.setPhoneNumber(personDto.getPhoneNumber());
         person.setEmail(personDto.getEmail());
-        person.setPassword(bCryptPasswordEncoder.encode(personDto.getPassword()));
+        person.setPassword(personDto.getPassword());
         return person;
     }
 
