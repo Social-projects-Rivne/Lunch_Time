@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping
 public class AuthController {
-
     @Autowired
     private AuthenticationManager authenticationManager;
 
@@ -28,7 +27,6 @@ public class AuthController {
     @PostMapping("/api/authenticate")
     public ResponseEntity<?> createAuthenticationToken(
         @RequestBody JwtPersonDetails jwtPersonDetails) throws Exception {
-
         try {
             authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(jwtPersonDetails.getEmail(), jwtPersonDetails.getPassword())
@@ -40,8 +38,6 @@ public class AuthController {
             .loadUserByUsername(jwtPersonDetails.getEmail());
         final String jwt = jwtTokenUtil.generateToken(userDetails);
         JwtAuthenticationToken token = new JwtAuthenticationToken(jwt);
-
         return ResponseEntity.ok(token.getJwt());
     }
-
 }

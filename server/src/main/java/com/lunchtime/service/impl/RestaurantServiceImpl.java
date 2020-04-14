@@ -12,7 +12,6 @@ import java.util.Optional;
 
 @Service
 public class RestaurantServiceImpl implements RestaurantService {
-
     private final RestaurantRepository restaurantRepository;
     private final PersonService personService;
 
@@ -21,28 +20,25 @@ public class RestaurantServiceImpl implements RestaurantService {
         this.personService = personService;
     }
 
-    public Restaurant save(Restaurant restaurant) {
-        return personService.findById(restaurant.getPerson().getId())
+    public Restaurant saveRestaurant(Restaurant restaurant) {
+        return personService.getPersonById(restaurant.getPerson().getId())
             .map(person -> {
                 restaurant.setPerson(person);
                 return restaurantRepository.save(restaurant);
             })
-            // TODO simple ... .orElseGet(null)
-            .orElseGet(() -> {
-                return null;
-            });
+            .orElse(null);
     }
 
-    public Page<Restaurant> findAll(Pageable pageable) {
-        return restaurantRepository.findAll(pageable);
+    public Page<Restaurant> getRestaurantPage(Pageable pageable) {
+        return restaurantRepository.findByIsDeletedFalse(pageable);
     }
 
-    public Optional<Restaurant> findById(Long id) {
-        return restaurantRepository.findById(id);
+    public Optional<Restaurant> getRestaurantById(Long id) {
+        return restaurantRepository.findByIdAndIsDeletedFalse(id);
     }
 
-    public Restaurant update(Restaurant newRestaurant) {
-        return findById(newRestaurant.getId())
+    public Restaurant updateRestaurant(Restaurant newRestaurant) {
+        return getRestaurantById(newRestaurant.getId())
             .map(restaurant -> {
                 restaurant.setName(newRestaurant.getName());
                 restaurant.setEmail(newRestaurant.getEmail());
@@ -54,23 +50,17 @@ public class RestaurantServiceImpl implements RestaurantService {
                 restaurant.setTables(newRestaurant.getTables());
                 restaurant.setLongitude(newRestaurant.getLongitude());
                 restaurant.setLatitude(newRestaurant.getLatitude());
-                return save(restaurant);
+                return saveRestaurant(restaurant);
             })
-            // TODO simple ... .orElseGet(null)
-            .orElseGet(() -> {
-                return null;
-            });
+            .orElse(null);
     }
 
-    public Restaurant delete(Long id) {
-        return findById(id)
+    public Restaurant deleteRestaurantById(Long id) {
+        return getRestaurantById(id)
             .map(restaurant -> {
-                restaurant.setIsDeleted(true);
-                return save(restaurant);
+                restaurant.setDeleted(true);
+                return saveRestaurant(restaurant);
             })
-            .orElseGet(() -> {
-                return null;
-            });
-        // TODO simple ... .orElseGet(null)
+            .orElse(null);
     }
 }

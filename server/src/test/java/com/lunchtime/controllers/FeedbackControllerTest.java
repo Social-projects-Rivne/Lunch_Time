@@ -54,4 +54,57 @@ public class FeedbackControllerTest {
 
         Assertions.assertNotNull(feedbackDto1);
     }
+
+    @Test
+    public void testGetAllByRestaurantId() throws Exception {
+        final List<Feedback> feedback = Collections.singletonList(initFeedback());
+
+        when(mockFeedbackService.getFeedbackListByRestaurantId(0L)).thenReturn(feedback);
+        feedbackControllerUnderTest.getAllByRestaurantId(0L);
+
+        verify(mockFeedbackService, times(1)).getFeedbackListByRestaurantId(0L);
+        verifyNoMoreInteractions(mockFeedbackService);
+    }
+
+    private Feedback initFeedback() {
+        Feedback feedback = new Feedback();
+        feedback.setDescription("description");
+        feedback.setActive(false);
+        feedback.setDate(Instant.ofEpochSecond(0L));
+        feedback.setPerson(initPerson());
+        feedback.setRestaurant(initRestaurant());
+        feedback.setCounterLike(0);
+        feedback.setCounterDislike(0);
+        return feedback;
+    }
+
+    private Restaurant initRestaurant() {
+        Restaurant restaurant = new Restaurant();
+        restaurant.setName("name");
+        restaurant.setEmail("email");
+        restaurant.setTextAddress("textAddress");
+        restaurant.setWebsite("website");
+        restaurant.setDescription("description");
+        restaurant.setWorkingTime("workingTime");
+        restaurant.setDeleted(false);
+        restaurant.setMenuId(0L);
+        restaurant.setPerson(initPerson());
+        restaurant.setTables(0);
+        restaurant.setLongitude(0.0f);
+        restaurant.setLatitude(0.0f);
+        restaurant.setCreatedAt(Instant.ofEpochSecond(0L));
+        restaurant.setCreatedBy(0L);
+        restaurant.setModifyAt(Instant.ofEpochSecond(0L));
+        restaurant.setModifyBy(0L);
+        return restaurant;
+    }
+
+    private Person initPerson() {
+        Person person = new Person();
+        person.setName("name");
+        person.setEmail("email");
+        person.setPassword("password");
+        person.setPhoneNumber("phoneNumber");
+        return person;
+    }
 }

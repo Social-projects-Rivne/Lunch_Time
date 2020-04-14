@@ -7,20 +7,19 @@ import java.util.List;
 import java.util.Optional;
 
 public interface EventService {
+    List<Event> getEventList();
 
-    List<Event> findAll();
+    List<Event> getEventListByCategory(String[] category);
 
-    List<Event> findByCategory(String[] category);
+    List<Event> getEventListByDay(Date date);
 
-    List<Event> findByDay(Date date);
+    List<Event> getEventListByDateBetween(Date startDate, Date endDate);
 
-    List<Event> findByDateBetween(Date startDate, Date endDate);
+    List<Event> getEventListByMonth(String month);
 
-    List<Event> findByMonth(String month);
+    Optional<Event> getEventById(Long id);
 
-    Optional<Event> findById(Long id);
+    Optional<Event> deleteEventById(Long id);
 
-    Optional<Event> deleteById(Long id);
-
-    void save(Event event);
+    void saveEvent(Event event);
 }

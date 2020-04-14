@@ -5,24 +5,19 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.hibernate.annotations.Where;
 
 
 @Entity
-//TODO It is a bad idea to add this stuff here. You should use it in repository.
-@Where(clause = "is_deleted = false or is_deleted is NULL")
 @Setter
 @Getter
 
 public class Restaurant {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank
@@ -50,12 +45,11 @@ public class Restaurant {
     private String workingTime;
 
     @Column(name = "is_deleted")
-    private Boolean isDeleted;
-    //TODO I believe you will need the primitive type here. Use boolean
+    private boolean isDeleted;
 
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "person_id",referencedColumnName = "id")
+    @JoinColumn(name = "person_id", referencedColumnName = "id")
     private Person person;
 
     @Column(name = "tables")
@@ -81,51 +75,8 @@ public class Restaurant {
     @Column(name = "modify_by")
     private Long modifyBy;
 
+    public Restaurant() {
 
-    public Boolean isDeleted() {
-        if (isDeleted == null) {
-            return false;
-        }
-        return isDeleted;
-    }
-
-    public void setDeleted(Boolean deleted) {
-        isDeleted = deleted;
-    }
-
-    public Restaurant(){
-
-    }
-    //TODO I believe that you are not using this constructor somewhere in app (except seed).
-    // just FYI if you have some constructor with such a huge number of params use Builder pattern.
-    // It will help to construct
-    // object without any mistakes. Currently, you have 6 strings in a row and you can put textAddress as a website.
-
-    public Restaurant(String name,
-                      String email, String textAddress,
-                      String website, String description,
-                      String workingTime, Boolean isDeleted,
-                      Person person,
-                      Integer tables, Float longitude,
-                      Float latitude, Instant createdAt,
-                      Long createdBy, Instant modifyAt,
-                      Long modifyBy) {
-
-        this.name = name;
-        this.email = email;
-        this.textAddress = textAddress;
-        this.website = website;
-        this.description = description;
-        this.workingTime = workingTime;
-        this.isDeleted = isDeleted;
-        this.person = person;
-        this.tables = tables;
-        this.longitude = longitude;
-        this.latitude = latitude;
-        this.createdAt = createdAt;
-        this.createdBy = createdBy;
-        this.modifyAt = modifyAt;
-        this.modifyBy = modifyBy;
     }
 
 }
