@@ -28,9 +28,13 @@ public class PersonController {
                 .build();
         }
 
-        PersonDto result = personService.savePerson(personDto);
-        return ResponseEntity.created(new URI("/api/persons"))
-            .body(result);
+        PersonDto savedPersonDto = personService.savePerson(personDto);
+
+        if (savedPersonDto != null) {
+            return ResponseEntity.created(new URI("/api/restaurants"))
+                .body(savedPersonDto);
+        }
+        return null;
     }
 
     @GetMapping("{id}")
