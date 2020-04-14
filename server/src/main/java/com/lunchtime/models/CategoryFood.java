@@ -4,6 +4,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 @Getter
 @Setter
@@ -18,6 +19,7 @@ public class CategoryFood {
     @Column(name = "name")
     private String name;
 
+    @ColumnDefault("false")
     @Column(name = "is_deleted")
     private boolean isDeleted;
 

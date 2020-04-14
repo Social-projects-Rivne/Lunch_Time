@@ -5,6 +5,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 @Getter
 @Setter
@@ -23,6 +24,7 @@ public class Dish {
     @Column(name = "ingredients", length = 255)
     private String ingredients;
 
+    @ColumnDefault("false")
     @Column(name = "is_deleted")
     private boolean isDeleted;
 

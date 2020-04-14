@@ -13,6 +13,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 @Getter
 @Setter
@@ -39,6 +40,7 @@ public class MenuItemDish {
     @Column(name = "image_URL")
     private String imageUrl;
 
+    @ColumnDefault("false")
     @Column(name = "is_deleted")
     private Boolean isDeleted;
 
