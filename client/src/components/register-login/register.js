@@ -31,6 +31,7 @@ class Register extends Component {
       passwordInputClassName: '',
       confirmPasswordInputTitle: '',
       confirmPasswordInputClassName: '',
+      isRegistered: false,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.validateInputName = this.validateInputName.bind(this);
@@ -60,8 +61,9 @@ class Register extends Component {
       Api.post('persons', body)
         .then((response) => {
           if (response.status === 201) {
-            // eslint-disable-next-line no-console
-            console.log('Created with 201');
+            this.setState({
+              isRegistered: true,
+            });
           }
         })
         .catch((error) => {
@@ -227,66 +229,73 @@ class Register extends Component {
       nameInputClassName, nameInputTitle, emailInputClassName,
       emailInputTitle, passwordInputClassName, passwordInputTitle,
       confirmPasswordInputClassName, confirmPasswordInputTitle,
-      phoneInputClassName, phoneInputTitle,
+      phoneInputClassName, phoneInputTitle, isRegistered,
     } = this.state;
-    return (
-      <Container className="base-container" style={{ color: '#3498db' }}>
-        <div className="header">Register</div>
-        <div className="content">
-          <div className="image">
-            <img src="/img/register.png" alt="register" />
+    if (!isRegistered) {
+      return (
+        <Container className="base-container" style={{ color: '#3498db' }}>
+          <div className="header">Register</div>
+          <div className="content">
+            <div className="image">
+              <img src="/img/register.png" alt="register" />
+            </div>
+            <Form className="form" onSubmit={this.handleSubmit}>
+              <FormGroup>
+                <FormLabel htmlFor="text">Name</FormLabel>
+                <input
+                  className={nameInputClassName}
+                  title={nameInputTitle}
+                  type="text"
+                  placeholder="name"
+                  value={this.state.name}
+                  onChange={this.validateInputName}
+                />
+                <FormLabel htmlFor="text">Phone number</FormLabel>
+                <input
+                  className={phoneInputClassName}
+                  title={phoneInputTitle}
+                  type="text"
+                  placeholder="phone number"
+                  onChange={this.validateInputPhone}
+                />
+                <FormLabel htmlFor="email">e-mail</FormLabel>
+                <input
+                  className={emailInputClassName}
+                  title={emailInputTitle}
+                  type="email"
+                  placeholder="email"
+                  onChange={this.validateInputEmail}
+                />
+                <FormLabel htmlFor="password">Password</FormLabel>
+                <input
+                  className={passwordInputClassName}
+                  title={passwordInputTitle}
+                  type="password"
+                  placeholder="password"
+                  onChange={this.validateInputPassword}
+                />
+                <input
+                  className={confirmPasswordInputClassName}
+                  title={confirmPasswordInputTitle}
+                  type="password"
+                  placeholder="confirm password"
+                  onChange={this.validateConfirmPassword}
+                />
+              </FormGroup>
+            </Form>
           </div>
-          <Form className="form" onSubmit={this.handleSubmit}>
-            <FormGroup>
-              <FormLabel htmlFor="text">Name</FormLabel>
-              <input
-                className={nameInputClassName}
-                title={nameInputTitle}
-                type="text"
-                placeholder="name"
-                value={this.state.name}
-                onChange={this.validateInputName}
-              />
-              <FormLabel htmlFor="text">Phone number</FormLabel>
-              <input
-                className={phoneInputClassName}
-                title={phoneInputTitle}
-                type="text"
-                placeholder="phone number"
-                onChange={this.validateInputPhone}
-              />
-              <FormLabel htmlFor="email">e-mail</FormLabel>
-              <input
-                className={emailInputClassName}
-                title={emailInputTitle}
-                type="email"
-                placeholder="email"
-                onChange={this.validateInputEmail}
-              />
-              <FormLabel htmlFor="password">Password</FormLabel>
-              <input
-                className={passwordInputClassName}
-                title={passwordInputTitle}
-                type="password"
-                placeholder="password"
-                onChange={this.validateInputPassword}
-              />
-              <input
-                className={confirmPasswordInputClassName}
-                title={confirmPasswordInputTitle}
-                type="password"
-                placeholder="confirm password"
-                onChange={this.validateConfirmPassword}
-              />
-            </FormGroup>
-          </Form>
-        </div>
-        <div className="footer">
-          <button type="submit" className="btn-reg" onClick={this.handleSubmit}>
-            Register
-          </button>
-        </div>
-      </Container>
+          <div className="footer">
+            <button type="submit" className="btn-reg" onClick={this.handleSubmit}>
+              Register
+            </button>
+          </div>
+        </Container>
+      );
+    }
+    return (
+      <div>
+        You are registered!
+      </div>
     );
   }
 }
