@@ -5,6 +5,7 @@ import Api from '../../services/api';
 import '../../styles/feedback-send.css';
 import MyBadge from '../shared/my-batch';
 import CancelButton from '../shared/button/cancel';
+import Auth from '../../services/auth';
 
 class FeedbackSend extends Component {
   constructor(props) {
@@ -21,6 +22,7 @@ class FeedbackSend extends Component {
       inputDisabled: false,
       attemptCount: false,
       validInput: true,
+      loggedUser: Auth.isAuthenticated(),
     };
     this.onSubmit = this.onSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -200,7 +202,7 @@ class FeedbackSend extends Component {
     const {
       inputDisabled, description, isLoading, tooShortFeedback,
       tooLongFeedback, feedbackNotSent, timerCount,
-      showTimer, attemptCount, feedbackSent, validInput,
+      showTimer, attemptCount, feedbackSent, validInput, loggedUser,
     } = this.state;
     const tooLong = 'Your feedback must be not more than 400 symbols';
     return (
@@ -218,7 +220,7 @@ class FeedbackSend extends Component {
         <Button
           className="btnFormSend"
           variant="outline-success"
-          disabled={isLoading && validInput}
+          disabled={isLoading && validInput && loggedUser}
           onClick={this.onSubmit}
         >
           {isLoading ? 'Sending...' : 'Send feedback'}
