@@ -17,7 +17,7 @@ const info = [
   },
 ];
 
-export const title = 'All events and activities in restaurants, cafes and bars';
+export const title = 'EVENTS';
 export const placeHolder = 'Search events';
 
 export default info;
