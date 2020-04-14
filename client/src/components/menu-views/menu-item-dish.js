@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
   Container, Row,
-  Image, Col, Form,
+  Image, Col, Button,
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import Dish from './dish';
@@ -46,7 +46,9 @@ class MenuItemDish extends Component {
               </Col>
               <Col className="col-item">
                 <br />
-                <Form.Check type="checkbox" />
+                <Button variant="primary">
+                  Add
+                </Button>
               </Col>
             </Row>
           );
