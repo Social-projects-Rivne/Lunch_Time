@@ -59,7 +59,6 @@ class Api {
     } catch (error) {
       return null;
     }
-
     return data;
   }
 
@@ -86,4 +85,5 @@ class Api {
     return `${this.apiUrl}${endpoint}`;
   }
 }
+
 export default new Api();

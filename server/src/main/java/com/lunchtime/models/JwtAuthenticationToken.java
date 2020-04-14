@@ -1,10 +1,8 @@
 package com.lunchtime.models;
 
-
 import java.io.Serializable;
 
 public class JwtAuthenticationToken implements Serializable {
-
     private final String jwt;
 
     public JwtAuthenticationToken(String jwt) {
@@ -14,5 +12,4 @@ public class JwtAuthenticationToken implements Serializable {
     public String getJwt() {
         return jwt;
     }
-
 }

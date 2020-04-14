@@ -4,8 +4,7 @@ import PropTypes from 'prop-types';
 import Api from '../../services/api';
 import About from './restaurant-about';
 import '../../styles/restaurant-item.css';
-import Feedback from '../feedbacks/feedback';
-
+import Feedback from '../feedback/feedback';
 
 class Restaurant extends Component {
   constructor(props) {

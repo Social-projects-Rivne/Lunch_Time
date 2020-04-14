@@ -18,16 +18,15 @@ import java.util.Date;
 @Entity
 @Table(name = "event")
 public class Event {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
     //TODO EAGER is not a good option, because if you will have a huge amount of restaurants your app can crash.
     //Use LAZY and modify logic
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "restaurant",referencedColumnName = "id")
+    @JoinColumn(name = "restaurant", referencedColumnName = "id")
     private Restaurant restaurant;
 
     @NotNull
@@ -44,9 +43,10 @@ public class Event {
     @Column(name = "name")
     private String name;
 
-    @NotBlank
-    @Column(name = "category")
-    private String category;
+    @NotNull
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "event_category_id", referencedColumnName = "id")
+    private EventCategory eventCategory;
 
     @NotBlank
     @Size(min = 6, max = 999)
@@ -54,7 +54,7 @@ public class Event {
     private String description;
 
     @Column(name = "is_deleted")
-    private Boolean isDeleted;
+    private boolean isDeleted;
 
     public void setDate(String date) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -64,5 +64,8 @@ public class Event {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+    }
+
+    public Event() {
     }
 }

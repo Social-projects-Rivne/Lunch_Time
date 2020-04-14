@@ -14,7 +14,6 @@ import java.net.URISyntaxException;
 @RestController
 @RequestMapping("/api/persons")
 public class PersonController {
-
     private final PersonService personService;
 
     public PersonController(PersonService personService) {
@@ -23,20 +22,19 @@ public class PersonController {
 
 
     @PostMapping
-    public ResponseEntity<Person> create(@Valid @RequestBody Person person) throws URISyntaxException {
+    public ResponseEntity<Person> createPerson(@Valid @RequestBody Person person) throws URISyntaxException {
         if (person.getId() != null) {
             return ResponseEntity.badRequest()
                 .build();
         }
-
-        Person result = personService.save(person);
+        Person result = personService.savePerson(person);
         return ResponseEntity.created(new URI("/api/persons"))
             .body(result);
     }
 
     @PutMapping
     public ResponseEntity<PersonDto> update(@Valid @RequestBody PersonDto personDto) {
-        PersonDto result = personService.update(personDto);
+        PersonDto result = personService.updatePerson(personDto);
         if (result != null) {
             return ResponseEntity.ok(result);
         }
@@ -58,8 +56,7 @@ public class PersonController {
     }
 
     @GetMapping("{id}")
-    //TODO create some better name for method. see other comments
-    public ResponseEntity<PersonDto> getOne(@PathVariable Long id) {
+    public ResponseEntity<PersonDto> getPersonById(@PathVariable Long id) {
         PersonDto personDto = personService.getPersonDtoById(id);
         if (personDto != null) {
             return ResponseEntity.ok()

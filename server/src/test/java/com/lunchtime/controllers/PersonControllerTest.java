@@ -37,7 +37,7 @@ public class PersonControllerTest {
     @Test
     public void testUpdate() throws Exception {
         final ResponseEntity<PersonDto> result = personControllerUnderTest.update(personDto);
-        verify(mockPersonService).update(personDto);
+        verify(mockPersonService).updatePerson(personDto);
         verifyNoMoreInteractions(mockPersonService);
         Assertions.assertNotNull(result);
     }
@@ -58,7 +58,7 @@ public class PersonControllerTest {
     @Test
     public void testGetPersonDto() throws Exception {
         when(mockPersonService.getPersonDtoById(0L)).thenReturn(personDto);
-        personControllerUnderTest.getOne(0L);
+        personControllerUnderTest.getPersonById(0L);
         verify(mockPersonService, times(1)).getPersonDtoById(0L);
         verifyNoMoreInteractions(mockPersonService);
     }

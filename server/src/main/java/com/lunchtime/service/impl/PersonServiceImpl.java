@@ -14,15 +14,14 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class PersonServiceImpl implements PersonService {
-
     private final PersonRepository personRepository;
     private final PersonMapper personMapper;
 
-    public Person save(Person person) {
+    public Person savePerson(Person person) {
         return personRepository.save(person);
     }
 
-    public PersonDto update(PersonDto personDto) {
+    public PersonDto updatePerson(PersonDto personDto) {
         Person person = personMapper.fromDtoToPerson(personDto);
         personRepository.save(person);
         return personDto;
@@ -42,12 +41,12 @@ public class PersonServiceImpl implements PersonService {
         return null;
     }
 
-    public Optional<Person> findById(Long id) {
-        return personRepository.findById(id);
-    }
-
     public PersonDto getPersonDtoById(Long id) {
         Optional<Person> result = personRepository.findById(id);
         return result.map(personMapper::fromPersonToDto).orElse(null);
+    }
+
+    public Optional<Person> getPersonById(Long id) {
+        return personRepository.findById(id);
     }
 }

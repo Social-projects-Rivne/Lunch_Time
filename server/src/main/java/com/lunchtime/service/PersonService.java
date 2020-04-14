@@ -9,13 +9,13 @@ import java.util.Optional;
 
 @Service
 public interface PersonService {
-    Person save(Person person);
+    Person savePerson(Person person);
 
-    Optional<Person> findById(Long id);
+    PersonDto updatePerson(PersonDto personDto);
+
+    PersonPassDto updatePassword(PersonPassDto personPassDto) throws Exception;
 
     PersonDto getPersonDtoById(Long id);
 
-    PersonDto update(PersonDto personDto);
-
-    PersonPassDto updatePassword(PersonPassDto personPassDto) throws Exception;
+    Optional<Person> getPersonById(Long id);
 }
