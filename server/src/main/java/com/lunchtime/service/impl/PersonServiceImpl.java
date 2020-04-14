@@ -9,20 +9,17 @@ import java.util.Optional;
 
 @Service
 public class PersonServiceImpl implements PersonService {
-
     private final PersonRepository personRepository;
 
     public PersonServiceImpl(PersonRepository personRepository) {
         this.personRepository = personRepository;
     }
 
-    public Person save(Person person) {
+    public Person savePerson(Person person) {
         return personRepository.save(person);
     }
 
-    public Optional<Person> findById(Long id) {
+    public Optional<Person> getPersonById(Long id) {
         return personRepository.findById(id);
     }
-
-
 }

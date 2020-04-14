@@ -1,9 +1,9 @@
 package com.lunchtime.service.impl;
 
 import com.lunchtime.models.Event;
+import com.lunchtime.repository.EventCategoryRepository;
 import com.lunchtime.repository.EventRepository;
 import com.lunchtime.service.EventService;
-import com.lunchtime.util.Validator;
 import org.springframework.stereotype.Service;
 
 import java.time.Month;
@@ -12,32 +12,41 @@ import java.util.concurrent.TimeUnit;
 
 @Service
 public class EventServiceImpl implements EventService {
-
     private final EventRepository eventRepository;
+    private final EventCategoryRepository eventCategoryRepository;
 
-    public EventServiceImpl(EventRepository eventRepository) {
+    public EventServiceImpl(EventRepository eventRepository,
+                            EventCategoryRepository eventCategoryRepository) {
         this.eventRepository = eventRepository;
+        this.eventCategoryRepository = eventCategoryRepository;
     }
 
-    public List<Event> findAll() {
-        return eventRepository.findByDateGreaterThanAndIsDeletedFalseOrderByDateAsc(new Date());
+    public List<Event> getEventList() {
+        return eventRepository.findAll(new Date());
     }
 
-    public List<Event> findByCategory(String[] category) {
-        return eventRepository.findByDateGreaterThanAndCategoryInAndIsDeletedFalse(new Date(), category);
+    public List<Event> getEventListByCategory(String[] category) {
+        return eventRepository.findAllByCategory(new Date(), getCategoryIdList(category));
     }
 
-    public List<Event> findByDay(Date date) {
+    private Long[] getCategoryIdList(String[] category) {
+        List<Long> categoryId = eventCategoryRepository.findIdOfCategory(category);
+        Long[] categoryIdArray = new Long[categoryId.size()];
+        categoryId.toArray(categoryIdArray);
+        return categoryIdArray;
+    }
+
+    public List<Event> getEventListByDay(Date date) {
         Date end = new Date(date.getTime() + TimeUnit.DAYS.toMillis(1));
-        return eventRepository.findByDateBetweenAndIsDeletedFalseOrderByDateAsc(date, end);
+        return eventRepository.findAllByDateBetween(date, end);
     }
 
-    public List<Event> findByDateBetween(Date startDate, Date endDate) {
+    public List<Event> getEventListByDateBetween(Date startDate, Date endDate) {
         Date end = new Date(endDate.getTime() + TimeUnit.DAYS.toMillis(1));
-        return eventRepository.findByDateBetweenAndIsDeletedFalseOrderByDateAsc(startDate, end);
+        return eventRepository.findAllByDateBetween(startDate, end);
     }
 
-    public List<Event> findByMonth(String month) throws IllegalArgumentException {
+    public List<Event> getEventListByMonth(String month) throws IllegalArgumentException {
         int monthOrdinal = Month.valueOf(month.toUpperCase()).ordinal();
         int currentYear = Calendar.getInstance().get(Calendar.YEAR);
         int currentMonth = Calendar.getInstance().get(Calendar.MONTH);
@@ -46,30 +55,25 @@ public class EventServiceImpl implements EventService {
         }
         Date start = new GregorianCalendar(currentYear, monthOrdinal, 1).getTime();
         Date end = new GregorianCalendar(currentYear, monthOrdinal + 1, 1).getTime();
-        return eventRepository.findByDateBetweenAndIsDeletedFalseOrderByDateAsc(start, end);
+        return eventRepository.findAllByDateBetween(start, end);
     }
 
-    public Optional<Event> findById(Long id) {
+    public Optional<Event> getEventById(Long id) {
         return eventRepository.findById(id);
     }
 
-    public Optional<Event> deleteById(Long id) {
-        Optional<Event> result = findById(id);
+    public Optional<Event> deleteEventById(Long id) {
+        Optional<Event> result = getEventById(id);
         if (result.isPresent()) {
             Event event = result.get();
-            event.setIsDeleted(true);
-            save(event);
+            event.setDeleted(true);
+            saveEvent(event);
             return Optional.of(event);
         }
         return Optional.empty();
     }
 
-    public void save(Event event) throws IllegalArgumentException {
-        String category = event.getCategory();
-        if (Validator.checkCategory(category)) {
-            eventRepository.save(event);
-        } else {
-            throw new IllegalArgumentException();
-        }
+    public void saveEvent(Event event) {
+        eventRepository.save(event);
     }
 }

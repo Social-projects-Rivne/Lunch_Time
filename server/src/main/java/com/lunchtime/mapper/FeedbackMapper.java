@@ -31,8 +31,8 @@ public class FeedbackMapper {
 
         feedback.setDescription(feedbackDto.getDescription());
         feedback.setPerson(person);
-        feedback.setRestId(restaurant);
-        feedback.setRestId(restaurant);
+        feedback.setRestaurant(restaurant);
+        feedback.setRestaurant(restaurant);
         feedback.setCounterLike(0);
         feedback.setCounterDislike(0);
         feedback.setDate(Instant.now());
@@ -43,7 +43,7 @@ public class FeedbackMapper {
     public FeedbackDto fromFeedbackToDto(Feedback feedback) {
         FeedbackDto feedbackDto = new FeedbackDto();
         Person person = personRepository.getOne(feedback.getPerson().getId());
-        Restaurant restaurant = restaurantRepository.getOne(feedback.getRestId().getId());
+        Restaurant restaurant = restaurantRepository.getOne(feedback.getRestaurant().getId());
 
         feedbackDto.setId(feedback.getId());
         feedbackDto.setDescription(feedback.getDescription());
