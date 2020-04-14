@@ -3,7 +3,9 @@ package com.lunchtime.service;
 import com.lunchtime.models.Person;
 import com.lunchtime.repository.PersonRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
+@Component
 @RequiredArgsConstructor
 public class PersonMapper {
     final PersonRepository personRepository;
