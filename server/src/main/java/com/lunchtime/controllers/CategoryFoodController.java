@@ -30,10 +30,9 @@ public class CategoryFoodController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CategoryFood>> getAll(Pageable pageable) {
-        Page<CategoryFood> page = categoryFoodService.findAll(pageable);
+    public ResponseEntity<Page<CategoryFood>> getAll(Pageable pageable) {
         return ResponseEntity.ok()
-            .body(page.getContent());
+            .body(categoryFoodService.findAll(pageable));
     }
 
     @GetMapping("{id}")
