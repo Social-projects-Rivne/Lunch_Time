@@ -3,19 +3,21 @@ package com.lunchtime.service;
 import com.lunchtime.models.Person;
 import com.lunchtime.repository.PersonRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
 public class PersonMapper {
     final PersonRepository personRepository;
+    final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public Person fromDtoToPerson(PersonDto personDto) {
         Person person = new Person();
         person.setName(personDto.getName());
         person.setPhoneNumber(personDto.getPhoneNumber());
         person.setEmail(personDto.getEmail());
-        person.setPassword(personDto.getPassword());
+        person.setPassword(bCryptPasswordEncoder.encode(personDto.getPassword()));
         return person;
     }
 
