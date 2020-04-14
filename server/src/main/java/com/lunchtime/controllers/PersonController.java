@@ -1,8 +1,8 @@
 package com.lunchtime.controllers;
 
 import com.lunchtime.models.Person;
-import com.lunchtime.models.PersonDto;
-import com.lunchtime.models.PersonPassDto;
+import com.lunchtime.service.dto.PersonDto;
+import com.lunchtime.service.dto.PersonPassDto;
 import com.lunchtime.service.PersonService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

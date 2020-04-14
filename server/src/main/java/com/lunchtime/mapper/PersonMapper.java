@@ -1,7 +1,7 @@
 package com.lunchtime.mapper;
 
 import com.lunchtime.models.Person;
-import com.lunchtime.models.PersonDto;
+import com.lunchtime.service.dto.PersonDto;
 import com.lunchtime.repository.PersonRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;

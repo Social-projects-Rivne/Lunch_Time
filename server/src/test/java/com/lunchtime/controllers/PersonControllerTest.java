@@ -1,7 +1,7 @@
 package com.lunchtime.controllers;
 
-import com.lunchtime.models.PersonDto;
-import com.lunchtime.models.PersonPassDto;
+import com.lunchtime.service.dto.PersonDto;
+import com.lunchtime.service.dto.PersonPassDto;
 import com.lunchtime.service.PersonService;
 import org.junit.Before;
 import org.junit.Test;
@@ -48,6 +48,8 @@ public class PersonControllerTest {
         personPassDto.setId(1);
         personPassDto.setOldPassword("oldPass");
         personPassDto.setPassword("oldPass");
+        personPassDto.setName("NewName");
+        personPassDto.setPhoneNumber("+380991112233");
 
         personControllerUnderTest.updatePassword(personPassDto);
 

@@ -2,8 +2,8 @@ package com.lunchtime.service.impl;
 
 import com.lunchtime.mapper.PersonMapper;
 import com.lunchtime.models.Person;
-import com.lunchtime.models.PersonDto;
-import com.lunchtime.models.PersonPassDto;
+import com.lunchtime.service.dto.PersonDto;
+import com.lunchtime.service.dto.PersonPassDto;
 import com.lunchtime.repository.PersonRepository;
 import com.lunchtime.service.PersonService;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +33,8 @@ public class PersonServiceImpl implements PersonService {
             Person person = result.get();
             if (personPassDto.getOldPassword().equals(person.getPassword())) {
                 person.setPassword(personPassDto.getPassword());
+                person.setName(personPassDto.getName());
+                person.setPhoneNumber(personPassDto.getPhoneNumber());
                 personRepository.save(person);
                 return personPassDto;
             }

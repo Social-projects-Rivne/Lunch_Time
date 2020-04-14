@@ -1,4 +1,4 @@
-package com.lunchtime.models;
+package com.lunchtime.service.dto;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,8 +1,8 @@
 package com.lunchtime.service;
 
 import com.lunchtime.models.Person;
-import com.lunchtime.models.PersonDto;
-import com.lunchtime.models.PersonPassDto;
+import com.lunchtime.service.dto.PersonDto;
+import com.lunchtime.service.dto.PersonPassDto;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
