@@ -17,5 +17,5 @@ public interface PersonService {
 
     PersonDto update(PersonDto personDto);
 
-    void updatePassword(PersonPassDto personPassDto, Person person) throws Exception;
+    PersonPassDto updatePassword(PersonPassDto personPassDto) throws Exception;
 }

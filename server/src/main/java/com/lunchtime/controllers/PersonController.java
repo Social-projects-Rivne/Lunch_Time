@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/persons")
@@ -46,13 +45,13 @@ public class PersonController {
 
     @PutMapping("/password")
     public ResponseEntity<Void> updatePassword(@Valid @RequestBody PersonPassDto personPassDto) {
-        Optional<Person> result = personService.findById(personPassDto.getId());
-        if (result.isPresent()) {
-            try {
-                personService.updatePassword(personPassDto, result.get());
-            } catch (Exception e) {
-                return ResponseEntity.noContent().build();
-            }
+        PersonPassDto result = null;
+        try {
+            result = personService.updatePassword(personPassDto);
+        } catch (Exception e) {
+            return ResponseEntity.noContent().build();
+        }
+        if (result != null) {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();

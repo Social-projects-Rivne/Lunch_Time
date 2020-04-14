@@ -28,13 +28,18 @@ public class PersonServiceImpl implements PersonService {
         return personDto;
     }
 
-    public void updatePassword(PersonPassDto personPassDto, Person person) throws Exception {
-        if (personPassDto.getOldPassword().equals(person.getPassword())) {
-            person.setPassword(personPassDto.getPassword());
-            personRepository.save(person);
-            return;
+    public PersonPassDto updatePassword(PersonPassDto personPassDto) throws Exception {
+        Optional<Person> result = personRepository.findById(personPassDto.getId());
+        if (result.isPresent()) {
+            Person person = result.get();
+            if (personPassDto.getOldPassword().equals(person.getPassword())) {
+                person.setPassword(personPassDto.getPassword());
+                personRepository.save(person);
+                return personPassDto;
+            }
+            throw new Exception();
         }
-        throw new Exception();
+        return null;
     }
 
     public Optional<Person> findById(Long id) {
