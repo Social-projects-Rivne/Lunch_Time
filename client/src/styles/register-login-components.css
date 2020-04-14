@@ -84,23 +84,51 @@
     opacity: 0; } }
 @keyframes position {
   0%, 19.9% {
-    margin-top: -15%;
-    margin-left: -11%; }
+    margin-top: 11%;
+    margin-left: 20%; }
 
   20%, 39.9% {
-    margin-top: -11%;
-    margin-left: 5%; }
+    margin-top: 12%;
+    margin-left: 20%; }
 
   40%, 59.9% {
-    margin-top: -16%;
-    margin-left: 11%; }
+    margin-top: 16%;
+    margin-left: 30%; }
 
   60%, 79.9% {
-    margin-top: -19%;
-    margin-left: -2%; }
+    margin-top: 29%;
+    margin-left: 10%; }
 
   80%, 99.9% {
-    margin-top: -4%;
-    margin-left: -11%;
+    margin-top: 14%;
+    margin-left: 35%;
   }
 }
+.focus-in-contract-bck{
+  animation:focus-in-contract-bck 2.4s
+  cubic-bezier(.215,.61,.355,1.000)
+}
+
+@keyframes focus-in-contract-bck{
+  0%{letter-spacing:0.3em;
+    transform:translateZ(20px);
+    filter:blur(12px);opacity:0}
+  100%{transform:translateZ(12px);
+    filter:blur(1);opacity:1
+  }
+}
+
+.text-focus-in{
+  margin-top: 2px;
+  animation:text-focus-in 3s
+  cubic-bezier(.445,.05,.55,.95) both
+}
+
+@keyframes text-focus-in{
+  0%{filter:blur(12px);
+    opacity:0
+  }
+100%{
+  filter:blur(0);
+  opacity:1
+}}

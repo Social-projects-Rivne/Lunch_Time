@@ -31,7 +31,7 @@ class Register extends Component {
       passwordInputClassName: '',
       confirmPasswordInputTitle: '',
       confirmPasswordInputClassName: '',
-      isRegistered: false,
+      isRegistered: true,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.validateInputName = this.validateInputName.bind(this);
@@ -231,7 +231,7 @@ class Register extends Component {
       confirmPasswordInputClassName, confirmPasswordInputTitle,
       phoneInputClassName, phoneInputTitle, isRegistered,
     } = this.state;
-    if (!isRegistered) {
+    if (isRegistered) {
       return (
         <Container className="base-container" style={{ color: '#3498db' }}>
           <div className="header">Register</div>
@@ -293,11 +293,31 @@ class Register extends Component {
       );
     }
     return (
-      <div className="main">
-        <div className="before">
-          <div className="after">
-            You are registered!
+      <div>
+        <div className="main">
+          <div className="before">
+            <div className="after" />
           </div>
+        </div>
+        <div
+          className="focus-in-contract-bck"
+          style={{
+            fontSize: 30,
+            color: '#3498db',
+            marginTop: 220,
+          }}
+        >
+          You are registered!
+        </div>
+        <div
+          className="text-focus-in"
+          style={{
+            fontSize: 30,
+            color: '#3498db',
+            marginBottom: 40,
+          }}
+        >
+          Now you can log in :)
         </div>
       </div>
     );
