@@ -15,7 +15,7 @@
 	<description>SoftServeProject</description>
 
 	<properties>
-		<java.version>1.8</java.version>
+    <java.version>1.8</java.version>
     <jsonwebtoken.version>0.8.0</jsonwebtoken.version>
     <spring-restdocs.version> 2.0.4.RELEASE</spring-restdocs.version>
 	</properties>
