@@ -7,7 +7,7 @@ import java.util.Optional;
 
 @Service
 public interface PersonService {
-    Person save(Person person);
+    Person savePerson(Person person);
 
-    Optional<Person> findById(Long id);
+    Optional<Person> getPersonById(Long id);
 }

@@ -2,9 +2,7 @@ package com.lunchtime.models;
 
 import java.io.Serializable;
 
-
 public class JwtPersonDetails implements Serializable {
-
     private String email;
     private String password;
 
@@ -30,7 +28,5 @@ public class JwtPersonDetails implements Serializable {
     }
 
     public JwtPersonDetails() {
-
     }
-
 }

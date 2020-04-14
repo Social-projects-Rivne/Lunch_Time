@@ -23,7 +23,7 @@ class FeedbackServiceImpl implements FeedbackService {
         return feedbackMapper.fromFeedbackToDto(feedback);
     }
 
-    public List<Feedback> findByRestId_Id(Long id) {
-        return feedbackRepository.findByRestId_Id(id);
+    public List<Feedback> getFeedbackListByRestaurantId(Long id) {
+        return feedbackRepository.findByRestaurantId(id);
     }
 }
