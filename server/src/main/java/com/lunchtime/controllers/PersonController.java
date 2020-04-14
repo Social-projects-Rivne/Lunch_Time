@@ -1,9 +1,11 @@
 package com.lunchtime.controllers;
 
+import com.lunchtime.mapper.PersonMapper;
 import com.lunchtime.models.Person;
 import com.lunchtime.models.PersonDto;
 import com.lunchtime.models.PersonPassDto;
 import com.lunchtime.service.PersonService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,13 +16,11 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/persons")
+@RequiredArgsConstructor
 public class PersonController {
 
     private final PersonService personService;
-
-    public PersonController(PersonService personService) {
-        this.personService = personService;
-    }
+    private final PersonMapper personMapper;
 
     @PostMapping
     public ResponseEntity<Person> create(@Valid @RequestBody Person person) throws URISyntaxException {
@@ -36,9 +36,9 @@ public class PersonController {
 
     @PutMapping
     public ResponseEntity<PersonDto> update(@Valid @RequestBody PersonDto personDto) {
-        Optional<Person> result = personService.findById(personDto.getId());
-        if (result.isPresent()) {
-            return ResponseEntity.ok(personService.update(personDto, result.get()));
+        PersonDto result = personService.update(personDto);
+        if (result != null) {
+            return ResponseEntity.ok(result);
         }
         return ResponseEntity.notFound().build();
     }
@@ -59,11 +59,12 @@ public class PersonController {
 
     @GetMapping("{id}")
     //TODO create some better name for method. see other comments
-    public ResponseEntity<Person> getOne(@PathVariable Long id) {
+    public ResponseEntity<PersonDto> getOne(@PathVariable Long id) {
         Optional<Person> person = personService.findById(id);
         if (person.isPresent()) {
+            PersonDto personDto = personMapper.fromPersonToDto(person.get());
             return ResponseEntity.ok()
-                .body(person.get());
+                .body(personDto);
         }
         return ResponseEntity.notFound()
             .build();

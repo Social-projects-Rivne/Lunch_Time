@@ -17,11 +17,6 @@ class InfoChange extends React.Component {
     this.state = {
       isShowAlert: false,
       user: this.props.user,
-      data: {
-        id: this.props.user.id,
-        name: this.props.user.name,
-        phoneNumber: this.props.user.phoneNumber,
-      },
       errors: {
         name: '', phone: '', password: '', err: 'Profile is not changed',
       },
@@ -54,10 +49,9 @@ class InfoChange extends React.Component {
   }
 
   saveFormState(errors, name, value) {
-    console.log(`name=${name} val=${value}`);
     this.setState((prevState) => ({
-      data: {
-        ...prevState.data,
+      user: {
+        ...prevState.user,
         [name]: value,
       },
       errors,
@@ -67,13 +61,13 @@ class InfoChange extends React.Component {
   }
 
   updateProfile() {
-    const { data, errors } = this.state;
+    const { user, errors } = this.state;
     if (!this.validateForm(errors)) {
       this.setAlertState(true);
-    } else if (data.password !== undefined) {
-      this.sendData('persons/password', data);
+    } else if (user.password !== undefined) {
+      this.sendData('persons/password', user);
     } else {
-      this.sendData('persons', data);
+      this.sendData('persons', user);
     }
   }
 
@@ -86,7 +80,7 @@ class InfoChange extends React.Component {
   }
 
   sendData(path, data) {
-    const { user, errors } = this.state;
+    const { errors } = this.state;
     Api.put(path, data)
       .then((response) => {
         if (response.status === 204) {
@@ -99,8 +93,7 @@ class InfoChange extends React.Component {
           this.setAlertState(true);
           return;
         }
-        Object.assign(user, data);
-        this.props.updateUser(user);
+        this.props.updateUser(data);
         this.props.history.push('/profile');
       });
   }

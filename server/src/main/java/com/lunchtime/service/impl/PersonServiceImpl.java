@@ -1,30 +1,29 @@
 package com.lunchtime.service.impl;
 
+import com.lunchtime.mapper.PersonMapper;
 import com.lunchtime.models.Person;
 import com.lunchtime.models.PersonDto;
 import com.lunchtime.models.PersonPassDto;
 import com.lunchtime.repository.PersonRepository;
 import com.lunchtime.service.PersonService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
+@RequiredArgsConstructor
 public class PersonServiceImpl implements PersonService {
 
     private final PersonRepository personRepository;
-
-    public PersonServiceImpl(PersonRepository personRepository) {
-        this.personRepository = personRepository;
-    }
+    private final PersonMapper personMapper;
 
     public Person save(Person person) {
         return personRepository.save(person);
     }
 
-    public PersonDto update(PersonDto personDto, Person person) {
-        person.setName(personDto.getName());
-        person.setPhoneNumber(personDto.getPhoneNumber());
+    public PersonDto update(PersonDto personDto) {
+        Person person = personMapper.fromDtoToPerson(personDto);
         personRepository.save(person);
         return personDto;
     }

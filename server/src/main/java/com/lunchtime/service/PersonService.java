@@ -13,7 +13,7 @@ public interface PersonService {
 
     Optional<Person> findById(Long id);
 
-    PersonDto update(PersonDto personDto, Person person);
+    PersonDto update(PersonDto personDto);
 
     void updatePassword(PersonPassDto personPassDto, Person person) throws Exception;
 }

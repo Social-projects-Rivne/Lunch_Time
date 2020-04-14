@@ -3,6 +3,8 @@ package com.lunchtime.models;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.Column;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 @Setter
@@ -16,5 +18,10 @@ public class PersonDto {
     @NotBlank
     private String phoneNumber;
 
-    private String avatarUrl;
+    @NotBlank
+    @Email
+    @Column(name = "email", unique = true)
+    private String email;
+
+    private String photoUrl;
 }

@@ -25,7 +25,7 @@ class PassChange extends React.Component {
 
   handleChange(event) {
     const { name, value } = event.target;
-    const { errors, newPass } = this.state;
+    const { errors, newPass, password } = this.state;
 
     switch (name) {
       case 'oldPass':
@@ -34,6 +34,7 @@ class PassChange extends React.Component {
         break;
       case 'newPass':
         errors.newPass = value.length > 7 ? '' : 'New password must be at least 8 characters! ';
+        errors.password = password === value ? '' : 'Passwords do not match! ';
         break;
       case 'password':
         errors.password = newPass === value ? '' : 'Passwords do not match! ';
