@@ -43,7 +43,7 @@ public class PersonController {
 
     @PutMapping("/password")
     public ResponseEntity<Void> updatePassword(@Valid @RequestBody PersonPassDto personPassDto) {
-        PersonPassDto result = null;
+        PersonPassDto result;
         try {
             result = personService.updatePassword(personPassDto);
         } catch (Exception e) {
