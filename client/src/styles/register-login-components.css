@@ -128,7 +128,22 @@
   0%{filter:blur(12px);
     opacity:0
   }
-100%{
-  filter:blur(0);
-  opacity:1
-}}
+  100%{
+    filter:blur(0);
+    opacity:1
+  }}
+
+.text-focus-in1{
+  margin-top: 2px;
+  animation:text-focus-in 1.5s
+  cubic-bezier(.445,.05,.55,.95) both
+}
+
+@keyframes text-focus-in1{
+  0%{filter:blur(12px);
+    opacity:0
+  }
+  100%{
+    filter:blur(0);
+    opacity:1
+  }}

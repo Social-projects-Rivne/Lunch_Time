@@ -32,6 +32,7 @@ class Register extends Component {
       confirmPasswordInputTitle: '',
       confirmPasswordInputClassName: '',
       isRegistered: false,
+      invalidEmailOrPassword: false,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.validateInputName = this.validateInputName.bind(this);
@@ -64,6 +65,15 @@ class Register extends Component {
             this.setState({
               isRegistered: true,
             });
+          } else if (response.error.status === 400) {
+            this.setState({
+              invalidEmailOrPassword: true,
+            });
+            setTimeout(() => {
+              this.setState({
+                invalidEmailOrPassword: false,
+              });
+            }, 3900);
           }
         })
         .catch((error) => {
@@ -230,8 +240,9 @@ class Register extends Component {
       emailInputTitle, passwordInputClassName, passwordInputTitle,
       confirmPasswordInputClassName, confirmPasswordInputTitle,
       phoneInputClassName, phoneInputTitle, isRegistered,
+      invalidEmailOrPassword,
     } = this.state;
-    if (!isRegistered) {
+    if (!isRegistered && !invalidEmailOrPassword) {
       return (
         <Container className="base-container" style={{ color: '#3498db' }}>
           <div className="header">Register</div>
@@ -290,6 +301,40 @@ class Register extends Component {
             </button>
           </div>
         </Container>
+      );
+    } if (invalidEmailOrPassword) {
+      return (
+        <div>
+          <div
+            className="text-focus-in1"
+            style={{
+              fontSize: 20,
+              color: '#FF0000',
+              marginTop: 1,
+            }}
+          >
+            <b>Email or phone number</b>
+          </div>
+          <div
+            className="text-focus-in1"
+            style={{
+              fontSize: 20,
+              color: '#FF0000',
+            }}
+          >
+            <b>are already registered</b>
+          </div>
+          <div
+            className="text-focus-in"
+            style={{
+              fontSize: 20,
+              color: '#FF0000',
+              marginBottom: 10,
+            }}
+          >
+            Try again, please
+          </div>
+        </div>
       );
     }
     return (
