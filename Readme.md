@@ -21,6 +21,11 @@ $ docker-compose up -d
 ```
 $ docker-compose stop
 ```
+## Run in production
+
+```
+$ docker-compose -f docker-compose.prod.yml up --build
+```
 
 ### You need to run step 5 and repeat steps 2, 3 and 4 after updating client dependencies
 
