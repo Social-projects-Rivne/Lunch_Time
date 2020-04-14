@@ -31,7 +31,7 @@ class Register extends Component {
       passwordInputClassName: '',
       confirmPasswordInputTitle: '',
       confirmPasswordInputClassName: '',
-      isRegistered: true,
+      isRegistered: false,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.validateInputName = this.validateInputName.bind(this);
@@ -231,7 +231,7 @@ class Register extends Component {
       confirmPasswordInputClassName, confirmPasswordInputTitle,
       phoneInputClassName, phoneInputTitle, isRegistered,
     } = this.state;
-    if (isRegistered) {
+    if (!isRegistered) {
       return (
         <Container className="base-container" style={{ color: '#3498db' }}>
           <div className="header">Register</div>
@@ -307,7 +307,7 @@ class Register extends Component {
             marginTop: 220,
           }}
         >
-          You are registered!
+          <b>You are registered!</b>
         </div>
         <div
           className="text-focus-in"
