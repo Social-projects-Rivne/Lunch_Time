@@ -1,6 +1,21 @@
-.textFeedback:focus{
-    box-shadow: 0 0 0 1px rgba(41, 176, 217, .25);
+.textFeedback:focus {
+  box-shadow: 0 0 0 1px rgba(41, 176, 217, .25);
 }
-.btnFormSend{
-    margin-top: 10px;
+
+.btnFormSend {
+  margin-top: 10px;
+  width: 130px;
+}
+
+.btnFormSendDanger {
+  margin-top: 10px;
+  width: 90px;
+}
+
+.badge {
+  margin-left: 15px;
+  text-align: center;
+  height: 35px;
+  font-size: 14px;
+  width: 350px;
 }
