@@ -36,7 +36,7 @@ public class CategoryFoodController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<CategoryFood> getOne(@PathVariable Long id) {
+    public ResponseEntity<CategoryFood> getCategory(@PathVariable Long id) {
         Optional<CategoryFood> dish = categoryFoodService.findById(id);
         if (dish.isPresent()) {
             return ResponseEntity.ok()

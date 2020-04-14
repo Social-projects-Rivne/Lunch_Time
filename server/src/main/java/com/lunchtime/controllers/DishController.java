@@ -37,7 +37,7 @@ public class DishController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<Dish> getOne(@PathVariable Long id) {
+    public ResponseEntity<Dish> getDish(@PathVariable Long id) {
         Optional<Dish> dish = dishService.findById(id);
         if (dish.isPresent()) {
             return ResponseEntity.ok()

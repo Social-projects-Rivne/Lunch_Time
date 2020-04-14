@@ -36,7 +36,7 @@ public class MenuItemDishController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<MenuItemDish> getOne(@PathVariable Long id) {
+    public ResponseEntity<MenuItemDish> getMenuItemDish(@PathVariable Long id) {
         Optional<MenuItemDish> menuItemDish = menuItemDishService.findById(id);
         if (menuItemDish.isPresent()) {
             return ResponseEntity.ok()
