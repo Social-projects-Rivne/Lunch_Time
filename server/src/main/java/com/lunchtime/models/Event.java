@@ -8,7 +8,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.net.URI;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -37,7 +36,7 @@ public class Event {
 
     @NotNull
     @Column(name = "image")
-    private URI image;
+    private String image;
 
     @NotBlank
     @Size(min = 6, max = 255)
