@@ -4,6 +4,7 @@
     "es6": true,
     "jest/globals": true
   },
+  "ignorePatterns": ["build/", "node_modules/", "server.js"],
   "extends": [
     "plugin:react/recommended",
     "airbnb"
