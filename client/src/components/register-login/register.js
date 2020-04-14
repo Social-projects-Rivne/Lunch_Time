@@ -58,11 +58,11 @@ class Register extends Component {
         password: password,
       };
       console.log(body);
-      Api.post('registration', body)
+      Api.post('persons', body)
         .then((response) => {
-          if (response.status === 200) {
+          if (response.status === 201) {
             // eslint-disable-next-line no-console
-            console.log('Ok');
+            console.log('Created with 201');
           }
         })
         .catch((error) => {
