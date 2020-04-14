@@ -57,7 +57,6 @@ class Register extends Component {
         email: email,
         password: password,
       };
-      console.log(body);
       Api.post('persons', body)
         .then((response) => {
           if (response.status === 201) {
