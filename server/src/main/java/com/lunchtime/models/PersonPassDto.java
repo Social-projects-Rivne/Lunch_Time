@@ -13,5 +13,9 @@ public class PersonPassDto {
 
     @NotBlank
     @Size(min = 8)
+    private String oldPassword;
+
+    @NotBlank
+    @Size(min = 8)
     private String password;
 }

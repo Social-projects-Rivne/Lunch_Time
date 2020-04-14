@@ -54,6 +54,7 @@ class InfoChange extends React.Component {
   }
 
   saveFormState(errors, name, value) {
+    console.log(`name=${name} val=${value}`);
     this.setState((prevState) => ({
       data: {
         ...prevState.data,
@@ -85,10 +86,16 @@ class InfoChange extends React.Component {
   }
 
   sendData(path, data) {
-    const { user } = this.state;
+    const { user, errors } = this.state;
     Api.put(path, data)
       .then((response) => {
+        if (response.status === 204) {
+          errors.err = 'Wrong old password ';
+          this.setAlertState(true);
+          return;
+        }
         if (response.error) {
+          errors.err = 'Server Error, please try again later! ';
           this.setAlertState(true);
           return;
         }

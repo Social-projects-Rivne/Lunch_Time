@@ -47,7 +47,11 @@ public class PersonController {
     public ResponseEntity<Void> updatePassword(@Valid @RequestBody PersonPassDto personPassDto) {
         Optional<Person> result = personService.findById(personPassDto.getId());
         if (result.isPresent()) {
-            personService.updatePassword(personPassDto, result.get());
+            try {
+                personService.updatePassword(personPassDto, result.get());
+            } catch (Exception e) {
+                return ResponseEntity.noContent().build();
+            }
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();

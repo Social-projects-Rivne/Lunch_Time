@@ -25,18 +25,19 @@ class PassChange extends React.Component {
 
   handleChange(event) {
     const { name, value } = event.target;
-    const { user } = this.props;
     const { errors, newPass } = this.state;
 
     switch (name) {
       case 'oldPass':
-        errors.oldPass = user.password === value ? '' : 'Old password is wrong! ';
+        errors.oldPass = value.length > 7 ? '' : 'Old password must be at least 8 characters! ';
+        this.props.onChange({}, 'oldPassword', value);
         break;
       case 'newPass':
-        errors.newPass = value.length > 7 ? '' : 'Password must be at least 8 characters! ';
+        errors.newPass = value.length > 7 ? '' : 'New password must be at least 8 characters! ';
         break;
       case 'password':
         errors.password = newPass === value ? '' : 'Passwords do not match! ';
+        this.props.onChange({}, 'password', value);
         break;
       default:
         break;
@@ -49,7 +50,7 @@ class PassChange extends React.Component {
     });
 
     const e = { password: `${[Object.values(errors).join('')]}` };
-    this.props.onChange(e, 'password', newPass);
+    this.props.onChange(e);
   }
 
   render() {
@@ -101,7 +102,6 @@ class PassChange extends React.Component {
 }
 
 PassChange.propTypes = {
-  user: PropTypes.any.isRequired,
   onChange: PropTypes.any.isRequired,
 };
 

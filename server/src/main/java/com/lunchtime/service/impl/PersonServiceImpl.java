@@ -29,9 +29,13 @@ public class PersonServiceImpl implements PersonService {
         return personDto;
     }
 
-    public void updatePassword(PersonPassDto personPassDto, Person person) {
-        person.setPassword(personPassDto.getPassword());
-        personRepository.save(person);
+    public void updatePassword(PersonPassDto personPassDto, Person person) throws Exception {
+        if (personPassDto.getOldPassword().equals(person.getPassword())) {
+            person.setPassword(personPassDto.getPassword());
+            personRepository.save(person);
+            return;
+        }
+        throw new Exception();
     }
 
     public Optional<Person> findById(Long id) {
