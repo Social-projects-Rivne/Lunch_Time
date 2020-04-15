@@ -49,15 +49,11 @@ class Register extends Component {
 
   handleSubmit() {
     const {
-      nameInputClassName, phoneInputClassName, emailInputClassName,
-      passwordInputClassName, confirmPasswordInputClassName, name, phoneNumber,
-      email, password,
+      name, phoneNumber, email, password,
     } = this.state;
-    if (nameInputClassName === valid
-      && phoneInputClassName === valid
-      && emailInputClassName === valid
-      && passwordInputClassName === valid
-      && confirmPasswordInputClassName === valid) {
+    if (this.checkAllFields()) {
+      // check with this
+      console.log('check line 52 if needs bind');
       const body = {
         name: name,
         phoneNumber: phoneNumber,
@@ -170,7 +166,7 @@ class Register extends Component {
     const testEmailRegex = RegExp(
       /^\w+(@(\w+(\.(\w+)?)?)?)?$/,
     );
-    if (value.length <= 5 && testEmailRegex.test(value)) {
+    if (value.length <= 5 && testEmailRegex.test(value) && this.state.emailInputClassName !== invalid) {
       this.setState({
         emailInputClassName: '',
       });
@@ -266,6 +262,55 @@ class Register extends Component {
   firstLetter(s) {
     const name = s.toLowerCase();
     return name.replace(/^.{1}/g, s[0].toUpperCase());
+  }
+
+  checkAllFields() {
+    const {
+      nameInputClassName, phoneNumberInputClassName, emailInputClassName,
+      passwordInputClassName, confirmPasswordInputClassName,
+    } = this.state;
+    let isValid = true;
+    if (nameInputClassName !== valid) {
+      isValid = false;
+      setTimeout(() => {
+        this.setState({
+          nameInputClassName: invalid,
+        });
+      }, 100);
+    }
+    if (phoneNumberInputClassName !== valid) {
+      isValid = false;
+      setTimeout(() => {
+        this.setState({
+          phoneInputClassName: invalid,
+        });
+      }, 200);
+    }
+    if (emailInputClassName !== valid) {
+      isValid = false;
+      setTimeout(() => {
+        this.setState({
+          emailInputClassName: invalid,
+        });
+      }, 300);
+    }
+    if (passwordInputClassName !== valid) {
+      isValid = false;
+      setTimeout(() => {
+        this.setState({
+          passwordInputClassName: invalid,
+        });
+      }, 400);
+    }
+    if (confirmPasswordInputClassName !== valid) {
+      isValid = false;
+      setTimeout(() => {
+        this.setState({
+          confirmPasswordInputClassName: invalid,
+        });
+      }, 500);
+    }
+    return isValid;
   }
 
   render() {
