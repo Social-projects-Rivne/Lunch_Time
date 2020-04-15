@@ -1,20 +1,24 @@
 package com.lunchtime.service;
 
 import com.lunchtime.models.Restaurant;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+
+@Service
+
 public interface RestaurantService {
+    Restaurant saveRestaurant(Restaurant restaurant);
 
-    Restaurant save(Restaurant restaurant);
+    Page<Restaurant> getRestaurantPage(Pageable pageable);
 
-    Page<Restaurant> findAll(Pageable pageable);
+    Optional<Restaurant> getRestaurantById(Long id);
 
-    Optional<Restaurant> findById(Long id);
+    Restaurant updateRestaurant(Restaurant restaurant);
 
-    Restaurant update(Restaurant restaurant);
-
-    Restaurant delete(Long id);
+    Restaurant deleteRestaurantById(Long id);
 }

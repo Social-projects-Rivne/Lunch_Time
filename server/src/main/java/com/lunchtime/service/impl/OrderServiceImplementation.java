@@ -52,7 +52,7 @@ public class OrderServiceImplementation implements OrderService {
             return null;
         }
 
-        Optional<Person> person = personService.findById(order.getPerson().getId());
+        Optional<Person> person = personService.getPersonById(order.getPerson().getId());
         if (person.isPresent()) {
             order.setPerson(person.get());
         } else {

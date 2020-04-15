@@ -39,7 +39,7 @@ public class RestaurantTableServiceImplement implements RestaurantTableService {
                 return null;
             }
         }
-        return restaurantService.findById(restaurantTable.getRestaurant().getId())
+        return restaurantService.getRestaurantById(restaurantTable.getRestaurant().getId())
             .map(restaurant -> {
                 restaurantTable.setRestaurant(restaurant);
                 return restaurantTableRepository.save(restaurantTable);

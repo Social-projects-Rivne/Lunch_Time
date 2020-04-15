@@ -12,7 +12,6 @@ class Category extends Component {
     super(props);
     this.state = {
       visible: false,
-      selected: [],
     };
     this.onVisibleChange = this.onVisibleChange.bind(this);
   }

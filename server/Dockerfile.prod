@@ -1,0 +1,12 @@
+FROM openjdk:8-jdk-alpine
+
+WORKDIR /app
+
+COPY . /app/
+
+RUN apk add maven && \
+  rm -rf /var/cashe/apk/*
+
+RUN mvn dependency:go-offline -B && \
+  mvn -Dspring.profiles.active=prod -Dmaven.test.skip=true clean package && \
+  rm -rf /root/.m2

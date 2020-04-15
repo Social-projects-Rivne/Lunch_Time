@@ -5,13 +5,24 @@ import {
 import Avatar from 'react-avatar';
 import PropTypes from 'prop-types';
 import '../../styles/profile-info.css';
+import { Link } from 'react-router-dom';
+import AlertBase from '../shared/alert-base';
 
 class Info extends Component {
+  componentWillUnmount() {
+    this.props.showAlert(false);
+  }
+
   render() {
-    const { isFetching, user } = this.props;
+    const { isFetching, user, isShowAlert } = this.props;
     if (isFetching) {
       return (
         <Container fluid>
+          <AlertBase
+            show={isShowAlert}
+            type="success"
+            title="Your profile was successfully updated"
+          />
           <Row className="profile-row">
             <Col md="6">
               <p>
@@ -36,9 +47,16 @@ class Info extends Component {
           </Row>
 
           <hr className="hr-border" />
-          <Button className="btn-inf m-button ml-5">Add restaurant</Button>
+          <Button className="btn-inf m-button ml-3">Add restaurant</Button>
           <hr className="hr-border" />
-          <Button className="btn-inf ml-5" variant="danger">Remove account</Button>
+          <Link to="edit">
+            <Button
+              className="btn-inf m-button ml-3"
+            >
+              Update profile
+            </Button>
+          </Link>
+          <Button className="btn-inf ml-3" variant="danger">Remove account</Button>
         </Container>
       );
     }
@@ -50,7 +68,9 @@ class Info extends Component {
 
 Info.propTypes = {
   isFetching: PropTypes.bool.isRequired,
+  isShowAlert: PropTypes.bool.isRequired,
   user: PropTypes.any.isRequired,
+  showAlert: PropTypes.any.isRequired,
 };
 
 export default Info;

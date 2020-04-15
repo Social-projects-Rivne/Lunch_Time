@@ -6,9 +6,10 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Api from '../../services/api';
 import About from './restaurant-about';
+import Menu from '../menu-views/menu-view';
+import '../../styles/menu.css';
 import '../../styles/restaurant-item.css';
-import Feedback from '../feedbacks/feedback';
-
+import Feedback from '../feedback/feedback';
 
 class Restaurant extends Component {
   constructor(props) {
@@ -59,7 +60,7 @@ class Restaurant extends Component {
             <About restaurant={restaurant} isFetching={isFetching} />
           </Tab>
           <Tab eventKey="menu" title="Menu">
-            <h3>Menu</h3>
+            <Menu id={id} />
           </Tab>
           <Tab eventKey="events" title="Events">
             <h3>Events</h3>
