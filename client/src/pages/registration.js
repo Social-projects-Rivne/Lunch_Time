@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Container } from 'react-bootstrap';
 import Login from '../components/register-login/login';
 import Register from '../components/register-login/register';
-import RightSide from '../components/register-login/right-side';
 import '../styles/register-login-page.css';
 
 class Registration extends Component {
@@ -11,29 +10,10 @@ class Registration extends Component {
     this.state = {
       isLogged: false,
     };
-    this.changeState = this.changeState.bind(this);
-  }
-
-  componentDidMount() {
-    this.rightSide.classList.add('right');
-  }
-
-  changeState() {
-    const { isLogged } = this.state;
-    if (isLogged) {
-      this.rightSide.classList.remove('left');
-      this.rightSide.classList.add('right');
-    } else {
-      this.rightSide.classList.remove('right');
-      this.rightSide.classList.add('left');
-    }
-    this.setState((prevState) => ({ isLogged: !prevState.isLogged }));
   }
 
   render() {
     const { isLogged } = this.state;
-    const current = isLogged ? 'Register' : 'Login';
-    const currentActive = isLogged ? 'login' : 'register';
     return (
       <Container className="mainContainer">
         <div className="login">
@@ -41,12 +21,6 @@ class Registration extends Component {
             {isLogged && <Login />}
             {!isLogged && <Register />}
           </div>
-          <RightSide
-            current={current}
-            currentActive={currentActive}
-            containerRef={(ref) => { this.rightSide = ref; }}
-            onClick={this.changeState}
-          />
         </div>
       </Container>
     );
