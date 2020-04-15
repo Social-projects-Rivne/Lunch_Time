@@ -1,16 +1,15 @@
 package com.lunchtime.controllers;
 
-import com.lunchtime.models.Person;
-import com.lunchtime.service.PersonDto;
+import com.lunchtime.service.dto.RegisterPerson;
+import com.lunchtime.service.dto.PersonDto;
+import com.lunchtime.service.dto.PersonPassDto;
 import com.lunchtime.service.PersonService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/persons")
@@ -22,33 +21,59 @@ public class PersonController {
     }
 
     @PostMapping
-    public ResponseEntity<PersonDto> createPerson(@Valid @RequestBody PersonDto personDto) throws URISyntaxException {
-        if (personDto.getId() != null) {
+    public ResponseEntity<PersonDto> createPerson(@Valid @RequestBody RegisterPerson registerPerson) throws URISyntaxException {
+        if (registerPerson.getId() != null) {
             return ResponseEntity.badRequest()
                 .build();
-        } else if (personService.findByEmail(personDto.getEmail()) != null) {
+        } else if (personService.findByEmail(registerPerson.getEmail()) != null) {
             return ResponseEntity.badRequest()
                 .build();
-        } else if (personService.findByPhoneNumber(personDto.getPhoneNumber()) != null) {
+        } else if (personService.findByPhoneNumber(registerPerson.getPhoneNumber()) != null) {
             return ResponseEntity.badRequest()
                 .build();
         }
-        personService.findByPhoneNumber(personDto.getPhoneNumber());
+        personService.findByPhoneNumber(registerPerson.getPhoneNumber());
 
-        PersonDto savedPersonDto = personService.savePerson(personDto);
+        PersonDto personDto = personService.saveRegisterPerson(registerPerson);
 
-        if (savedPersonDto != null) {
+        if (personDto != null) {
             return ResponseEntity.created(new URI("/api/restaurants"))
-                .body(savedPersonDto);
+                .body(personDto);
         }
         return null;
     }
 
+    @PutMapping
+    public ResponseEntity<PersonDto> update(@Valid @RequestBody PersonDto personDto) {
+        PersonDto result = personService.updatePerson(personDto);
+        if (result != null) {
+            return ResponseEntity.ok(result);
+        }
+        return ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/password")
+    public ResponseEntity<Void> updatePassword(@Valid @RequestBody PersonPassDto personPassDto) {
+        PersonPassDto result;
+        try {
+            result = personService.updatePassword(personPassDto);
+        } catch (Exception e) {
+            return ResponseEntity.noContent().build();
+        }
+        if (result != null) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.notFound().build();
+    }
+
     @GetMapping("{id}")
-    public ResponseEntity<Person> getPersonById(@PathVariable Long id) {
-        Optional<Person> person = personService.getPersonById(id);
-        return person.map(value -> ResponseEntity.ok()
-            .body(value)).orElseGet(() -> ResponseEntity.notFound()
-            .build());
+    public ResponseEntity<PersonDto> getPersonById(@PathVariable Long id) {
+        PersonDto personDto = personService.getPersonDtoById(id);
+        if (personDto != null) {
+            return ResponseEntity.ok()
+                .body(personDto);
+        }
+        return ResponseEntity.notFound()
+            .build();
     }
 }

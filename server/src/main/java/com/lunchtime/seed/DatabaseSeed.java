@@ -5,13 +5,23 @@ import com.lunchtime.repository.*;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
-
 import java.net.URISyntaxException;
 import java.time.Instant;
 import java.util.List;
 
 @Component
 public class DatabaseSeed {
+
+    String[] dishesName = new String[] {"Salami", "Margarita", "Manhattan", "Soup", "Hamburger", "Ice"};
+    String[] categoryFood = new String[] {"Pizza", "Pizza", "Pizza",
+                                          "Main course", "Snacks", "Dessert"};
+    String[] dishPortion = new String[] {"500 gr", "300 gr", "230 gr", "150 gr", "500 gr", "200 gr"};
+    String[] dishUrl = new String[] { "pizza-salami.jpg",
+                                      "pizza-margarita.jpg",
+                                      "pizza-manhattan.jpg",
+                                      "Soup_with_meatballs.jpg",
+                                      "hamburger.jpg",
+                                      "ice.jpg"};
     String[] restaurantName = new String[]{"Celentano", "Manhattan", "CasaNuova", "LaRiva", "PuriRivne"};
     String[] userName = new String[]{"Bob", "Devid", "Andriy", "Yura", "Roma"};
     String[] eventCategoryName = new String[]{"party", "karaoke", "concert", "for_children",
@@ -40,19 +50,30 @@ public class DatabaseSeed {
     private final RestaurantRepository restaurantRepository;
     private final FeedbackRepository feedbackRepository;
     private final PersonRepository personRepository;
+    private final DishRepository dishRepository;
+    private final CategoryFoodRepository categoryFoodRepository;
+    private final MenuItemDishRepository menuItemDishRepository;
     private final EventCategoryRepository eventCategoryRepository;
     private final EventRepository eventRepository;
+
 
     public DatabaseSeed(RestaurantRepository restaurantRepository,
                         FeedbackRepository feedbackRepository,
                         PersonRepository personRepository,
+                        DishRepository dishRepository,
+                        CategoryFoodRepository categoryFoodRepository,
+                        MenuItemDishRepository menuItemDishRepository,
                         EventCategoryRepository eventCategoryRepository,
                         EventRepository eventRepository) {
         this.restaurantRepository = restaurantRepository;
         this.feedbackRepository = feedbackRepository;
         this.personRepository = personRepository;
+        this.dishRepository = dishRepository;
+        this.categoryFoodRepository = categoryFoodRepository;
+        this.menuItemDishRepository = menuItemDishRepository;
         this.eventCategoryRepository = eventCategoryRepository;
         this.eventRepository = eventRepository;
+
     }
 
     @EventListener
@@ -66,6 +87,15 @@ public class DatabaseSeed {
         if (feedbackRepository.count() == 0) {
             seedFeedback();
         }
+        if (categoryFoodRepository.count() == 0L) {
+            seedCategoryFood();
+        }
+        if (dishRepository.count() == 0L) {
+            seedDish();
+        }
+        if (menuItemDishRepository.count() == 0L) {
+            seedMeuItemDish();
+        }
         if (eventCategoryRepository.count() == 0) {
             seedEventCategory();
         }
@@ -75,10 +105,54 @@ public class DatabaseSeed {
             } catch (URISyntaxException e) {
                 e.printStackTrace();
             }
+
+        }
+    }
+
+    private void seedMeuItemDish() {
+
+        List<Dish> dishesList = dishRepository.findAll();
+
+        for (Long j = 0L; j < getRestaurantList().size(); j++) {
+            for (Long i = 0L; i < dishesList.size(); i++) {
+                MenuItemDish menuItemDish = new MenuItemDish();
+                menuItemDish.setPortionSize(dishPortion[i.intValue()]);
+                menuItemDish.setPortionPrice(i + 10L);
+                menuItemDish.setDish(dishesList.get(i.intValue()));
+                menuItemDish.setPortionUnit(i.longValue() + 70L);
+                menuItemDish.setImageUrl(dishUrl[i.intValue()]);
+                menuItemDish.setRestaurant(getRestaurantList().get(j.intValue()));
+                menuItemDishRepository.save(menuItemDish);
+            }
+        }
+    }
+
+    private void seedCategoryFood() {
+
+        for (Long i = 0L; i < categoryFood.length; i++) {
+
+            CategoryFood category = new CategoryFood();
+            category.setName(categoryFood[i.intValue()]);
+            categoryFoodRepository.save(category);
+        }
+
+    }
+
+    private void seedDish() {
+
+        List<CategoryFood> categoryFoodList = categoryFoodRepository.findAll();
+
+        for (Long i = 0L; i < dishesName.length; i++) {
+            Dish dish = new Dish();
+            dish.setName(dishesName[i.intValue()]);
+            dish.setIngredients(" first ingredient," + " second ingredient," + " third ingredient");
+            dish.setCategoryfood(categoryFoodList.get(i.intValue()));
+            dishRepository.save(dish);
         }
     }
 
     public void seedRestaurant() {
+
         for (int i = 0; i < restaurantName.length; i++) {
             restaurantRepository.save(createRestaurant(i));
         }
@@ -95,7 +169,6 @@ public class DatabaseSeed {
             .concat(", and some other info."));
         restaurant.setWorkingTime("12-24");
         restaurant.setDeleted(false);
-        restaurant.setMenuId(i + 1L);
         restaurant.setPerson(getPersonList().get(i));
         restaurant.setTables(i + 1);
         restaurant.setLongitude(cordLongitude[i]);
@@ -182,3 +255,5 @@ public class DatabaseSeed {
         return eventCategoryRepository.findAll();
     }
 }
+
+

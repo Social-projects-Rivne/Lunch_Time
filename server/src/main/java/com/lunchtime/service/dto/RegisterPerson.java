@@ -1,4 +1,4 @@
-package com.lunchtime.service;
+package com.lunchtime.service.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 
 @Getter
 @Setter
-public class PersonDto {
+public class RegisterPerson {
     private Long id;
 
     @NotBlank

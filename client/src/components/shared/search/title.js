@@ -6,7 +6,7 @@ class Title extends Component {
     const { title, h1ClassName } = this.props;
     return (
       <div>
-        <h1 className={h1ClassName}>
+        <h1 className={h1ClassName} style={{ color: '#fac564' }}>
           {title}
         </h1>
       </div>

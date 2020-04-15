@@ -5,6 +5,7 @@ import FeedbackSend from './send';
 import FeedbackComment from './comment';
 import '../../styles/feedback.css';
 import Api from '../../services/api';
+import Auth from '../../services/auth';
 
 class Feedback extends Component {
   constructor(props) {
@@ -94,11 +95,15 @@ class Feedback extends Component {
     this.componentDidMount();
   }
 
+  isLogged() {
+    return Auth.isAuthenticated();
+  }
+
   render() {
     const stateFeed = this.state;
     return (
       <Container className="feedback">
-        <FeedbackSend id={this.props.id} refreshed={this.refresh} />
+        {this.isLogged() && <FeedbackSend id={this.props.id} refreshed={this.refresh} /> }
         {
           stateFeed.pieceFeedback.map((item) => {
             return (

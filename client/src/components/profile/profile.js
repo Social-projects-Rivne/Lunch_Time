@@ -14,6 +14,8 @@ import Sharing from './sharing';
 import Subscriptions from './subscriptions';
 import Api from '../../services/api';
 import '../../styles/profile.css';
+import PhotoEditor from '../shared/photo-editor';
+import InfoChange from './info-change';
 
 class Profile extends Component {
   constructor(props) {
@@ -21,6 +23,7 @@ class Profile extends Component {
     this.state = {
       user: {},
       isFetching: false,
+      isShowAlert: false,
     };
     this.menuItems = [
       { path: '/profile/info', title: 'Info' },
@@ -51,8 +54,17 @@ class Profile extends Component {
       });
   }
 
+  saveAlertState(show) {
+    const { isShowAlert } = this.state;
+    if (isShowAlert !== show) {
+      this.setState({
+        isShowAlert: show,
+      });
+    }
+  }
+
   render() {
-    const { isFetching, user } = this.state;
+    const { isFetching, user, isShowAlert } = this.state;
     const { location } = this.props;
     return (
       <Container fluid>
@@ -83,9 +95,28 @@ class Profile extends Component {
                 <Route
                   path="/profile/info"
                   component={() => {
-                    return <Info isFetching={isFetching} user={user} />;
+                    return (
+                      <Info
+                        isFetching={isFetching}
+                        user={user}
+                        isShowAlert={isShowAlert}
+                        showAlert={(e) => this.saveAlertState(e)}
+                      />
+                    );
                   }}
                 />
+                <Route
+                  path="/profile/edit"
+                  component={() => {
+                    return (
+                      <InfoChange
+                        user={user}
+                        updateUser={(updatedUser) => this.setState({ user: updatedUser, isShowAlert: true })}
+                      />
+                    );
+                  }}
+                />
+                <Route path="/profile/avatar" component={PhotoEditor} />
                 <Route path="/profile/orders" component={Orders} />
                 <Route path="/profile/history" component={History} />
                 <Route path="/profile/subscriptions" component={Subscriptions} />
@@ -95,6 +126,7 @@ class Profile extends Component {
             </Col>
           </Row>
         </Container>
+
       </Container>
     );
   }

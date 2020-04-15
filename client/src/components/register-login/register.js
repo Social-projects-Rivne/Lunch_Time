@@ -149,7 +149,7 @@ class Register extends Component {
       this.setState({
         phoneNumber: value,
         phoneInputClassName: className,
-        phoneInputTitle: "Phone number must be in '+380...' format with 12 digits",
+        phoneInputTitle: "Phone number must be in '+***' format with 12 digits",
       });
     } else if (value.length > 1 && !phoneRegex.test(value)) {
       this.setState({

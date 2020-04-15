@@ -25,6 +25,7 @@
     "jest"
   ],
   "rules": {
+    "linebreak-style": "off",
     "react/prefer-stateless-function": 0,
     "react/jsx-filename-extension": 0,
     "class-methods-use-this": "off",
@@ -34,7 +35,6 @@
     "max-len": ["error", { "code": 120 }],
     "react/forbid-prop-types": 0,
     "import/no-unresolved": "warn",
-    "linebreak-style": "off",
     "import/no-named-as-default" :"off",
     "import/no-named-as-default-member" : "off",
     "react/jsx-props-no-spreading": "off"

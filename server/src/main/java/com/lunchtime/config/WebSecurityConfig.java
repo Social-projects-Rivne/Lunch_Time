@@ -29,10 +29,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private UserDetailsService myUserDetailsService;
+
     @Autowired
     private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
 
-    @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(myUserDetailsService);
     }
@@ -52,9 +52,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable().cors()
             .and().authorizeRequests()
-            .antMatchers("/api/persons").permitAll()
+            .antMatchers("/api/persons", "/api/feedback").permitAll()
             .and().authorizeRequests()
-            .antMatchers("/api/restaurants/**", "/api/events/**", "/api/images/**").permitAll().and()
+            .antMatchers("/api/restaurants/**", "/api/events/**",
+                "/api/menuitemdish/**",  "/api/images/**").permitAll().and()
             .authorizeRequests().antMatchers("/api/authenticate").permitAll()
             .anyRequest().authenticated().and()
             .exceptionHandling().and().sessionManagement()

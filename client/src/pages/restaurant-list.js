@@ -13,7 +13,7 @@ class RestaurantList extends Component {
     this.state = {
       totalPages: 0,
       number: 0,
-      pageSize: 21,
+      pageSize: 3,
       restaurants: [],
       isFetching: false,
     };

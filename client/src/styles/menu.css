@@ -1,0 +1,36 @@
+.header {
+   
+    height: 70px;
+}
+
+.header h2 {
+    text-align: center;
+}
+
+.menu-item {
+    text-align: left;
+    border: darkorange;
+    border-style: groove;
+    
+}
+
+.headers-item {
+    text-align: center;
+    border: yellow;
+    border-style: solid;
+    background-color: darkslategray;
+}
+
+.menu-item hr {
+    border: 1px solid #E1E1E1;
+}
+
+.headers-item p {
+    margin: 0px;
+}
+
+.col-item {
+    text-align: center;
+    margin: 5px;
+}
+
