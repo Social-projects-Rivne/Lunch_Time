@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {
   Container, Form, FormGroup, FormLabel,
 } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import Api from '../../services/api';
 import MyBadge from '../shared/my-batch';
 
@@ -85,7 +86,7 @@ class Register extends Component {
         });
       if (this.state.checkCount !== 1) {
         this.setState({
-          checkCount: 1,
+          checkCount: 0,
         });
       }
       setTimeout(() => {
@@ -130,6 +131,9 @@ class Register extends Component {
 
   validateInputPhone(e) {
     const { value } = e.target;
+    this.setState({
+      phoneNumber: value,
+    });
     if (value.charAt(0) !== '+') {
       this.setState({
         phoneInputClassName: invalid,
@@ -160,6 +164,9 @@ class Register extends Component {
 
   validateInputEmail(e) {
     const { value } = e.target;
+    this.setState({
+      email: value,
+    });
     const emailRegex = RegExp(
       /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
     );
@@ -191,6 +198,7 @@ class Register extends Component {
       passwordInputTitle: 'Use at least one upper and lower case letter with number.'
         + 'Password should be 8 or more symbols length',
       confirmPasswordInputTitle: 'Passwords must match each other',
+      password: value,
     });
     const passwordRegex = RegExp(
       /^(?=.*[a-zа-я])(?=.*[A-ZА-Я])(?=.*\d)[a-zA-Z\dа-яА-Я]{8,}$/,
@@ -225,6 +233,9 @@ class Register extends Component {
 
   validateConfirmPassword(e) {
     const { value } = e.target;
+    this.setState({
+      confirmPassword: value,
+    });
     if (value.length >= 8) {
       this.setState({
         confirmPassword: value,
@@ -280,6 +291,7 @@ class Register extends Component {
                   title={phoneInputTitle}
                   type="text"
                   placeholder="phone number"
+                  value={this.state.phoneNumber}
                   onChange={this.validateInputPhone}
                 />
                 <FormLabel htmlFor="email">e-mail</FormLabel>
@@ -288,6 +300,7 @@ class Register extends Component {
                   title={emailInputTitle}
                   type="email"
                   placeholder="email"
+                  value={this.state.email}
                   onChange={this.validateInputEmail}
                 />
                 <FormLabel htmlFor="password">Password</FormLabel>
@@ -296,6 +309,7 @@ class Register extends Component {
                   title={passwordInputTitle}
                   type="password"
                   placeholder="password"
+                  value={this.state.password}
                   onChange={this.validateInputPassword}
                 />
                 <input
@@ -303,6 +317,7 @@ class Register extends Component {
                   title={confirmPasswordInputTitle}
                   type="password"
                   placeholder="confirm password"
+                  value={this.state.confirmPassword}
                   onChange={this.validateConfirmPassword}
                 />
               </FormGroup>
@@ -379,7 +394,12 @@ class Register extends Component {
               marginBottom: 40,
             }}
           >
-            Now you can log in :)
+            Now you can
+            {' '}
+            {' '}
+            <Link to="/login"><b><u>log in</u></b></Link>
+            {' '}
+            :)
           </div>
         </div>
       );
