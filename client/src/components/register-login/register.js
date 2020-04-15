@@ -130,6 +130,7 @@ class Register extends Component {
     const { value } = e.target;
     this.setState({
       phoneNumber: value,
+      phoneInputTitle: "Phone number must be in '+***' format with 12 digits",
     });
     if (value.charAt(0) !== '+') {
       this.setState({
@@ -137,24 +138,33 @@ class Register extends Component {
       });
     }
     const phoneRegex = RegExp(/^\+\d+$/);
-    const finalPhoneRegex = RegExp(/^\+[0-9]{12}$/);
-    if (value.length === 13) {
+    const finalPhoneRegex = RegExp(/^\+[0-9]{7,16}$/);
+    if (value.length >= 8) {
       if (!this.state.phoneInputStarted) {
-        this.setState({ phoneInputStarted: value.length >= 13 });
+        this.setState({ phoneInputStarted: value.length >= 8 });
       }
       const className = finalPhoneRegex.test(value) ? valid : invalid;
       this.setState({
         phoneNumber: value,
         phoneInputClassName: className,
-        phoneInputTitle: "Phone number must be in '+***' format with 12 digits",
       });
     } else if (value.length > 1 && !phoneRegex.test(value)) {
       this.setState({
         phoneInputClassName: invalid,
       });
+    } else if (value.length > 1 <= 7 && phoneRegex.test(value)) {
+      this.setState({
+        phoneInputClassName: '',
+      });
     } else if (this.state.phoneInputStarted) {
       this.setState({
         phoneInputClassName: invalid,
+      });
+    }
+    if (value.length === 0) {
+      this.setState({
+        phoneInputClassName: '',
+        phoneInputStarted: false,
       });
     }
   }
