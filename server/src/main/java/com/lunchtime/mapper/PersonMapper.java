@@ -1,6 +1,7 @@
 package com.lunchtime.mapper;
 
 import com.lunchtime.models.Person;
+import com.lunchtime.service.dto.RegisterPerson;
 import com.lunchtime.service.dto.PersonDto;
 import com.lunchtime.repository.PersonRepository;
 import lombok.RequiredArgsConstructor;
@@ -35,5 +36,14 @@ public class PersonMapper {
         personDto.setEmail(person.getEmail());
         personDto.setPhotoUrl(person.getPhotoUrl());
         return personDto;
+    }
+
+    public Person fromRegisterToPerson(RegisterPerson registerPerson) {
+        Person person = new Person();
+        person.setName(registerPerson.getName());
+        person.setPhoneNumber(registerPerson.getPhoneNumber());
+        person.setEmail(registerPerson.getEmail());
+        person.setPassword(registerPerson.getPassword());
+        return person;
     }
 }

@@ -1,0 +1,122 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans&display=swap");
+ .mainContainer {
+	 text-align: center;
+	 display: flex;
+	 justify-content: center;
+	 align-items: center;
+	 font-family: "Open Sans", sans-serif;
+}
+ .mainContainer-logo {
+	 animation: App-logo-spin infinite 20s linear;
+	 pointer-events: none;
+}
+ .mainContainer-header {
+	 background-color: #282c34;
+	 min-height: 100vh;
+	 display: flex;
+	 flex-direction: column;
+	 align-items: center;
+	 justify-content: center;
+	 font-size: 10px ;
+	 color: white;
+}
+ .mainContainer-link {
+	 color: #61dafb;
+}
+ .login {
+	 width: 27em;
+	 height: 46em;
+	 display: flex;
+	 justify-content: center;
+	 align-items: center;
+	 margin-top: 5px;
+	 position: relative;
+	 z-index: 99;
+}
+ .login .container {
+	 display: flex;
+	 justify-content: center;
+	 align-items: center;
+	 background-color: #fff;
+	 box-shadow: 0 0 12px 2px rgba(15, 15, 15, 0.2);
+	 border-radius: 4px;
+	 position: relative;
+	 z-index: 99;
+	 width: 100%;
+	 height: 100%;
+	 padding: 17px 10px;
+}
+ .login .right-side {
+	 display: flex;
+	 flex-direction: column;
+	 justify-content: center;
+	 height: 90%;
+	 background-color: #3498db;
+	 width: 100%;
+	 position: absolute;
+	 right: -34%;
+	 border-radius: 6px;
+	 z-index: 1;
+	 transition: all 300ms ease-in-out;
+	 cursor: pointer;
+	 box-shadow: 0px 0px 12px 2px rgba(15, 15, 15, 0.281);
+}
+ .login .right-side.right {
+	 right: -40%;
+	 align-items: flex-end;
+	 background-color: #52b5bb;
+}
+ .login .right-side.right:hover {
+	 right: -45%;
+	 background-color: #2699a0;
+}
+ .login .right-side.left {
+	 right: 40%;
+	 align-items: flex-start;
+	 	 background-color: #3498db;
+}
+ .login .right-side.left:hover {
+	 right: 45%;
+	 background-color: #147cc1;
+}
+ .login .right-side .text {
+	 font-size: 21px;
+	 font-weight: 500;
+	 color: #fff;
+	 margin-right: 3em;
+	 margin-left: 3em;
+}
+ .btn-reg {
+	 font-size: 21px;
+	 padding: 5px 20px;
+	 border: 0;
+	 background-color: #298fd4;
+	 color: #fff;
+	 border-radius: 3px;
+	 transition: all 250ms ease-in-out;
+	 cursor: pointer;
+}
+ .btn-reg:hover {
+	 background-color: #1878b9;
+}
+ .btn-log {
+	 font-size: 21px;
+	 padding: 5px 20px;
+	 border: 0;
+	 background-color: #52b5bb;
+	 color: #fff;
+	 border-radius: 3px;
+	 transition: all 250ms ease-in-out;
+	 cursor: pointer;
+}
+ .btn-log:hover {
+	 background-color: #2699a0;
+}
+ @keyframes App-logo-spin {
+	 from {
+		 transform: rotate(0deg);
+	}
+	 to {
+		 transform: rotate(360deg);
+	}
+}

@@ -2,6 +2,7 @@ package com.lunchtime.service.impl;
 
 import com.lunchtime.mapper.PersonMapper;
 import com.lunchtime.models.Person;
+import com.lunchtime.service.dto.RegisterPerson;
 import com.lunchtime.service.dto.PersonDto;
 import com.lunchtime.service.dto.PersonPassDto;
 import com.lunchtime.repository.PersonRepository;
@@ -16,6 +17,12 @@ import java.util.Optional;
 public class PersonServiceImpl implements PersonService {
     private final PersonRepository personRepository;
     private final PersonMapper personMapper;
+
+    public PersonDto saveRegisterPerson(RegisterPerson registerPerson) {
+        Person person = personMapper.fromRegisterToPerson(registerPerson);
+        personRepository.save(person);
+        return personMapper.fromPersonToDto(person);
+    }
 
     public Person savePerson(Person person) {
         return personRepository.save(person);
@@ -50,5 +57,15 @@ public class PersonServiceImpl implements PersonService {
 
     public Optional<Person> getPersonById(Long id) {
         return personRepository.findById(id);
+    }
+
+    @Override
+    public Person findByEmail(String email) {
+        return personRepository.findFirstByEmail(email);
+    }
+
+    @Override
+    public Person findByPhoneNumber(String phoneNumber) {
+        return personRepository.findPersonByPhoneNumber(phoneNumber);
     }
 }
