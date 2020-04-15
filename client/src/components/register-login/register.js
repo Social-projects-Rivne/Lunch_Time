@@ -216,7 +216,7 @@ class Register extends Component {
       password: value,
     });
     const passwordRegex = RegExp(
-      /^(?=.*[a-zа-я])(?=.*[A-ZА-Я])(?=.*\d)[a-zA-Z\dа-яА-Я]{8,}$/,
+      /(?=.*\d).{8,}$/,
     );
     if (value.length >= 8) {
       if (!this.state.passwordInputStarted) {
