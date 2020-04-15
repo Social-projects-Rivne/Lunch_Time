@@ -102,7 +102,7 @@ class Register extends Component {
     this.setState({
       name: value,
     });
-    const nameRegex = RegExp(/^[a-zA-Z]+$/);
+    const nameRegex = RegExp(/^([a-zA-Z]+){3,16}$/);
     if (value.length >= 3) {
       if (!this.state.nameInputStarted) {
         this.setState({ nameInputStarted: value.length >= 3 });
@@ -113,18 +113,15 @@ class Register extends Component {
         nameInputClassName: className,
         nameInputTitle: 'Your name must be in range of 3-16 latin letters',
       });
-    } else if (!nameRegex.test(value)) {
-      this.setState({
-        nameInputClassName: invalid,
-      });
-    } else if (this.state.nameInputStarted && value.length === 0) {
+    } else if (this.state.nameInputStarted && !nameRegex.test(value)) {
       this.setState({
         nameInputClassName: invalid,
       });
     }
-    if (value.length > 16) {
+    if (value.length === 0) {
       this.setState({
-        nameInputClassName: invalid,
+        nameInputClassName: '',
+        nameInputStarted: false,
       });
     }
   }
