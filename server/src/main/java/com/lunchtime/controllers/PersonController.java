@@ -21,7 +21,8 @@ public class PersonController {
     }
 
     @PostMapping
-    public ResponseEntity<PersonDto> createPerson(@Valid @RequestBody RegisterPerson registerPerson) throws URISyntaxException {
+    public ResponseEntity<PersonDto> createPerson(
+        @Valid @RequestBody RegisterPerson registerPerson) throws URISyntaxException {
         if (registerPerson.getId() != null) {
             return ResponseEntity.badRequest()
                 .build();
