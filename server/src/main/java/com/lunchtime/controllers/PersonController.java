@@ -13,7 +13,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/persons")
 public class PersonController {
-
     private final PersonService personService;
 
     public PersonController(PersonService personService) {
@@ -21,26 +20,21 @@ public class PersonController {
     }
 
     @PostMapping
-    public ResponseEntity<Person> create(@Valid @RequestBody Person person) throws URISyntaxException {
+    public ResponseEntity<Person> createPerson(@Valid @RequestBody Person person) throws URISyntaxException {
         if (person.getId() != null) {
             return ResponseEntity.badRequest()
                 .build();
         }
-
-        Person result = personService.save(person);
+        Person result = personService.savePerson(person);
         return ResponseEntity.created(new URI("/api/persons"))
             .body(result);
     }
 
     @GetMapping("{id}")
-    //TODO create some better name for method. see other comments
-    public ResponseEntity<Person> getOne(@PathVariable Long id) {
-        Optional<Person> person = personService.findById(id);
-        if (person.isPresent()) {
-            return ResponseEntity.ok()
-                .body(person.get());
-        }
-        return ResponseEntity.notFound()
-            .build();
+    public ResponseEntity<Person> getPersonById(@PathVariable Long id) {
+        Optional<Person> person = personService.getPersonById(id);
+        return person.map(value -> ResponseEntity.ok()
+            .body(value)).orElseGet(() -> ResponseEntity.notFound()
+            .build());
     }
 }
