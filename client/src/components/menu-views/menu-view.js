@@ -29,6 +29,7 @@ class Menu extends Component {
                 &page=${page}&size=${pageSize}`)
       .then((response) => {
         if (response.error) {
+          // eslint-disable-next-line no-console
           console.error(response);
           return;
         }
