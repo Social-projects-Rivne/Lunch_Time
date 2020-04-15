@@ -17,7 +17,7 @@ class CardView extends React.Component {
           <Link to={link}><Card.Title className="">{event.name}</Card.Title></Link>
           <Card.Subtitle className="font-weight-bold mb-2">{event.restaurant.name}</Card.Subtitle>
           <Card.Subtitle className="event-date mb-2 text-muted">
-            {moment(event.date).utc().format('DD.MM.YYYY HH:mm')}
+            {moment(event.date).format('DD.MM.YYYY HH:mm')}
           </Card.Subtitle>
           <Card.Text>{event.description}</Card.Text>
         </Card.Body>
