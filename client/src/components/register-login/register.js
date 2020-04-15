@@ -33,7 +33,7 @@ class Register extends Component {
       passwordInputClassName: '',
       confirmPasswordInputTitle: '',
       confirmPasswordInputClassName: '',
-      isRegistered: true,
+      isRegistered: false,
       invalidEmailOrPassword: false,
       unexpectedError: false,
       checkCount: 0,
@@ -258,6 +258,11 @@ class Register extends Component {
     }
   }
 
+  firstLetter(s) {
+    const name = s.toLowerCase();
+    return name.replace(/^.{1}/g, s[0].toUpperCase());
+  }
+
   render() {
     const {
       nameInputClassName, nameInputTitle, emailInputClassName,
@@ -379,17 +384,22 @@ class Register extends Component {
           <div
             className="focus-in-contract-bck"
             style={{
-              fontSize: 30,
+              fontSize: 22,
               color: '#3498db',
               marginTop: 220,
             }}
           >
-            <b>Congratulations!</b>
+            <b>
+              Congratulations,
+              {' '}
+              {this.firstLetter(this.state.name)}
+              !
+            </b>
           </div>
           <div
             className="focus-in-contract-bck"
             style={{
-              fontSize: 30,
+              fontSize: 22,
               color: '#3498db',
               marginBottom: 60,
             }}
@@ -399,7 +409,7 @@ class Register extends Component {
           <div
             className="text-focus-in"
             style={{
-              fontSize: 30,
+              fontSize: 22,
               color: '#3498db',
               marginBottom: 40,
             }}
