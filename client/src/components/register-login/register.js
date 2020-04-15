@@ -137,24 +137,15 @@ class Register extends Component {
         phoneInputClassName: invalid,
       });
     }
-    const phoneRegex = RegExp(/^\+\d+$/);
-    const finalPhoneRegex = RegExp(/^\+[0-9]{7,16}$/);
+    const phoneRegex = RegExp(/^\+[0-9]{7,16}$/);
     if (value.length >= 8) {
       if (!this.state.phoneInputStarted) {
         this.setState({ phoneInputStarted: value.length >= 8 });
       }
-      const className = finalPhoneRegex.test(value) ? valid : invalid;
+      const className = phoneRegex.test(value) ? valid : invalid;
       this.setState({
         phoneNumber: value,
         phoneInputClassName: className,
-      });
-    } else if (value.length > 1 && !phoneRegex.test(value)) {
-      this.setState({
-        phoneInputClassName: invalid,
-      });
-    } else if (value.length > 1 <= 7 && phoneRegex.test(value)) {
-      this.setState({
-        phoneInputClassName: '',
       });
     } else if (this.state.phoneInputStarted) {
       this.setState({
@@ -164,7 +155,6 @@ class Register extends Component {
     if (value.length === 0) {
       this.setState({
         phoneInputClassName: '',
-        phoneInputStarted: false,
       });
     }
   }
@@ -203,6 +193,11 @@ class Register extends Component {
     if (value.length > 255) {
       this.setState({
         emailInputClassName: invalid,
+      });
+    }
+    if (value.length === 0) {
+      this.setState({
+        emailInputClassName: '',
       });
     }
   }
