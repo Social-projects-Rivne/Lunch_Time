@@ -143,14 +143,14 @@ class InfoChange extends React.Component {
         </Row>
         <hr className="hr-border mt-0" />
         <Button
-          className="ml-3 m-button"
+          className="ml-3 mb-5 m-button"
           type="submit"
           onClick={() => this.updateProfile()}
         >
           Submit
         </Button>
         <Link to="info">
-          <Button variant="danger" className="ml-3">Cancel</Button>
+          <Button variant="danger" className="ml-3 mb-5">Cancel</Button>
         </Link>
       </Container>
     );
