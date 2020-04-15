@@ -78,8 +78,7 @@
 			<artifactId>spring-restdocs-mockmvc</artifactId>
 			<scope>test</scope>
 		</dependency>
-
-    <dependency>
+     <dependency>
       <groupId>org.springframework.restdocs</groupId>
       <artifactId>spring-restdocs-asciidoctor</artifactId>
       <version>${spring-restdocs.version}</version>
@@ -102,6 +101,7 @@
       <artifactId>junit</artifactId>
       <scope>test</scope>
     </dependency>
+
   </dependencies>
 
 	<build>

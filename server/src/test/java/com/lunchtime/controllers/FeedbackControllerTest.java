@@ -55,7 +55,6 @@ public class FeedbackControllerTest {
         Assertions.assertNotNull(feedbackDto1);
     }
 
-
     @Test
     public void testGetAllByRestaurantId() throws Exception {
         final List<Feedback> feedback = Collections.singletonList(initFeedback());
@@ -88,7 +87,6 @@ public class FeedbackControllerTest {
         restaurant.setDescription("description");
         restaurant.setWorkingTime("workingTime");
         restaurant.setDeleted(false);
-        restaurant.setMenuId(0L);
         restaurant.setPerson(initPerson());
         restaurant.setTables(0);
         restaurant.setLongitude(0.0f);
