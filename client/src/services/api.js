@@ -49,7 +49,7 @@ class Api {
   getOne(endpoint, id) {
     return axios.get(`${this.getApiEndpoint(endpoint)}/${id}`)
       .then((response) => {
-        return { error: null, data: response.data };
+        return { error: null, data: response.data, status: response.status };
       })
       .catch((error) => {
         return { error: error };
@@ -68,6 +68,18 @@ class Api {
     return data;
   }
 
+  put(endpoint, body) {
+    const url = this.getApiEndpoint(endpoint);
+    return axios({
+      method: 'PUT',
+      url,
+      data: JSON.stringify(body),
+      headers: { 'Content-Type': 'application/json' },
+    })
+      .catch((error) => {
+        return { error: error };
+      });
+  }
 
   getApiEndpoint(endpoint) {
     if (this.apiUrl.endsWith('/') && endpoint.startsWith('/')) {
