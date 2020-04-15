@@ -1,26 +1,27 @@
 package com.lunchtime.models;
 
+import java.time.Instant;
+import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import java.time.Instant;
 
 @Entity
 @Setter
 @Getter
+
 public class Restaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank
-    @Column(name = "name")
+    @Column(name = "name", length = 100)
     private String name;
 
     @NotBlank
@@ -36,7 +37,7 @@ public class Restaurant {
     private String website;
 
     @NotBlank
-    @Column(name = "description")
+    @Column(name = "description", length = 255)
     private String description;
 
     @NotBlank
@@ -45,9 +46,6 @@ public class Restaurant {
 
     @Column(name = "is_deleted")
     private boolean isDeleted;
-
-    @Column(name = "menu_id")
-    private Long menuId;
 
     @NotNull
     @ManyToOne(fetch = FetchType.EAGER)
@@ -78,5 +76,12 @@ public class Restaurant {
     private Long modifyBy;
 
     public Restaurant() {
+
     }
+
 }
+
+
+
+
+
