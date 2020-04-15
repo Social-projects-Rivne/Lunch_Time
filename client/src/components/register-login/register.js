@@ -171,13 +171,25 @@ class Register extends Component {
 
   validateInputEmail(e) {
     const { value } = e.target;
+
     this.setState({
       email: value,
     });
     const emailRegex = RegExp(
       /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
     );
-    if (value.length > 4) {
+    const testEmailRegex = RegExp(
+      /^\w+(@(\w+(\.(\w+)?)?)?)?$/,
+    );
+    if (value.length <= 5 && testEmailRegex.test(value)) {
+      this.setState({
+        emailInputClassName: '',
+      });
+    } else if (value.length <= 5 && !testEmailRegex.test(value)) {
+      this.setState({
+        emailInputClassName: invalid,
+      });
+    } else if (value.length >= 5) {
       if (!this.state.emailInputStarted) {
         this.setState({ emailInputStarted: value.length >= 5 });
       }
@@ -186,10 +198,6 @@ class Register extends Component {
         email: value,
         emailInputClassName: className,
         emailInputTitle: 'email must consist 5 or more symbols',
-      });
-    } else if (this.state.emailInputStarted && value.length <= 4) {
-      this.setState({
-        emailInputClassName: invalid,
       });
     }
     if (value.length > 255) {
