@@ -20,18 +20,19 @@ class Register extends Component {
       password: '',
       confirmPassword: '',
       nameInputStarted: false,
-      nameInputTitle: '',
+      nameInputTitle: 'Your name must be in range of 3-16 latin letters',
       nameInputClassName: '',
       phoneInputStarted: false,
-      phoneInputTitle: '',
+      phoneInputTitle: "Phone number must be in '+***' format with 12 digits",
       phoneInputClassName: '',
       emailInputStarted: false,
-      emailInputTitle: '',
+      emailInputTitle: 'email must consist 5 or more symbols',
       emailInputClassName: '',
       passwordInputStarted: false,
-      passwordInputTitle: '',
+      passwordInputTitle: 'Use at least one upper and lower case letter with number.'
+        + 'Password should be 8 or more symbols length',
       passwordInputClassName: '',
-      confirmPasswordInputTitle: '',
+      confirmPasswordInputTitle: 'Passwords must match each other',
       confirmPasswordInputClassName: '',
       isRegistered: false,
       invalidEmailOrPassword: false,
@@ -111,7 +112,6 @@ class Register extends Component {
       this.setState({
         name: value,
         nameInputClassName: className,
-        nameInputTitle: 'Your name must be in range of 3-16 latin letters',
       });
     } else if (this.state.nameInputStarted && !nameRegex.test(value)) {
       this.setState({
@@ -130,7 +130,6 @@ class Register extends Component {
     const { value } = e.target;
     this.setState({
       phoneNumber: value,
-      phoneInputTitle: "Phone number must be in '+***' format with 12 digits",
     });
     if (value.charAt(0) !== '+') {
       this.setState({
@@ -187,7 +186,6 @@ class Register extends Component {
       this.setState({
         email: value,
         emailInputClassName: className,
-        emailInputTitle: 'email must consist 5 or more symbols',
       });
     }
     if (value.length > 255) {
@@ -205,9 +203,6 @@ class Register extends Component {
   validateInputPassword(e) {
     const { value } = e.target;
     this.setState({
-      passwordInputTitle: 'Use at least one upper and lower case letter with number.'
-        + 'Password should be 8 or more symbols length',
-      confirmPasswordInputTitle: 'Passwords must match each other',
       password: value,
     });
     const passwordRegex = RegExp(
