@@ -33,7 +33,7 @@ class Register extends Component {
       passwordInputClassName: '',
       confirmPasswordInputTitle: '',
       confirmPasswordInputClassName: '',
-      isRegistered: false,
+      isRegistered: true,
       invalidEmailOrPassword: false,
       unexpectedError: false,
       checkCount: 0,
@@ -382,6 +382,16 @@ class Register extends Component {
               fontSize: 30,
               color: '#3498db',
               marginTop: 220,
+            }}
+          >
+            <b>Congratulations!</b>
+          </div>
+          <div
+            className="focus-in-contract-bck"
+            style={{
+              fontSize: 30,
+              color: '#3498db',
+              marginBottom: 60,
             }}
           >
             <b>You are registered!</b>
