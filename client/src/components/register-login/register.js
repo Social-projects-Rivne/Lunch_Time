@@ -300,7 +300,6 @@ class Register extends Component {
         .catch((error) => {
           // eslint-disable-next-line no-console
           console.log(error);
-          console.log(1);
         });
       if (this.state.unexpectedError !== false) {
         this.setState({
