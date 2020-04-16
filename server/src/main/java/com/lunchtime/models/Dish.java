@@ -31,7 +31,7 @@ public class Dish {
     public Dish() {
     }
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne
     @NotNull
     @JoinColumn(name = "categoryfood_id", referencedColumnName = "id")
     private CategoryFood categoryfood;
