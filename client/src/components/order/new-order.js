@@ -170,7 +170,7 @@ class NewOrder extends Component {
           </Form.Group>
 
           <Form.Group>
-            <Form.Label>Example select</Form.Label>
+            <Form.Label>Available tables</Form.Label>
             {!this.state.availableTables.length ? this.showAlert('There are not available tables', 'warning') : null}
             <Form.Control
               as="select"
