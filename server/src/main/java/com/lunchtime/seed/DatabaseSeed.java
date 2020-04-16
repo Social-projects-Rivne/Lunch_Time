@@ -242,14 +242,14 @@ public class DatabaseSeed {
     }
 
     private OrderStatus createOrderStatus(String name) {
-        return new OrderStatus.OrderStatusBuilder()
+        return OrderStatus.builder()
             .name(name)
             .build();
     }
 
     private void seedOrderStatuses() {
-        for (int i = 0; i <= orderStatuses.length; i++) {
-            orderStatusRepository.save(createOrderStatus(orderStatuses[i]));
+        for (String orderStatus : orderStatuses) {
+            orderStatusRepository.save(createOrderStatus(orderStatus));
         }
     }
 }
