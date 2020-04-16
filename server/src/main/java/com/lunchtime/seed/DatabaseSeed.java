@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 import java.net.URISyntaxException;
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 
 @RequiredArgsConstructor
 @Component
@@ -59,6 +61,7 @@ public class DatabaseSeed {
     private final EventCategoryRepository eventCategoryRepository;
     private final EventRepository eventRepository;
     private final OrderStatusRepository orderStatusRepository;
+    private final RestaurantTableRepository restaurantTableRepository;
 
     @EventListener
     public void seed(ContextRefreshedEvent event) {
@@ -92,6 +95,9 @@ public class DatabaseSeed {
         }
         if (orderStatusRepository.count() == 0L) {
             seedOrderStatuses();
+        }
+        if (restaurantTableRepository.count() == 0L) {
+            seedRestaurantTables();
         }
     }
 
@@ -250,6 +256,26 @@ public class DatabaseSeed {
     private void seedOrderStatuses() {
         for (String orderStatus : orderStatuses) {
             orderStatusRepository.save(createOrderStatus(orderStatus));
+        }
+    }
+
+    private RestaurantTable createRestaurantTable(int number, Restaurant restaurant, int capacity) {
+        return RestaurantTable.builder()
+            .number(number)
+            .restaurant(restaurant)
+            .capacity(capacity)
+            .build();
+    }
+
+    private void seedRestaurantTables() {
+        for (int i = 1; i <= restaurantName.length; i++) {
+            Optional<Restaurant> restaurant = restaurantRepository.findByIdAndIsDeletedFalse((long) i);
+            if (restaurant.isPresent()) {
+                Random random = new Random();
+                for (int j = 1; j < 5; j++) {
+                    restaurantTableRepository.save(createRestaurantTable(j, restaurant.get(), random.nextInt(6) + 2));
+                }
+            }
         }
     }
 }
