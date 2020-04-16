@@ -30,12 +30,12 @@ class Register extends Component {
       emailInputClassName: '',
       showPassword: false,
       isPasswordShown: false,
-      color: '',
+      color: '#fcfffc',
       showWeak: false,
       showNormal: false,
       showGood: false,
       showStrong: false,
-      passwordStrength: 'weak',
+      passwordStrength: '',
       passwordInputStarted: false,
       passwordInputTitle: "Password shouldn't be weak and less than 8 symbols",
       passwordInputClassName: '',
@@ -55,48 +55,22 @@ class Register extends Component {
     this.isPasswordShown = this.isPasswordShown.bind(this);
   }
 
-  handleSubmit() {
-    const {
-      name, phoneNumber, email, password,
-    } = this.state;
-    if (this.checkAllFields()) {
-      const body = {
-        name: name,
-        phoneNumber: phoneNumber,
-        email: email,
-        password: password,
-      };
-      Api.post('persons', body)
-        .then((response) => {
-          if (response.status === 201) {
-            this.setState({
-              isRegistered: true,
-            });
-          } else if (response.error.status === 400) {
-            this.setState({
-              invalidEmailOrPassword: true,
-            });
-            setTimeout(() => {
-              this.setState({
-                invalidEmailOrPassword: false,
-              });
-            }, 3900);
-          }
-        })
-        .catch((error) => {
-          // eslint-disable-next-line no-console
-          console.log(error);
-        });
-      if (this.state.checkCount !== 1) {
+  setPasswordStateValid() {
+    const { passwordStrength, password, confirmPassword } = this.state;
+    const strong = passwordStrength !== 'weak' && passwordStrength !== '';
+    if (strong) {
+      this.setState({
+        passwordInputClassName: valid,
+      });
+      if (confirmPassword === password) {
         this.setState({
-          checkCount: 0,
+          confirmPasswordInputClassName: valid,
         });
       }
-      setTimeout(() => {
-        this.setState({
-          checkCount: 0,
-        });
-      }, 3900);
+    } else {
+      this.setState({
+        passwordInputClassName: invalid,
+      });
     }
   }
 
@@ -214,9 +188,12 @@ class Register extends Component {
       }
       this.isPasswordStrong(value);
       const { passwordStrength } = this.state;
-      const className = passwordStrength !== 'weak' ? valid : invalid;
+      const strong = passwordStrength !== 'weak' && passwordStrength !== '';
+      const className = strong ? valid : invalid;
       this.setState({
         passwordInputClassName: className,
+      }, () => {
+        this.setPasswordStateValid();
       });
     } else if (this.state.passwordInputStarted && value.length < 8) {
       this.setState({
@@ -227,19 +204,109 @@ class Register extends Component {
       this.setState({
         passwordInputClassName: '',
         passwordInputStarted: false,
+        showWeak: false,
+        confirmPasswordInputClassName: '',
       });
     } else if (value.length > 40) {
       this.setState({
         passwordInputClassName: invalid,
       });
     }
-    const { passwordStrength } = this.state;
-    if (passwordStrength !== 'weak' && this.state.confirmPassword.length >= 8) {
-      const { confirmPassword } = this.state;
-      const className = confirmPassword === value ? valid : invalid;
+    if (value.length !== this.state.confirmPassword.length) {
+      if (this.state.confirmPasswordInputClassName === valid) {
+        this.setState({
+          confirmPasswordInputClassName: invalid,
+        });
+      }
+    }
+  }
+
+  validateConfirmPassword(e) {
+    const { value } = e.target;
+    this.setState({
+      confirmPassword: value,
+    });
+    if (value.length > 0) {
       this.setState({
-        confirmPasswordInputClassName: className,
+        showPassword: true,
       });
+    }
+    if (value.length >= 8) {
+      if (value.length === this.state.password.length && this.state.passwordInputClassName === valid) {
+        this.setState({
+          confirmPassword: value,
+        }, () => {
+          const { password, confirmPassword } = this.state;
+          const className = confirmPassword === password ? valid : invalid;
+          this.setState({
+            confirmPasswordInputClassName: className,
+          });
+        });
+      } else if (value.length > this.state.password.length && this.state.passwordInputClassName === valid) {
+        this.setState({
+          confirmPasswordInputClassName: invalid,
+        });
+      }
+    }
+    if (value !== this.state.password && this.state.password.length > 0) {
+      if (this.state.passwordStrength !== 'weak') {
+        this.setState({
+          confirmPasswordInputClassName: invalid,
+        });
+      }
+    }
+    if (value.length === 0) {
+      console.log(this.state.password.length);
+      this.setState({
+        confirmPasswordInputClassName: '',
+      });
+    }
+    this.checkConfirmLive(this.state.password, value);
+  }
+
+
+  handleSubmit() {
+    const {
+      name, phoneNumber, email, password,
+    } = this.state;
+    if (this.checkAllFields()) {
+      const body = {
+        name: name,
+        phoneNumber: phoneNumber,
+        email: email,
+        password: password,
+      };
+      Api.post('persons', body)
+        .then((response) => {
+          if (response.status === 201) {
+            this.setState({
+              isRegistered: true,
+            });
+          } else if (response.error.status === 400) {
+            this.setState({
+              invalidEmailOrPassword: true,
+            });
+            setTimeout(() => {
+              this.setState({
+                invalidEmailOrPassword: false,
+              });
+            }, 3900);
+          }
+        })
+        .catch((error) => {
+          // eslint-disable-next-line no-console
+          console.log(error);
+        });
+      if (this.state.checkCount !== 1) {
+        this.setState({
+          checkCount: 0,
+        });
+      }
+      setTimeout(() => {
+        this.setState({
+          checkCount: 0,
+        });
+      }, 3900);
     }
   }
 
@@ -251,37 +318,53 @@ class Register extends Component {
   isPasswordStrong(value) {
     const weak = new RegExp(/^(?=.*[a-zа-я]).{8,}$/);
     const normal = new RegExp(/^(?=.*[a-zа-я])(?=.*\d).{8,}$/);
-    const good = new RegExp(/^(?=.*[a-zа-я])(?=.*[A-ZА-Я])(?=.*\d).{8,}$/);
+    const good = new RegExp(/^(?=.*[a-zа-я])(?=.*\d)(?=.*[A-ZА-Я]).{8,}$/);
     // eslint-disable-next-line no-useless-escape
     const strong = new RegExp(/^(?=.*[!@#$%^&*()\\\/|~.',<>?`:"{}\]\[]).{8,}$/);
 
+    let checker = false;
     if (weak.test(value)) {
       this.setState({
-        color: '#e9163c',
+        color: '#bc0008',
         passwordStrength: 'weak',
       });
       this.showWeak();
+      checker = true;
     }
     if (normal.test(value)) {
       this.setState({
-        color: '#ffb13d',
+        color: '#ff8e33',
         passwordStrength: 'normal',
       });
       this.showNormal();
+      checker = true;
     }
     if (good.test(value)) {
       this.setState({
-        color: '#e62aff',
+        color: '#459bff',
         passwordStrength: 'good',
       });
       this.showGood();
+      checker = true;
     }
     if (strong.test(value)) {
       this.setState({
         color: '#009d20',
         passwordStrength: 'strong',
+        passwordInputClassName: valid,
       });
       this.showStrong();
+      checker = true;
+    }
+    if (!checker) {
+      this.setState({
+        showWeak: true,
+        showNormal: false,
+        showGood: false,
+        showStrong: false,
+        color: '#bc0008',
+        passwordStrength: 'weak',
+      });
     }
   }
 
@@ -353,50 +436,6 @@ class Register extends Component {
     }, 1900);
   }
 
-  validateConfirmPassword(e) {
-    const { value } = e.target;
-    this.setState({
-      confirmPassword: value,
-    });
-    if (value.length !== 0) {
-      this.setState({
-        showPassword: true,
-      });
-    }
-    if (value.length >= 8) {
-      this.setState({
-        confirmPassword: value,
-      });
-      if (value.length === this.state.password.length && this.state.passwordInputClassName === valid) {
-        this.setState({
-          confirmPassword: value,
-        }, () => {
-          const { password, confirmPassword } = this.state;
-          const className = confirmPassword === password ? valid : invalid;
-          this.setState({
-            confirmPasswordInputClassName: className,
-          });
-        });
-      } else if (value.length > this.state.password.length && this.state.passwordInputClassName === valid) {
-        this.setState({
-          confirmPasswordInputClassName: invalid,
-        });
-      }
-    }
-    if (value !== this.state.password && this.state.password.length > 0) {
-      if (this.state.passwordStrength !== 'weak') {
-        this.setState({
-          confirmPasswordInputClassName: invalid,
-        });
-      }
-    }
-    if (value.length === 0) {
-      this.setState({
-        confirmPasswordInputClassName: '',
-      });
-    }
-  }
-
   firstLetter(s) {
     const name = s.toLowerCase();
     return name.replace(/^.{1}/g, s[0].toUpperCase());
@@ -451,6 +490,25 @@ class Register extends Component {
     return isValid;
   }
 
+  checkConfirmLive(password, confirmPassword) {
+    if (password > confirmPassword) {
+      this.setState({
+        confirmPasswordInputTitle: 'Passwords must match each other',
+        confirmPasswordInputClassName: '',
+      });
+      // eslint-disable-next-line no-plusplus
+      for (let i = 0; i < confirmPassword.length; i++) {
+        if (confirmPassword.charAt(i) !== password.charAt(i)) {
+          this.setState({
+            confirmPasswordInputTitle: "Passwords don't match",
+            confirmPasswordInputClassName: invalid,
+          });
+        }
+      }
+    }
+  }
+
+
   render() {
     const {
       nameInputClassName, nameInputTitle, emailInputClassName,
@@ -461,7 +519,6 @@ class Register extends Component {
       showPassword, isPasswordShown, color, password, showWeak,
       showNormal, showGood, showStrong,
     } = this.state;
-    console.log(this.state.passwordStrength);
     if (!isRegistered && !invalidEmailOrPassword && !unexpectedError) {
       return (
         <Container className="base-container" style={{ color: '#3498db' }}>
@@ -503,15 +560,15 @@ class Register extends Component {
                   Password
                   {showPassword
                   && (
-                  // eslint-disable-next-line max-len
-                  // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions
-                  <img
-                    id="image"
-                    src={isPasswordShown ? '/img/show-password.png' : '/img/hide-password.png'}
-                    alt="show"
-                    style={{ height: 18, marginLeft: 6 }}
-                    onClick={this.isPasswordShown}
-                  />
+                    // eslint-disable-next-line max-len
+                    // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions
+                    <img
+                      id="image"
+                      src={isPasswordShown ? '/img/show-password.png' : '/img/hide-password.png'}
+                      alt="show"
+                      style={{ height: 18, marginLeft: 6 }}
+                      onClick={this.isPasswordShown}
+                    />
                   )}
                   {password.length >= 8 && <text style={{ color: color }}> ● </text>}
                   {password.length >= 8 && showWeak && <text style={{ color: color, fontSize: 13 }}> weak </text>}
@@ -583,7 +640,8 @@ class Register extends Component {
           </div>
         </div>
       );
-    } if (isRegistered && !unexpectedError) {
+    }
+    if (isRegistered && !unexpectedError) {
       return (
         <div>
           <div className="main">
