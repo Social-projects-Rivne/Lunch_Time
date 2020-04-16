@@ -42,10 +42,11 @@ class Restaurant extends Component {
 
   render() {
     const { isFetching, restaurant } = this.state;
-    const { match: { params: { id } } } = this.props;
-    return (
-      <Container className="restaurant-container">
-        <h2>{restaurant.name}</h2>
+    const { match: { params: { id } }, isAuthenticated } = this.props;
+
+    let newOrderLink;
+    if (isAuthenticated) {
+      newOrderLink = (
         <Link to={{
           pathname: `/restaurants/${id}/new-order`,
           state: {
@@ -55,6 +56,22 @@ class Restaurant extends Component {
         >
           <Button className="btn-inf m-button ml-5">Make order</Button>
         </Link>
+      );
+    } else {
+      newOrderLink = (
+        <Link to={{
+          pathname: '/login',
+        }}
+        >
+          <Button className="btn-inf m-button ml-5">Login before making order</Button>
+        </Link>
+      );
+    }
+
+    return (
+      <Container className="restaurant-container">
+        <h2>{restaurant.name}</h2>
+        {newOrderLink}
         <Tabs defaultActiveKey="about">
           <Tab eventKey="about" title="About">
             <About restaurant={restaurant} isFetching={isFetching} />
@@ -76,6 +93,7 @@ class Restaurant extends Component {
 
 Restaurant.propTypes = {
   match: PropTypes.any.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
 };
 
 export default Restaurant;

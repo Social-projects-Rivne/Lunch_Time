@@ -46,7 +46,12 @@ class App extends Component {
           <Route path="/about" component={About} />
           <Route path="/events" component={Events} />
           <Route path="/restaurants/:id/new-order" component={NewOrder} />
-          <Route path="/restaurants/:id" component={Restaurant} />
+          <Route
+            path="/restaurants/:id"
+            render={(routeProps) => {
+              return <Restaurant isAuthenticated={isAuthenticated} {...routeProps} />;
+            }}
+          />
           <Route path="/restaurants" component={RestaurantList} />
           <Route
             path="/login"
