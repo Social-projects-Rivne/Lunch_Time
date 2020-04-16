@@ -35,7 +35,7 @@ class Register extends Component {
       showNormal: false,
       showGood: false,
       showStrong: false,
-      passwordStrength: '',
+      passwordStrength: 'weak',
       passwordInputStarted: false,
       passwordInputTitle: "Password shouldn't be weak and less than 8 symbols",
       passwordInputClassName: '',
@@ -212,7 +212,9 @@ class Register extends Component {
       if (!this.state.passwordInputStarted) {
         this.setState({ passwordInputStarted: value.length >= 8 });
       }
-      const className = this.isPasswordStrong(value) ? valid : invalid;
+      this.isPasswordStrong(value);
+      const { passwordStrength } = this.state;
+      const className = passwordStrength !== 'weak' ? valid : invalid;
       this.setState({
         passwordInputClassName: className,
       });
@@ -225,7 +227,6 @@ class Register extends Component {
       this.setState({
         passwordInputClassName: '',
         passwordInputStarted: false,
-        showWeak: false,
       });
     } else if (value.length > 40) {
       this.setState({
@@ -254,48 +255,34 @@ class Register extends Component {
     // eslint-disable-next-line no-useless-escape
     const strong = new RegExp(/^(?=.*[!@#$%^&*()\\\/|~.',<>?`:"{}\]\[]).{8,}$/);
 
-    if (value.length >= 8) {
-      if (weak.test(value)) {
-        this.setState({
-          color: '#e9163c',
-          passwordStrength: 'weak',
-        });
-        this.showWeak();
-      }
-      if (normal.test(value)) {
-        this.setState({
-          color: '#ffb13d',
-          passwordStrength: 'normal',
-        });
-        this.showNormal();
-        return true;
-      }
-      if (good.test(value)) {
-        this.setState({
-          color: '#229eff',
-          passwordStrength: 'good',
-        });
-        this.showGood();
-        return true;
-      }
-      if (strong.test(value)) {
-        this.setState({
-          color: '#009d20',
-          passwordStrength: 'strong',
-        });
-        this.showStrong();
-        return true;
-      }
-    } else {
+    if (weak.test(value)) {
       this.setState({
-        showWeak: false,
-        showNormal: false,
-        showGood: false,
-        showStrong: false,
+        color: '#e9163c',
+        passwordStrength: 'weak',
       });
-      return false;
+      this.showWeak();
     }
-    return false;
+    if (normal.test(value)) {
+      this.setState({
+        color: '#ffb13d',
+        passwordStrength: 'normal',
+      });
+      this.showNormal();
+    }
+    if (good.test(value)) {
+      this.setState({
+        color: '#e62aff',
+        passwordStrength: 'good',
+      });
+      this.showGood();
+    }
+    if (strong.test(value)) {
+      this.setState({
+        color: '#009d20',
+        passwordStrength: 'strong',
+      });
+      this.showStrong();
+    }
   }
 
   showWeak() {
@@ -474,6 +461,7 @@ class Register extends Component {
       showPassword, isPasswordShown, color, password, showWeak,
       showNormal, showGood, showStrong,
     } = this.state;
+    console.log(this.state.passwordStrength);
     if (!isRegistered && !invalidEmailOrPassword && !unexpectedError) {
       return (
         <Container className="base-container" style={{ color: '#3498db' }}>
