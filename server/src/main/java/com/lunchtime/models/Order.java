@@ -16,7 +16,7 @@ import java.util.Date;
 @Table(name = "ordering")
 public class Order {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
@@ -41,7 +41,7 @@ public class Order {
     @JoinColumn(name = "status_id", referencedColumnName = "id")
     private OrderStatus status;
 
-    @Size(min = 0, max = 999)
+    @Size(max = 999)
     @Column(name = "description")
     private String description;
 

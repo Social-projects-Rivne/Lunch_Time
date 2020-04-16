@@ -14,11 +14,11 @@ import java.time.Instant;
 @Data
 public class OrderStatus {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
-    @Size(min = 0, max = 32)
+    @Size(max = 32)
     @Column(name = "name")
     private String name;
 

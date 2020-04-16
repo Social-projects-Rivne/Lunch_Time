@@ -10,13 +10,15 @@ import java.util.Optional;
 
 public interface RestaurantTableService {
 
-    RestaurantTable save(RestaurantTable restaurant);
+    RestaurantTable saveTable(RestaurantTable restaurant);
 
-    Page<RestaurantTable> findAll(Pageable pageable);
+    Page<RestaurantTable> getAllTables(Pageable pageable);
 
-    Optional<RestaurantTable> findById(Long id);
+    Optional<RestaurantTable> getTableById(Long id);
 
-    Page<RestaurantTable> findAllByRestaurantId(Pageable pageable, Long id);
+    Page<RestaurantTable> getAllTablesByRestaurantId(Pageable pageable, Long id);
 
-    List<RestaurantTable> findAllAvailableTablesByRestaurantId(Long id, Date startTime, Date finisTime);
+    List<RestaurantTable> getAllAvailableTablesByRestaurantId(Long id, Date startTime, Date finisTime);
+
+    RestaurantTable deleteTable(Long id);
 }

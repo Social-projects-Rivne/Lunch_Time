@@ -14,7 +14,7 @@ import java.time.Instant;
 @Data
 public class RestaurantTable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
@@ -25,7 +25,7 @@ public class RestaurantTable {
     @Column(name = "capacity")
     private Integer capacity;
 
-    @Size(min = 0, max = 999)
+    @Size(max = 999)
     @Column(name = "description")
     private String description;
 

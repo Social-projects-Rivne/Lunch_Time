@@ -7,11 +7,11 @@ import org.springframework.data.domain.Pageable;
 import java.util.Optional;
 
 public interface OrderService {
-    Order save(Order order);
+    Order saveOrder(Order order);
 
-    Page<Order> findAll(Pageable pageable);
+    Page<Order> getAllOrders(Pageable pageable);
 
-    Optional<Order> findById(Long id);
+    Optional<Order> getOrderById(Long id);
 
-    Order delete(Long id);
+    Order deleteOrder(Long id);
 }

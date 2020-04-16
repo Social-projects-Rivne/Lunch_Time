@@ -22,7 +22,7 @@ public class OrderStatusController {
     }
 
     @PostMapping
-    public ResponseEntity<OrderStatus> create(
+    public ResponseEntity<OrderStatus> createOrderStatus(
         @Valid @RequestBody OrderStatus orderStatus
     ) throws URISyntaxException {
         if (orderStatus.getId() != null) {
@@ -30,29 +30,29 @@ public class OrderStatusController {
                 .build();
         }
 
-        OrderStatus result = orderStatusService.save(orderStatus);
+        OrderStatus result = orderStatusService.saveOrderStatus(orderStatus);
         return ResponseEntity.created(new URI("/api/order-status"))
             .body(result);
     }
 
     @GetMapping
-    public ResponseEntity<List<OrderStatus>> getAll() {
-        List<OrderStatus> statuses = orderStatusService.findAll();
+    public ResponseEntity<List<OrderStatus>> getAllOrderStatuses() {
+        List<OrderStatus> statuses = orderStatusService.getAllOrderStatuses();
         return ResponseEntity.ok()
             .body(statuses);
     }
 
     @GetMapping("{id}")
     public ResponseEntity<OrderStatus> getOrderStatusById(@PathVariable Long id) {
-        Optional<OrderStatus> statuses = orderStatusService.findById(id);
+        Optional<OrderStatus> statuses = orderStatusService.getOrderStatusById(id);
         return statuses.map(orderStatus -> ResponseEntity.ok()
             .body(orderStatus)).orElseGet(() -> ResponseEntity.notFound()
             .build());
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
-        OrderStatus status = orderStatusService.delete(id);
+    public ResponseEntity<Void> deleteOrderStatus(@PathVariable Long id) {
+        OrderStatus status = orderStatusService.deleteOrderStatus(id);
         if (status == null) {
             return ResponseEntity.notFound().build();
         }

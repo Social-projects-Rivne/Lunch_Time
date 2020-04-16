@@ -6,13 +6,13 @@ import java.util.List;
 import java.util.Optional;
 
 public interface OrderStatusService {
-    OrderStatus save(OrderStatus orderStatus);
+    OrderStatus saveOrderStatus(OrderStatus orderStatus);
 
-    Optional<OrderStatus> findById(Long id);
+    Optional<OrderStatus> getOrderStatusById(Long id);
 
-    List<OrderStatus> findAll();
+    List<OrderStatus> getAllOrderStatuses();
 
-    OrderStatus delete(Long id);
+    OrderStatus deleteOrderStatus(Long id);
 
-    Optional<OrderStatus> findByName(String name);
+    Optional<OrderStatus> getOrderStatusByName(String name);
 }

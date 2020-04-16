@@ -35,7 +35,7 @@ public class RestaurantTableController {
                 .build();
         }
 
-        RestaurantTable result = restaurantTableService.save(restaurantTable);
+        RestaurantTable result = restaurantTableService.saveTable(restaurantTable);
         if (result == null) {
             return ResponseEntity.badRequest()
                 .build();
@@ -47,7 +47,7 @@ public class RestaurantTableController {
 
     @GetMapping
     public ResponseEntity<Page<RestaurantTable>> getAllTables(Pageable pageable) {
-        Page<RestaurantTable> page = restaurantTableService.findAll(pageable);
+        Page<RestaurantTable> page = restaurantTableService.getAllTables(pageable);
         return ResponseEntity.ok()
             .body(page);
     }
@@ -56,7 +56,7 @@ public class RestaurantTableController {
     public ResponseEntity<Page<RestaurantTable>> getTablesByRestaurantId(
         Pageable pageable, @RequestParam("restaurantId") Long id
     ) {
-        Page<RestaurantTable> page = restaurantTableService.findAllByRestaurantId(pageable, id);
+        Page<RestaurantTable> page = restaurantTableService.getAllTablesByRestaurantId(pageable, id);
         return ResponseEntity.ok()
             .body(page);
     }
@@ -67,19 +67,29 @@ public class RestaurantTableController {
         @RequestParam("start") @DateTimeFormat(pattern = "yyyy-MM-dd H:m") Date start,
         @RequestParam("finish") @DateTimeFormat(pattern = "yyyy-MM-dd H:m") Date finish
     ) {
-        List<RestaurantTable> tables = restaurantTableService.findAllAvailableTablesByRestaurantId(id, start, finish);
+        List<RestaurantTable> tables = restaurantTableService.getAllAvailableTablesByRestaurantId(id, start, finish);
         return ResponseEntity.ok()
             .body(tables);
     }
 
     @GetMapping("{id}")
     public ResponseEntity<RestaurantTable> getTableById(@PathVariable Long id) {
-        Optional<RestaurantTable> restaurantTable = restaurantTableService.findById(id);
+        Optional<RestaurantTable> restaurantTable = restaurantTableService.getTableById(id);
         if (restaurantTable.isPresent()) {
             return ResponseEntity.ok()
                 .body(restaurantTable.get());
         }
         return ResponseEntity.notFound()
+            .build();
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteTable(@PathVariable Long id) {
+        RestaurantTable order = restaurantTableService.deleteTable(id);
+        if (order == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok()
             .build();
     }
 

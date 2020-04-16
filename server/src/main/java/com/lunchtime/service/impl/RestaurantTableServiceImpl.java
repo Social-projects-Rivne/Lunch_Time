@@ -16,13 +16,13 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class RestaurantTableServiceImplement implements RestaurantTableService {
+public class RestaurantTableServiceImpl implements RestaurantTableService {
 
     private final RestaurantTableRepository restaurantTableRepository;
     private final RestaurantService restaurantService;
     private final OrderRepository orderRepository;
 
-    public RestaurantTableServiceImplement(
+    public RestaurantTableServiceImpl(
         RestaurantTableRepository restaurantTableRepository,
         RestaurantService restaurantService,
         OrderRepository orderRepository) {
@@ -31,7 +31,7 @@ public class RestaurantTableServiceImplement implements RestaurantTableService {
         this.orderRepository = orderRepository;
     }
 
-    public RestaurantTable save(RestaurantTable restaurantTable) {
+    public RestaurantTable saveTable(RestaurantTable restaurantTable) {
         List<RestaurantTable> restaurantTables = restaurantTableRepository
             .findByRestaurantId(restaurantTable.getRestaurant().getId());
         for (RestaurantTable table: restaurantTables) {
@@ -47,19 +47,19 @@ public class RestaurantTableServiceImplement implements RestaurantTableService {
             .orElseGet(null);
     }
 
-    public Page<RestaurantTable> findAll(Pageable pageable) {
+    public Page<RestaurantTable> getAllTables(Pageable pageable) {
         return restaurantTableRepository.findAll(pageable);
     }
 
-    public Optional<RestaurantTable> findById(Long id) {
+    public Optional<RestaurantTable> getTableById(Long id) {
         return restaurantTableRepository.findById(id);
     }
 
-    public Page<RestaurantTable> findAllByRestaurantId(Pageable pageable, Long id) {
+    public Page<RestaurantTable> getAllTablesByRestaurantId(Pageable pageable, Long id) {
         return restaurantTableRepository.findByRestaurantId(pageable, id);
     }
 
-    public List<RestaurantTable> findAllAvailableTablesByRestaurantId(Long id, Date startTime, Date finisTime) {
+    public List<RestaurantTable> getAllAvailableTablesByRestaurantId(Long id, Date startTime, Date finisTime) {
         List<Order> orders = orderRepository.findAllOrdersByRestaurantIdInTime(id, startTime, finisTime);
         List<RestaurantTable> tables = restaurantTableRepository.findByRestaurantId(id);
         return tables.stream()
@@ -70,8 +70,8 @@ public class RestaurantTableServiceImplement implements RestaurantTableService {
                     .collect(Collectors.toList());
     }
 
-    public RestaurantTable delete(Long id) {
-        return findById(id)
+    public RestaurantTable deleteTable(Long id) {
+        return getTableById(id)
             .map(table -> {
                 table.setDeleted(true);
                 return restaurantTableRepository.save(table);

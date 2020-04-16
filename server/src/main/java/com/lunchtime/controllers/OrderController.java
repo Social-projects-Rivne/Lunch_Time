@@ -1,7 +1,6 @@
 package com.lunchtime.controllers;
 
 import com.lunchtime.models.Order;
-import com.lunchtime.models.Restaurant;
 import com.lunchtime.service.OrderService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -31,7 +29,7 @@ public class OrderController {
                 .build();
         }
 
-        Order result = orderService.save(order);
+        Order result = orderService.saveOrder(order);
         if (result == null) {
             return ResponseEntity.badRequest().build();
         }
@@ -41,14 +39,14 @@ public class OrderController {
 
     @GetMapping
     public ResponseEntity<Page<Order>> getAllOrders(Pageable pageable) {
-        Page<Order> page = orderService.findAll(pageable);
+        Page<Order> page = orderService.getAllOrders(pageable);
         return ResponseEntity.ok()
             .body(page);
     }
 
     @GetMapping("{id}")
     public ResponseEntity<Order> getOrderById(@PathVariable Long id) {
-        Optional<Order> optional = orderService.findById(id);
+        Optional<Order> optional = orderService.getOrderById(id);
         return optional.map(order -> ResponseEntity.ok()
             .body(order)).orElseGet(() -> ResponseEntity.notFound()
             .build());
@@ -56,7 +54,7 @@ public class OrderController {
 
     @DeleteMapping("{id}")
     public ResponseEntity<Void> deleteOrder(@PathVariable Long id) {
-        Order order = orderService.delete(id);
+        Order order = orderService.deleteOrder(id);
         if (order == null) {
             return ResponseEntity.notFound().build();
         }

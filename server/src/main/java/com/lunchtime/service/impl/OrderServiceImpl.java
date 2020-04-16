@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class OrderServiceImplementation implements OrderService {
+public class OrderServiceImpl implements OrderService {
 
     private final OrderRepository orderRepository;
     private final RestaurantTableService restaurantTableService;
@@ -27,7 +27,7 @@ public class OrderServiceImplementation implements OrderService {
 
     private final String newOrderStatus = "new";
 
-    public OrderServiceImplementation(
+    public OrderServiceImpl(
         OrderRepository orderRepository,
         RestaurantTableService restaurantTableService,
         PersonService personService, OrderStatusService orderStatusService) {
@@ -37,7 +37,7 @@ public class OrderServiceImplementation implements OrderService {
         this.orderStatusService = orderStatusService;
     }
 
-    public Order save(Order order) {
+    public Order saveOrder(Order order) {
         Date currentDate = new Date();
         if (currentDate.after(order.getStartTime())) {
             return null;
@@ -59,29 +59,29 @@ public class OrderServiceImplementation implements OrderService {
             return null;
         }
 
-        Optional<RestaurantTable> table = restaurantTableService.findById(order.getTable().getId());
+        Optional<RestaurantTable> table = restaurantTableService.getTableById(order.getTable().getId());
         if (table.isPresent() && table.get().getCapacity() >= order.getVisitors()) {
             order.setTable(table.get());
         } else {
             return null;
         }
 
-        Optional<OrderStatus> status = orderStatusService.findByName(newOrderStatus);
+        Optional<OrderStatus> status = orderStatusService.getOrderStatusByName(newOrderStatus);
         status.ifPresent(order::setStatus);
 
         return orderRepository.save(order);
     }
 
-    public Page<Order> findAll(Pageable pageable) {
+    public Page<Order> getAllOrders(Pageable pageable) {
         return orderRepository.findAll(pageable);
     }
 
-    public Optional<Order> findById(Long id) {
+    public Optional<Order> getOrderById(Long id) {
         return orderRepository.findById(id);
     }
 
-    public Order delete(Long id) {
-        return findById(id)
+    public Order deleteOrder(Long id) {
+        return getOrderById(id)
             .map(order -> {
                 order.setDeleted(true);
                 return orderRepository.save(order);

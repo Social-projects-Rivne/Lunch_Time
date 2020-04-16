@@ -9,28 +9,28 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class OrderStatusServiceImplementation implements OrderStatusService {
+public class OrderStatusServiceImpl implements OrderStatusService {
 
     private final OrderStatusRepository orderStatusRepository;
 
-    public OrderStatusServiceImplementation(OrderStatusRepository orderStatusRepository) {
+    public OrderStatusServiceImpl(OrderStatusRepository orderStatusRepository) {
         this.orderStatusRepository = orderStatusRepository;
     }
 
-    public OrderStatus save(OrderStatus orderStatus) {
+    public OrderStatus saveOrderStatus(OrderStatus orderStatus) {
         return orderStatusRepository.save(orderStatus);
     }
 
-    public Optional<OrderStatus> findById(Long id) {
+    public Optional<OrderStatus> getOrderStatusById(Long id) {
         return orderStatusRepository.findById(id);
     }
 
-    public List<OrderStatus> findAll() {
+    public List<OrderStatus> getAllOrderStatuses() {
         return orderStatusRepository.findAll();
     }
 
-    public OrderStatus delete(Long id) {
-        return findById(id)
+    public OrderStatus deleteOrderStatus(Long id) {
+        return getOrderStatusById(id)
             .map(status -> {
                 status.setDeleted(true);
                 return orderStatusRepository.save(status);
@@ -38,7 +38,7 @@ public class OrderStatusServiceImplementation implements OrderStatusService {
             .orElseGet(null);
     }
 
-    public Optional<OrderStatus> findByName(String name) {
+    public Optional<OrderStatus> getOrderStatusByName(String name) {
         return orderStatusRepository.findByName(name);
     }
 }
