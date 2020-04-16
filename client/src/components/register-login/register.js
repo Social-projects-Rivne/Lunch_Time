@@ -37,7 +37,7 @@ class Register extends Component {
       showStrong: false,
       passwordStrength: '',
       passwordInputStarted: false,
-      passwordInputTitle: 'Password should be 8 or more symbols length with one digit at least',
+      passwordInputTitle: "Password shouldn't be weak and less than 8 symbols",
       passwordInputClassName: '',
       confirmPasswordInputTitle: 'Passwords must match each other',
       confirmPasswordInputClassName: '',
@@ -60,8 +60,6 @@ class Register extends Component {
       name, phoneNumber, email, password,
     } = this.state;
     if (this.checkAllFields()) {
-      // check with this
-      console.log('check line 52 if needs bind');
       const body = {
         name: name,
         phoneNumber: phoneNumber,
