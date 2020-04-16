@@ -6,6 +6,7 @@ import com.lunchtime.repository.OrderRepository;
 import com.lunchtime.repository.RestaurantTableRepository;
 import com.lunchtime.service.RestaurantService;
 import com.lunchtime.service.RestaurantTableService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -15,21 +16,13 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Service
 public class RestaurantTableServiceImpl implements RestaurantTableService {
 
     private final RestaurantTableRepository restaurantTableRepository;
     private final RestaurantService restaurantService;
     private final OrderRepository orderRepository;
-
-    public RestaurantTableServiceImpl(
-        RestaurantTableRepository restaurantTableRepository,
-        RestaurantService restaurantService,
-        OrderRepository orderRepository) {
-        this.restaurantTableRepository = restaurantTableRepository;
-        this.restaurantService = restaurantService;
-        this.orderRepository = orderRepository;
-    }
 
     public RestaurantTable saveTable(RestaurantTable restaurantTable) {
         List<RestaurantTable> restaurantTables = restaurantTableRepository

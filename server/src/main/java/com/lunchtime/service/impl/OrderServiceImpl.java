@@ -9,6 +9,7 @@ import com.lunchtime.service.OrderService;
 import com.lunchtime.service.OrderStatusService;
 import com.lunchtime.service.PersonService;
 import com.lunchtime.service.RestaurantTableService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 public class OrderServiceImpl implements OrderService {
 
@@ -26,16 +28,6 @@ public class OrderServiceImpl implements OrderService {
     private final OrderStatusService orderStatusService;
 
     private final String newOrderStatus = "new";
-
-    public OrderServiceImpl(
-        OrderRepository orderRepository,
-        RestaurantTableService restaurantTableService,
-        PersonService personService, OrderStatusService orderStatusService) {
-        this.orderRepository = orderRepository;
-        this.restaurantTableService = restaurantTableService;
-        this.personService = personService;
-        this.orderStatusService = orderStatusService;
-    }
 
     public Order saveOrder(Order order) {
         Date currentDate = new Date();
