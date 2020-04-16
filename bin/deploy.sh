@@ -13,7 +13,7 @@ echo "$(docker ps)" >> $log_folder/$log_file
 docker-compose -f docker-compose.prod.yml stop >> $log_folder/$log_file
 echo "==== docker ps after stop ====" >> $log_folder/$log_file
 echo "$(docker ps)" >> $log_folder/$log_file
-sleepl 5
+sleep 5
 
 docker-compose -f docker-compose.prod.yml up -d --build >> $log_folder/$log_file
 echo "==== docker ps after run ====" >> $log_folder/$log_file
