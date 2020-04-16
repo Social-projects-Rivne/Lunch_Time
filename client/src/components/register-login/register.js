@@ -441,7 +441,7 @@ class Register extends Component {
 
   checkAllFields() {
     const {
-      nameInputClassName, phoneNumberInputClassName, emailInputClassName,
+      nameInputClassName, phoneInputClassName, emailInputClassName,
       passwordInputClassName, confirmPasswordInputClassName,
     } = this.state;
     let isValid = true;
@@ -453,7 +453,7 @@ class Register extends Component {
         });
       }, 100);
     }
-    if (phoneNumberInputClassName !== valid) {
+    if (phoneInputClassName !== valid) {
       isValid = false;
       setTimeout(() => {
         this.setState({
@@ -505,7 +505,6 @@ class Register extends Component {
       }
     }
   }
-
 
   render() {
     const {
