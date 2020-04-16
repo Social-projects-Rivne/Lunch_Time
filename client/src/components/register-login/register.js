@@ -26,7 +26,7 @@ class Register extends Component {
       phoneInputTitle: "Phone number must be in '+***' format with digits",
       phoneInputClassName: '',
       emailInputStarted: false,
-      emailInputTitle: 'email must consist 5 or more symbols',
+      emailInputTitle: 'email must consist of 5 or more symbols',
       emailInputClassName: '',
       showPassword: false,
       isPasswordShown: false,
