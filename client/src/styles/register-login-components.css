@@ -51,6 +51,10 @@
 	 margin-bottom: 11px;
 	 transition: all 250ms ease-in-out;
 }
+
+.base-container .content .form .form-group input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #aeaeae;
+}
  .base-container .content .form .form-group input:hover {
  	 background-color: #82bdec4a;
 }
