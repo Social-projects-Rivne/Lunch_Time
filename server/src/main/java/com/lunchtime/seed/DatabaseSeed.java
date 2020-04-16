@@ -2,6 +2,7 @@ package com.lunchtime.seed;
 
 import com.lunchtime.models.*;
 import com.lunchtime.repository.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
@@ -9,6 +10,7 @@ import java.net.URISyntaxException;
 import java.time.Instant;
 import java.util.List;
 
+@RequiredArgsConstructor
 @Component
 public class DatabaseSeed {
 
@@ -46,6 +48,7 @@ public class DatabaseSeed {
     int[] eventType = {0, 1, 2, 5, 0};
     Float[] cordLatitude = new Float[]{50.616294f, 50.618261f, 50.620219f, 50.616146f, 50.618318f};
     Float[] cordLongitude = new Float[]{26.275728f, 26.260064f, 26.241863f, 26.253994f, 26.252249f};
+    String[] orderStatuses = new String[]{"new", "pending", "approved", "performed", "close"};
 
     private final RestaurantRepository restaurantRepository;
     private final FeedbackRepository feedbackRepository;
@@ -55,26 +58,7 @@ public class DatabaseSeed {
     private final MenuItemDishRepository menuItemDishRepository;
     private final EventCategoryRepository eventCategoryRepository;
     private final EventRepository eventRepository;
-
-
-    public DatabaseSeed(RestaurantRepository restaurantRepository,
-                        FeedbackRepository feedbackRepository,
-                        PersonRepository personRepository,
-                        DishRepository dishRepository,
-                        CategoryFoodRepository categoryFoodRepository,
-                        MenuItemDishRepository menuItemDishRepository,
-                        EventCategoryRepository eventCategoryRepository,
-                        EventRepository eventRepository) {
-        this.restaurantRepository = restaurantRepository;
-        this.feedbackRepository = feedbackRepository;
-        this.personRepository = personRepository;
-        this.dishRepository = dishRepository;
-        this.categoryFoodRepository = categoryFoodRepository;
-        this.menuItemDishRepository = menuItemDishRepository;
-        this.eventCategoryRepository = eventCategoryRepository;
-        this.eventRepository = eventRepository;
-
-    }
+    private final OrderStatusRepository orderStatusRepository;
 
     @EventListener
     public void seed(ContextRefreshedEvent event) {
@@ -105,7 +89,9 @@ public class DatabaseSeed {
             } catch (URISyntaxException e) {
                 e.printStackTrace();
             }
-
+        }
+        if (orderStatusRepository.count() == 0L) {
+            seedOrderStatuses();
         }
     }
 
@@ -253,6 +239,18 @@ public class DatabaseSeed {
 
     private List<EventCategory> getEventCategoryList() {
         return eventCategoryRepository.findAll();
+    }
+
+    private OrderStatus createOrderStatus(String name) {
+        return new OrderStatus.OrderStatusBuilder()
+            .name(name)
+            .build();
+    }
+
+    private void seedOrderStatuses() {
+        for (int i = 0; i <= orderStatuses.length; i++) {
+            orderStatusRepository.save(createOrderStatus(orderStatuses[i]));
+        }
     }
 }
 
