@@ -45,6 +45,8 @@ class Register extends Component {
       invalidEmailOrPassword: false,
       unexpectedError: false,
       checkCount: 0,
+      photo1: '/img/register1.png',
+      photo2: '/img/register2.png',
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.validateInputName = this.validateInputName.bind(this);
@@ -515,6 +517,15 @@ class Register extends Component {
     }
   }
 
+  photo() {
+    const { photo2 } = this.state;
+    setTimeout(() => {
+      this.setState({
+        photo1: photo2,
+      });
+    }, 14000);
+  }
+
   render() {
     const {
       nameInputClassName, nameInputTitle, emailInputClassName,
@@ -523,15 +534,16 @@ class Register extends Component {
       phoneInputClassName, phoneInputTitle, isRegistered,
       invalidEmailOrPassword, unexpectedError, checkCount,
       showPassword, isPasswordShown, color, password, showWeak,
-      showNormal, showGood, showStrong,
+      showNormal, showGood, showStrong, photo1,
     } = this.state;
+    this.photo();
     if (!isRegistered && !invalidEmailOrPassword && !unexpectedError) {
       return (
         <Container className="base-container" style={{ color: '#3498db' }}>
           <div className="header">Register</div>
           <div className="content">
             <div className="image">
-              <img src="/img/register.png" alt="register" />
+              <img src={photo1} alt="register" />
             </div>
             <Form className="form" onSubmit={this.handleSubmit}>
               <FormGroup>
