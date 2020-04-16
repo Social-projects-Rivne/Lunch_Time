@@ -30,9 +30,14 @@ class Register extends Component {
       emailInputClassName: '',
       showPassword: false,
       isPasswordShown: false,
+      color: '',
+      showWeak: false,
+      showNormal: false,
+      showGood: false,
+      showStrong: false,
+      passwordStrength: '',
       passwordInputStarted: false,
-      passwordInputTitle: 'Use at least one upper and lower case letter with number.'
-        + 'Password should be 8 or more symbols length',
+      passwordInputTitle: 'Password should be 8 or more symbols length with one digit at least',
       passwordInputClassName: '',
       confirmPasswordInputTitle: 'Passwords must match each other',
       confirmPasswordInputClassName: '',
@@ -203,18 +208,15 @@ class Register extends Component {
     const { value } = e.target;
     this.setState({
       showPassword: value.length > 0,
-    });
-    this.setState({
       password: value,
     });
-    const passwordRegex = RegExp(
-      /(?=.*\d).{8,}$/,
-    );
+    this.isPasswordStrong(value);
     if (value.length >= 8) {
       if (!this.state.passwordInputStarted) {
         this.setState({ passwordInputStarted: value.length >= 8 });
       }
-      const className = passwordRegex.test(value) ? valid : invalid;
+      const { passwordStrength } = this.state;
+      const className = passwordStrength !== 'weak' ? valid : invalid;
       this.setState({
         password: value,
         passwordInputClassName: className,
@@ -224,12 +226,19 @@ class Register extends Component {
         passwordInputClassName: invalid,
       });
     }
-    if (value.length > 40) {
+    if (value.length === 0) {
+      this.setState({
+        passwordInputClassName: '',
+        passwordInputStarted: false,
+        showWeak: false,
+      });
+    } else if (value.length > 40) {
       this.setState({
         passwordInputClassName: invalid,
       });
     }
-    if (passwordRegex.exec(value) && this.state.confirmPassword.length >= 8) {
+    const { passwordStrength } = this.state;
+    if (passwordStrength !== 'weak' && this.state.confirmPassword.length >= 8) {
       const { confirmPassword } = this.state;
       const className = confirmPassword === value ? valid : invalid;
       this.setState({
@@ -241,6 +250,120 @@ class Register extends Component {
   isPasswordShown() {
     const { isPasswordShown } = this.state;
     this.setState({ isPasswordShown: !isPasswordShown });
+  }
+
+  isPasswordStrong(value) {
+    const weak = new RegExp(/^(?=.*[a-zа-я]).{8,}$/);
+    const normal = new RegExp(/^(?=.*[a-zа-я])(?=.*\d).{8,}$/);
+    const good = new RegExp(/^(?=.*[a-zа-я])(?=.*[A-ZА-Я])(?=.*\d).{8,}$/);
+    // eslint-disable-next-line no-useless-escape
+    const strong = new RegExp(/^(?=.*[!@#$%^&*()\\\/|~.',<>?`:"{}\]\[]).{8,}$/);
+
+    if (value.length >= 8) {
+      if (weak.test(value)) {
+        this.setState({
+          color: '#e9163c',
+          passwordStrength: 'weak',
+        });
+        this.showWeak();
+      }
+      if (normal.test(value)) {
+        this.setState({
+          color: '#ffb13d',
+          passwordStrength: 'normal',
+        });
+        this.showNormal();
+      }
+      if (good.test(value)) {
+        this.setState({
+          color: '#229eff',
+          passwordStrength: 'good',
+        });
+        this.showGood();
+      }
+      if (strong.test(value)) {
+        this.setState({
+          color: '#009d20',
+          passwordStrength: 'strong',
+        });
+        this.showStrong();
+      }
+    } else {
+      this.setState({
+        showWeak: false,
+        showNormal: false,
+        showGood: false,
+        showStrong: false,
+      });
+    }
+  }
+
+  showWeak() {
+    const currentCallId = Math.random();
+    this.setState({
+      currentCallId,
+      showWeak: true,
+      showNormal: false,
+      showGood: false,
+      showStrong: false,
+    });
+    setTimeout(() => {
+      if (currentCallId !== this.state.currentCallId) return;
+      this.setState({
+        showWeak: false,
+      });
+    }, 1900);
+  }
+
+  showNormal() {
+    const currentCallId = Math.random();
+    this.setState({
+      currentCallId,
+      showWeak: false,
+      showNormal: true,
+      showGood: false,
+      showStrong: false,
+    });
+    setTimeout(() => {
+      if (currentCallId !== this.state.currentCallId) return;
+      this.setState({
+        showNormal: false,
+      });
+    }, 1900);
+  }
+
+  showGood() {
+    const currentCallId = Math.random();
+    this.setState({
+      currentCallId,
+      showWeak: false,
+      showNormal: false,
+      showGood: true,
+      showStrong: false,
+    });
+    setTimeout(() => {
+      if (currentCallId !== this.state.currentCallId) return;
+      this.setState({
+        showGood: false,
+      });
+    }, 1900);
+  }
+
+  showStrong() {
+    const currentCallId = Math.random();
+    this.setState({
+      currentCallId,
+      showWeak: false,
+      showNormal: false,
+      showGood: false,
+      showStrong: true,
+    });
+    setTimeout(() => {
+      if (currentCallId !== this.state.currentCallId) return;
+      this.setState({
+        showStrong: false,
+      });
+    }, 1900);
   }
 
   validateConfirmPassword(e) {
@@ -331,7 +454,8 @@ class Register extends Component {
       confirmPasswordInputClassName, confirmPasswordInputTitle,
       phoneInputClassName, phoneInputTitle, isRegistered,
       invalidEmailOrPassword, unexpectedError, checkCount,
-      showPassword, isPasswordShown,
+      showPassword, isPasswordShown, color, password, showWeak,
+      showNormal, showGood, showStrong,
     } = this.state;
     if (!isRegistered && !invalidEmailOrPassword && !unexpectedError) {
       return (
@@ -384,6 +508,11 @@ class Register extends Component {
                     onClick={this.isPasswordShown}
                   />
                   )}
+                  {password.length >= 8 && <text style={{ color: color }}> ● </text>}
+                  {showWeak && <text style={{ color: color, fontSize: 13 }}> weak </text>}
+                  {showNormal && <text style={{ color: color, fontSize: 13 }}> normal </text>}
+                  {showGood && <text style={{ color: color, fontSize: 13 }}> good </text>}
+                  {showStrong && <text style={{ color: color, fontSize: 13 }}> strong </text>}
                 </FormLabel>
                 <input
                   className={passwordInputClassName}
