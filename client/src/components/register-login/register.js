@@ -28,6 +28,7 @@ class Register extends Component {
       emailInputStarted: false,
       emailInputTitle: 'email must consist 5 or more symbols',
       emailInputClassName: '',
+      showPassword: false,
       passwordInputStarted: false,
       passwordInputTitle: 'Use at least one upper and lower case letter with number.'
         + 'Password should be 8 or more symbols length',
@@ -199,6 +200,9 @@ class Register extends Component {
   validateInputPassword(e) {
     const { value } = e.target;
     this.setState({
+      showPassword: value.length > 0,
+    });
+    this.setState({
       password: value,
     });
     const passwordRegex = RegExp(
@@ -320,6 +324,7 @@ class Register extends Component {
       confirmPasswordInputClassName, confirmPasswordInputTitle,
       phoneInputClassName, phoneInputTitle, isRegistered,
       invalidEmailOrPassword, unexpectedError, checkCount,
+      showPassword,
     } = this.state;
     if (!isRegistered && !invalidEmailOrPassword && !unexpectedError) {
       return (
@@ -358,7 +363,18 @@ class Register extends Component {
                   value={this.state.email}
                   onChange={this.validateInputEmail}
                 />
-                <FormLabel htmlFor="password">Password</FormLabel>
+                <FormLabel htmlFor="password">
+                  Password
+                  {showPassword
+                  && (
+                  <img
+                    id="image"
+                    src="/img/show-password.png"
+                    alt="show"
+                    style={{ height: 18, marginLeft: 6 }}
+                  />
+                  )}
+                </FormLabel>
                 <input
                   className={passwordInputClassName}
                   title={passwordInputTitle}
