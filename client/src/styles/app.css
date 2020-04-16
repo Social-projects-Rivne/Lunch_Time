@@ -3,6 +3,32 @@ body{
   color: #fac564;
 }
 
-.containerButtonHome {
-  margin-top: 12rem;
-  }
+.home {
+  background: url("/img/main-bkg.jpg") no-repeat center center fixed;
+  background-size: cover;
+  padding: 7rem 0 0 0;
+  min-height: calc(100vh - 70px);
+}
+
+.title{
+  text-shadow: -2px 0 black, 0 2px black, 2px 0 black, 0 -2px black;
+  font-weight: bold;
+  font-size: 500%;
+}
+
+.titles{
+  color: black;
+  font-weight: bold;
+  font-family: "AR PL UKai HK", sans-serif;
+  text-shadow: -2px 0 white, 0 2px white, 2px 0 white, 0 -2px white;
+}
+
+.btn-restaurants{
+  font-size: 150%;
+}
+
+.btn-restaurants:hover{
+  color: black;
+  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+
+}
