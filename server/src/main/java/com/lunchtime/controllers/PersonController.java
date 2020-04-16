@@ -1,6 +1,6 @@
 package com.lunchtime.controllers;
 
-import com.lunchtime.models.Person;
+import com.lunchtime.service.dto.RegisterPerson;
 import com.lunchtime.service.dto.PersonDto;
 import com.lunchtime.service.dto.PersonPassDto;
 import com.lunchtime.service.PersonService;
@@ -20,16 +20,28 @@ public class PersonController {
         this.personService = personService;
     }
 
-
     @PostMapping
-    public ResponseEntity<Person> createPerson(@Valid @RequestBody Person person) throws URISyntaxException {
-        if (person.getId() != null) {
+    public ResponseEntity<PersonDto> createPerson(
+        @Valid @RequestBody RegisterPerson registerPerson) throws URISyntaxException {
+        if (registerPerson.getId() != null) {
+            return ResponseEntity.badRequest()
+                .build();
+        } else if (personService.findByEmail(registerPerson.getEmail()) != null) {
+            return ResponseEntity.badRequest()
+                .build();
+        } else if (personService.findByPhoneNumber(registerPerson.getPhoneNumber()) != null) {
             return ResponseEntity.badRequest()
                 .build();
         }
-        Person result = personService.savePerson(person);
-        return ResponseEntity.created(new URI("/api/persons"))
-            .body(result);
+        personService.findByPhoneNumber(registerPerson.getPhoneNumber());
+
+        PersonDto personDto = personService.saveRegisterPerson(registerPerson);
+
+        if (personDto != null) {
+            return ResponseEntity.created(new URI("/api/restaurants"))
+                .body(personDto);
+        }
+        return null;
     }
 
     @PutMapping
