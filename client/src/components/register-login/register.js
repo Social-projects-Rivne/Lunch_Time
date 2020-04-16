@@ -23,7 +23,7 @@ class Register extends Component {
       nameInputTitle: 'Your name must be in range of 3-16 latin letters',
       nameInputClassName: '',
       phoneInputStarted: false,
-      phoneInputTitle: "Phone number must be in '+***' format with 12 digits",
+      phoneInputTitle: "Phone number must be in '+***' format with digits",
       phoneInputClassName: '',
       emailInputStarted: false,
       emailInputTitle: 'email must consist 5 or more symbols',
