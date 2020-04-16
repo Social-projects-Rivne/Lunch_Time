@@ -29,6 +29,7 @@ class Register extends Component {
       emailInputTitle: 'email must consist 5 or more symbols',
       emailInputClassName: '',
       showPassword: false,
+      isPasswordShown: false,
       passwordInputStarted: false,
       passwordInputTitle: 'Use at least one upper and lower case letter with number.'
         + 'Password should be 8 or more symbols length',
@@ -46,6 +47,7 @@ class Register extends Component {
     this.validateInputEmail = this.validateInputEmail.bind(this);
     this.validateInputPassword = this.validateInputPassword.bind(this);
     this.validateConfirmPassword = this.validateConfirmPassword.bind(this);
+    this.isPasswordShown = this.isPasswordShown.bind(this);
   }
 
   handleSubmit() {
@@ -236,6 +238,11 @@ class Register extends Component {
     }
   }
 
+  isPasswordShown() {
+    const { isPasswordShown } = this.state;
+    this.setState({ isPasswordShown: !isPasswordShown });
+  }
+
   validateConfirmPassword(e) {
     const { value } = e.target;
     this.setState({
@@ -324,7 +331,7 @@ class Register extends Component {
       confirmPasswordInputClassName, confirmPasswordInputTitle,
       phoneInputClassName, phoneInputTitle, isRegistered,
       invalidEmailOrPassword, unexpectedError, checkCount,
-      showPassword,
+      showPassword, isPasswordShown,
     } = this.state;
     if (!isRegistered && !invalidEmailOrPassword && !unexpectedError) {
       return (
@@ -367,18 +374,21 @@ class Register extends Component {
                   Password
                   {showPassword
                   && (
+                  // eslint-disable-next-line max-len
+                  // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions
                   <img
                     id="image"
-                    src="/img/hide-password.png"
+                    src={isPasswordShown ? '/img/show-password.png' : '/img/hide-password.png'}
                     alt="show"
                     style={{ height: 18, marginLeft: 6 }}
+                    onClick={this.isPasswordShown}
                   />
                   )}
                 </FormLabel>
                 <input
                   className={passwordInputClassName}
                   title={passwordInputTitle}
-                  type="password"
+                  type={isPasswordShown ? 'text' : 'password'}
                   placeholder="password"
                   value={this.state.password}
                   onChange={this.validateInputPassword}
@@ -386,7 +396,7 @@ class Register extends Component {
                 <input
                   className={confirmPasswordInputClassName}
                   title={confirmPasswordInputTitle}
-                  type="password"
+                  type={isPasswordShown ? 'text' : 'password'}
                   placeholder="confirm password"
                   value={this.state.confirmPassword}
                   onChange={this.validateConfirmPassword}
