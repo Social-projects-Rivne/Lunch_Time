@@ -256,7 +256,6 @@ class Register extends Component {
       }
     }
     if (value.length === 0) {
-      console.log(this.state.password.length);
       this.setState({
         confirmPasswordInputClassName: '',
       });
