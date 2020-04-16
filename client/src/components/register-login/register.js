@@ -369,7 +369,7 @@ class Register extends Component {
                   && (
                   <img
                     id="image"
-                    src="/img/show-password.png"
+                    src="/img/hide-password.png"
                     alt="show"
                     style={{ height: 18, marginLeft: 6 }}
                   />
