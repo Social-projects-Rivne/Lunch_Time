@@ -584,7 +584,7 @@ class Register extends Component {
                       id="image"
                       src={isPasswordShown ? '/img/show-password.png' : '/img/hide-password.png'}
                       alt="show"
-                      style={{ height: 18, marginLeft: 6 }}
+                      style={{ height: 18, marginLeft: 6, cursor: 'pointer' }}
                       onClick={this.isPasswordShown}
                     />
                   )}
