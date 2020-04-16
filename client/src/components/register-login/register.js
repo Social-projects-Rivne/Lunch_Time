@@ -263,7 +263,6 @@ class Register extends Component {
     this.checkConfirmLive(this.state.password, value);
   }
 
-
   handleSubmit() {
     const {
       name, phoneNumber, email, password,
@@ -333,7 +332,7 @@ class Register extends Component {
     if (normal.test(value)) {
       this.setState({
         color: '#ff8e33',
-        passwordStrength: 'normal',
+        passwordStrength: 'easy',
       });
       this.showNormal();
       checker = true;
@@ -571,7 +570,7 @@ class Register extends Component {
                   )}
                   {password.length >= 8 && <text style={{ color: color }}> ● </text>}
                   {password.length >= 8 && showWeak && <text style={{ color: color, fontSize: 13 }}> weak </text>}
-                  {password.length >= 8 && showNormal && <text style={{ color: color, fontSize: 13 }}> normal </text>}
+                  {password.length >= 8 && showNormal && <text style={{ color: color, fontSize: 13 }}> easy </text>}
                   {password.length >= 8 && showGood && <text style={{ color: color, fontSize: 13 }}> good </text>}
                   {password.length >= 8 && showStrong && <text style={{ color: color, fontSize: 13 }}> strong </text>}
                 </FormLabel>
