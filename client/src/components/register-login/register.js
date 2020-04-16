@@ -208,15 +208,13 @@ class Register extends Component {
       showPassword: value.length > 0,
       password: value,
     });
-    this.isPasswordStrong(value);
     if (value.length >= 8) {
       if (!this.state.passwordInputStarted) {
         this.setState({ passwordInputStarted: value.length >= 8 });
       }
-      const { passwordStrength } = this.state;
-      const className = passwordStrength !== 'weak' ? valid : invalid;
+      const className = this.isPasswordStrong(value) ? valid : invalid;
+      console.log(this.isPasswordStrong(value));
       this.setState({
-        password: value,
         passwordInputClassName: className,
       });
     } else if (this.state.passwordInputStarted && value.length < 8) {
@@ -271,6 +269,7 @@ class Register extends Component {
           passwordStrength: 'normal',
         });
         this.showNormal();
+        return true;
       }
       if (good.test(value)) {
         this.setState({
@@ -278,6 +277,7 @@ class Register extends Component {
           passwordStrength: 'good',
         });
         this.showGood();
+        return true;
       }
       if (strong.test(value)) {
         this.setState({
@@ -285,6 +285,7 @@ class Register extends Component {
           passwordStrength: 'strong',
         });
         this.showStrong();
+        return true;
       }
     } else {
       this.setState({
@@ -293,7 +294,9 @@ class Register extends Component {
         showGood: false,
         showStrong: false,
       });
+      return false;
     }
+    return false;
   }
 
   showWeak() {
@@ -369,6 +372,11 @@ class Register extends Component {
     this.setState({
       confirmPassword: value,
     });
+    if (value.length !== 0) {
+      this.setState({
+        showPassword: true,
+      });
+    }
     if (value.length >= 8) {
       this.setState({
         confirmPassword: value,
@@ -388,6 +396,18 @@ class Register extends Component {
           confirmPasswordInputClassName: invalid,
         });
       }
+    }
+    if (value !== this.state.password && this.state.password.length > 0) {
+      if (this.state.passwordStrength !== 'weak') {
+        this.setState({
+          confirmPasswordInputClassName: invalid,
+        });
+      }
+    }
+    if (value.length === 0) {
+      this.setState({
+        confirmPasswordInputClassName: '',
+      });
     }
   }
 
@@ -507,10 +527,10 @@ class Register extends Component {
                   />
                   )}
                   {password.length >= 8 && <text style={{ color: color }}> ● </text>}
-                  {showWeak && <text style={{ color: color, fontSize: 13 }}> weak </text>}
-                  {showNormal && <text style={{ color: color, fontSize: 13 }}> normal </text>}
-                  {showGood && <text style={{ color: color, fontSize: 13 }}> good </text>}
-                  {showStrong && <text style={{ color: color, fontSize: 13 }}> strong </text>}
+                  {password.length >= 8 && showWeak && <text style={{ color: color, fontSize: 13 }}> weak </text>}
+                  {password.length >= 8 && showNormal && <text style={{ color: color, fontSize: 13 }}> normal </text>}
+                  {password.length >= 8 && showGood && <text style={{ color: color, fontSize: 13 }}> good </text>}
+                  {password.length >= 8 && showStrong && <text style={{ color: color, fontSize: 13 }}> strong </text>}
                 </FormLabel>
                 <input
                   className={passwordInputClassName}
