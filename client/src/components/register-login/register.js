@@ -213,7 +213,6 @@ class Register extends Component {
         this.setState({ passwordInputStarted: value.length >= 8 });
       }
       const className = this.isPasswordStrong(value) ? valid : invalid;
-      console.log(this.isPasswordStrong(value));
       this.setState({
         passwordInputClassName: className,
       });
