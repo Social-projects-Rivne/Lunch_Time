@@ -23,11 +23,10 @@ public class RegisterPerson {
 
     @NotBlank
     @Email
-    @Pattern(regexp = "^\\w+([-+.']\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$")
     private String email;
 
     @NotBlank
-    @Pattern(regexp = "^(.)\\1+$")
+    @Pattern(regexp = "^(?!(.)\\1+$).*")
     private String password;
 }
 

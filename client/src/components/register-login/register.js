@@ -284,6 +284,7 @@ class Register extends Component {
               isRegistered: true,
               unexpectedError: false,
             });
+            this.history.push('/login');
           } else if (response.error.status === 400) {
             this.setState({
               invalidEmailOrPassword: true,
@@ -320,11 +321,11 @@ class Register extends Component {
   }
 
   isPasswordStrong(value) {
-    const weak = new RegExp(/^(?=.*[a-zа-я]).{8,}$/);
-    const normal = new RegExp(/^(?=.*[a-zа-я])(?=.*\d).{8,}$/);
-    const good = new RegExp(/^(?=.*[a-zа-я])(?=.*\d)(?=.*[A-ZА-Я]).{8,}$/);
+    const weak = new RegExp(/^(?=.*[a-zа-я]).{8,40}$/);
+    const normal = new RegExp(/^(?=.*[a-zа-я])(?=.*\d).{8,40}$/);
+    const good = new RegExp(/^(?=.*[a-zа-я])(?=.*\d)(?=.*[A-ZА-Я]).{8,40}$/);
     // eslint-disable-next-line no-useless-escape
-    const strong = new RegExp(/^(?=.*[!@#$%^&*()\\\/|~.',<>?`:"{}\]\[]).{8,}$/);
+    const strong = new RegExp(/^(?=.*[!@#$%^&*()\\\/|~.',<>?`:"{}\]\[]).{8,40}$/);
 
     let checker = false;
     if (weak.test(value)) {
@@ -375,7 +376,7 @@ class Register extends Component {
         showNormal: false,
         showGood: false,
         showStrong: false,
-        color: '#000000',
+        color: '#bc0008',
         passwordStrength: 'weak',
       });
     }
