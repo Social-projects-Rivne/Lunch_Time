@@ -347,11 +347,20 @@ class Register extends Component {
     }
     if (strong.test(value)) {
       this.setState({
-        color: '#009d20',
+        color: '#13aa03',
         passwordStrength: 'strong',
         passwordInputClassName: valid,
       });
       this.showStrong();
+      checker = true;
+    }
+    if ((/^(.)\1+$/.test(value))) {
+      this.setState({
+        color: '#bc0008',
+        passwordStrength: 'weak',
+        passwordInputClassName: valid,
+      });
+      this.showWeak();
       checker = true;
     }
     if (!checker) {
@@ -360,7 +369,7 @@ class Register extends Component {
         showNormal: false,
         showGood: false,
         showStrong: false,
-        color: '#bc0008',
+        color: '#000000',
         passwordStrength: 'weak',
       });
     }
