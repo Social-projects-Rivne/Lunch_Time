@@ -43,8 +43,7 @@ class Register extends Component {
       confirmPasswordInputClassName: '',
       isRegistered: false,
       invalidEmailOrPassword: false,
-      unexpectedError: false,
-      checkCount: 0,
+      unexpectedError: '',
       photo1: '/img/register1.png',
       photo2: '/img/register2.png',
     };
@@ -208,6 +207,7 @@ class Register extends Component {
         passwordInputStarted: false,
         showWeak: false,
         confirmPasswordInputClassName: '',
+        isPasswordShown: false,
       });
     } else if (value.length > 40) {
       this.setState({
@@ -260,6 +260,7 @@ class Register extends Component {
     if (value.length === 0) {
       this.setState({
         confirmPasswordInputClassName: '',
+        isPasswordShown: false,
       });
     }
     this.checkConfirmLive(this.state.password, value);
@@ -281,10 +282,12 @@ class Register extends Component {
           if (response.status === 201) {
             this.setState({
               isRegistered: true,
+              unexpectedError: false,
             });
           } else if (response.error.status === 400) {
             this.setState({
               invalidEmailOrPassword: true,
+              unexpectedError: false,
             });
             setTimeout(() => {
               this.setState({
@@ -296,17 +299,18 @@ class Register extends Component {
         .catch((error) => {
           // eslint-disable-next-line no-console
           console.log(error);
+          console.log(1);
         });
-      if (this.state.checkCount !== 1) {
+      if (this.state.unexpectedError !== false) {
         this.setState({
-          checkCount: 0,
+          unexpectedError: true,
         });
+        setTimeout(() => {
+          this.setState({
+            unexpectedError: false,
+          });
+        }, 3900);
       }
-      setTimeout(() => {
-        this.setState({
-          checkCount: 0,
-        });
-      }, 3900);
     }
   }
 
@@ -532,7 +536,7 @@ class Register extends Component {
       emailInputTitle, passwordInputClassName, passwordInputTitle,
       confirmPasswordInputClassName, confirmPasswordInputTitle,
       phoneInputClassName, phoneInputTitle, isRegistered,
-      invalidEmailOrPassword, unexpectedError, checkCount,
+      invalidEmailOrPassword, unexpectedError,
       showPassword, isPasswordShown, color, password, showWeak,
       showNormal, showGood, showStrong, photo1,
     } = this.state;
@@ -617,7 +621,7 @@ class Register extends Component {
             <button type="submit" className="btn-reg" onClick={this.handleSubmit}>
               Register
             </button>
-            {checkCount !== 0 && (
+            {unexpectedError && (
               <MyBadge variant="danger" message="Something went wrong on server!" />
             )}
           </div>
