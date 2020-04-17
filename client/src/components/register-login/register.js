@@ -46,6 +46,7 @@ class Register extends Component {
       invalidEmailOrPassword: false,
       unexpectedError: '',
       openLogin: '',
+      buttonDisabled: false,
       photo1: '/img/register1.png',
       photo2: '/img/register2.png',
     };
@@ -270,6 +271,9 @@ class Register extends Component {
   }
 
   handleSubmit() {
+    this.setState({
+      buttonDisabled: true,
+    });
     const {
       name, phoneNumber, email, password,
     } = this.state;
@@ -297,25 +301,26 @@ class Register extends Component {
               this.setState({
                 invalidEmailOrPassword: false,
               });
-            }, 3900);
+            }, 5000);
           }
         })
         .catch((error) => {
           // eslint-disable-next-line no-console
           console.log(error);
+        })
+        .finally(() => {
+          if (this.state.unexpectedError === '') {
+            this.setState({
+              unexpectedError: true,
+            });
+            setTimeout(() => {
+              this.setState({
+                unexpectedError: '',
+                buttonDisabled: false,
+              });
+            }, 5000);
+          }
         });
-      if (this.state.unexpectedError !== false) {
-        setTimeout(() => {
-          this.setState({
-            unexpectedError: true,
-          });
-        }, 1000);
-        setTimeout(() => {
-          this.setState({
-            unexpectedError: '',
-          });
-        }, 4900);
-      }
     }
   }
 
@@ -549,9 +554,10 @@ class Register extends Component {
       invalidEmailOrPassword, unexpectedError,
       showPassword, isPasswordShown, color, password, showWeak,
       showEasy, showGood, showStrong, photo1, openLogin,
+      buttonDisabled,
     } = this.state;
     this.photo();
-    if (!isRegistered && !invalidEmailOrPassword && !unexpectedError) {
+    if (!isRegistered) {
       return (
         <Container className="base-container" style={{ color: '#3498db' }}>
           <div className="header">Register</div>
@@ -559,6 +565,8 @@ class Register extends Component {
             <div className="image">
               <img src={photo1} alt="register" />
             </div>
+            {unexpectedError === '' && !invalidEmailOrPassword
+            && (
             <Form className="form" onSubmit={this.handleSubmit}>
               <FormGroup>
                 <FormLabel htmlFor="text">Name</FormLabel>
@@ -626,131 +634,138 @@ class Register extends Component {
                 />
               </FormGroup>
             </Form>
+            )}
+            {invalidEmailOrPassword
+            && (
+              <div>
+                <div
+                  className="text-focus-in1"
+                  style={{
+                    fontSize: 20,
+                    color: '#FF0000',
+                    marginTop: 130,
+                  }}
+                >
+                  <b>Email or phone number</b>
+                </div>
+                <div
+                  className="text-focus-in1"
+                  style={{
+                    fontSize: 20,
+                    color: '#FF0000',
+                  }}
+                >
+                  <b>are already registered</b>
+                </div>
+                <div
+                  className="text-focus-in"
+                  style={{
+                    fontSize: 20,
+                    color: '#FF0000',
+                    marginBottom: 10,
+                  }}
+                >
+                  Try again, please
+                </div>
+              </div>
+            )}
+            {unexpectedError
+            && (
+              <div>
+                <div
+                  className="focus-in-contract-bck"
+                  style={{
+                    fontSize: 27,
+                    color: '#3498db',
+                    marginTop: 220,
+                  }}
+                >
+                  <b>
+                    Something went
+                    <br />
+                    wrong on server
+                  </b>
+                </div>
+                <div
+                  className="text-focus-in"
+                  style={{
+                    fontSize: 25,
+                    color: '#3498db',
+                    marginBottom: 10,
+                  }}
+                >
+                  Try again later
+                </div>
+              </div>
+            )}
           </div>
+          {unexpectedError === '' && !invalidEmailOrPassword
+          && (
           <div className="footer">
-            <button type="submit" className="btn-reg" onClick={this.handleSubmit}>
+            <button
+              type="submit"
+              className="btn-reg"
+              disabled={buttonDisabled}
+              onClick={this.handleSubmit}
+            >
               Register
             </button>
           </div>
+          )}
         </Container>
-      );
-    }
-    if (invalidEmailOrPassword && !unexpectedError) {
-      return (
-        <div>
-          <div
-            className="text-focus-in1"
-            style={{
-              fontSize: 20,
-              color: '#FF0000',
-              marginTop: 1,
-            }}
-          >
-            <b>Email or phone number</b>
-          </div>
-          <div
-            className="text-focus-in1"
-            style={{
-              fontSize: 20,
-              color: '#FF0000',
-            }}
-          >
-            <b>are already registered</b>
-          </div>
-          <div
-            className="text-focus-in"
-            style={{
-              fontSize: 20,
-              color: '#FF0000',
-              marginBottom: 10,
-            }}
-          >
-            Try again, please
-          </div>
-        </div>
-      );
-    }
-    if (isRegistered && !unexpectedError) {
-      return (
-        <div>
-          <div className="main">
-            <div className="before">
-              <div className="after" />
-            </div>
-          </div>
-          <div
-            className="focus-in-contract-bck"
-            style={{
-              fontSize: 22,
-              color: '#3498db',
-              marginTop: 220,
-            }}
-          >
-            <b>
-              Congratulations,
-              {' '}
-              {this.firstLetter(this.state.name)}
-              !
-            </b>
-          </div>
-          <div
-            className="focus-in-contract-bck"
-            style={{
-              fontSize: 22,
-              color: '#3498db',
-              marginBottom: 60,
-            }}
-          >
-            <b>You are registered!</b>
-          </div>
-          <div
-            className="text-focus-in"
-            style={{
-              fontSize: 22,
-              color: '#3498db',
-              marginBottom: 40,
-            }}
-          >
-            You will be forwarded to
-            {' '}
-            <Link to="/login"><b><u>log in</u></b></Link>
-            <br />
-            after
-            {' '}
-            <Timer timerCount={5} />
-            {' '}
-            seconds
-          </div>
-          {openLogin && <Redirect to="/login" />}
-        </div>
       );
     }
     return (
       <div>
+        <div className="main">
+          <div className="before">
+            <div className="after" />
+          </div>
+        </div>
         <div
           className="focus-in-contract-bck"
           style={{
-            fontSize: 27,
+            fontSize: 22,
             color: '#3498db',
             marginTop: 220,
           }}
         >
           <b>
-            Something went
-            <br />
-            wrong on server
+            Congratulations,
+            {' '}
+            {this.firstLetter(this.state.name)}
+            !
           </b>
+        </div>
+        <div
+          className="focus-in-contract-bck"
+          style={{
+            fontSize: 22,
+            color: '#3498db',
+            marginBottom: 60,
+          }}
+        >
+          <b>You are registered!</b>
         </div>
         <div
           className="text-focus-in"
           style={{
-            fontSize: 25,
+            fontSize: 22,
             color: '#3498db',
-            marginBottom: 10,
+            marginBottom: 40,
           }}
         >
-          Try again later
+          You will be forwarded to
+          {' '}
+          <Link to="/login"><b><u>log in</u></b></Link>
+          <br />
+          after
+          {' '}
+          <Timer timerCount={5} />
+          {' '}
+          seconds
         </div>
+        {openLogin && <Redirect to="/login" />}
       </div>
     );
   }
