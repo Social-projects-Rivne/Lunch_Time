@@ -5,7 +5,6 @@ import {
 import { Link } from 'react-router-dom';
 import { Redirect } from 'react-router';
 import Api from '../../services/api';
-import MyBadge from '../shared/my-batch';
 import Timer from '../shared/timer';
 
 const valid = 'form-control is-valid';
@@ -306,14 +305,16 @@ class Register extends Component {
           console.log(error);
         });
       if (this.state.unexpectedError !== false) {
-        this.setState({
-          unexpectedError: true,
-        });
         setTimeout(() => {
           this.setState({
-            unexpectedError: false,
+            unexpectedError: true,
           });
-        }, 3900);
+        }, 1000);
+        setTimeout(() => {
+          this.setState({
+            unexpectedError: '',
+          });
+        }, 4900);
       }
     }
   }
@@ -330,9 +331,9 @@ class Register extends Component {
     // eslint-disable-next-line no-useless-escape
     const strong = new RegExp(/^(?=.*[a-zа-я])(?=.*[A-ZА-Я])(?=.*\d)(?=.*[!@#$%^&*()\\\/|~.',<>?`:"{}\]\[]).{8,40}$/);
     // eslint-disable-next-line no-useless-escape
-    const chars = new RegExp(/(?=.*[!@#$%^&*()\\\/|~.',<>?`:"{}\]\[]).{8,40}$/);
+    const chars = new RegExp(/(?=.*[!@#$%^&*()\\\/|~.',+<>?`:"{}\]\[]).{8,40}$/);
     // eslint-disable-next-line no-useless-escape
-    const charsAndDigits = new RegExp(/(?=.*\d)(?=.*[!@#$%^&*()\\\/|~.',<>?`:"{}\]\[]).{8,40}$/);
+    const charsAndDigits = new RegExp(/(?=.*\d)(?=.*[!@#$%^&*()\\\/|+~.',<>?`:"{}\]\[]).{8,40}$/);
 
     let checker = false;
     if (weak.test(value)) {
@@ -630,9 +631,6 @@ class Register extends Component {
             <button type="submit" className="btn-reg" onClick={this.handleSubmit}>
               Register
             </button>
-            {unexpectedError && (
-              <MyBadge variant="danger" message="Something went wrong on server!" />
-            )}
           </div>
         </Container>
       );
@@ -737,7 +735,11 @@ class Register extends Component {
             marginTop: 220,
           }}
         >
-          <b>Something went wrong</b>
+          <b>
+            Something went
+            <br />
+            wrong on server
+          </b>
         </div>
         <div
           className="text-focus-in"
