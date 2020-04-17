@@ -139,4 +139,28 @@ public class OrderServiceImplTest {
 
         assertNull(createdOrder);
     }
+
+    @Test
+    public void personCanNotMakeOrderWhenStartTimeBiggerThanFinishTime() {
+        LocalDateTime start = LocalDateTime.now().plusDays(3);
+        LocalDateTime finish = LocalDateTime.now().plusMinutes(40).plusDays(2);
+        Date startDate = Date.from(start.atZone(ZoneId.systemDefault()).toInstant());
+        Date finishDate = Date.from(finish.atZone(ZoneId.systemDefault()).toInstant());
+
+        Order order = Order.builder()
+            .table(restaurantTable)
+            .person(person)
+            .startTime(startDate)
+            .finishTime(finishDate)
+            .visitors(5)
+            .build();
+
+        when(orderRepository.findAllOrdersByTableInTime(order.getTable().getId(), startDate, finishDate))
+            .thenReturn(Collections.emptyList());
+        when(orderRepository.save(order)).thenReturn(order);
+
+        Order createdOrder = orderServiceImpl.saveOrder(order);
+
+        assertNull(createdOrder);
+    }
 }
