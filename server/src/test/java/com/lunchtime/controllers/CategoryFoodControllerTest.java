@@ -11,6 +11,8 @@ import org.mockito.Mockito;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.net.URISyntaxException;
+import java.util.Optional;
+
 import static org.mockito.Mockito.*;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -21,10 +23,14 @@ public class CategoryFoodControllerTest {
     private CategoryFoodService mockCategoryFoodService;
     private CategoryFoodController categoryFoodControllerUnderTest;
 
+    @Mock
+    CategoryFoodController mockCategoryFoodController;
+
     @Before
     public void setUp() {
         initMocks(this);
         categoryFoodControllerUnderTest = new CategoryFoodController(mockCategoryFoodService);
+        mockCategoryFoodController = new CategoryFoodController(mockCategoryFoodService);
     }
 
     @Test
