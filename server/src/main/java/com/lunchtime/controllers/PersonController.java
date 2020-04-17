@@ -7,6 +7,7 @@ import com.lunchtime.service.PersonService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.NonUniqueResultException;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -23,19 +24,18 @@ public class PersonController {
     @PostMapping
     public ResponseEntity<PersonDto> createPerson(
         @Valid @RequestBody RegisterPerson registerPerson) throws URISyntaxException {
+
         if (registerPerson.getId() != null) {
             return ResponseEntity.badRequest()
                 .build();
-        } else if (personService.findByEmail(registerPerson.getEmail()) != null) {
-            return ResponseEntity.badRequest()
-                .build();
-        } else if (personService.findByPhoneNumber(registerPerson.getPhoneNumber()) != null) {
-            return ResponseEntity.badRequest()
-                .build();
         }
-        personService.findByPhoneNumber(registerPerson.getPhoneNumber());
 
-        PersonDto personDto = personService.saveRegisterPerson(registerPerson);
+        PersonDto personDto;
+        try {
+            personDto = personService.saveRegisterPerson(registerPerson);
+        } catch (NonUniqueResultException nue) {
+            return ResponseEntity.status(Integer.parseInt(nue.getMessage())).build();
+        }
 
         if (personDto != null) {
             return ResponseEntity.created(new URI("/api/restaurants"))

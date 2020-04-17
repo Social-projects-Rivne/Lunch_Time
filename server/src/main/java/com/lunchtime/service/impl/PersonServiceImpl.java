@@ -8,8 +8,11 @@ import com.lunchtime.service.dto.PersonPassDto;
 import com.lunchtime.repository.PersonRepository;
 import com.lunchtime.service.PersonService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.NonUniqueResultException;
+import java.sql.SQLOutput;
 import java.util.Optional;
 
 @Service
@@ -19,6 +22,27 @@ public class PersonServiceImpl implements PersonService {
     private final PersonMapper personMapper;
 
     public PersonDto saveRegisterPerson(RegisterPerson registerPerson) {
+        boolean phoneExists = false;
+        boolean emailExists = false;
+        String code = null;
+
+        if (findByPhoneNumber(registerPerson.getPhoneNumber()) != null) {
+            phoneExists = true;
+        }
+        if (findByEmail(registerPerson.getEmail()) != null) {
+            emailExists = true;
+        }
+
+        if (phoneExists && emailExists) {
+            code = "601";
+        } else if (phoneExists) {
+            code = "602";
+        } else if (emailExists) {
+            code = "603";
+        } if (code != null) {
+            throw new NonUniqueResultException(code);
+        }
+
         Person person = personMapper.fromRegisterToPerson(registerPerson);
         personRepository.save(person);
         return personMapper.fromPersonToDto(person);

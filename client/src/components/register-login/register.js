@@ -42,7 +42,6 @@ class Register extends Component {
       confirmPasswordInputTitle: 'Passwords must match each other',
       confirmPasswordInputClassName: '',
       isRegistered: false,
-      invalidEmailOrPassword: false,
       unexpectedError: '',
       openLogin: '',
       buttonDisabled: false,
@@ -288,14 +287,40 @@ class Register extends Component {
             this.openLoginPage();
           } else if (response.error.status === 400) {
             this.setState({
-              invalidEmailOrPassword: true,
+              unexpectedError: false,
+            });
+          } else if (response.error.status === 601) {
+            this.setState({
               unexpectedError: false,
             });
             setTimeout(() => {
               this.setState({
-                invalidEmailOrPassword: false,
+                phoneInputClassName: invalid,
+                phoneInputTitle: 'This phone is already registered. Use another one.',
+                emailInputClassName: invalid,
+                emailInputTitle: 'This email is already registered. Use another one.',
               });
-            }, 5000);
+            }, 300);
+          } else if (response.error.status === 602) {
+            this.setState({
+              unexpectedError: false,
+            });
+            setTimeout(() => {
+              this.setState({
+                phoneInputClassName: invalid,
+                phoneInputTitle: 'This phone is already registered. Use another one.',
+              });
+            }, 300);
+          } if (response.error.status === 603) {
+            this.setState({
+              unexpectedError: false,
+            });
+            setTimeout(() => {
+              this.setState({
+                emailInputClassName: invalid,
+                emailInputTitle: 'This email is already registered. Use another one.',
+              });
+            }, 300);
           }
         })
         .catch((error) => {
@@ -311,11 +336,13 @@ class Register extends Component {
           setTimeout(() => {
             this.setState({
               unexpectedError: '',
-              buttonDisabled: false,
             });
           }, 5000);
         });
     }
+    this.setState({
+      buttonDisabled: false,
+    });
   }
 
   isPasswordShown() {
@@ -539,14 +566,14 @@ class Register extends Component {
       nameInputClassName, nameInputTitle, emailInputClassName,
       emailInputTitle, passwordInputClassName, passwordInputTitle,
       confirmPasswordInputClassName, confirmPasswordInputTitle,
-      phoneInputClassName, phoneInputTitle, isRegistered,
-      invalidEmailOrPassword, unexpectedError,
+      phoneInputClassName, phoneInputTitle, isRegistered, unexpectedError,
       showPassword, isPasswordShown, color, password, showWeak,
       showEasy, showGood, showStrong, photo1, openLogin,
       buttonDisabled,
     } = this.state;
     this.photo();
     if (!isRegistered) {
+      console.log(`buttonDisabled${this.state.buttonDisabled}`);
       return (
         <Container className="base-container" style={{ color: '#3498db' }}>
           <div className="header">Register</div>
@@ -554,7 +581,7 @@ class Register extends Component {
             <div className="image">
               <img src={photo1} alt="register" />
             </div>
-            {unexpectedError === '' && !invalidEmailOrPassword
+            {unexpectedError !== true
             && (
             <Form className="form" onSubmit={this.handleSubmit}>
               <FormGroup>
@@ -624,40 +651,6 @@ class Register extends Component {
               </FormGroup>
             </Form>
             )}
-            {invalidEmailOrPassword
-            && (
-              <div>
-                <div
-                  className="text-focus-in1"
-                  style={{
-                    fontSize: 25,
-                    color: '#FF0000',
-                    marginTop: 130,
-                  }}
-                >
-                  <b>Email or phone number</b>
-                </div>
-                <div
-                  className="text-focus-in1"
-                  style={{
-                    fontSize: 25,
-                    color: '#FF0000',
-                  }}
-                >
-                  <b>are already registered</b>
-                </div>
-                <div
-                  className="text-focus-in"
-                  style={{
-                    fontSize: 22,
-                    color: '#FF0000',
-                    marginBottom: 0,
-                  }}
-                >
-                  Try another one
-                </div>
-              </div>
-            )}
             {unexpectedError
             && (
               <div>
@@ -688,7 +681,7 @@ class Register extends Component {
               </div>
             )}
           </div>
-          {unexpectedError === '' && !invalidEmailOrPassword
+          {unexpectedError !== true
           && (
           <div className="footer">
             <button
