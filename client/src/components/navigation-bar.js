@@ -3,6 +3,7 @@ import { Nav, Navbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import NavigationItem from './shared/navigation/navigation-item';
+import '../styles/navbar.css';
 
 class NavigationBar extends Component {
   constructor(props) {
@@ -37,7 +38,7 @@ class NavigationBar extends Component {
     const className = 'mr-3';
 
     return (
-      <Navbar expand="lg" bg="light">
+      <Navbar expand="lg" bg="black" variant="dark">
         <Navbar.Brand>
           <img
             alt=""
@@ -47,7 +48,7 @@ class NavigationBar extends Component {
             className="d-inline-block align-top"
           />
           {' '}
-          <Link to="/">Lunch Time</Link>
+          <Link className="link" to="/">Lunch Time</Link>
         </Navbar.Brand>
 
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
