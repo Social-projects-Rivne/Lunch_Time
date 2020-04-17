@@ -21,6 +21,7 @@ class NewOrder extends Component {
       table: null,
       visitors: 1,
       description: '',
+      isBadRequestError: false,
     };
   }
 
@@ -86,6 +87,9 @@ class NewOrder extends Component {
         if (response.error) {
           // eslint-disable-next-line no-console
           console.error(response);
+          this.setState({
+            isBadRequestError: true,
+          });
           return;
         }
         history.push(match.url.replace(this.path, ''));
@@ -139,7 +143,18 @@ class NewOrder extends Component {
     return this.state.startDate >= this.state.finishDate;
   }
 
-  showAlert(message, variant = 'danger') {
+  showAlert(message, variant = 'danger', dismissible = false) {
+    if (dismissible) {
+      return (
+        <Alert
+          variant={variant}
+          dismissible={dismissible}
+          onClose={() => { this.setState({ isBadRequestError: false }); }}
+        >
+          {message}
+        </Alert>
+      );
+    }
     return (
       <Alert variant={variant}>
         {message}
@@ -227,6 +242,11 @@ class NewOrder extends Component {
             />
           </Form.Group>
         </Form>
+        {
+          this.state.isBadRequestError
+            ? this.showAlert('Something went wrong. Try again later', 'danger', true)
+            : null
+        }
         <div className="order-btn-container">
           <Button onClick={() => history.goBack()} variant="secondary" className="order-btn-cancel">Cancel</Button>
           <Button
