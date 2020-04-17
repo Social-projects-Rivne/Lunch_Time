@@ -3,8 +3,10 @@ import {
   Container, Form, FormGroup, FormLabel,
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router';
 import Api from '../../services/api';
 import MyBadge from '../shared/my-batch';
+import Timer from '../shared/timer';
 
 const valid = 'form-control is-valid';
 const invalid = 'form-control is-invalid';
@@ -44,6 +46,7 @@ class Register extends Component {
       isRegistered: false,
       invalidEmailOrPassword: false,
       unexpectedError: '',
+      openLogin: '',
       photo1: '/img/register1.png',
       photo2: '/img/register2.png',
     };
@@ -54,6 +57,7 @@ class Register extends Component {
     this.validateInputPassword = this.validateInputPassword.bind(this);
     this.validateConfirmPassword = this.validateConfirmPassword.bind(this);
     this.isPasswordShown = this.isPasswordShown.bind(this);
+    this.openLoginPage = this.openLoginPage.bind(this);
   }
 
   setPasswordStateValid() {
@@ -284,7 +288,7 @@ class Register extends Component {
               isRegistered: true,
               unexpectedError: false,
             });
-            this.history.push('/login');
+            this.openLoginPage();
           } else if (response.error.status === 400) {
             this.setState({
               invalidEmailOrPassword: true,
@@ -530,6 +534,14 @@ class Register extends Component {
     }, 14000);
   }
 
+  openLoginPage() {
+    setTimeout(() => {
+      this.setState({
+        openLogin: true,
+      });
+    }, 7000);
+  }
+
   render() {
     const {
       nameInputClassName, nameInputTitle, emailInputClassName,
@@ -538,7 +550,7 @@ class Register extends Component {
       phoneInputClassName, phoneInputTitle, isRegistered,
       invalidEmailOrPassword, unexpectedError,
       showPassword, isPasswordShown, color, password, showWeak,
-      showNormal, showGood, showStrong, photo1,
+      showNormal, showGood, showStrong, photo1, openLogin,
     } = this.state;
     this.photo();
     if (!isRegistered && !invalidEmailOrPassword && !unexpectedError) {
@@ -704,13 +716,17 @@ class Register extends Component {
               marginBottom: 40,
             }}
           >
-            Now you can
-            {' '}
+            You will be forwarded to
             {' '}
             <Link to="/login"><b><u>log in</u></b></Link>
+            <br />
+            after
             {' '}
-            :)
+            <Timer timerCount={6} />
+            {' '}
+            seconds
           </div>
+          {openLogin && <Redirect to="/login" />}
         </div>
       );
     }
