@@ -187,4 +187,31 @@ public class OrderServiceImplTest {
 
         assertNull(createdOrder);
     }
+
+    @Test
+    public void personCanNotMakeOrderWhenPersonDoesNotExist() {
+        LocalDateTime start = LocalDateTime.now().minusDays(2);
+        LocalDateTime finish = LocalDateTime.now().plusMinutes(40).plusDays(2);
+        Date startDate = Date.from(start.atZone(ZoneId.systemDefault()).toInstant());
+        Date finishDate = Date.from(finish.atZone(ZoneId.systemDefault()).toInstant());
+
+        Person anotherPerson = new Person();
+        anotherPerson.setId(2L);
+
+        Order order = Order.builder()
+            .table(restaurantTable)
+            .person(anotherPerson)
+            .startTime(startDate)
+            .finishTime(finishDate)
+            .visitors(5)
+            .build();
+
+        when(orderRepository.findAllOrdersByTableInTime(order.getTable().getId(), startDate, finishDate))
+            .thenReturn(Collections.emptyList());
+        when(orderRepository.save(order)).thenReturn(order);
+
+        Order createdOrder = orderServiceImpl.saveOrder(order);
+
+        assertNull(createdOrder);
+    }
 }
