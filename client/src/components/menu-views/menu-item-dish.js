@@ -42,7 +42,7 @@ class MenuItemDish extends Component {
                 {menuitemdish.portionPrice}
                 {' '}
                 {'  '}
-                grn
+                uah
               </Col>
               <Col className="col-item">
                 <br />

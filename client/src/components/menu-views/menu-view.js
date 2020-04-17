@@ -13,7 +13,7 @@ class Menu extends Component {
       totalPages: 0,
       number: 0,
       pageSize: 2,
-      menuitemdishes: [],
+      menuItemDishes: [],
       isFetching: false,
     };
     this.handlePageChange = this.handlePageChange.bind(this);
@@ -36,7 +36,7 @@ class Menu extends Component {
         this.setState({
           totalPages: response.data.totalPages,
           number: response.data.number,
-          menuitemdishes: response.data.content,
+          menuItemDishes: response.data.content,
           isFetching: true,
         });
       });
@@ -62,9 +62,9 @@ class Menu extends Component {
   }
 
   initMenuItemDish() {
-    const { menuitemdishes } = this.state;
+    const { menuItemDishes } = this.state;
     return (
-      <MenuItemDish menuitemdishes={menuitemdishes} />
+      <MenuItemDish menuItemDishes={menuItemDishes} />
     );
   }
 

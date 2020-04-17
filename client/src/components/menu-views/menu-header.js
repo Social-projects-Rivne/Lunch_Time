@@ -5,30 +5,26 @@ class Header extends Component {
   render() {
     return (
       <Container>
-        <Container className="header">
-          <br />
-          <h2>Menu </h2>
-        </Container>
         <br />
         <Row>
-          <Col className="headers-item">
+          <Col className="header-item">
             Category
           </Col>
-          <Col className="headers-item">
+          <Col className="header-item">
             Dish
             <br />
             (Ingredients)
           </Col>
-          <Col className="headers-item">
+          <Col className="header-item">
             Image
           </Col>
-          <Col className="headers-item">
+          <Col className="header-item">
             Portion size
           </Col>
-          <Col className="headers-item">
+          <Col className="header-item">
             Portion price
           </Col>
-          <Col className="headers-item">
+          <Col className="header-item">
             Add to Order
           </Col>
         </Row>
