@@ -14,7 +14,7 @@ public class RegisterPerson {
     private Long id;
 
     @NotBlank
-    @Pattern(regexp = "^([a-zA-Z]+){3,16}$")
+    @Pattern(regexp = "^.{1,50}$")
     private String name;
 
     @NotBlank

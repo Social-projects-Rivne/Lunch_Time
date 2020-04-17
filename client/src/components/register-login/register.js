@@ -20,7 +20,6 @@ class Register extends Component {
       email: '',
       password: '',
       confirmPassword: '',
-      nameInputStarted: false,
       nameInputTitle: 'Your name must be in range of 3-16 latin letters',
       nameInputClassName: '',
       phoneInputStarted: false,
@@ -84,17 +83,13 @@ class Register extends Component {
     this.setState({
       name: value,
     });
-    const nameRegex = RegExp(/^([a-zA-Z]+){3,16}$/);
-    if (value.length >= 3) {
-      if (!this.state.nameInputStarted) {
-        this.setState({ nameInputStarted: value.length >= 3 });
-      }
-      const className = nameRegex.test(value) ? valid : invalid;
+    const nameRegex = RegExp(/^.{1,50}$/);
+    if (value.length >= 1) {
       this.setState({
         name: value,
-        nameInputClassName: className,
+        nameInputClassName: valid,
       });
-    } else if (this.state.nameInputStarted && !nameRegex.test(value)) {
+    } else if (!nameRegex.test(value)) {
       this.setState({
         nameInputClassName: invalid,
       });
@@ -102,7 +97,6 @@ class Register extends Component {
     if (value.length === 0) {
       this.setState({
         nameInputClassName: '',
-        nameInputStarted: false,
       });
     }
   }
@@ -313,13 +307,13 @@ class Register extends Component {
             this.setState({
               unexpectedError: true,
             });
-            setTimeout(() => {
-              this.setState({
-                unexpectedError: '',
-                buttonDisabled: false,
-              });
-            }, 5000);
           }
+          setTimeout(() => {
+            this.setState({
+              unexpectedError: '',
+              buttonDisabled: false,
+            });
+          }, 5000);
         });
     }
   }
@@ -454,11 +448,6 @@ class Register extends Component {
         showStrong: false,
       });
     }, 1900);
-  }
-
-  firstLetter(s) {
-    const name = s.toLowerCase();
-    return name.replace(/^./g, s[0].toUpperCase());
   }
 
   checkAllFields() {
@@ -641,7 +630,7 @@ class Register extends Component {
                 <div
                   className="text-focus-in1"
                   style={{
-                    fontSize: 20,
+                    fontSize: 25,
                     color: '#FF0000',
                     marginTop: 130,
                   }}
@@ -651,7 +640,7 @@ class Register extends Component {
                 <div
                   className="text-focus-in1"
                   style={{
-                    fontSize: 20,
+                    fontSize: 25,
                     color: '#FF0000',
                   }}
                 >
@@ -660,12 +649,12 @@ class Register extends Component {
                 <div
                   className="text-focus-in"
                   style={{
-                    fontSize: 20,
+                    fontSize: 22,
                     color: '#FF0000',
-                    marginBottom: 10,
+                    marginBottom: 0,
                   }}
                 >
-                  Try again, please
+                  Try another one
                 </div>
               </div>
             )}
@@ -733,7 +722,7 @@ class Register extends Component {
           <b>
             Congratulations,
             {' '}
-            {this.firstLetter(this.state.name)}
+            {this.state.name}
             !
           </b>
         </div>
@@ -759,7 +748,7 @@ class Register extends Component {
           {' '}
           <Link to="/login"><b><u>log in</u></b></Link>
           <br />
-          after
+          in
           {' '}
           <Timer timerCount={5} />
           {' '}
