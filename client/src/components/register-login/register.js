@@ -539,7 +539,7 @@ class Register extends Component {
       this.setState({
         openLogin: true,
       });
-    }, 7000);
+    }, 6000);
   }
 
   render() {
@@ -722,7 +722,7 @@ class Register extends Component {
             <br />
             after
             {' '}
-            <Timer timerCount={6} />
+            <Timer timerCount={5} />
             {' '}
             seconds
           </div>
