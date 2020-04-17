@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import com.lunchtime.models.MenuItemDish;
 
 @RestController
-@RequestMapping("/api/menuitemdish")
+@RequestMapping("/api/menuItemDish")
 public class MenuItemDishController {
 
     private final MenuItemDishService menuItemDishService;
@@ -61,7 +61,7 @@ public class MenuItemDishController {
                throws URISyntaxException {
         MenuItemDish newMenuItemDish = menuItemDishService.save(menuItemDish);
         return  ResponseEntity
-               .created(new URI("/api/menuitemdish"))
+               .created(new URI("/api/menuItemDish"))
                .body(newMenuItemDish);
     }
 

@@ -37,10 +37,10 @@ public class CategoryFoodController {
 
     @GetMapping("{id}")
     public ResponseEntity<CategoryFood> getCategory(@PathVariable Long id) {
-        Optional<CategoryFood> dish = categoryFoodService.findById(id);
-        if (dish.isPresent()) {
+        Optional<CategoryFood> category = categoryFoodService.findById(id);
+        if (category.isPresent()) {
             return ResponseEntity.ok()
-                .body(dish.get());
+                .body(category.get());
         }
         return ResponseEntity.notFound()
             .build();
