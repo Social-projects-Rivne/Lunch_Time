@@ -34,7 +34,7 @@ class Register extends Component {
       isPasswordShown: false,
       color: '#fcfffc',
       showWeak: false,
-      showNormal: false,
+      showEasy: false,
       showGood: false,
       showStrong: false,
       passwordStrength: '',
@@ -324,11 +324,15 @@ class Register extends Component {
   }
 
   isPasswordStrong(value) {
-    const weak = new RegExp(/^(?=.*[a-zа-я]).{8,40}$/);
-    const normal = new RegExp(/^(?=.*[a-zа-я])(?=.*\d).{8,40}$/);
-    const good = new RegExp(/^(?=.*[a-zа-я])(?=.*\d)(?=.*[A-ZА-Я]).{8,40}$/);
+    const weak = new RegExp(/^(.)\1+$/);
+    const easy = new RegExp(/^(?=.*([a-zа-я]|[A-ZА-Я])).{8,40}$/);
+    const good = new RegExp(/^(?=.*[a-zа-я])(?=.*[A-ZА-Я])(?=.*\d).{8,40}$/);
     // eslint-disable-next-line no-useless-escape
-    const strong = new RegExp(/^(?=.*[!@#$%^&*()\\\/|~.',<>?`:"{}\]\[]).{8,40}$/);
+    const strong = new RegExp(/^(?=.*[a-zа-я])(?=.*[A-ZА-Я])(?=.*\d)(?=.*[!@#$%^&*()\\\/|~.',<>?`:"{}\]\[]).{8,40}$/);
+    // eslint-disable-next-line no-useless-escape
+    const chars = new RegExp(/(?=.*[!@#$%^&*()\\\/|~.',<>?`:"{}\]\[]).{8,40}$/);
+    // eslint-disable-next-line no-useless-escape
+    const charsAndDigits = new RegExp(/(?=.*\d)(?=.*[!@#$%^&*()\\\/|~.',<>?`:"{}\]\[]).{8,40}$/);
 
     let checker = false;
     if (weak.test(value)) {
@@ -339,21 +343,23 @@ class Register extends Component {
       this.showWeak();
       checker = true;
     }
-    if (normal.test(value)) {
+    if (!weak.test(value) && easy.test(value)) {
       this.setState({
         color: '#ff8e33',
         passwordStrength: 'easy',
       });
-      this.showNormal();
+      this.showEasy();
       checker = true;
     }
-    if (good.test(value)) {
-      this.setState({
-        color: '#459bff',
-        passwordStrength: 'good',
-      });
-      this.showGood();
-      checker = true;
+    if (good.test(value) || chars.test(value) || charsAndDigits.test(value)) {
+      if (!weak.test(value)) {
+        this.setState({
+          color: '#459bff',
+          passwordStrength: 'good',
+        });
+        this.showGood();
+        checker = true;
+      }
     }
     if (strong.test(value)) {
       this.setState({
@@ -364,22 +370,13 @@ class Register extends Component {
       this.showStrong();
       checker = true;
     }
-    if ((/^(.)\1+$/.test(value))) {
-      this.setState({
-        color: '#bc0008',
-        passwordStrength: 'weak',
-        passwordInputClassName: valid,
-      });
-      this.showWeak();
-      checker = true;
-    }
     if (!checker) {
       this.setState({
         showWeak: true,
-        showNormal: false,
+        showEasy: false,
         showGood: false,
         showStrong: false,
-        color: '#bc0008',
+        color: '#BC0008',
         passwordStrength: 'weak',
       });
     }
@@ -390,7 +387,7 @@ class Register extends Component {
     this.setState({
       currentCallId,
       showWeak: true,
-      showNormal: false,
+      showEasy: false,
       showGood: false,
       showStrong: false,
     });
@@ -402,19 +399,19 @@ class Register extends Component {
     }, 1900);
   }
 
-  showNormal() {
+  showEasy() {
     const currentCallId = Math.random();
     this.setState({
       currentCallId,
       showWeak: false,
-      showNormal: true,
+      showEasy: true,
       showGood: false,
       showStrong: false,
     });
     setTimeout(() => {
       if (currentCallId !== this.state.currentCallId) return;
       this.setState({
-        showNormal: false,
+        showEasy: false,
       });
     }, 1900);
   }
@@ -424,7 +421,7 @@ class Register extends Component {
     this.setState({
       currentCallId,
       showWeak: false,
-      showNormal: false,
+      showEasy: false,
       showGood: true,
       showStrong: false,
     });
@@ -441,7 +438,7 @@ class Register extends Component {
     this.setState({
       currentCallId,
       showWeak: false,
-      showNormal: false,
+      showEasy: false,
       showGood: false,
       showStrong: true,
     });
@@ -550,7 +547,7 @@ class Register extends Component {
       phoneInputClassName, phoneInputTitle, isRegistered,
       invalidEmailOrPassword, unexpectedError,
       showPassword, isPasswordShown, color, password, showWeak,
-      showNormal, showGood, showStrong, photo1, openLogin,
+      showEasy, showGood, showStrong, photo1, openLogin,
     } = this.state;
     this.photo();
     if (!isRegistered && !invalidEmailOrPassword && !unexpectedError) {
@@ -606,7 +603,7 @@ class Register extends Component {
                   )}
                   {password.length >= 8 && <text style={{ color: color }}> ● </text>}
                   {password.length >= 8 && showWeak && <text style={{ color: color, fontSize: 13 }}> weak </text>}
-                  {password.length >= 8 && showNormal && <text style={{ color: color, fontSize: 13 }}> easy </text>}
+                  {password.length >= 8 && showEasy && <text style={{ color: color, fontSize: 13 }}> easy </text>}
                   {password.length >= 8 && showGood && <text style={{ color: color, fontSize: 13 }}> good </text>}
                   {password.length >= 8 && showStrong && <text style={{ color: color, fontSize: 13 }}> strong </text>}
                 </FormLabel>
