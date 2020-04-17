@@ -455,7 +455,7 @@ class Register extends Component {
 
   firstLetter(s) {
     const name = s.toLowerCase();
-    return name.replace(/^.{1}/g, s[0].toUpperCase());
+    return name.replace(/^./g, s[0].toUpperCase());
   }
 
   checkAllFields() {
