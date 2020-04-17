@@ -1,12 +1,14 @@
 package com.lunchtime.controllers;
 
-import com.lunchtime.security.JwtAuthenticationTokenFilter;
+import com.lunchtime.security.JwtUtil;
 import com.lunchtime.service.dto.RegisterPerson;
 import com.lunchtime.service.dto.PersonDto;
 import com.lunchtime.service.dto.PersonPassDto;
 import com.lunchtime.service.PersonService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -17,11 +19,9 @@ import java.net.URISyntaxException;
 @RequestMapping("/api/persons")
 public class PersonController {
     private final PersonService personService;
-    private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
 
-    public JwtAuthenticationTokenFilter getJwtAuthenticationTokenFilter() {
-        return jwtAuthenticationTokenFilter;
-    }
+    @Autowired
+    private JwtUtil jwtUtil;
 
     public PersonController(PersonService personService) {
         this.personService = personService;
@@ -76,8 +76,9 @@ public class PersonController {
 
     @GetMapping(value = "/currentUser", produces = MediaType.TEXT_PLAIN_VALUE)
 
-    public ResponseEntity<PersonDto> getPersonByEmail(@PathVariable ) {
-        PersonDto personDto = personService.findByEmail();
+    public ResponseEntity<PersonDto> getPersonByEmail(@PathVariable UserDetails userDetails) {
+        String email = userDetails.getUsername();
+        PersonDto personDto = personService.findByEmail(email);
         if (personDto != null) {
             return ResponseEntity.ok()
                 .body(personDto);
