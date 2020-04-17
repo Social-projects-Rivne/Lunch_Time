@@ -56,6 +56,15 @@ class Api {
       });
   }
 
+  async getCurrentUser(endpoint) {
+    try {
+      const response = await axios.get(this.getApiEndpoint(endpoint));
+      return { error: null, data: response.data, status: response.status };
+    } catch (error) {
+      return { error: error };
+    }
+  }
+
   async getAllRestaurantFeedback(endpoint, id) {
     let response; let data;
 
