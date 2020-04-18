@@ -1,0 +1,23 @@
+.no-match {
+  background: url("/img/404.jpg") no-repeat center center fixed;
+  background-size: cover;
+  padding: 7rem 0 0 0;
+  min-height: calc(100vh - 70px);
+}
+
+.titles-no-match {
+  color: black;
+  font-weight: bold;
+  font-family: "AR PL UKai HK", sans-serif;
+  text-shadow: -2px 0 white, 0 2px white, 2px 0 white, 0 -2px white;
+}
+
+.m-button {
+  font-size: 200%;
+}
+
+.m-button:hover {
+  color: gold;
+  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+}
+
