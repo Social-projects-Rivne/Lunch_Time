@@ -35,11 +35,18 @@ class App extends Component {
     this.setState({ isAuthenticated: true });
   }
 
+  handleLogout() {
+    this.setState({ isAuthenticated: false }, () => {
+      Auth.removeToken();
+    });
+  }
+
   render() {
     const { isAuthenticated } = this.state;
+
     return (
       <Router>
-        <NavigationBar isAuthenticated={isAuthenticated} />
+        <NavigationBar isAuthenticated={isAuthenticated} logoutHandler={() => { this.handleLogout(); }} />
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/about" component={About} />
