@@ -60,7 +60,7 @@ class PassChange extends React.Component {
       <div>
         {!this.state.showForm
         && (
-        <Button className="m-button" onClick={() => this.toggle()}>
+        <Button onClick={() => this.toggle()}>
           Change password
         </Button>
         )}

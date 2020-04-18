@@ -4,20 +4,18 @@ import { Button } from 'react-bootstrap';
 
 class SearchMenuButton extends Component {
   render() {
-    const { buttonClassName, buttonName } = this.props;
+    const { buttonName } = this.props;
     return (
-      <Button className={buttonClassName}>{buttonName}</Button>
+      <Button>{buttonName}</Button>
     );
   }
 }
 
 SearchMenuButton.defaultProps = {
-  buttonClassName: 'm-button',
   buttonName: 'Find',
 };
 
 SearchMenuButton.propTypes = {
-  buttonClassName: PropTypes.string,
   buttonName: PropTypes.string,
 };
 
