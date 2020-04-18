@@ -164,6 +164,10 @@ class NewOrder extends Component {
 
   render() {
     const { history, location } = this.props;
+    if (location && !location.state) {
+      this.props.history.push('/');
+      return null;
+    }
     return (
       <Container fluid className="new-order-container">
         <h5>
