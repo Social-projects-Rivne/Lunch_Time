@@ -22,12 +22,15 @@ class Register extends Component {
       confirmPassword: '',
       nameInputTitle: 'Your name must be in range of 3-16 latin letters',
       nameInputClassName: '',
+      nameInputWrongClassName: false,
       phoneInputStarted: false,
       phoneInputTitle: "Phone number must be in '+***' format with digits",
       phoneInputClassName: '',
+      phoneInputWrongClassName: false,
       emailInputStarted: false,
       emailInputTitle: 'email must consist of 5 or more symbols',
       emailInputClassName: '',
+      emailInputWrongClassName: false,
       showPassword: false,
       isPasswordShown: false,
       color: '#fcfffc',
@@ -39,8 +42,10 @@ class Register extends Component {
       passwordInputStarted: false,
       passwordInputTitle: "Password shouldn't be weak and less than 8 symbols",
       passwordInputClassName: '',
+      passwordInputWrongClassName: false,
       confirmPasswordInputTitle: 'Passwords must match each other',
       confirmPasswordInputClassName: '',
+      confirmPasswordInputWrongClassName: false,
       isRegistered: false,
       unexpectedError: '',
       openLogin: '',
@@ -485,9 +490,13 @@ class Register extends Component {
     let isValid = true;
     if (nameInputClassName !== valid) {
       isValid = false;
+      this.setState({
+        nameInputWrongClassName: true,
+      });
       setTimeout(() => {
         this.setState({
           nameInputClassName: invalid,
+          nameInputWrongClassName: false,
         });
       }, 100);
     }
@@ -495,7 +504,15 @@ class Register extends Component {
       isValid = false;
       setTimeout(() => {
         this.setState({
+          phoneInputWrongClassName: true,
+        });
+      }, 100);
+      this.setState({
+      });
+      setTimeout(() => {
+        this.setState({
           phoneInputClassName: invalid,
+          phoneInputWrongClassName: false,
         });
       }, 200);
     }
@@ -503,7 +520,13 @@ class Register extends Component {
       isValid = false;
       setTimeout(() => {
         this.setState({
+          emailInputWrongClassName: true,
+        });
+      }, 200);
+      setTimeout(() => {
+        this.setState({
           emailInputClassName: invalid,
+          emailInputWrongClassName: false,
         });
       }, 300);
     }
@@ -511,7 +534,13 @@ class Register extends Component {
       isValid = false;
       setTimeout(() => {
         this.setState({
+          passwordInputWrongClassName: true,
+        });
+      }, 300);
+      setTimeout(() => {
+        this.setState({
           passwordInputClassName: invalid,
+          passwordInputWrongClassName: false,
         });
       }, 400);
     }
@@ -519,7 +548,13 @@ class Register extends Component {
       isValid = false;
       setTimeout(() => {
         this.setState({
+          confirmPasswordInputWrongClassName: true,
+        });
+      }, 400);
+      setTimeout(() => {
+        this.setState({
           confirmPasswordInputClassName: invalid,
+          confirmPasswordInputWrongClassName: false,
         });
       }, 500);
     }
@@ -569,11 +604,16 @@ class Register extends Component {
       phoneInputClassName, phoneInputTitle, isRegistered, unexpectedError,
       showPassword, isPasswordShown, color, password, showWeak,
       showEasy, showGood, showStrong, photo1, openLogin,
-      buttonDisabled,
+      buttonDisabled, nameInputWrongClassName, phoneInputWrongClassName,
+      emailInputWrongClassName, passwordInputWrongClassName, confirmPasswordInputWrongClassName,
     } = this.state;
+    const nameBackgroundColor = nameInputWrongClassName ? 'rgba(246,3,43,0.36)' : '#dff1ff4a';
+    const phoneBackgroundColor = phoneInputWrongClassName ? 'rgba(246,3,43,0.36)' : '#dff1ff4a';
+    const emailBackgroundColor = emailInputWrongClassName ? 'rgba(246,3,43,0.36)' : '#dff1ff4a';
+    const passwordBackgroundColor = passwordInputWrongClassName ? 'rgba(246,3,43,0.36)' : '#dff1ff4a';
+    const confirmPasswordBackgroundColor = confirmPasswordInputWrongClassName ? 'rgba(246,3,43,0.36)' : '#dff1ff4a';
     this.photo();
     if (!isRegistered) {
-      console.log(`buttonDisabled${this.state.buttonDisabled}`);
       return (
         <Container className="base-container" style={{ color: '#3498db' }}>
           <div className="header">Register</div>
@@ -593,6 +633,9 @@ class Register extends Component {
                   placeholder="name"
                   value={this.state.name}
                   onChange={this.validateInputName}
+                  style={{
+                    backgroundColor: nameBackgroundColor,
+                  }}
                 />
                 <FormLabel htmlFor="text">Phone number</FormLabel>
                 <input
@@ -602,6 +645,9 @@ class Register extends Component {
                   placeholder="phone number"
                   value={this.state.phoneNumber}
                   onChange={this.validateInputPhone}
+                  style={{
+                    backgroundColor: phoneBackgroundColor,
+                  }}
                 />
                 <FormLabel htmlFor="email">e-mail</FormLabel>
                 <input
@@ -611,6 +657,9 @@ class Register extends Component {
                   placeholder="email"
                   value={this.state.email}
                   onChange={this.validateInputEmail}
+                  style={{
+                    backgroundColor: emailBackgroundColor,
+                  }}
                 />
                 <FormLabel htmlFor="password">
                   Password
@@ -639,6 +688,9 @@ class Register extends Component {
                   placeholder="password"
                   value={this.state.password}
                   onChange={this.validateInputPassword}
+                  style={{
+                    backgroundColor: passwordBackgroundColor,
+                  }}
                 />
                 <input
                   className={confirmPasswordInputClassName}
@@ -647,6 +699,9 @@ class Register extends Component {
                   placeholder="confirm password"
                   value={this.state.confirmPassword}
                   onChange={this.validateConfirmPassword}
+                  style={{
+                    backgroundColor: confirmPasswordBackgroundColor,
+                  }}
                 />
               </FormGroup>
             </Form>

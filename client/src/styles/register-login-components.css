@@ -38,18 +38,17 @@
  .base-container .content .form .form-group label {
 	 font-size: 20px;
 }
- .base-container .content .form .form-group input {
-	 margin-top: 1px;
-	 min-width: 18em;
-	 height: 37px;
-	 padding: 10px 35px 10px 10px;
-	 font-size: 16px;
-	 font-family: "Open Sans", sans-serif;
-	 background-color: #dff1ff4a;
-	 border: 0;
-	 border-radius: 9px;
-	 margin-bottom: 11px;
-	 transition: all 250ms ease-in-out;
+.base-container .content .form .form-group input {
+  margin-top: 1px;
+  min-width: 18em;
+  height: 37px;
+  padding: 10px 35px 10px 10px;
+  font-size: 16px;
+  font-family: "Open Sans", sans-serif;
+  border: 0;
+  border-radius: 9px;
+  margin-bottom: 11px;
+  transition: all 250ms ease-in-out;
 }
 
 .base-container .content .form .form-group input::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
