@@ -10,6 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -36,8 +37,11 @@ public class AuthController {
         }
         final UserDetails userDetails = userDetailsService
             .loadUserByUsername(jwtPersonDetails.getEmail());
-        final String jwt = jwtTokenUtil.generateToken(userDetails);
-        JwtAuthenticationToken token = new JwtAuthenticationToken(jwt);
-        return ResponseEntity.ok(token.getJwt());
+        if (BCrypt.checkpw(jwtPersonDetails.getPassword(), userDetails.getPassword())) {
+            final String jwt = jwtTokenUtil.generateToken(userDetails);
+            JwtAuthenticationToken token = new JwtAuthenticationToken(jwt);
+            return ResponseEntity.ok(token.getJwt());
+        }
+        return null;
     }
 }
