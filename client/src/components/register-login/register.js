@@ -356,7 +356,7 @@ class Register extends Component {
   }
 
   isPasswordStrong(value) {
-    const weak = new RegExp(/^(.)\1+$/);
+    const weak = new RegExp(/^(.)\1{8,40}$/);
     const easy = new RegExp(/^(?=.*([a-zа-я]|[A-ZА-Я])).{8,40}$/);
     const good = new RegExp(/^(?=.*[a-zа-я])(?=.*[A-ZА-Я])(?=.*\d).{8,40}$/);
     // eslint-disable-next-line no-useless-escape

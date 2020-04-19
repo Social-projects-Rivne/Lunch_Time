@@ -8,6 +8,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.time.Instant;
 
 @Entity
@@ -22,6 +23,7 @@ public class Person {
     private String photoUrl;
 
     @NotBlank
+    @Pattern(regexp = "^.{1,50}$")
     @Column(name = "name")
     private String name;
 
@@ -31,10 +33,12 @@ public class Person {
     private String email;
 
     @NotBlank
+    @Pattern(regexp = "^(?!(.)\\1+$).{8,40}$")
     @Column(name = "password")
     private String password;
 
     @NotBlank
+    @Pattern(regexp = "^\\+[0-9]{7,16}$")
     @Column(name = "phone_number")
     private String phoneNumber;
 
