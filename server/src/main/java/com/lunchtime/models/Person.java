@@ -1,6 +1,7 @@
 package com.lunchtime.models;
 
 import com.lunchtime.enums.Status;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
@@ -15,6 +16,7 @@ import java.time.Instant;
 @Entity
 @Table(name = "person")
 @Builder
+@AllArgsConstructor
 @Data
 public class Person {
     @Id
@@ -35,7 +37,6 @@ public class Person {
     private String email;
 
     @NotBlank
-    @Pattern(regexp = "^(?!(.)\\1+$).{8,40}$")
     @Column(name = "password")
     private String password;
 
