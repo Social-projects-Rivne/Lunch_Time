@@ -797,7 +797,7 @@ class Register extends Component {
           You will be forwarded to
           {' '}
           <br />
-          <Link to="/login"><b><u>main page</u></b></Link>
+          <Link to="/"><b><u>main page</u></b></Link>
           {' '}
           in
           {' '}
