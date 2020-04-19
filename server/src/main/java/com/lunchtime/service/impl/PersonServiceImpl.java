@@ -9,6 +9,8 @@ import com.lunchtime.repository.PersonRepository;
 import com.lunchtime.service.PersonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.NonUniqueResultException;
@@ -20,6 +22,7 @@ import java.util.Optional;
 public class PersonServiceImpl implements PersonService {
     private final PersonRepository personRepository;
     private final PersonMapper personMapper;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public PersonDto saveRegisterPerson(RegisterPerson registerPerson) {
         boolean phoneExists = false;
@@ -62,13 +65,13 @@ public class PersonServiceImpl implements PersonService {
         Optional<Person> result = personRepository.findById(personPassDto.getId());
         if (result.isPresent()) {
             Person person = result.get();
-            if (personPassDto.getOldPassword().equals(person.getPassword())) {
-                person.setPassword(personPassDto.getPassword());
-                person.setName(personPassDto.getName());
-                person.setPhoneNumber(personPassDto.getPhoneNumber());
-                personRepository.save(person);
-                return personPassDto;
-            }
+                if (BCrypt.checkpw(personPassDto.getOldPassword(), person.getPassword())) {
+                    person.setPassword(bCryptPasswordEncoder.encode(personPassDto.getPassword()));
+                    person.setName(personPassDto.getName());
+                    person.setPhoneNumber(personPassDto.getPhoneNumber());
+                    personRepository.save(person);
+                    return personPassDto;
+                }
             throw new Exception();
         }
         return null;
