@@ -1,6 +1,7 @@
 package com.lunchtime.models;
 
 import com.lunchtime.enums.Status;
+import lombok.Builder;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -13,6 +14,7 @@ import java.time.Instant;
 
 @Entity
 @Table(name = "person")
+@Builder
 @Data
 public class Person {
     @Id
