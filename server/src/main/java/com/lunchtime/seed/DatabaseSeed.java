@@ -2,14 +2,17 @@ package com.lunchtime.seed;
 
 import com.lunchtime.models.*;
 import com.lunchtime.repository.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import java.net.URISyntaxException;
 import java.time.Instant;
 import java.util.List;
 
 @Component
+@RequiredArgsConstructor
 public class DatabaseSeed {
 
     String[] dishesName = new String[] {"Salami", "Margarita", "Manhattan", "Soup", "Hamburger", "Ice"};
@@ -55,26 +58,7 @@ public class DatabaseSeed {
     private final MenuItemDishRepository menuItemDishRepository;
     private final EventCategoryRepository eventCategoryRepository;
     private final EventRepository eventRepository;
-
-
-    public DatabaseSeed(RestaurantRepository restaurantRepository,
-                        FeedbackRepository feedbackRepository,
-                        PersonRepository personRepository,
-                        DishRepository dishRepository,
-                        CategoryFoodRepository categoryFoodRepository,
-                        MenuItemDishRepository menuItemDishRepository,
-                        EventCategoryRepository eventCategoryRepository,
-                        EventRepository eventRepository) {
-        this.restaurantRepository = restaurantRepository;
-        this.feedbackRepository = feedbackRepository;
-        this.personRepository = personRepository;
-        this.dishRepository = dishRepository;
-        this.categoryFoodRepository = categoryFoodRepository;
-        this.menuItemDishRepository = menuItemDishRepository;
-        this.eventCategoryRepository = eventCategoryRepository;
-        this.eventRepository = eventRepository;
-
-    }
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @EventListener
     public void seed(ContextRefreshedEvent event) {
@@ -208,8 +192,9 @@ public class DatabaseSeed {
         Person person = new Person();
         person.setName(userName[i]);
         person.setEmail(userName[i].concat("@gmail.com").toLowerCase());
-        person.setPassword(userName[i].concat("password").toLowerCase());
-        person.setPhoneNumber("096-77-77-77".concat(String.valueOf(i)));
+        person.setPassword(
+            bCryptPasswordEncoder.encode(userName[i].concat("password").toLowerCase()));
+        person.setPhoneNumber("+38050123456".concat(String.valueOf(i)));
         return person;
     }
 
