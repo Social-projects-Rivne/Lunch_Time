@@ -27,11 +27,12 @@ public class PersonControllerTest {
     public void setUp() {
         initMocks(this);
         personControllerUnderTest = new PersonController(mockPersonService);
-        personDto = new PersonDto();
-        personDto.setId(1);
-        personDto.setName("NewName");
-        personDto.setPhoneNumber("+380991112233");
-        personDto.setEmail("name@gmail.com");
+        personDto = PersonDto.builder()
+            .id(1)
+            .name("NewName")
+            .phoneNumber("+380991112233")
+            .email("name@gmail.com")
+            .build();
     }
 
     @Test
