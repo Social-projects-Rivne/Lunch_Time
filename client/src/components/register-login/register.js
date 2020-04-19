@@ -48,7 +48,7 @@ class Register extends Component {
       confirmPasswordInputWrongClassName: false,
       isRegistered: false,
       unexpectedError: '',
-      openLogin: '',
+      openMainPage: '',
       buttonDisabled: false,
       photo1: '/img/register1.png',
       photo2: '/img/register2.png',
@@ -60,7 +60,7 @@ class Register extends Component {
     this.validateInputPassword = this.validateInputPassword.bind(this);
     this.validateConfirmPassword = this.validateConfirmPassword.bind(this);
     this.isPasswordShown = this.isPasswordShown.bind(this);
-    this.openLoginPage = this.openLoginPage.bind(this);
+    this.openMainPage = this.openMainPage.bind(this);
   }
 
   setPasswordStateValid() {
@@ -289,7 +289,7 @@ class Register extends Component {
               isRegistered: true,
               unexpectedError: false,
             });
-            this.openLoginPage();
+            this.openMainPage();
           } else if (response.error.status === 400) {
             this.setState({
               unexpectedError: false,
@@ -588,10 +588,10 @@ class Register extends Component {
     }, 14000);
   }
 
-  openLoginPage() {
+  openMainPage() {
     setTimeout(() => {
       this.setState({
-        openLogin: true,
+        openMainPage: true,
       });
     }, 6000);
   }
@@ -603,7 +603,7 @@ class Register extends Component {
       confirmPasswordInputClassName, confirmPasswordInputTitle,
       phoneInputClassName, phoneInputTitle, isRegistered, unexpectedError,
       showPassword, isPasswordShown, color, password, showWeak,
-      showEasy, showGood, showStrong, photo1, openLogin,
+      showEasy, showGood, showStrong, photo1, openMainPage,
       buttonDisabled, nameInputWrongClassName, phoneInputWrongClassName,
       emailInputWrongClassName, passwordInputWrongClassName, confirmPasswordInputWrongClassName,
     } = this.state;
@@ -794,7 +794,7 @@ class Register extends Component {
         >
           You will be forwarded to
           {' '}
-          <Link to="/login"><b><u>log in</u></b></Link>
+          <Link to="/login"><b><u>main page</u></b></Link>
           <br />
           in
           {' '}
@@ -802,7 +802,7 @@ class Register extends Component {
           {' '}
           seconds
         </div>
-        {openLogin && <Redirect to="/login" />}
+        {openMainPage && <Redirect to="/" />}
       </div>
     );
   }
