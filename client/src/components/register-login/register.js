@@ -605,7 +605,8 @@ class Register extends Component {
       showPassword, isPasswordShown, color, password, showWeak,
       showEasy, showGood, showStrong, photo1, openMainPage,
       buttonDisabled, nameInputWrongClassName, phoneInputWrongClassName,
-      emailInputWrongClassName, passwordInputWrongClassName, confirmPasswordInputWrongClassName,
+      emailInputWrongClassName, passwordInputWrongClassName,
+      confirmPasswordInputWrongClassName, name,
     } = this.state;
     const nameBackgroundColor = nameInputWrongClassName ? 'rgba(246,3,43,0.36)' : '#dff1ff4a';
     const phoneBackgroundColor = phoneInputWrongClassName ? 'rgba(246,3,43,0.36)' : '#dff1ff4a';
@@ -770,7 +771,8 @@ class Register extends Component {
           <b>
             Congratulations,
             {' '}
-            {this.state.name}
+            {name.length > 8 && <br />}
+            {name}
             !
           </b>
         </div>
@@ -794,8 +796,9 @@ class Register extends Component {
         >
           You will be forwarded to
           {' '}
-          <Link to="/login"><b><u>main page</u></b></Link>
           <br />
+          <Link to="/login"><b><u>main page</u></b></Link>
+          {' '}
           in
           {' '}
           <Timer timerCount={5} />
