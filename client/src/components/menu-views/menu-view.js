@@ -14,19 +14,20 @@ class Menu extends Component {
       number: 0,
       pageSize: 2,
       menuItemDishes: [],
+      path: 'menuItemDish/restaurantId?restaurantId=',
       isFetching: false,
     };
     this.handlePageChange = this.handlePageChange.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
-    this.getAll(this.state.number, this.state.pageSize);
+    this.getAll(this.state.path, this.state.number, this.state.pageSize);
   }
 
-  getAll(page, pageSize) {
+  getAll(path, page, pageSize) {
     const { id } = this.props;
-    Api.getAll(`menuitemdish/restaurantId?restaurantId=${id}
-                &page=${page}&size=${pageSize}`)
+    Api.getAll(`${path}${id}&page=${page}&size=${pageSize}`)
       .then((response) => {
         if (response.error) {
           // eslint-disable-next-line no-console
@@ -43,7 +44,7 @@ class Menu extends Component {
   }
 
   handlePageChange(page) {
-    this.getAll(page - 1, this.state.pageSize);
+    this.getAll(this.state.path, page - 1, this.state.pageSize);
   }
 
   initPagination() {
@@ -68,12 +69,18 @@ class Menu extends Component {
     );
   }
 
+  handleChange(path) {
+    this.setState({
+      path: path,
+    });
+  }
+
   render() {
     const { isFetching } = this.state;
     if (isFetching) {
       return (
         <Container className="menu">
-          <Header />
+          <Header onChange={this.handleChange} />
           {this.initMenuItemDish()}
           {this.initPagination()}
         </Container>
