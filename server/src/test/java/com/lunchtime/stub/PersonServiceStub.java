@@ -12,7 +12,11 @@ public class PersonServiceStub implements PersonService {
     @Override
     public PersonDto saveRegisterPerson(RegisterPerson registerPerson) {
         if (registerPerson != null) {
-            return new PersonDto();
+            return PersonDto.builder()
+                .name(registerPerson.getName())
+                .phoneNumber(registerPerson.getPhoneNumber())
+                .email(registerPerson.getEmail())
+                .build();
         }
         return null;
     }
