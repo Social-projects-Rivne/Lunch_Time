@@ -9,7 +9,7 @@ class View extends React.Component {
     } = this.props;
     return (
       <Dropdown className="ml-3" onSelect={onSelect}>
-        <Dropdown.Toggle id={id} className="m-button">{name}</Dropdown.Toggle>
+        <Dropdown.Toggle id={id}>{name}</Dropdown.Toggle>
         <Dropdown.Menu>
           {values.map((item) => (
             <Dropdown.Item

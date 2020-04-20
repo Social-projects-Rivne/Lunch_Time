@@ -11,7 +11,7 @@ class Home extends Component {
         <h3 className="titles">Online reservation service</h3>
         <ButtonToolbar className="justify-content-center">
           <Link to="/restaurants">
-            <Button size="lg" className="m-button btn-restaurants mt-5">Restaurants</Button>
+            <Button size="lg" className="btn-restaurants mt-5">Restaurants</Button>
           </Link>
         </ButtonToolbar>
       </Container>
