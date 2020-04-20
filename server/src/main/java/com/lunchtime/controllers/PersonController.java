@@ -8,7 +8,6 @@ import com.lunchtime.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -74,11 +73,10 @@ public class PersonController {
         return ResponseEntity.notFound().build();
     }
 
-    @GetMapping(value = "/currentUser", produces = MediaType.TEXT_PLAIN_VALUE)
-
-    public ResponseEntity<PersonDto> getPersonByEmail(@PathVariable UserDetails userDetails) {
-        String email = userDetails.getUsername();
-        PersonDto personDto = personService.findByEmail(email);
+    @PostMapping("/currentUser")
+    public ResponseEntity<PersonDto> getPersonByEmail(@RequestBody String token) {
+        String email = jwtUtil.extractEmail(token);
+        PersonDto personDto = personService.getPersonDtoByEmail(email);
         if (personDto != null) {
             return ResponseEntity.ok()
                 .body(personDto);
