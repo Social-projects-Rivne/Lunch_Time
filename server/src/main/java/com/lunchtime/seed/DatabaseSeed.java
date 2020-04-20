@@ -7,16 +7,13 @@ import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import java.net.URISyntaxException;
 import java.time.Instant;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Component
 public class DatabaseSeed {
 
     String[] dishesName = new String[] {"Salami", "Margarita", "Manhattan", "Soup", "Hamburger", "Ice"};
-    String[] categoryFood = new String[] {"Pizza", "Pizza", "Pizza",
-                                          "Main course", "Snacks", "Dessert"};
+    String[] categoryFood = new String[] {"Pizza", "Main course", "Snacks", "Dessert"};
     String[] dishPortion = new String[] {"500 gr", "300 gr", "230 gr", "150 gr", "500 gr", "200 gr"};
     String[] dishUrl = new String[] { "pizza-salami.jpg",
                                       "pizza-margarita.jpg",
@@ -113,14 +110,12 @@ public class DatabaseSeed {
 
     private void seedMeuItemDish() {
 
-        List<Dish> dishesList = dishRepository.findAll();
-
         for (Long j = 0L; j < getRestaurantList().size(); j++) {
-            for (Long i = 0L; i < dishesList.size(); i++) {
+            for (Long i = 0L; i < getDishesList().size(); i++) {
                 MenuItemDish menuItemDish = new MenuItemDish();
                 menuItemDish.setPortionSize(dishPortion[i.intValue()]);
                 menuItemDish.setPortionPrice(i + 10L);
-                menuItemDish.setDish(dishesList.get(i.intValue()));
+                menuItemDish.setDish(getDishesList().get(i.intValue()));
                 menuItemDish.setPortionUnit(i.longValue() + 70L);
                 menuItemDish.setImageUrl(dishUrl[i.intValue()]);
                 menuItemDish.setRestaurant(getRestaurantList().get(j.intValue()));
@@ -148,7 +143,11 @@ public class DatabaseSeed {
             Dish dish = new Dish();
             dish.setName(dishesName[i.intValue()]);
             dish.setIngredients(" first ingredient," + " second ingredient," + " third ingredient");
-            dish.setCategoryfood(categoryFoodList.get(i.intValue()));
+            if (i < 3L) {
+                dish.setCategoryFood(categoryFoodList.get(0));
+            } else {
+                dish.setCategoryFood(categoryFoodList.get(i.intValue() - 2));
+            }
             dishRepository.save(dish);
         }
     }
@@ -255,6 +254,10 @@ public class DatabaseSeed {
 
     private List<EventCategory> getEventCategoryList() {
         return eventCategoryRepository.findAll();
+    }
+
+    private List<Dish> getDishesList() {
+        return dishRepository.findAll();
     }
 }
 
