@@ -78,6 +78,6 @@ public class OrderServiceImpl implements OrderService {
                 order.setDeleted(true);
                 return orderRepository.save(order);
             })
-            .orElseGet(null);
+            .orElse(null);
     }
 }

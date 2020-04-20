@@ -33,7 +33,7 @@ public class OrderStatusServiceImpl implements OrderStatusService {
                 status.setDeleted(true);
                 return orderStatusRepository.save(status);
             })
-            .orElseGet(null);
+            .orElse(null);
     }
 
     public Optional<OrderStatus> getOrderStatusByName(String name) {

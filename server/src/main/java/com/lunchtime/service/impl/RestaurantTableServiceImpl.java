@@ -37,7 +37,7 @@ public class RestaurantTableServiceImpl implements RestaurantTableService {
                 restaurantTable.setRestaurant(restaurant);
                 return restaurantTableRepository.save(restaurantTable);
             })
-            .orElseGet(null);
+            .orElse(null);
     }
 
     public Page<RestaurantTable> getAllTables(Pageable pageable) {
@@ -69,6 +69,6 @@ public class RestaurantTableServiceImpl implements RestaurantTableService {
                 table.setDeleted(true);
                 return restaurantTableRepository.save(table);
             })
-            .orElseGet(null);
+            .orElse(null);
     }
 }
