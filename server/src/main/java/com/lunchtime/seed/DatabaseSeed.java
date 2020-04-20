@@ -169,7 +169,7 @@ public class DatabaseSeed {
             .concat(", and some other info."));
         restaurant.setWorkingTime("12-24");
         restaurant.setDeleted(false);
-        restaurant.setPerson(getPersonList().get(i));
+        restaurant.setPersonId(getPersonList().get(i).getId());
         restaurant.setTables(i + 1);
         restaurant.setLongitude(cordLongitude[i]);
         restaurant.setLatitude(cordLatitude[i]);
