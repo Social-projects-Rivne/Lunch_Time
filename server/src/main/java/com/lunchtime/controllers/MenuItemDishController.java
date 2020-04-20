@@ -1,5 +1,6 @@
 package com.lunchtime.controllers;
 
+import java.awt.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
@@ -54,6 +55,21 @@ public class MenuItemDishController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(menuItemDishPage);
+    }
+
+    @GetMapping("/category")
+    public ResponseEntity<Page<MenuItemDish>> getAllByDishCategoryName(
+        @RequestParam("categoryId") Long categoryId,
+        @RequestParam("restaurantId") Long id,
+        Pageable pageable) {
+
+        Page<MenuItemDish> menuItemDishPage = menuItemDishService
+            .findMenuItemDishesByRestaurantIdAndDish_CategoryFood_Name(categoryId, id, pageable);
+        if (menuItemDishPage.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(menuItemDishPage);
+
     }
 
     @PostMapping
