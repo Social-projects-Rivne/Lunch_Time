@@ -20,6 +20,7 @@ import InfoChange from './info-change';
 class Profile extends Component {
   constructor(props) {
     super(props);
+    this.token = '';
     this.state = {
       user: {},
       isFetching: false,
@@ -40,7 +41,8 @@ class Profile extends Component {
   }
 
   getProfile() {
-    Api.getCurrentUser('persons/currentUser')
+    this.token = localStorage.getItem('Bearer ');
+    Api.getCurrentUser('persons/currentUser', this.token)
       .then((response) => {
         if (response.error) {
           // eslint-disable-next-line no-console
