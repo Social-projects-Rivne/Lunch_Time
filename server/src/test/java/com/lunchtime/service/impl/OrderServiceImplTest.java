@@ -86,7 +86,7 @@ public class OrderServiceImplTest {
     }
 
     @After
-    public void tearDown() {
+    public void after() {
         startDate = null;
         finishDate = null;
         order = null;
