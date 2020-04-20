@@ -11,6 +11,9 @@ import Auth from '../../services/auth';
 
 const valid = 'form-control is-valid';
 const invalid = 'form-control is-invalid';
+const emailRegex = RegExp(
+  /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
+);
 
 class Register extends Component {
   constructor(props) {
@@ -48,6 +51,7 @@ class Register extends Component {
       confirmPasswordInputTitle: 'Passwords must match each other',
       confirmPasswordInputClassName: '',
       confirmPasswordInputWrongClassName: false,
+      passwordsAreConfirmed: '',
       isRegistered: false,
       unexpectedError: '',
       openMainPage: '',
@@ -145,9 +149,6 @@ class Register extends Component {
     this.setState({
       email: value,
     });
-    const emailRegex = RegExp(
-      /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
-    );
     const testEmailRegex = RegExp(
       /^\w+(@(\w+(\.(\w+)?)?)?)?$/,
     );
@@ -178,6 +179,16 @@ class Register extends Component {
       this.setState({
         emailInputClassName: '',
       });
+    }
+    if (this.state.emailInputClassName === valid) {
+      if (this.isPasswordShown(this.state.password)) {
+        if (this.state.password === this.state.confirmPassword) {
+          this.setState({
+            passwordInputWrongClassName: valid,
+            confirmPasswordInputWrongClassName: valid,
+          });
+        }
+      }
     }
   }
 
@@ -225,6 +236,13 @@ class Register extends Component {
         });
       }
     }
+    if (this.state.passwordInputClassName === valid) {
+      if (value !== this.state.email && emailRegex.test(this.state.email)) {
+        this.setState({
+          emailInputClassName: valid,
+        });
+      }
+    }
   }
 
   validateConfirmPassword(e) {
@@ -246,6 +264,7 @@ class Register extends Component {
           const className = confirmPassword === password ? valid : invalid;
           this.setState({
             confirmPasswordInputClassName: className,
+            passwordsAreConfirmed: true,
           });
         });
       } else if (value.length > this.state.password.length && this.state.passwordInputClassName === valid) {
@@ -261,13 +280,21 @@ class Register extends Component {
         });
       }
     }
+    if (this.state.confirmPasswordInputClassName === valid) {
+      if (value !== this.state.email && emailRegex.test(this.state.email)) {
+        this.setState({
+          emailInputClassName: valid,
+        });
+      }
+    }
+    this.checkConfirmLive(this.state.password, value);
     if (value.length === 0) {
       this.setState({
         confirmPasswordInputClassName: '',
         isPasswordShown: false,
+        passwordsAreConfirmed: '',
       });
     }
-    this.checkConfirmLive(this.state.password, value);
   }
 
   handleSubmit() {
@@ -278,6 +305,26 @@ class Register extends Component {
       name, phoneNumber, email, password,
     } = this.state;
     if (this.checkAllFields()) {
+      if (email === password) {
+        this.setState({
+          emailInputTitle: 'email and password must be different',
+          passwordInputTitle: 'email and password must be different',
+          confirmPasswordInputTitle: 'email and password must be different',
+          emailInputClassName: invalid,
+          passwordInputClassName: invalid,
+          confirmPasswordInputClassName: invalid,
+          buttonDisabled: false,
+        });
+        return;
+      }
+      this.setState({
+        emailInputTitle: 'email must consist of 5 or more symbols',
+        passwordInputTitle: "Password shouldn't be weak and less than 8 symbols",
+        confirmPasswordInputTitle: 'Passwords must match each other',
+        emailInputClassName: invalid,
+        passwordInputClassName: invalid,
+        confirmPasswordInputClassName: invalid,
+      });
       const body = {
         name: name,
         phoneNumber: phoneNumber,
@@ -577,14 +624,20 @@ class Register extends Component {
         confirmPasswordInputTitle: 'Passwords must match each other',
         confirmPasswordInputClassName: '',
       });
-      // eslint-disable-next-line no-plusplus
-      for (let i = 0; i < confirmPassword.length; i++) {
-        if (confirmPassword.charAt(i) !== password.charAt(i)) {
-          this.setState({
-            confirmPasswordInputTitle: "Passwords don't match",
-            confirmPasswordInputClassName: invalid,
-          });
+      if (!this.state.passwordsAreConfirmed) {
+        // eslint-disable-next-line no-plusplus
+        for (let i = 0; i < confirmPassword.length; i++) {
+          if (confirmPassword.charAt(i) !== password.charAt(i)) {
+            this.setState({
+              confirmPasswordInputTitle: "Passwords don't match each other",
+              confirmPasswordInputClassName: invalid,
+            });
+          }
         }
+      } else if (password.length !== confirmPassword.length) {
+        this.setState({
+          confirmPasswordInputClassName: invalid,
+        });
       }
     }
   }
@@ -606,7 +659,6 @@ class Register extends Component {
       this.loginHandler();
     }, 6000);
   }
-
 
   loginHandler() {
     this.props.loginHandler();
