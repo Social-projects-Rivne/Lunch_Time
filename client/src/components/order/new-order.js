@@ -252,7 +252,7 @@ class NewOrder extends Component {
             : null
         }
         <div className="order-btn-container">
-          <Button onClick={() => history.goBack()} variant="secondary" className="order-btn-cancel">Cancel</Button>
+          <Button onClick={() => history.goBack()} variant="danger" className="order-btn-cancel">Cancel</Button>
           <Button
             onClick={() => this.saveOrder()}
             disabled={
