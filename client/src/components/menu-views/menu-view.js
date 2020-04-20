@@ -14,7 +14,7 @@ class Menu extends Component {
       number: 0,
       pageSize: 2,
       menuItemDishes: [],
-      path: 'menuItemDish/restaurantId?restaurantId=',
+      path: 'menuItemDish/restaurantId?',
       isFetching: false,
     };
     this.handlePageChange = this.handlePageChange.bind(this);
@@ -27,7 +27,7 @@ class Menu extends Component {
 
   getAll(path, page, pageSize) {
     const { id } = this.props;
-    Api.getAll(`${path}${id}&page=${page}&size=${pageSize}`)
+    Api.getAll(`${path}page=${page}&size=${pageSize}&restaurantId=${id}`)
       .then((response) => {
         if (response.error) {
           // eslint-disable-next-line no-console
@@ -69,10 +69,11 @@ class Menu extends Component {
     );
   }
 
-  handleChange(path) {
+  handleChange(match) {
     this.setState({
-      path: path,
+      path: match,
     });
+    this.getAll(match, this.state.number, this.state.pageSize);
   }
 
   render() {

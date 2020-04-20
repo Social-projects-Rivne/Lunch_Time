@@ -53,14 +53,18 @@ class Header extends Component {
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Item
-                  path="menuItemDish/restaurantId?restaurantId="
-                  onClick={(path) => this.onHandleClick(path)}
+                  eventKey="0"
+                  onClick={() => this.onHandleClick('menuItemDish/restaurantId?')}
                 >
                   All categories
                 </Dropdown.Item>
                 {categories.map((category) => {
                   return (
-                    <Dropdown.Item key={category.id}>
+                    <Dropdown.Item
+                      key={category.id}
+                      eventKey={category.id}
+                      onClick={() => this.onHandleClick(`menuItemDish/category?categoryId=${category.id}&`)}
+                    >
                       {category.name}
                     </Dropdown.Item>
                   );
