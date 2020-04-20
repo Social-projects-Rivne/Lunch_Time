@@ -42,6 +42,7 @@ public class OrderServiceImplTest {
     private Person person;
     private Date startDate;
     private Date finishDate;
+    private Order order;
     private final Long personId = 1L;
     private final Long tableId = 1L;
     private final int tableCapacity = 4;
@@ -52,7 +53,7 @@ public class OrderServiceImplTest {
         LocalDateTime finish = LocalDateTime.now().plusMinutes(40).plusDays(2);
         startDate = Date.from(start.atZone(ZoneId.systemDefault()).toInstant());
         finishDate = Date.from(finish.atZone(ZoneId.systemDefault()).toInstant());
-        
+
         String statusName = "new";
         OrderStatus status = OrderStatus.builder()
             .name(statusName)
@@ -67,22 +68,7 @@ public class OrderServiceImplTest {
             .capacity(tableCapacity)
             .build();
 
-        when(orderStatusService.getOrderStatusByName(statusName)).thenReturn(Optional.of(status));
-        when(personService.getPersonById(personId)).thenReturn(Optional.of(person));
-        when(restaurantTableService.getTableById(tableId)).thenReturn(Optional.of(restaurantTable));
-        when(orderRepository.findAllOrdersByTableInTime(tableId, startDate, finishDate))
-            .thenReturn(Collections.emptyList());
-    }
-
-    @After
-    public void tearDown() {
-        startDate = null;
-        finishDate = null;
-    }
-
-    @Test
-    public void personCanMakeOrderInSpecificTimeIfRestaurantTableIsAvailable() {
-        Order order = Order.builder()
+        order = Order.builder()
             .table(restaurantTable)
             .person(person)
             .startTime(startDate)
@@ -90,8 +76,24 @@ public class OrderServiceImplTest {
             .visitors(3)
             .build();
 
+        when(orderStatusService.getOrderStatusByName(statusName)).thenReturn(Optional.of(status));
+        when(personService.getPersonById(personId)).thenReturn(Optional.of(person));
+        when(restaurantTableService.getTableById(tableId)).thenReturn(Optional.of(restaurantTable));
+        when(orderRepository.findAllOrdersByTableInTime(tableId, startDate, finishDate))
+            .thenReturn(Collections.emptyList());
         when(orderRepository.save(order)).thenReturn(order);
 
+    }
+
+    @After
+    public void tearDown() {
+        startDate = null;
+        finishDate = null;
+        order = null;
+    }
+
+    @Test
+    public void personCanMakeOrderInSpecificTimeIfRestaurantTableIsAvailable() {
         Order createdOrder = orderServiceImpl.saveOrder(order);
 
         assertNotNull(createdOrder);
@@ -100,20 +102,11 @@ public class OrderServiceImplTest {
 
     @Test
     public void personCanNotMakeOrderIfThereAreOtherOrdersInThatTimeInThatTableInThatRestaurant() {
-        Order order = Order.builder()
-            .table(restaurantTable)
-            .person(person)
-            .startTime(startDate)
-            .finishTime(finishDate)
-            .visitors(3)
-            .build();
-
         List<Order> orders = new ArrayList<>();
         orders.add(Order.builder().build());
 
         when(orderRepository.findAllOrdersByTableInTime(order.getTable().getId(), startDate, finishDate))
             .thenReturn(orders);
-        when(orderRepository.save(order)).thenReturn(order);
 
         Order createdOrder = orderServiceImpl.saveOrder(order);
 
@@ -149,7 +142,7 @@ public class OrderServiceImplTest {
             .person(person)
             .startTime(startDate)
             .finishTime(finishDate)
-            .visitors(5)
+            .visitors(3)
             .build();
 
         when(orderRepository.findAllOrdersByTableInTime(order.getTable().getId(), startDate, finishDate))
@@ -173,7 +166,7 @@ public class OrderServiceImplTest {
             .person(person)
             .startTime(startDate)
             .finishTime(finishDate)
-            .visitors(5)
+            .visitors(3)
             .build();
 
         when(orderRepository.findAllOrdersByTableInTime(order.getTable().getId(), startDate, finishDate))
@@ -195,7 +188,7 @@ public class OrderServiceImplTest {
             .person(anotherPerson)
             .startTime(startDate)
             .finishTime(finishDate)
-            .visitors(5)
+            .visitors(3)
             .build();
 
         when(orderRepository.save(order)).thenReturn(order);
