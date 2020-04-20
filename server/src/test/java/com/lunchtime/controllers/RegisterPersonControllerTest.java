@@ -1,6 +1,7 @@
 package com.lunchtime.controllers;
 
 import com.lunchtime.models.Person;
+import com.lunchtime.security.TokenHistory;
 import com.lunchtime.service.PersonService;
 import com.lunchtime.service.dto.PersonDto;
 import com.lunchtime.service.dto.RegisterPerson;
@@ -20,9 +21,11 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class RegisterPersonControllerTest {
 
     PersonService personService = new PersonServiceStub();
+    AuthController authController = new AuthController();
+    TokenHistory tokenHistory = new TokenHistory();
     @Mock
     private final PersonController personController = new PersonController(
-        personService);
+        personService, authController, tokenHistory);
 
     private final RegisterPerson registerPerson = new RegisterPerson();
 
@@ -38,7 +41,7 @@ public class RegisterPersonControllerTest {
     @Test
     public void createPerson_with_existing_id_expected_false() throws Exception {
         registerPerson.setId(1L);
-        ResponseEntity<PersonDto> personDto = personController.createPerson(registerPerson);
+        ResponseEntity<?> personDto = personController.createPerson(registerPerson);
         Assert.assertNull(personDto);
         verify(personController, times(1)).createPerson(registerPerson);
         verifyNoMoreInteractions(personController);
@@ -48,7 +51,7 @@ public class RegisterPersonControllerTest {
     public void createPerson_with_existing_phone_number_expected_false() throws Exception {
         String phoneNumber = registerPerson.getPhoneNumber();
         Person existingPerson = personService.findByPhoneNumber(phoneNumber);
-        ResponseEntity<PersonDto> personDto = personController.createPerson(registerPerson);
+        ResponseEntity<?> personDto = personController.createPerson(registerPerson);
         if (existingPerson != null) {
             Assert.assertNull(personDto);
         } else {
@@ -63,7 +66,7 @@ public class RegisterPersonControllerTest {
     public void createPerson_with_existing_email_expected_false() throws Exception {
         String email = registerPerson.getEmail();
         Person existingPerson = personService.findByEmail(email);
-        ResponseEntity<PersonDto> personDto = personController.createPerson(registerPerson);
+        ResponseEntity<?> personDto = personController.createPerson(registerPerson);
         if (existingPerson != null) {
             Assert.assertNull(personDto);
         } else {

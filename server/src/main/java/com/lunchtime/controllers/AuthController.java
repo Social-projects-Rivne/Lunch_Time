@@ -3,6 +3,7 @@ package com.lunchtime.controllers;
 import com.lunchtime.models.JwtAuthenticationToken;
 import com.lunchtime.models.JwtPersonDetails;
 import com.lunchtime.security.JwtUtil;
+import com.lunchtime.security.TokenHistory;
 import com.lunchtime.service.impl.PersonDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,9 @@ public class AuthController {
     @Autowired
     private PersonDetailsImpl userDetailsService;
 
+    @Autowired
+    private TokenHistory tokenHistory;
+
     @PostMapping("/api/authenticate")
     public ResponseEntity<?> createAuthenticationToken(
         @RequestBody JwtPersonDetails jwtPersonDetails) throws Exception {
@@ -40,6 +44,7 @@ public class AuthController {
         if (BCrypt.checkpw(jwtPersonDetails.getPassword(), userDetails.getPassword())) {
             final String jwt = jwtTokenUtil.generateToken(userDetails);
             JwtAuthenticationToken token = new JwtAuthenticationToken(jwt);
+            tokenHistory.getTokenList().add(token.getJwt());
             return ResponseEntity.ok(token.getJwt());
         }
         return null;

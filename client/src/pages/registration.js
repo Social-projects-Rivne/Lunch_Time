@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Container } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 import Login from '../components/register-login/login';
 import Register from '../components/register-login/register';
 import RightSide from '../components/register-login/right-side';
@@ -39,7 +40,7 @@ class Registration extends Component {
         <div className="login">
           <div className="container" ref={(ref) => { this.container = ref; }}>
             {isLogged && <Login />}
-            {!isLogged && <Register />}
+            {!isLogged && <Register loginHandler={() => { this.props.loginHandler(); }} />}
           </div>
           <RightSide
             current={current}
@@ -52,5 +53,9 @@ class Registration extends Component {
     );
   }
 }
+
+Registration.propTypes = {
+  loginHandler: PropTypes.func.isRequired,
+};
 
 export default Registration;

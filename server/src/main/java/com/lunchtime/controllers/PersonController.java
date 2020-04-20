@@ -1,9 +1,12 @@
 package com.lunchtime.controllers;
 
+import com.lunchtime.models.JwtPersonDetails;
+import com.lunchtime.security.TokenHistory;
 import com.lunchtime.service.dto.RegisterPerson;
 import com.lunchtime.service.dto.PersonDto;
 import com.lunchtime.service.dto.PersonPassDto;
 import com.lunchtime.service.PersonService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,33 +16,39 @@ import java.net.URI;
 import java.net.URISyntaxException;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/persons")
 public class PersonController {
     private final PersonService personService;
-
-    public PersonController(PersonService personService) {
-        this.personService = personService;
-    }
+    private final AuthController authController;
+    private final TokenHistory tokenHistory;
 
     @PostMapping
-    public ResponseEntity<PersonDto> createPerson(
-        @Valid @RequestBody RegisterPerson registerPerson) throws URISyntaxException {
+    public ResponseEntity<?> createPerson(
+        @Valid @RequestBody RegisterPerson registerPerson) throws Exception {
 
         if (registerPerson.getId() != null) {
             return ResponseEntity.badRequest()
                 .build();
         }
 
-        PersonDto personDto;
+        PersonDto personDto = null;
         try {
             personDto = personService.saveRegisterPerson(registerPerson);
         } catch (NonUniqueResultException nue) {
             return ResponseEntity.status(Integer.parseInt(nue.getMessage())).build();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
+
         if (personDto != null) {
-            return ResponseEntity.created(new URI("/api/restaurants"))
-                .body(personDto);
+        JwtPersonDetails jwtPersonDetails = new JwtPersonDetails(
+            registerPerson.getEmail(), registerPerson.getPassword());
+        authController.createAuthenticationToken(jwtPersonDetails);
+            String token = tokenHistory.getTokenList().remove(0);
+            return ResponseEntity.ok(token);
+
         }
         return null;
     }

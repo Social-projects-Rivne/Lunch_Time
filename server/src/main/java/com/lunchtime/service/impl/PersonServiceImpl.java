@@ -1,5 +1,6 @@
 package com.lunchtime.service.impl;
 
+import com.lunchtime.controllers.AuthController;
 import com.lunchtime.mapper.PersonMapper;
 import com.lunchtime.models.Person;
 import com.lunchtime.service.dto.RegisterPerson;
@@ -8,13 +9,11 @@ import com.lunchtime.service.dto.PersonPassDto;
 import com.lunchtime.repository.PersonRepository;
 import com.lunchtime.service.PersonService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.NonUniqueResultException;
-import java.sql.SQLOutput;
 import java.util.Optional;
 
 @Service
@@ -24,7 +23,7 @@ public class PersonServiceImpl implements PersonService {
     private final PersonMapper personMapper;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public PersonDto saveRegisterPerson(RegisterPerson registerPerson) {
+    public PersonDto saveRegisterPerson(RegisterPerson registerPerson) throws Exception {
         boolean phoneExists = false;
         boolean emailExists = false;
         String code = null;

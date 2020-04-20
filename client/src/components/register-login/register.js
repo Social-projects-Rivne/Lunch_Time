@@ -4,8 +4,10 @@ import {
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { Redirect } from 'react-router';
+import PropTypes from 'prop-types';
 import Api from '../../services/api';
 import Timer from '../shared/timer';
+import Auth from '../../services/auth';
 
 const valid = 'form-control is-valid';
 const invalid = 'form-control is-invalid';
@@ -284,6 +286,14 @@ class Register extends Component {
       };
       Api.post('persons', body)
         .then((response) => {
+          if (response.status === 200) {
+            Auth.setToken(response.data);
+            this.setState({
+              isRegistered: true,
+              unexpectedError: false,
+            });
+            this.openMainPage();
+          }
           if (response.status === 201) {
             this.setState({
               isRegistered: true,
@@ -337,12 +347,12 @@ class Register extends Component {
             this.setState({
               unexpectedError: true,
             });
+            setTimeout(() => {
+              this.setState({
+                unexpectedError: '',
+              });
+            }, 5000);
           }
-          setTimeout(() => {
-            this.setState({
-              unexpectedError: '',
-            });
-          }, 5000);
         });
     }
     this.setState({
@@ -593,7 +603,13 @@ class Register extends Component {
       this.setState({
         openMainPage: true,
       });
+      this.loginHandler();
     }, 6000);
+  }
+
+
+  loginHandler() {
+    this.props.loginHandler();
   }
 
   render() {
@@ -810,5 +826,9 @@ class Register extends Component {
     );
   }
 }
+
+Register.propTypes = {
+  loginHandler: PropTypes.func.isRequired,
+};
 
 export default Register;
