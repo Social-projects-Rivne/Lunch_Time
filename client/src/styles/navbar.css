@@ -1,0 +1,8 @@
+.link{
+  color: white;
+}
+
+.link:hover {
+  color: #fac564;
+  text-decoration: none;
+}
