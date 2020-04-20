@@ -24,7 +24,6 @@
 }
 
 .btn-primary:disabled{
-  background: #000000 !important;
   border-color: #fac564 !important;
   box-shadow: none !important;
 }
