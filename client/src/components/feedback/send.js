@@ -9,6 +9,7 @@ import CancelButton from '../shared/button/cancel';
 class FeedbackSend extends Component {
   constructor(props) {
     super(props);
+    this.userID = null;
     this.state = {
       description: '',
       isLoading: false,
@@ -137,7 +138,7 @@ class FeedbackSend extends Component {
       if (currentCallId !== this.state.currentCallId) return;
       if (!this.state.isLoading) return;
       Api.post('feedback', {
-        personId: 1,
+        personId: 3,
         restId: this.props.id,
         description: this.state.description,
       })
