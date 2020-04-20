@@ -87,7 +87,7 @@ class Category extends Component {
         closeOnSelect={false}
         overlay={menu}
       >
-        <Button className="m-button">By Category</Button>
+        <Button>By Category</Button>
       </Dropdown>
     );
   }

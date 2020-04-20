@@ -254,7 +254,6 @@ class NewOrder extends Component {
         <div className="order-btn-container">
           <Button onClick={() => history.goBack()} variant="secondary" className="order-btn-cancel">Cancel</Button>
           <Button
-            className="m-button"
             onClick={() => this.saveOrder()}
             disabled={
               !this.state.availableTables.length

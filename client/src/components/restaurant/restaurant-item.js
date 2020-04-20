@@ -54,7 +54,7 @@ class Restaurant extends Component {
           },
         }}
         >
-          <Button className="btn-inf m-button ml-5">Make order</Button>
+          <Button className="btn-inf ml-5">Make order</Button>
         </Link>
       );
     } else {
@@ -63,7 +63,7 @@ class Restaurant extends Component {
           pathname: '/login',
         }}
         >
-          <Button className="btn-inf m-button ml-5">Login before making order</Button>
+          <Button className="btn-inf ml-5">Login before making order</Button>
         </Link>
       );
     }
