@@ -288,8 +288,9 @@ class Register extends Component {
         });
       }
     }
-    if (value !== this.state.password && this.state.password.length > 0) {
+    if (value !== this.state.password && this.state.password.length < 8) {
       if (this.state.passwordStrength !== 'weak') {
+        console.log(293);
         this.setState({
           confirmPasswordInputClassName: invalid,
         });
@@ -453,23 +454,23 @@ class Register extends Component {
   }
 
   isEmailAndPasswordSame(email, password) {
-    if (email === password && emailRegex.test(email)) {
-      this.setState({
-        color: '#BC0008',
-        passwordStrength: 'weak',
-        emailInputClassName: invalid,
-        passwordInputClassName: invalid,
-      });
-      return true;
+    if (email.length > 5 && password.length >= 8) {
+      if (email === password && emailRegex.test(email)) {
+        this.setState({
+          color: '#BC0008',
+          passwordStrength: 'weak',
+          emailInputClassName: invalid,
+          passwordInputClassName: invalid,
+        });
+        return true;
+      }
     }
     if (emailRegex.test(email)) {
       this.setState({
         emailInputClassName: valid,
       });
     }
-    console.log(469);
     if (validPassword.test(password)) {
-      console.log(470);
       this.setState({
         passwordInputClassName: valid,
       });
