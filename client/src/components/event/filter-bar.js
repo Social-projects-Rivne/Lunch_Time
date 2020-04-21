@@ -53,7 +53,7 @@ class FilterBar extends React.Component {
           onClick={() => {
             this.reset();
           }}
-          className="m-button ml-5"
+          className="ml-5"
         >
           Reset
         </Button>

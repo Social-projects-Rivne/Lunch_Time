@@ -1,8 +1,11 @@
 package com.lunchtime.controllers;
 
+import com.lunchtime.security.JwtUtil;
+import com.lunchtime.security.TokenHistory;
 import com.lunchtime.service.dto.PersonDto;
 import com.lunchtime.service.dto.PersonPassDto;
 import com.lunchtime.service.PersonService;
+import com.lunchtime.stub.PersonServiceStub;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
@@ -20,18 +23,22 @@ public class PersonControllerTest {
     private PersonService mockPersonService;
 
     private PersonController personControllerUnderTest;
-
+    private AuthController authController = new AuthController();
+    private TokenHistory tokenHistory = new TokenHistory();
     private PersonDto personDto;
+    private JwtUtil jwtUtil= new JwtUtil();
 
     @Before
     public void setUp() {
         initMocks(this);
-        personControllerUnderTest = new PersonController(mockPersonService);
-        personDto = new PersonDto();
-        personDto.setId(1);
-        personDto.setName("NewName");
-        personDto.setPhoneNumber("+380991112233");
-        personDto.setEmail("name@gmail.com");
+        personControllerUnderTest = new PersonController(
+            mockPersonService, jwtUtil, authController, tokenHistory);
+        personDto = PersonDto.builder()
+            .id(1)
+            .name("NewName")
+            .phoneNumber("+380991112233")
+            .email("name@gmail.com")
+            .build();
     }
 
     @Test

@@ -51,7 +51,6 @@ class DateMenu extends React.Component {
     // eslint-disable-next-line react/prop-types
     const CustomToggle = React.forwardRef(({ children, onClick }, ref) => (
       <DropdownToggle
-        className="m-button"
         ref={ref}
         onClick={(e) => {
           e.preventDefault();
@@ -65,7 +64,7 @@ class DateMenu extends React.Component {
 
     return (
       <Dropdown className="ml-3">
-        <Dropdown.Toggle as={CustomToggle} id="sort-by-date" className="m-button">Date</Dropdown.Toggle>
+        <Dropdown.Toggle as={CustomToggle} id="sort-by-date">Date</Dropdown.Toggle>
         <Dropdown.Menu>
           <Container className="text-center pb-2">
             <DatePicker

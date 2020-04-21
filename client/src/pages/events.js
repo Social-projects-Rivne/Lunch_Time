@@ -1,7 +1,5 @@
 import React from 'react';
 import '../styles/events-page.css';
-import '../styles/dropdown.css';
-import '../styles/m-button.css';
 import { Container } from 'react-bootstrap';
 import 'react-datepicker/dist/react-datepicker.css';
 import Api from '../services/api';
@@ -24,7 +22,7 @@ class Events extends React.Component {
   }
 
   getAll(path) {
-    Api.getAll(path)
+    Api.get(path)
       .then((response) => {
         if (response.error) {
           // eslint-disable-next-line no-console

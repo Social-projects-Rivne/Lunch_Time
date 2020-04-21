@@ -4,7 +4,9 @@ import com.lunchtime.models.Person;
 import com.lunchtime.service.dto.RegisterPerson;
 import com.lunchtime.service.dto.PersonDto;
 import com.lunchtime.repository.PersonRepository;
+import lombok.Builder;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -13,37 +15,33 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PersonMapper {
     final PersonRepository personRepository;
+    final BCryptPasswordEncoder bcryptPasswordEncoder;
 
     public Person fromDtoToPerson(PersonDto personDto) {
-        Optional<Person> result = personRepository.findById(personDto.getId());
-        if (result.isPresent()) {
-            Person person = result.get();
-            person.setName(personDto.getName());
-            person.setPhoneNumber(personDto.getPhoneNumber());
-            person.setEmail(personDto.getEmail());
-            person.setPhotoUrl(personDto.getPhotoUrl());
-            return person;
-        }
-        return null;
+        return Person.builder()
+            .name(personDto.getName())
+            .phoneNumber(personDto.getPhoneNumber())
+            .email(personDto.getEmail())
+            .photoUrl(personDto.getPhotoUrl())
+            .build();
     }
 
     public PersonDto fromPersonToDto(Person person) {
-        PersonDto personDto = new PersonDto();
-
-        personDto.setId(person.getId());
-        personDto.setName(person.getName());
-        personDto.setPhoneNumber(person.getPhoneNumber());
-        personDto.setEmail(person.getEmail());
-        personDto.setPhotoUrl(person.getPhotoUrl());
-        return personDto;
+        return PersonDto.builder()
+            .id(person.getId())
+            .name(person.getName())
+            .phoneNumber(person.getPhoneNumber())
+            .email(person.getEmail())
+            .photoUrl(person.getPhotoUrl())
+            .build();
     }
 
     public Person fromRegisterToPerson(RegisterPerson registerPerson) {
-        Person person = new Person();
-        person.setName(registerPerson.getName());
-        person.setPhoneNumber(registerPerson.getPhoneNumber());
-        person.setEmail(registerPerson.getEmail());
-        person.setPassword(registerPerson.getPassword());
-        return person;
+        return Person.builder()
+            .name(registerPerson.getName())
+            .phoneNumber(registerPerson.getPhoneNumber())
+            .email(registerPerson.getEmail())
+            .password(bcryptPasswordEncoder.encode(registerPerson.getPassword()))
+            .build();
     }
 }

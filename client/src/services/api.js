@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { config as configDev } from '../environments/environment.dev';
 import { config as configProd } from '../environments/environment.prod';
+// eslint-disable-next-line import/no-cycle
 import Auth from './auth';
 
 axios.interceptors.request.use((config) => {
@@ -15,7 +16,6 @@ axios.interceptors.request.use((config) => {
 }, (err) => {
   return Promise.reject(err);
 });
-
 
 class Api {
   constructor() {
@@ -36,7 +36,7 @@ class Api {
       });
   }
 
-  getAll(endpoint) {
+  get(endpoint) {
     return axios.get(this.getApiEndpoint(endpoint))
       .then((response) => {
         return { error: null, data: response.data };
@@ -53,6 +53,16 @@ class Api {
       })
       .catch((error) => {
         return { error: error };
+      });
+  }
+
+  getCurrentUser(endpoint, getToken) {
+    return axios.post(this.getApiEndpoint(endpoint), getToken)
+      .then((response) => {
+        return { error: null, data: response.data, status: response.status };
+      })
+      .catch((error) => {
+        return { error: error.response };
       });
   }
 

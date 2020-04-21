@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Service
 public interface PersonService {
-    PersonDto saveRegisterPerson(RegisterPerson registerPerson);
+    PersonDto saveRegisterPerson(RegisterPerson registerPerson) throws Exception;
 
     Person findByEmail(String email);
 
@@ -21,6 +21,8 @@ public interface PersonService {
     PersonPassDto updatePassword(PersonPassDto personPassDto) throws Exception;
 
     PersonDto getPersonDtoById(Long id);
+
+    PersonDto getPersonDtoByEmail(String email);
 
     Optional<Person> getPersonById(Long id);
 }
