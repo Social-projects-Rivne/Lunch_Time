@@ -17,7 +17,6 @@ axios.interceptors.request.use((config) => {
   return Promise.reject(err);
 });
 
-
 class Api {
   constructor() {
     if (process.env.NODE_ENV === 'development') {
@@ -37,7 +36,7 @@ class Api {
       });
   }
 
-  getAll(endpoint) {
+  get(endpoint) {
     return axios.get(this.getApiEndpoint(endpoint))
       .then((response) => {
         return { error: null, data: response.data };

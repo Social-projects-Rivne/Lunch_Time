@@ -47,11 +47,11 @@ class Info extends Component {
           </Row>
 
           <hr className="hr-border" />
-          <Button className="btn-inf m-button ml-3">Add restaurant</Button>
+          <Button className="btn-inf ml-3">Add restaurant</Button>
           <hr className="hr-border" />
           <Link to="edit">
             <Button
-              className="btn-inf m-button ml-3"
+              className="btn-inf ml-3"
             >
               Update profile
             </Button>
