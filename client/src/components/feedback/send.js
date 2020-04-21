@@ -5,7 +5,7 @@ import Api from '../../services/api';
 import '../../styles/feedback-send.css';
 import MyBadge from '../shared/my-batch';
 import CancelButton from '../shared/button/cancel';
-import Auth from '../../services/auth';
+import Person from '../../services/person';
 
 class FeedbackSend extends Component {
   constructor(props) {
@@ -139,7 +139,7 @@ class FeedbackSend extends Component {
       if (currentCallId !== this.state.currentCallId) return;
       if (!this.state.isLoading) return;
       Api.post('feedback', {
-        personId: Auth.userInfo.id,
+        personId: Person.userInfo.id,
         restId: this.props.id,
         description: this.state.description,
       })
