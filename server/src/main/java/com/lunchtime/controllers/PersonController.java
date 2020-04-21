@@ -23,7 +23,6 @@ public class PersonController {
     private final AuthController authController;
     private final TokenHistory tokenHistory;
 
-
     @PostMapping
     public ResponseEntity<?> createPerson(
         @Valid @RequestBody RegisterPerson registerPerson) throws Exception {
@@ -41,8 +40,7 @@ public class PersonController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
+        
         if (personDto != null) {
             JwtPersonDetails jwtPersonDetails = new JwtPersonDetails(
                 registerPerson.getEmail(), registerPerson.getPassword());
