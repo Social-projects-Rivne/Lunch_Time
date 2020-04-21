@@ -1,6 +1,8 @@
 package com.lunchtime.models;
 
 import com.lunchtime.enums.Status;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -8,10 +10,13 @@ import org.hibernate.annotations.UpdateTimestamp;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.time.Instant;
 
 @Entity
 @Table(name = "person")
+@Builder
+@AllArgsConstructor
 @Data
 public class Person {
     @Id
@@ -22,6 +27,7 @@ public class Person {
     private String photoUrl;
 
     @NotBlank
+    @Pattern(regexp = "^.{1,50}$")
     @Column(name = "name")
     private String name;
 
@@ -35,6 +41,7 @@ public class Person {
     private String password;
 
     @NotBlank
+    @Pattern(regexp = "^\\+[0-9]{7,16}$")
     @Column(name = "phone_number")
     private String phoneNumber;
 

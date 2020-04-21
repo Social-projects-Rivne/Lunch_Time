@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Getter
@@ -13,20 +14,19 @@ public class RegisterPerson {
     private Long id;
 
     @NotBlank
-    @Size(min = 3, max = 16)
+    @Pattern(regexp = "^.{1,50}$")
     private String name;
 
     @NotBlank
+    @Pattern(regexp = "^\\+[0-9]{7,16}$")
+    private String phoneNumber;
+
+    @NotBlank
     @Email
-    @Size(min = 5, max = 40)
     private String email;
 
     @NotBlank
-    @Size(min = 8, max = 40)
+    @Pattern(regexp = "^(?!(.)\\1+$).{8,40}$")
     private String password;
-
-    @NotBlank
-    @Size(min = 13, max = 13)
-    private String phoneNumber;
 }
 

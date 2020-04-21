@@ -14,7 +14,7 @@ public class FeedbackDto {
     private long id;
 
     @NotNull
-    @Size(min = 10, max = 400)
+    @Size(min = 10, max = 1000)
     private String description;
 
     @NotNull

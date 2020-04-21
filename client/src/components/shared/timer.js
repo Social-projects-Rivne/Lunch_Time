@@ -42,8 +42,12 @@ class Timer extends Component {
   }
 }
 
+Timer.defaultProps = {
+  showTimer: '',
+};
+
 Timer.propTypes = {
-  showTimer: PropTypes.any.isRequired,
+  showTimer: PropTypes.func,
   timerCount: PropTypes.any.isRequired,
 };
 

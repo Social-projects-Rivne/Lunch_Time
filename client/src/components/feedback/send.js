@@ -37,7 +37,7 @@ class FeedbackSend extends Component {
     if (this.state.validInput) {
       if (this.state.description.length < 10) {
         this.tooShortFeedback();
-      } else if (this.state.description.length > 400) {
+      } else if (this.state.description.length > 1000) {
         this.tooLongFeedback();
       } else {
         this.sendApi();
@@ -58,7 +58,7 @@ class FeedbackSend extends Component {
     const { description } = this.state;
     if (description.length > 1) {
       // eslint-disable-next-line no-unused-expressions
-      description.length > 400
+      description.length > 1000
         ? this.setState({
           tooLongFeedback: true,
           validInput: true,
@@ -200,7 +200,7 @@ class FeedbackSend extends Component {
       tooLongFeedback, feedbackNotSent, timerCount,
       showTimer, attemptCount, feedbackSent, validInput,
     } = this.state;
-    const tooLong = 'Your feedback must be not more than 400 symbols';
+    const tooLong = 'Your feedback must be not more than 1000 symbols';
     return (
       <Form.Group className="m-0">
         <Form.Control

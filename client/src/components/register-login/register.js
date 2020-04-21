@@ -3,11 +3,17 @@ import {
   Container, Form, FormGroup, FormLabel,
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { Redirect } from 'react-router';
+import PropTypes from 'prop-types';
 import Api from '../../services/api';
-import MyBadge from '../shared/my-batch';
+import Timer from '../shared/timer';
+import Auth from '../../services/auth';
 
 const valid = 'form-control is-valid';
 const invalid = 'form-control is-invalid';
+const emailRegex = RegExp(
+  /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
+);
 
 class Register extends Component {
   constructor(props) {
@@ -19,24 +25,39 @@ class Register extends Component {
       email: '',
       password: '',
       confirmPassword: '',
-      nameInputStarted: false,
-      nameInputTitle: '',
+      nameInputTitle: 'Your name must be in range of 3-16 latin letters',
       nameInputClassName: '',
+      nameInputWrongClassName: false,
       phoneInputStarted: false,
-      phoneInputTitle: '',
+      phoneInputTitle: "Phone number must be in '+***' format with digits",
       phoneInputClassName: '',
+      phoneInputWrongClassName: false,
       emailInputStarted: false,
-      emailInputTitle: '',
+      emailInputTitle: 'email must consist of 5 or more symbols',
       emailInputClassName: '',
+      emailInputWrongClassName: false,
+      showPassword: false,
+      isPasswordShown: false,
+      color: '#fcfffc',
+      showWeak: false,
+      showEasy: false,
+      showGood: false,
+      showStrong: false,
+      passwordStrength: '',
       passwordInputStarted: false,
-      passwordInputTitle: '',
+      passwordInputTitle: "Password shouldn't be weak and less than 8 symbols",
       passwordInputClassName: '',
-      confirmPasswordInputTitle: '',
+      passwordInputWrongClassName: false,
+      confirmPasswordInputTitle: 'Passwords must match each other',
       confirmPasswordInputClassName: '',
+      confirmPasswordInputWrongClassName: false,
+      passwordsAreConfirmed: '',
       isRegistered: false,
-      invalidEmailOrPassword: false,
-      unexpectedError: false,
-      checkCount: 0,
+      unexpectedError: '',
+      openMainPage: '',
+      buttonDisabled: false,
+      photo1: '/img/register1.png',
+      photo2: '/img/register2.png',
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.validateInputName = this.validateInputName.bind(this);
@@ -44,56 +65,26 @@ class Register extends Component {
     this.validateInputEmail = this.validateInputEmail.bind(this);
     this.validateInputPassword = this.validateInputPassword.bind(this);
     this.validateConfirmPassword = this.validateConfirmPassword.bind(this);
+    this.isPasswordShown = this.isPasswordShown.bind(this);
+    this.openMainPage = this.openMainPage.bind(this);
   }
 
-  handleSubmit() {
-    const {
-      nameInputClassName, phoneInputClassName, emailInputClassName,
-      passwordInputClassName, confirmPasswordInputClassName, name, phoneNumber,
-      email, password,
-    } = this.state;
-    if (nameInputClassName === valid
-      && phoneInputClassName === valid
-      && emailInputClassName === valid
-      && passwordInputClassName === valid
-      && confirmPasswordInputClassName === valid) {
-      const body = {
-        name: name,
-        phoneNumber: phoneNumber,
-        email: email,
-        password: password,
-      };
-      Api.post('persons', body)
-        .then((response) => {
-          if (response.status === 201) {
-            this.setState({
-              isRegistered: true,
-            });
-          } else if (response.error.status === 400) {
-            this.setState({
-              invalidEmailOrPassword: true,
-            });
-            setTimeout(() => {
-              this.setState({
-                invalidEmailOrPassword: false,
-              });
-            }, 3900);
-          }
-        })
-        .catch((error) => {
-          // eslint-disable-next-line no-console
-          console.log(error);
-        });
-      if (this.state.checkCount !== 1) {
+  setPasswordStateValid() {
+    const { passwordStrength, password, confirmPassword } = this.state;
+    const strong = passwordStrength !== 'weak' && passwordStrength !== '';
+    if (strong) {
+      this.setState({
+        passwordInputClassName: valid,
+      });
+      if (confirmPassword === password) {
         this.setState({
-          checkCount: 0,
+          confirmPasswordInputClassName: valid,
         });
       }
-      setTimeout(() => {
-        this.setState({
-          checkCount: 0,
-        });
-      }, 3900);
+    } else {
+      this.setState({
+        passwordInputClassName: invalid,
+      });
     }
   }
 
@@ -102,29 +93,20 @@ class Register extends Component {
     this.setState({
       name: value,
     });
-    const nameRegex = RegExp(/^[a-zA-Z]+$/);
-    if (value.length >= 3) {
-      if (!this.state.nameInputStarted) {
-        this.setState({ nameInputStarted: value.length >= 3 });
-      }
-      const className = nameRegex.test(value) ? valid : invalid;
+    const nameRegex = RegExp(/^.{1,50}$/);
+    if (value.length >= 1) {
       this.setState({
         name: value,
-        nameInputClassName: className,
-        nameInputTitle: 'Your name must be in range of 3-16 latin letters',
+        nameInputClassName: valid,
       });
     } else if (!nameRegex.test(value)) {
       this.setState({
         nameInputClassName: invalid,
       });
-    } else if (this.state.nameInputStarted && value.length === 0) {
-      this.setState({
-        nameInputClassName: invalid,
-      });
     }
-    if (value.length > 16) {
+    if (value.length === 0) {
       this.setState({
-        nameInputClassName: invalid,
+        nameInputClassName: '',
       });
     }
   }
@@ -139,38 +121,46 @@ class Register extends Component {
         phoneInputClassName: invalid,
       });
     }
-    const phoneRegex = RegExp(/^\+\d+$/);
-    const finalPhoneRegex = RegExp(/^\+[0-9]{12}$/);
-    if (value.length === 13) {
+    const phoneRegex = RegExp(/^\+[0-9]{7,16}$/);
+    if (value.length >= 8) {
       if (!this.state.phoneInputStarted) {
-        this.setState({ phoneInputStarted: value.length >= 13 });
+        this.setState({ phoneInputStarted: value.length >= 8 });
       }
-      const className = finalPhoneRegex.test(value) ? valid : invalid;
+      const className = phoneRegex.test(value) ? valid : invalid;
       this.setState({
         phoneNumber: value,
         phoneInputClassName: className,
-        phoneInputTitle: "Phone number must be in '+***' format with 12 digits",
-      });
-    } else if (value.length > 1 && !phoneRegex.test(value)) {
-      this.setState({
-        phoneInputClassName: invalid,
       });
     } else if (this.state.phoneInputStarted) {
       this.setState({
         phoneInputClassName: invalid,
       });
     }
+    if (value.length === 0) {
+      this.setState({
+        phoneInputClassName: '',
+      });
+    }
   }
 
   validateInputEmail(e) {
     const { value } = e.target;
+
     this.setState({
       email: value,
     });
-    const emailRegex = RegExp(
-      /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
+    const testEmailRegex = RegExp(
+      /^\w+(@(\w+(\.(\w+)?)?)?)?$/,
     );
-    if (value.length > 4) {
+    if (value.length <= 5 && testEmailRegex.test(value) && this.state.emailInputClassName !== invalid) {
+      this.setState({
+        emailInputClassName: '',
+      });
+    } else if (value.length <= 5 && !testEmailRegex.test(value)) {
+      this.setState({
+        emailInputClassName: invalid,
+      });
+    } else if (value.length >= 5) {
       if (!this.state.emailInputStarted) {
         this.setState({ emailInputStarted: value.length >= 5 });
       }
@@ -178,11 +168,6 @@ class Register extends Component {
       this.setState({
         email: value,
         emailInputClassName: className,
-        emailInputTitle: 'email must consist 5 or more symbols',
-      });
-    } else if (this.state.emailInputStarted && value.length <= 4) {
-      this.setState({
-        emailInputClassName: invalid,
       });
     }
     if (value.length > 255) {
@@ -190,44 +175,67 @@ class Register extends Component {
         emailInputClassName: invalid,
       });
     }
+    if (value.length === 0) {
+      this.setState({
+        emailInputClassName: '',
+      });
+    }
   }
 
   validateInputPassword(e) {
     const { value } = e.target;
     this.setState({
-      passwordInputTitle: 'Use at least one upper and lower case letter with number.'
-        + 'Password should be 8 or more symbols length',
-      confirmPasswordInputTitle: 'Passwords must match each other',
+      showPassword: value.length > 0,
       password: value,
     });
-    const passwordRegex = RegExp(
-      /^(?=.*[a-zа-я])(?=.*[A-ZА-Я])(?=.*\d)[a-zA-Z\dа-яА-Я]{8,}$/,
-    );
     if (value.length >= 8) {
       if (!this.state.passwordInputStarted) {
         this.setState({ passwordInputStarted: value.length >= 8 });
       }
-      const className = passwordRegex.test(value) ? valid : invalid;
+      this.isPasswordStrong(value);
+      const { passwordStrength } = this.state;
+      const strong = passwordStrength !== 'weak' && passwordStrength !== '';
+      const className = strong ? valid : invalid;
       this.setState({
-        password: value,
         passwordInputClassName: className,
+      }, () => {
+        this.setPasswordStateValid();
       });
     } else if (this.state.passwordInputStarted && value.length < 8) {
       this.setState({
         passwordInputClassName: invalid,
       });
     }
-    if (value.length > 40) {
+    if (value.length === 0) {
+      this.setState({
+        passwordInputClassName: '',
+        passwordInputStarted: false,
+        showWeak: false,
+        confirmPasswordInputClassName: '',
+      });
+      if (this.state.confirmPassword.length === 0) {
+        this.setState({
+          isPasswordShown: false,
+        });
+      }
+    } else if (value.length > 40) {
       this.setState({
         passwordInputClassName: invalid,
       });
     }
-    if (passwordRegex.exec(value) && this.state.confirmPassword.length >= 8) {
-      const { confirmPassword } = this.state;
-      const className = confirmPassword === value ? valid : invalid;
-      this.setState({
-        confirmPasswordInputClassName: className,
-      });
+    if (value.length !== this.state.confirmPassword.length) {
+      if (this.state.confirmPasswordInputClassName === valid) {
+        this.setState({
+          confirmPasswordInputClassName: invalid,
+        });
+      }
+    }
+    if (this.state.passwordInputClassName === valid) {
+      if (value !== this.state.email && emailRegex.test(this.state.email)) {
+        this.setState({
+          emailInputClassName: valid,
+        });
+      }
     }
   }
 
@@ -236,10 +244,12 @@ class Register extends Component {
     this.setState({
       confirmPassword: value,
     });
-    if (value.length >= 8) {
+    if (value.length > 0) {
       this.setState({
-        confirmPassword: value,
+        showPassword: true,
       });
+    }
+    if (value.length >= 8) {
       if (value.length === this.state.password.length && this.state.passwordInputClassName === valid) {
         this.setState({
           confirmPassword: value,
@@ -248,6 +258,7 @@ class Register extends Component {
           const className = confirmPassword === password ? valid : invalid;
           this.setState({
             confirmPasswordInputClassName: className,
+            passwordsAreConfirmed: true,
           });
         });
       } else if (value.length > this.state.password.length && this.state.passwordInputClassName === valid) {
@@ -256,11 +267,395 @@ class Register extends Component {
         });
       }
     }
+    if (value !== this.state.password && this.state.password.length > 0) {
+      if (this.state.passwordStrength !== 'weak') {
+        this.setState({
+          confirmPasswordInputClassName: invalid,
+        });
+      }
+    }
+    if (this.state.confirmPasswordInputClassName === valid) {
+      if (value !== this.state.email && emailRegex.test(this.state.email)) {
+        this.setState({
+          emailInputClassName: valid,
+        });
+      }
+    }
+    this.checkConfirmLive(this.state.password, value);
+    if (value.length === 0) {
+      this.setState({
+        confirmPasswordInputClassName: '',
+        isPasswordShown: false,
+        passwordsAreConfirmed: '',
+      });
+    }
   }
 
-  firstLetter(s) {
-    const name = s.toLowerCase();
-    return name.replace(/^.{1}/g, s[0].toUpperCase());
+  handleSubmit() {
+    this.setState({
+      buttonDisabled: true,
+    });
+    const {
+      name, phoneNumber, email, password,
+    } = this.state;
+    if (this.checkAllFields()) {
+      if (email === password) {
+        this.setState({
+          emailInputTitle: 'email and password must be different',
+          passwordInputTitle: 'email and password must be different',
+          confirmPasswordInputTitle: 'email and password must be different',
+          emailInputClassName: invalid,
+          passwordInputClassName: invalid,
+          confirmPasswordInputClassName: invalid,
+          buttonDisabled: false,
+        });
+        return;
+      }
+      this.setState({
+        emailInputTitle: 'email must consist of 5 or more symbols',
+        passwordInputTitle: "Password shouldn't be weak and less than 8 symbols",
+        confirmPasswordInputTitle: 'Passwords must match each other',
+        emailInputClassName: invalid,
+        passwordInputClassName: invalid,
+        confirmPasswordInputClassName: invalid,
+      });
+      const body = {
+        name: name,
+        phoneNumber: phoneNumber,
+        email: email,
+        password: password,
+      };
+      Api.post('persons', body)
+        .then((response) => {
+          if (response.status === 200) {
+            Auth.setToken(response.data);
+            this.setState({
+              isRegistered: true,
+              unexpectedError: false,
+            });
+            this.openMainPage();
+          }
+          if (response.status === 201) {
+            this.setState({
+              isRegistered: true,
+              unexpectedError: false,
+            });
+            this.openMainPage();
+          } else if (response.error.status === 400) {
+            this.setState({
+              unexpectedError: false,
+            });
+          } else if (response.error.status === 601) {
+            this.setState({
+              unexpectedError: false,
+            });
+            setTimeout(() => {
+              this.setState({
+                phoneInputClassName: invalid,
+                phoneInputTitle: 'This phone is already registered. Use another one.',
+                emailInputClassName: invalid,
+                emailInputTitle: 'This email is already registered. Use another one.',
+              });
+            }, 300);
+          } else if (response.error.status === 602) {
+            this.setState({
+              unexpectedError: false,
+            });
+            setTimeout(() => {
+              this.setState({
+                phoneInputClassName: invalid,
+                phoneInputTitle: 'This phone is already registered. Use another one.',
+              });
+            }, 300);
+          } if (response.error.status === 603) {
+            this.setState({
+              unexpectedError: false,
+            });
+            setTimeout(() => {
+              this.setState({
+                emailInputClassName: invalid,
+                emailInputTitle: 'This email is already registered. Use another one.',
+              });
+            }, 300);
+          }
+        })
+        .catch((error) => {
+          // eslint-disable-next-line no-console
+          console.log(error);
+        })
+        .finally(() => {
+          if (this.state.unexpectedError === '') {
+            this.setState({
+              unexpectedError: true,
+            });
+            setTimeout(() => {
+              this.setState({
+                unexpectedError: '',
+              });
+            }, 5000);
+          }
+        });
+    }
+    this.setState({
+      buttonDisabled: false,
+    });
+  }
+
+  isPasswordShown() {
+    const { isPasswordShown } = this.state;
+    this.setState({ isPasswordShown: !isPasswordShown });
+  }
+
+  isPasswordStrong(value) {
+    const weak = new RegExp(/^(.)\1{8,40}$/);
+    const easy = new RegExp(/^(?=.*([a-zа-я]|[A-ZА-Я]|[0-9])).{8,40}$/);
+    const good = new RegExp(/^(?=.*[a-zа-я])(?=.*[A-ZА-Я])(?=.*\d).{8,40}$/);
+    // eslint-disable-next-line no-useless-escape
+    const strong = new RegExp(/^(?=.*[a-zа-я])(?=.*[A-ZА-Я])(?=.*\d)(?=.*[!@#$%^&*()\\\/|~.',<>?`:"{}\]\[]).{8,40}$/);
+    // eslint-disable-next-line no-useless-escape
+    const chars = new RegExp(/(?=.*[!@#$%^&*()\\\/|~.',+<>?`:"{}\]\[]).{8,40}$/);
+    // eslint-disable-next-line no-useless-escape
+    const charsAndDigits = new RegExp(/(?=.*\d)(?=.*[!@#$%^&*()\\\/|+~.',<>?`:"{}\]\[]).{8,40}$/);
+
+    let checker = false;
+    if (weak.test(value)) {
+      this.setState({
+        color: '#bc0008',
+        passwordStrength: 'weak',
+      });
+      this.showWeak();
+      checker = true;
+    }
+    if (!weak.test(value) && easy.test(value)) {
+      this.setState({
+        color: '#ff8e33',
+        passwordStrength: 'easy',
+      });
+      this.showEasy();
+      checker = true;
+    }
+    if (good.test(value) || chars.test(value) || charsAndDigits.test(value)) {
+      if (!weak.test(value)) {
+        this.setState({
+          color: '#459bff',
+          passwordStrength: 'good',
+        });
+        this.showGood();
+        checker = true;
+      }
+    }
+    if (strong.test(value)) {
+      this.setState({
+        color: '#13aa03',
+        passwordStrength: 'strong',
+        passwordInputClassName: valid,
+      });
+      this.showStrong();
+      checker = true;
+    }
+    if (!checker) {
+      this.setState({
+        showWeak: true,
+        showEasy: false,
+        showGood: false,
+        showStrong: false,
+        color: '#BC0008',
+        passwordStrength: 'weak',
+      });
+    }
+  }
+
+  showWeak() {
+    const currentCallId = Math.random();
+    this.setState({
+      currentCallId,
+      showWeak: true,
+      showEasy: false,
+      showGood: false,
+      showStrong: false,
+    });
+    setTimeout(() => {
+      if (currentCallId !== this.state.currentCallId) return;
+      this.setState({
+        showWeak: false,
+      });
+    }, 1900);
+  }
+
+  showEasy() {
+    const currentCallId = Math.random();
+    this.setState({
+      currentCallId,
+      showWeak: false,
+      showEasy: true,
+      showGood: false,
+      showStrong: false,
+    });
+    setTimeout(() => {
+      if (currentCallId !== this.state.currentCallId) return;
+      this.setState({
+        showEasy: false,
+      });
+    }, 1900);
+  }
+
+  showGood() {
+    const currentCallId = Math.random();
+    this.setState({
+      currentCallId,
+      showWeak: false,
+      showEasy: false,
+      showGood: true,
+      showStrong: false,
+    });
+    setTimeout(() => {
+      if (currentCallId !== this.state.currentCallId) return;
+      this.setState({
+        showGood: false,
+      });
+    }, 1900);
+  }
+
+  showStrong() {
+    const currentCallId = Math.random();
+    this.setState({
+      currentCallId,
+      showWeak: false,
+      showEasy: false,
+      showGood: false,
+      showStrong: true,
+    });
+    setTimeout(() => {
+      if (currentCallId !== this.state.currentCallId) return;
+      this.setState({
+        showStrong: false,
+      });
+    }, 1900);
+  }
+
+  checkAllFields() {
+    const {
+      nameInputClassName, phoneInputClassName, emailInputClassName,
+      passwordInputClassName, confirmPasswordInputClassName,
+    } = this.state;
+    let isValid = true;
+    if (nameInputClassName !== valid) {
+      isValid = false;
+      this.setState({
+        nameInputWrongClassName: true,
+      });
+      setTimeout(() => {
+        this.setState({
+          nameInputClassName: invalid,
+          nameInputWrongClassName: false,
+        });
+      }, 100);
+    }
+    if (phoneInputClassName !== valid) {
+      isValid = false;
+      setTimeout(() => {
+        this.setState({
+          phoneInputWrongClassName: true,
+        });
+      }, 100);
+      this.setState({
+      });
+      setTimeout(() => {
+        this.setState({
+          phoneInputClassName: invalid,
+          phoneInputWrongClassName: false,
+        });
+      }, 200);
+    }
+    if (emailInputClassName !== valid) {
+      isValid = false;
+      setTimeout(() => {
+        this.setState({
+          emailInputWrongClassName: true,
+        });
+      }, 200);
+      setTimeout(() => {
+        this.setState({
+          emailInputClassName: invalid,
+          emailInputWrongClassName: false,
+        });
+      }, 300);
+    }
+    if (passwordInputClassName !== valid) {
+      isValid = false;
+      setTimeout(() => {
+        this.setState({
+          passwordInputWrongClassName: true,
+        });
+      }, 300);
+      setTimeout(() => {
+        this.setState({
+          passwordInputClassName: invalid,
+          passwordInputWrongClassName: false,
+        });
+      }, 400);
+    }
+    if (confirmPasswordInputClassName !== valid) {
+      isValid = false;
+      setTimeout(() => {
+        this.setState({
+          confirmPasswordInputWrongClassName: true,
+        });
+      }, 400);
+      setTimeout(() => {
+        this.setState({
+          confirmPasswordInputClassName: invalid,
+          confirmPasswordInputWrongClassName: false,
+        });
+      }, 500);
+    }
+    return isValid;
+  }
+
+  checkConfirmLive(password, confirmPassword) {
+    if (password > confirmPassword) {
+      this.setState({
+        confirmPasswordInputTitle: 'Passwords must match each other',
+        confirmPasswordInputClassName: '',
+      });
+      if (!this.state.passwordsAreConfirmed) {
+        // eslint-disable-next-line no-plusplus
+        for (let i = 0; i < confirmPassword.length; i++) {
+          if (confirmPassword.charAt(i) !== password.charAt(i)) {
+            this.setState({
+              confirmPasswordInputTitle: "Passwords don't match each other",
+              confirmPasswordInputClassName: invalid,
+            });
+          }
+        }
+      } else if (password.length !== confirmPassword.length) {
+        this.setState({
+          confirmPasswordInputClassName: invalid,
+        });
+      }
+    }
+  }
+
+  photo() {
+    const { photo2 } = this.state;
+    setTimeout(() => {
+      this.setState({
+        photo1: photo2,
+      });
+    }, 14000);
+  }
+
+  openMainPage() {
+    setTimeout(() => {
+      this.setState({
+        openMainPage: true,
+      });
+      this.loginHandler();
+    }, 6000);
+  }
+
+  loginHandler() {
+    this.props.loginHandler();
   }
 
   render() {
@@ -268,17 +663,29 @@ class Register extends Component {
       nameInputClassName, nameInputTitle, emailInputClassName,
       emailInputTitle, passwordInputClassName, passwordInputTitle,
       confirmPasswordInputClassName, confirmPasswordInputTitle,
-      phoneInputClassName, phoneInputTitle, isRegistered,
-      invalidEmailOrPassword, unexpectedError, checkCount,
+      phoneInputClassName, phoneInputTitle, isRegistered, unexpectedError,
+      showPassword, isPasswordShown, color, password, showWeak,
+      showEasy, showGood, showStrong, photo1, openMainPage,
+      buttonDisabled, nameInputWrongClassName, phoneInputWrongClassName,
+      emailInputWrongClassName, passwordInputWrongClassName,
+      confirmPasswordInputWrongClassName, name,
     } = this.state;
-    if (!isRegistered && !invalidEmailOrPassword && !unexpectedError) {
+    const nameBackgroundColor = nameInputWrongClassName ? 'rgba(246,3,43,0.36)' : '#dff1ff4a';
+    const phoneBackgroundColor = phoneInputWrongClassName ? 'rgba(246,3,43,0.36)' : '#dff1ff4a';
+    const emailBackgroundColor = emailInputWrongClassName ? 'rgba(246,3,43,0.36)' : '#dff1ff4a';
+    const passwordBackgroundColor = passwordInputWrongClassName ? 'rgba(246,3,43,0.36)' : '#dff1ff4a';
+    const confirmPasswordBackgroundColor = confirmPasswordInputWrongClassName ? 'rgba(246,3,43,0.36)' : '#dff1ff4a';
+    this.photo();
+    if (!isRegistered) {
       return (
         <Container className="base-container" style={{ color: '#3498db' }}>
           <div className="header">Register</div>
           <div className="content">
             <div className="image">
-              <img src="/img/register.png" alt="register" />
+              <img src={photo1} alt="register" />
             </div>
+            {unexpectedError !== true
+            && (
             <Form className="form" onSubmit={this.handleSubmit}>
               <FormGroup>
                 <FormLabel htmlFor="text">Name</FormLabel>
@@ -289,6 +696,9 @@ class Register extends Component {
                   placeholder="name"
                   value={this.state.name}
                   onChange={this.validateInputName}
+                  style={{
+                    backgroundColor: nameBackgroundColor,
+                  }}
                 />
                 <FormLabel htmlFor="text">Phone number</FormLabel>
                 <input
@@ -298,6 +708,9 @@ class Register extends Component {
                   placeholder="phone number"
                   value={this.state.phoneNumber}
                   onChange={this.validateInputPhone}
+                  style={{
+                    backgroundColor: phoneBackgroundColor,
+                  }}
                 />
                 <FormLabel htmlFor="email">e-mail</FormLabel>
                 <input
@@ -307,148 +720,161 @@ class Register extends Component {
                   placeholder="email"
                   value={this.state.email}
                   onChange={this.validateInputEmail}
+                  style={{
+                    backgroundColor: emailBackgroundColor,
+                  }}
                 />
-                <FormLabel htmlFor="password">Password</FormLabel>
+                <FormLabel htmlFor="password">
+                  Password
+                  {showPassword
+                  && (
+                    // eslint-disable-next-line max-len
+                    // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions
+                    <img
+                      id="image"
+                      src={isPasswordShown ? '/img/show-password.png' : '/img/hide-password.png'}
+                      alt="show"
+                      style={{ height: 18, marginLeft: 6, cursor: 'pointer' }}
+                      onClick={this.isPasswordShown}
+                    />
+                  )}
+                  {password.length >= 8 && <text style={{ color: color }}> ● </text>}
+                  {password.length >= 8 && showWeak && <text style={{ color: color, fontSize: 13 }}> weak </text>}
+                  {password.length >= 8 && showEasy && <text style={{ color: color, fontSize: 13 }}> easy </text>}
+                  {password.length >= 8 && showGood && <text style={{ color: color, fontSize: 13 }}> good </text>}
+                  {password.length >= 8 && showStrong && <text style={{ color: color, fontSize: 13 }}> strong </text>}
+                </FormLabel>
                 <input
                   className={passwordInputClassName}
                   title={passwordInputTitle}
-                  type="password"
+                  type={isPasswordShown ? 'text' : 'password'}
                   placeholder="password"
                   value={this.state.password}
                   onChange={this.validateInputPassword}
+                  style={{
+                    backgroundColor: passwordBackgroundColor,
+                  }}
                 />
                 <input
                   className={confirmPasswordInputClassName}
                   title={confirmPasswordInputTitle}
-                  type="password"
+                  type={isPasswordShown ? 'text' : 'password'}
                   placeholder="confirm password"
                   value={this.state.confirmPassword}
                   onChange={this.validateConfirmPassword}
+                  style={{
+                    backgroundColor: confirmPasswordBackgroundColor,
+                  }}
                 />
               </FormGroup>
             </Form>
-          </div>
-          <div className="footer">
-            <button type="submit" className="btn-reg" onClick={this.handleSubmit}>
-              Register
-            </button>
-            {checkCount !== 0 && (
-              <MyBadge variant="danger" message="Something went wrong on server!" />
+            )}
+            {unexpectedError
+            && (
+              <div>
+                <div
+                  className="focus-in-contract-bck"
+                  style={{
+                    fontSize: 27,
+                    color: '#3498db',
+                    marginTop: 220,
+                  }}
+                >
+                  <b>
+                    Something went
+                    <br />
+                    wrong on server
+                  </b>
+                </div>
+                <div
+                  className="text-focus-in"
+                  style={{
+                    fontSize: 25,
+                    color: '#3498db',
+                    marginBottom: 10,
+                  }}
+                >
+                  Try again later
+                </div>
+              </div>
             )}
           </div>
+          {unexpectedError !== true
+          && (
+          <div className="footer">
+            <button
+              type="submit"
+              className="btn-reg"
+              disabled={buttonDisabled}
+              onClick={this.handleSubmit}
+            >
+              Register
+            </button>
+          </div>
+          )}
         </Container>
-      );
-    }
-    if (invalidEmailOrPassword && !unexpectedError) {
-      return (
-        <div>
-          <div
-            className="text-focus-in1"
-            style={{
-              fontSize: 20,
-              color: '#FF0000',
-              marginTop: 1,
-            }}
-          >
-            <b>Email or phone number</b>
-          </div>
-          <div
-            className="text-focus-in1"
-            style={{
-              fontSize: 20,
-              color: '#FF0000',
-            }}
-          >
-            <b>are already registered</b>
-          </div>
-          <div
-            className="text-focus-in"
-            style={{
-              fontSize: 20,
-              color: '#FF0000',
-              marginBottom: 10,
-            }}
-          >
-            Try again, please
-          </div>
-        </div>
-      );
-    } if (isRegistered && !unexpectedError) {
-      return (
-        <div>
-          <div className="main">
-            <div className="before">
-              <div className="after" />
-            </div>
-          </div>
-          <div
-            className="focus-in-contract-bck"
-            style={{
-              fontSize: 22,
-              color: '#3498db',
-              marginTop: 220,
-            }}
-          >
-            <b>
-              Congratulations,
-              {' '}
-              {this.firstLetter(this.state.name)}
-              !
-            </b>
-          </div>
-          <div
-            className="focus-in-contract-bck"
-            style={{
-              fontSize: 22,
-              color: '#3498db',
-              marginBottom: 60,
-            }}
-          >
-            <b>You are registered!</b>
-          </div>
-          <div
-            className="text-focus-in"
-            style={{
-              fontSize: 22,
-              color: '#3498db',
-              marginBottom: 40,
-            }}
-          >
-            Now you can
-            {' '}
-            {' '}
-            <Link to="/login"><b><u>log in</u></b></Link>
-            {' '}
-            :)
-          </div>
-        </div>
       );
     }
     return (
       <div>
+        <div className="main">
+          <div className="before">
+            <div className="after" />
+          </div>
+        </div>
         <div
           className="focus-in-contract-bck"
           style={{
-            fontSize: 27,
+            fontSize: 22,
             color: '#3498db',
             marginTop: 220,
           }}
         >
-          <b>Something went wrong</b>
+          <b>
+            Congratulations,
+            {' '}
+            {name.length > 8 && <br />}
+            {name}
+            !
+          </b>
+        </div>
+        <div
+          className="focus-in-contract-bck"
+          style={{
+            fontSize: 22,
+            color: '#3498db',
+            marginBottom: 60,
+          }}
+        >
+          <b>You are registered!</b>
         </div>
         <div
           className="text-focus-in"
           style={{
-            fontSize: 25,
+            fontSize: 22,
             color: '#3498db',
-            marginBottom: 10,
+            marginBottom: 40,
           }}
         >
-          Try again later
+          You will be forwarded to
+          {' '}
+          <br />
+          <Link to="/"><b><u>main page</u></b></Link>
+          {' '}
+          in
+          {' '}
+          <Timer timerCount={5} />
+          {' '}
+          seconds
         </div>
+        {openMainPage && <Redirect to="/" />}
       </div>
     );
   }
 }
+
+Register.propTypes = {
+  loginHandler: PropTypes.func.isRequired,
+};
 
 export default Register;
