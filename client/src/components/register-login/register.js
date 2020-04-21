@@ -70,6 +70,14 @@ class Register extends Component {
     this.openMainPage = this.openMainPage.bind(this);
   }
 
+
+  setClassesNamesValid() {
+    this.setState({
+      passwordInputClassName: valid,
+      confirmPasswordInputClassName: valid,
+    });
+  }
+
   setPasswordStateValid() {
     const { passwordStrength, password, confirmPassword } = this.state;
     const strong = passwordStrength !== 'weak' && passwordStrength !== '';
@@ -85,29 +93,6 @@ class Register extends Component {
     } else {
       this.setState({
         passwordInputClassName: invalid,
-      });
-    }
-  }
-
-  validateInputName(e) {
-    const { value } = e.target;
-    this.setState({
-      name: value,
-    });
-    const nameRegex = RegExp(/^.{1,50}$/);
-    if (value.length >= 1) {
-      this.setState({
-        name: value,
-        nameInputClassName: valid,
-      });
-    } else if (!nameRegex.test(value)) {
-      this.setState({
-        nameInputClassName: invalid,
-      });
-    }
-    if (value.length === 0) {
-      this.setState({
-        nameInputClassName: '',
       });
     }
   }
@@ -268,14 +253,6 @@ class Register extends Component {
     }
   }
 
-  checkConfirmPasswordStatus() {
-    if (this.state.passwordInputClassName === invalid) {
-      this.setState({
-        confirmPasswordInputClassName: '',
-      });
-    }
-  }
-
   validateConfirmPassword(e) {
     const { value } = e.target;
     this.setState({
@@ -408,55 +385,10 @@ class Register extends Component {
     });
   }
 
-  isPasswordShown() {
-    const { isPasswordShown } = this.state;
-    this.setState({ isPasswordShown: !isPasswordShown });
-  }
-
-  isPasswordStrong(value) {
-    const easy = new RegExp(/^(?=.*([a-zа-я]|[A-ZА-Я]|[0-9])).{8,40}$/);
-    const good = new RegExp(/^(?=.*[a-zа-я])(?=.*[A-ZА-Я])(?=.*\d).{8,40}$/);
-    // eslint-disable-next-line no-useless-escape
-    const strong = new RegExp(/^(?=.*[a-zа-я])(?=.*[A-ZА-Я])(?=.*\d)(?=.*[!@#$%^&*()\\\/|~.',<>?`:"{}\]\[]).{8,40}$/);
-    // eslint-disable-next-line no-useless-escape
-    const chars = new RegExp(/(?=.*[!@#$%^&*()\\\/|~.',+<>?`:"{}\]\[]).{8,40}$/);
-    // eslint-disable-next-line no-useless-escape
-    const charsAndDigits = new RegExp(/(?=.*\d)(?=.*[!@#$%^&*()\\\/|+~.',<>?`:"{}\]\[]).{8,40}$/);
-
-    let checker = false;
-    if (easy.test(value)) {
+  checkConfirmPasswordStatus() {
+    if (this.state.passwordInputClassName === invalid) {
       this.setState({
-        color: '#ff8e33',
-        passwordStrength: 'easy',
-      });
-      this.showEasy();
-      checker = true;
-    }
-    if (good.test(value) || chars.test(value) || charsAndDigits.test(value)) {
-      this.setState({
-        color: '#459bff',
-        passwordStrength: 'good',
-      });
-      this.showGood();
-      checker = true;
-    }
-    if (strong.test(value)) {
-      this.setState({
-        color: '#13aa03',
-        passwordStrength: 'strong',
-        passwordInputClassName: valid,
-      });
-      this.showStrong();
-      checker = true;
-    }
-    if (!checker) {
-      this.setState({
-        showWeak: true,
-        showEasy: false,
-        showGood: false,
-        showStrong: false,
-        color: '#BC0008',
-        passwordStrength: 'weak',
+        confirmPasswordInputClassName: '',
       });
     }
   }
@@ -469,8 +401,17 @@ class Register extends Component {
           passwordStrength: 'weak',
           emailInputClassName: invalid,
           passwordInputClassName: invalid,
+          confirmPasswordInputClassName: '',
         });
         return true;
+      }
+      if (email !== password && password === this.state.confirmPassword) {
+        this.setState({
+          passwordInputClassName: valid,
+          confirmPasswordInputClassName: valid,
+        }, () => {
+          this.setClassesNamesValid();
+        });
       }
     }
     if (emailRegex.test(email)) {
@@ -487,72 +428,28 @@ class Register extends Component {
     return false;
   }
 
-  showWeak() {
-    const currentCallId = Math.random();
-    this.setState({
-      currentCallId,
-      showWeak: true,
-      showEasy: false,
-      showGood: false,
-      showStrong: false,
-    });
-    setTimeout(() => {
-      if (currentCallId !== this.state.currentCallId) return;
+  checkConfirmLive(password, confirmPassword) {
+    if (password > confirmPassword) {
       this.setState({
-        showWeak: false,
+        confirmPasswordInputTitle: 'Passwords must match each other',
+        confirmPasswordInputClassName: '',
       });
-    }, 1900);
-  }
-
-  showEasy() {
-    const currentCallId = Math.random();
-    this.setState({
-      currentCallId,
-      showWeak: false,
-      showEasy: true,
-      showGood: false,
-      showStrong: false,
-    });
-    setTimeout(() => {
-      if (currentCallId !== this.state.currentCallId) return;
-      this.setState({
-        showEasy: false,
-      });
-    }, 1900);
-  }
-
-  showGood() {
-    const currentCallId = Math.random();
-    this.setState({
-      currentCallId,
-      showWeak: false,
-      showEasy: false,
-      showGood: true,
-      showStrong: false,
-    });
-    setTimeout(() => {
-      if (currentCallId !== this.state.currentCallId) return;
-      this.setState({
-        showGood: false,
-      });
-    }, 1900);
-  }
-
-  showStrong() {
-    const currentCallId = Math.random();
-    this.setState({
-      currentCallId,
-      showWeak: false,
-      showEasy: false,
-      showGood: false,
-      showStrong: true,
-    });
-    setTimeout(() => {
-      if (currentCallId !== this.state.currentCallId) return;
-      this.setState({
-        showStrong: false,
-      });
-    }, 1900);
+      if (!this.state.passwordsAreConfirmed) {
+        // eslint-disable-next-line no-plusplus
+        for (let i = 0; i < confirmPassword.length; i++) {
+          if (confirmPassword.charAt(i) !== password.charAt(i)) {
+            this.setState({
+              confirmPasswordInputTitle: "Passwords don't match each other",
+              confirmPasswordInputClassName: invalid,
+            });
+          }
+        }
+      } else if (password.length !== confirmPassword.length) {
+        this.setState({
+          confirmPasswordInputClassName: invalid,
+        });
+      }
+    }
   }
 
   checkAllFields() {
@@ -634,37 +531,125 @@ class Register extends Component {
     return isValid;
   }
 
-  checkConfirmLive(password, confirmPassword) {
-    if (password > confirmPassword) {
+  isPasswordShown() {
+    const { isPasswordShown } = this.state;
+    this.setState({ isPasswordShown: !isPasswordShown });
+  }
+
+  isPasswordStrong(value) {
+    const easy = new RegExp(/^(?=.*([a-zа-я]|[A-ZА-Я]|[0-9])).{8,40}$/);
+    const good = new RegExp(/^(?=.*[a-zа-я])(?=.*[A-ZА-Я])(?=.*\d).{8,40}$/);
+    // eslint-disable-next-line no-useless-escape
+    const strong = new RegExp(/^(?=.*[a-zа-я])(?=.*[A-ZА-Я])(?=.*\d)(?=.*[!@#$%^&*()\\\/|~.',<>?`:"{}\]\[]).{8,40}$/);
+    // eslint-disable-next-line no-useless-escape
+    const chars = new RegExp(/(?=.*[!@#$%^&*()\\\/|~.',+<>?`:"{}\]\[]).{8,40}$/);
+    // eslint-disable-next-line no-useless-escape
+    const charsAndDigits = new RegExp(/(?=.*\d)(?=.*[!@#$%^&*()\\\/|+~.',<>?`:"{}\]\[]).{8,40}$/);
+
+    let checker = false;
+    if (easy.test(value)) {
       this.setState({
-        confirmPasswordInputTitle: 'Passwords must match each other',
-        confirmPasswordInputClassName: '',
+        color: '#ff8e33',
+        passwordStrength: 'easy',
       });
-      if (!this.state.passwordsAreConfirmed) {
-        // eslint-disable-next-line no-plusplus
-        for (let i = 0; i < confirmPassword.length; i++) {
-          if (confirmPassword.charAt(i) !== password.charAt(i)) {
-            this.setState({
-              confirmPasswordInputTitle: "Passwords don't match each other",
-              confirmPasswordInputClassName: invalid,
-            });
-          }
-        }
-      } else if (password.length !== confirmPassword.length) {
-        this.setState({
-          confirmPasswordInputClassName: invalid,
-        });
-      }
+      this.showEasy();
+      checker = true;
+    }
+    if (good.test(value) || chars.test(value) || charsAndDigits.test(value)) {
+      this.setState({
+        color: '#459bff',
+        passwordStrength: 'good',
+      });
+      this.showGood();
+      checker = true;
+    }
+    if (strong.test(value)) {
+      this.setState({
+        color: '#13aa03',
+        passwordStrength: 'strong',
+        passwordInputClassName: valid,
+      });
+      this.showStrong();
+      checker = true;
+    }
+    if (!checker) {
+      this.setState({
+        showWeak: true,
+        showEasy: false,
+        showGood: false,
+        showStrong: false,
+        color: '#BC0008',
+        passwordStrength: 'weak',
+      });
     }
   }
 
-  photo() {
-    const { photo2 } = this.state;
+  showWeak() {
+    const currentCallId = Math.random();
+    this.setState({
+      currentCallId,
+      showWeak: true,
+      showEasy: false,
+      showGood: false,
+      showStrong: false,
+    });
     setTimeout(() => {
+      if (currentCallId !== this.state.currentCallId) return;
       this.setState({
-        photo1: photo2,
+        showWeak: false,
       });
-    }, 14000);
+    }, 1900);
+  }
+
+  showEasy() {
+    const currentCallId = Math.random();
+    this.setState({
+      currentCallId,
+      showWeak: false,
+      showEasy: true,
+      showGood: false,
+      showStrong: false,
+    });
+    setTimeout(() => {
+      if (currentCallId !== this.state.currentCallId) return;
+      this.setState({
+        showEasy: false,
+      });
+    }, 1900);
+  }
+
+  showGood() {
+    const currentCallId = Math.random();
+    this.setState({
+      currentCallId,
+      showWeak: false,
+      showEasy: false,
+      showGood: true,
+      showStrong: false,
+    });
+    setTimeout(() => {
+      if (currentCallId !== this.state.currentCallId) return;
+      this.setState({
+        showGood: false,
+      });
+    }, 1900);
+  }
+
+  showStrong() {
+    const currentCallId = Math.random();
+    this.setState({
+      currentCallId,
+      showWeak: false,
+      showEasy: false,
+      showGood: false,
+      showStrong: true,
+    });
+    setTimeout(() => {
+      if (currentCallId !== this.state.currentCallId) return;
+      this.setState({
+        showStrong: false,
+      });
+    }, 1900);
   }
 
   openMainPage() {
@@ -678,6 +663,15 @@ class Register extends Component {
 
   loginHandler() {
     this.props.loginHandler();
+  }
+
+  photo() {
+    const { photo2 } = this.state;
+    setTimeout(() => {
+      this.setState({
+        photo1: photo2,
+      });
+    }, 14000);
   }
 
   render() {
