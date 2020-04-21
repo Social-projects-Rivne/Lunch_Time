@@ -1,5 +1,6 @@
 package com.lunchtime.controllers;
 
+import com.lunchtime.security.JwtUtil;
 import com.lunchtime.models.JwtPersonDetails;
 import com.lunchtime.security.TokenHistory;
 import com.lunchtime.service.dto.RegisterPerson;
@@ -9,7 +10,6 @@ import com.lunchtime.service.PersonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import javax.persistence.NonUniqueResultException;
 import javax.validation.Valid;
 
@@ -17,7 +17,9 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 @RequestMapping("/api/persons")
 public class PersonController {
+
     private final PersonService personService;
+    private final JwtUtil jwtUtil;
     private final AuthController authController;
     private final TokenHistory tokenHistory;
 
@@ -38,8 +40,7 @@ public class PersonController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
+        
         if (personDto != null) {
             JwtPersonDetails jwtPersonDetails = new JwtPersonDetails(
                 registerPerson.getEmail(), registerPerson.getPassword());
@@ -72,6 +73,18 @@ public class PersonController {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping("/currentUser")
+    public ResponseEntity<PersonDto> getPersonByEmail(@RequestBody String token) {
+        String email = jwtUtil.extractEmail(token);
+        PersonDto personDto = personService.getPersonDtoByEmail(email);
+        if (personDto != null) {
+            return ResponseEntity.ok()
+                .body(personDto);
+        }
+        return ResponseEntity.notFound()
+            .build();
     }
 
     @GetMapping("{id}")

@@ -1,6 +1,7 @@
 package com.lunchtime.controllers;
 
 import com.lunchtime.models.Person;
+import com.lunchtime.security.JwtUtil;
 import com.lunchtime.security.TokenHistory;
 import com.lunchtime.service.PersonService;
 import com.lunchtime.service.dto.PersonDto;
@@ -23,9 +24,10 @@ public class RegisterPersonControllerTest {
     PersonService personService = new PersonServiceStub();
     AuthController authController = new AuthController();
     TokenHistory tokenHistory = new TokenHistory();
+    JwtUtil jwtUtil = new JwtUtil();
     @Mock
     private final PersonController personController = new PersonController(
-        personService, authController, tokenHistory);
+        personService,jwtUtil, authController, tokenHistory);
 
     private final RegisterPerson registerPerson = new RegisterPerson();
 

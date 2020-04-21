@@ -53,6 +53,11 @@ public class PersonServiceStub implements PersonService {
     }
 
     @Override
+    public PersonDto getPersonDtoByEmail(String email) {
+        return null;
+    }
+
+    @Override
     public Optional<Person> getPersonById(Long id) {
         return Optional.empty();
     }
