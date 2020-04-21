@@ -1,5 +1,10 @@
+// eslint-disable-next-line import/no-cycle
+import Api from './api';
+
 class Auth {
   constructor() {
+    this.userInfo = {};
+    this.userKey = 'user';
     this.tokenKey = 'Bearer ';
     this.token = '';
     this.isAuth = false;
@@ -30,6 +35,23 @@ class Auth {
     this.token = '';
     localStorage.removeItem(this.tokenKey);
     this.isAuth = false;
+  }
+
+  getProfile() {
+    if (this.isAuth) {
+      Api.getCurrentUser('persons/currentUser', this.token)
+        .then((response) => {
+          if (response.error) {
+            // eslint-disable-next-line no-console
+            console.error(response);
+            return;
+          }
+          this.userInfo = response.data;
+          localStorage.setItem('user', response.data);
+          console.log('USER INFO');
+          console.log(this.userInfo.id);
+        });
+    }
   }
 }
 
