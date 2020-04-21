@@ -70,7 +70,6 @@ class Register extends Component {
     this.openMainPage = this.openMainPage.bind(this);
   }
 
-
   setClassesNamesValid() {
     this.setState({
       passwordInputClassName: valid,
@@ -93,6 +92,29 @@ class Register extends Component {
     } else {
       this.setState({
         passwordInputClassName: invalid,
+      });
+    }
+  }
+
+  validateInputName(e) {
+    const { value } = e.target;
+    this.setState({
+      name: value,
+    });
+    const nameRegex = RegExp(/^.{1,50}$/);
+    if (value.length >= 1) {
+      this.setState({
+        name: value,
+        nameInputClassName: valid,
+      });
+    } else if (!nameRegex.test(value)) {
+      this.setState({
+        nameInputClassName: invalid,
+      });
+    }
+    if (value.length === 0) {
+      this.setState({
+        nameInputClassName: '',
       });
     }
   }
@@ -253,6 +275,14 @@ class Register extends Component {
     }
   }
 
+  checkConfirmPasswordStatus() {
+    if (this.state.passwordInputClassName === invalid) {
+      this.setState({
+        confirmPasswordInputClassName: '',
+      });
+    }
+  }
+
   validateConfirmPassword(e) {
     const { value } = e.target;
     this.setState({
@@ -383,14 +413,6 @@ class Register extends Component {
     this.setState({
       buttonDisabled: false,
     });
-  }
-
-  checkConfirmPasswordStatus() {
-    if (this.state.passwordInputClassName === invalid) {
-      this.setState({
-        confirmPasswordInputClassName: '',
-      });
-    }
   }
 
   areEmailAndPasswordSame(email, password) {
