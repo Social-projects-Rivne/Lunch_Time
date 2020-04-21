@@ -14,6 +14,7 @@ const invalid = 'form-control is-invalid';
 const emailRegex = RegExp(
   /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
 );
+const validPassword = new RegExp(/^(?=.*([a-zа-я]|[A-ZА-Я]|[0-9])).{8,40}$/);
 
 class Register extends Component {
   constructor(props) {
@@ -456,8 +457,23 @@ class Register extends Component {
       this.setState({
         color: '#BC0008',
         passwordStrength: 'weak',
+        emailInputClassName: invalid,
+        passwordInputClassName: invalid,
       });
       return true;
+    }
+    if (emailRegex.test(email)) {
+      this.setState({
+        emailInputClassName: valid,
+      });
+    }
+    console.log(469);
+    if (validPassword.test(password)) {
+      console.log(470);
+      this.setState({
+        passwordInputClassName: valid,
+      });
+      this.isPasswordStrong(password);
     }
     return false;
   }
