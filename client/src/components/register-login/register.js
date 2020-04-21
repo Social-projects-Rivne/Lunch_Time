@@ -185,6 +185,9 @@ class Register extends Component {
         });
       }
     }
+    if (this.isEmailAndPasswordSame(value, this.state.password)) {
+      this.showWeak();
+    }
   }
 
   validateInputPassword(e) {
@@ -250,6 +253,9 @@ class Register extends Component {
           emailInputClassName: valid,
         });
       }
+    }
+    if (this.isEmailAndPasswordSame(this.state.email, value)) {
+      this.showWeak();
     }
   }
 
@@ -398,7 +404,6 @@ class Register extends Component {
   }
 
   isPasswordStrong(value) {
-    const weak = new RegExp(/^(.)\1{8,40}$/);
     const easy = new RegExp(/^(?=.*([a-zа-я]|[A-ZА-Я]|[0-9])).{8,40}$/);
     const good = new RegExp(/^(?=.*[a-zа-я])(?=.*[A-ZА-Я])(?=.*\d).{8,40}$/);
     // eslint-disable-next-line no-useless-escape
@@ -409,15 +414,7 @@ class Register extends Component {
     const charsAndDigits = new RegExp(/(?=.*\d)(?=.*[!@#$%^&*()\\\/|+~.',<>?`:"{}\]\[]).{8,40}$/);
 
     let checker = false;
-    if (weak.test(value)) {
-      this.setState({
-        color: '#bc0008',
-        passwordStrength: 'weak',
-      });
-      this.showWeak();
-      checker = true;
-    }
-    if (!weak.test(value) && easy.test(value)) {
+    if (easy.test(value)) {
       this.setState({
         color: '#ff8e33',
         passwordStrength: 'easy',
@@ -426,14 +423,12 @@ class Register extends Component {
       checker = true;
     }
     if (good.test(value) || chars.test(value) || charsAndDigits.test(value)) {
-      if (!weak.test(value)) {
-        this.setState({
-          color: '#459bff',
-          passwordStrength: 'good',
-        });
-        this.showGood();
-        checker = true;
-      }
+      this.setState({
+        color: '#459bff',
+        passwordStrength: 'good',
+      });
+      this.showGood();
+      checker = true;
     }
     if (strong.test(value)) {
       this.setState({
@@ -454,6 +449,17 @@ class Register extends Component {
         passwordStrength: 'weak',
       });
     }
+  }
+
+  isEmailAndPasswordSame(email, password) {
+    if (email === password && emailRegex.test(email)) {
+      this.setState({
+        color: '#BC0008',
+        passwordStrength: 'weak',
+      });
+      return true;
+    }
+    return false;
   }
 
   showWeak() {
@@ -730,7 +736,11 @@ class Register extends Component {
                     />
                   )}
                   {password.length >= 8 && <text style={{ color: color }}> ● </text>}
-                  {password.length >= 8 && showWeak && <text style={{ color: color, fontSize: 13 }}> weak </text>}
+                  {password.length >= 8 && showWeak && (
+                  <text style={{ color: color, fontSize: 13 }}>
+                    password equals email
+                  </text>
+                  )}
                   {password.length >= 8 && showEasy && <text style={{ color: color, fontSize: 13 }}> easy </text>}
                   {password.length >= 8 && showGood && <text style={{ color: color, fontSize: 13 }}> good </text>}
                   {password.length >= 8 && showStrong && <text style={{ color: color, fontSize: 13 }}> strong </text>}
