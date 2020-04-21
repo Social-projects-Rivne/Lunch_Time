@@ -77,6 +77,12 @@ class Register extends Component {
     });
   }
 
+  setClassesNamesInvalid() {
+    this.setState({
+      confirmPasswordInputClassName: invalid,
+    });
+  }
+
   setPasswordStateValid() {
     const { passwordStrength, password, confirmPassword } = this.state;
     const strong = passwordStrength !== 'weak' && passwordStrength !== '';
@@ -433,6 +439,13 @@ class Register extends Component {
           confirmPasswordInputClassName: valid,
         }, () => {
           this.setClassesNamesValid();
+        });
+      }
+      if (password !== this.state.confirmPassword && this.state.confirmPassword.length > 0) {
+        this.setState({
+          confirmPasswordInputClassName: invalid,
+        }, () => {
+          this.setClassesNamesInvalid();
         });
       }
     }
