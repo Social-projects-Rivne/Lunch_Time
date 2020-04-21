@@ -180,16 +180,6 @@ class Register extends Component {
         emailInputClassName: '',
       });
     }
-    if (this.state.emailInputClassName === valid) {
-      if (this.isPasswordShown(this.state.password)) {
-        if (this.state.password === this.state.confirmPassword) {
-          this.setState({
-            passwordInputWrongClassName: valid,
-            confirmPasswordInputWrongClassName: valid,
-          });
-        }
-      }
-    }
   }
 
   validateInputPassword(e) {
@@ -222,8 +212,13 @@ class Register extends Component {
         passwordInputStarted: false,
         showWeak: false,
         confirmPasswordInputClassName: '',
-        isPasswordShown: false,
       });
+      if (this.state.confirmPassword.length === 0) {
+        console.log('Fdskfjosdkfmsd');
+        this.setState({
+          isPasswordShown: false,
+        });
+      }
     } else if (value.length > 40) {
       this.setState({
         passwordInputClassName: invalid,
