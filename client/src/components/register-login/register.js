@@ -214,7 +214,6 @@ class Register extends Component {
         confirmPasswordInputClassName: '',
       });
       if (this.state.confirmPassword.length === 0) {
-        console.log('Fdskfjosdkfmsd');
         this.setState({
           isPasswordShown: false,
         });
