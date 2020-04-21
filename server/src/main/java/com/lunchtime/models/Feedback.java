@@ -19,7 +19,7 @@ public class Feedback {
 
     @NotNull
     @Column(name = "description")
-    @Size(min = 10, max = 400)
+    @Size(min = 10, max = 1000)
     private String description;
 
     @ColumnDefault("true")
