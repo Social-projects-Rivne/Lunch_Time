@@ -1,6 +1,5 @@
 package com.lunchtime.service.impl;
 
-import com.lunchtime.controllers.AuthController;
 import com.lunchtime.mapper.PersonMapper;
 import com.lunchtime.models.Person;
 import com.lunchtime.service.dto.RegisterPerson;
@@ -21,9 +20,9 @@ import java.util.Optional;
 public class PersonServiceImpl implements PersonService {
     private final PersonRepository personRepository;
     private final PersonMapper personMapper;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final BCryptPasswordEncoder bcryptPasswordEncoder;
 
-    public PersonDto saveRegisterPerson(RegisterPerson registerPerson) throws Exception {
+    public PersonDto saveRegisterPerson(RegisterPerson registerPerson) {
         boolean phoneExists = false;
         boolean emailExists = false;
         String code = null;
@@ -41,17 +40,14 @@ public class PersonServiceImpl implements PersonService {
             code = "602";
         } else if (emailExists) {
             code = "603";
-        } if (code != null) {
+        }
+        if (code != null) {
             throw new NonUniqueResultException(code);
         }
 
         Person person = personMapper.fromRegisterToPerson(registerPerson);
         personRepository.save(person);
         return personMapper.fromPersonToDto(person);
-    }
-
-    public Person savePerson(Person person) {
-        return personRepository.save(person);
     }
 
     public PersonDto updatePerson(PersonDto personDto) {
@@ -64,13 +60,13 @@ public class PersonServiceImpl implements PersonService {
         Optional<Person> result = personRepository.findById(personPassDto.getId());
         if (result.isPresent()) {
             Person person = result.get();
-                if (BCrypt.checkpw(personPassDto.getOldPassword(), person.getPassword())) {
-                    person.setPassword(bCryptPasswordEncoder.encode(personPassDto.getPassword()));
-                    person.setName(personPassDto.getName());
-                    person.setPhoneNumber(personPassDto.getPhoneNumber());
-                    personRepository.save(person);
-                    return personPassDto;
-                }
+            if (BCrypt.checkpw(personPassDto.getOldPassword(), person.getPassword())) {
+                person.setPassword(bcryptPasswordEncoder.encode(personPassDto.getPassword()));
+                person.setName(personPassDto.getName());
+                person.setPhoneNumber(personPassDto.getPhoneNumber());
+                personRepository.save(person);
+                return personPassDto;
+            }
             throw new Exception();
         }
         return null;

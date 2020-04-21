@@ -15,7 +15,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PersonMapper {
     final PersonRepository personRepository;
-    final BCryptPasswordEncoder bCryptPasswordEncoder;
+    final BCryptPasswordEncoder bcryptPasswordEncoder;
 
     public Person fromDtoToPerson(PersonDto personDto) {
         return Person.builder()
@@ -41,7 +41,7 @@ public class PersonMapper {
             .name(registerPerson.getName())
             .phoneNumber(registerPerson.getPhoneNumber())
             .email(registerPerson.getEmail())
-            .password(bCryptPasswordEncoder.encode(registerPerson.getPassword()))
+            .password(bcryptPasswordEncoder.encode(registerPerson.getPassword()))
             .build();
     }
 }

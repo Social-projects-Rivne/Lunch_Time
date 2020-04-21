@@ -61,7 +61,7 @@ public class DatabaseSeed {
     private final MenuItemDishRepository menuItemDishRepository;
     private final EventCategoryRepository eventCategoryRepository;
     private final EventRepository eventRepository;
-    private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final BCryptPasswordEncoder bcryptPasswordEncoder;
     private final OrderStatusRepository orderStatusRepository;
     private final RestaurantTableRepository restaurantTableRepository;
 
@@ -123,10 +123,10 @@ public class DatabaseSeed {
 
     private void seedCategoryFood() {
 
-        for (Long i = 0L; i < categoryFood.length; i++) {
+        for (long i = 0L; i < categoryFood.length; i++) {
 
             CategoryFood category = new CategoryFood();
-            category.setName(categoryFood[i.intValue()]);
+            category.setName(categoryFood[(int) i]);
             categoryFoodRepository.save(category);
         }
 
@@ -203,7 +203,7 @@ public class DatabaseSeed {
         person.setName(userName[i]);
         person.setEmail(userName[i].concat("@gmail.com").toLowerCase());
         person.setPassword(
-            bCryptPasswordEncoder.encode(userName[i].concat("password").toLowerCase()));
+            bcryptPasswordEncoder.encode(userName[i].concat("password").toLowerCase()));
         person.setPhoneNumber("+38050123456".concat(String.valueOf(i)));
         return person;
     }

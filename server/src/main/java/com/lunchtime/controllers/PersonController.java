@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.NonUniqueResultException;
 import javax.validation.Valid;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 @RestController
 @RequiredArgsConstructor
@@ -43,9 +41,9 @@ public class PersonController {
 
 
         if (personDto != null) {
-        JwtPersonDetails jwtPersonDetails = new JwtPersonDetails(
-            registerPerson.getEmail(), registerPerson.getPassword());
-        authController.createAuthenticationToken(jwtPersonDetails);
+            JwtPersonDetails jwtPersonDetails = new JwtPersonDetails(
+                registerPerson.getEmail(), registerPerson.getPassword());
+            authController.createAuthenticationToken(jwtPersonDetails);
             String token = tokenHistory.getTokenList().remove(0);
             return ResponseEntity.ok(token);
 
