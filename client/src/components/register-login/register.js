@@ -274,13 +274,6 @@ class Register extends Component {
         });
       }
     }
-    if (this.state.confirmPasswordInputClassName === valid) {
-      if (value !== this.state.email && emailRegex.test(this.state.email)) {
-        this.setState({
-          emailInputClassName: valid,
-        });
-      }
-    }
     this.checkConfirmLive(this.state.password, value);
     if (value.length === 0) {
       this.setState({
@@ -299,26 +292,6 @@ class Register extends Component {
       name, phoneNumber, email, password,
     } = this.state;
     if (this.checkAllFields()) {
-      if (email === password) {
-        this.setState({
-          emailInputTitle: 'email and password must be different',
-          passwordInputTitle: 'email and password must be different',
-          confirmPasswordInputTitle: 'email and password must be different',
-          emailInputClassName: invalid,
-          passwordInputClassName: invalid,
-          confirmPasswordInputClassName: invalid,
-          buttonDisabled: false,
-        });
-        return;
-      }
-      this.setState({
-        emailInputTitle: 'email must consist of 5 or more symbols',
-        passwordInputTitle: "Password shouldn't be weak and less than 8 symbols",
-        confirmPasswordInputTitle: 'Passwords must match each other',
-        emailInputClassName: invalid,
-        passwordInputClassName: invalid,
-        confirmPasswordInputClassName: invalid,
-      });
       const body = {
         name: name,
         phoneNumber: phoneNumber,
