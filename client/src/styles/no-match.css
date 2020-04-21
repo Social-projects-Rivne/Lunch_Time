@@ -1,5 +1,5 @@
 .no-match {
-  background: url("/img/404.jpg") no-repeat center center fixed;
+  background: url("/img/404.png") no-repeat center center fixed;
   background-size: cover;
   padding: 7rem 0 0 0;
   min-height: calc(100vh - 70px);
