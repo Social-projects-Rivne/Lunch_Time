@@ -646,11 +646,11 @@ class Register extends Component {
   }
 
   openMainPage() {
+    this.loginHandler();
     setTimeout(() => {
       this.setState({
         openMainPage: true,
       });
-      this.loginHandler();
     }, 6000);
   }
 
