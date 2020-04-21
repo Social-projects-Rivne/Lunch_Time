@@ -37,6 +37,7 @@ class Login extends Component {
       .then((response) => {
         if (response.status === 200) {
           Auth.setToken(response.data);
+          Auth.getProfile();
           loginHandler();
           this.props.history.push('/');
         } else if (response.error.status === 403) {
