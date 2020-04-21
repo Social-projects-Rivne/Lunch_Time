@@ -3,7 +3,6 @@ import { Container } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import Login from '../components/register-login/login';
 import Register from '../components/register-login/register';
-import RightSide from '../components/register-login/right-side';
 import '../styles/register-login-page.css';
 
 class Registration extends Component {
@@ -13,10 +12,6 @@ class Registration extends Component {
       isLogged: false,
     };
     this.changeState = this.changeState.bind(this);
-  }
-
-  componentDidMount() {
-    this.rightSide.classList.add('right');
   }
 
   changeState() {
@@ -33,8 +28,6 @@ class Registration extends Component {
 
   render() {
     const { isLogged } = this.state;
-    const current = isLogged ? 'Register' : 'Login';
-    const currentActive = isLogged ? 'login' : 'register';
     return (
       <Container className="mainContainer">
         <div className="login">
@@ -42,12 +35,6 @@ class Registration extends Component {
             {isLogged && <Login />}
             {!isLogged && <Register loginHandler={() => { this.props.loginHandler(); }} />}
           </div>
-          <RightSide
-            current={current}
-            currentActive={currentActive}
-            containerRef={(ref) => { this.rightSide = ref; }}
-            onClick={this.changeState}
-          />
         </div>
       </Container>
     );
