@@ -186,7 +186,7 @@ class Register extends Component {
         });
       }
     }
-    if (this.isEmailAndPasswordSame(value, this.state.password)) {
+    if (this.areEmailAndPasswordSame(value, this.state.password)) {
       this.showWeak();
     }
     this.checkConfirmPasswordStatus();
@@ -219,6 +219,13 @@ class Register extends Component {
       }, () => {
         this.setPasswordStateValid();
       });
+      if (className && value !== this.state.confirmPassword) {
+        if (this.state.confirmPassword.length > 0) {
+          this.setState({
+            confirmPasswordInputClassName: invalid,
+          });
+        }
+      }
     } else if (this.state.passwordInputStarted && value.length < 8) {
       this.setState({
         passwordInputClassName: invalid,
@@ -232,11 +239,6 @@ class Register extends Component {
         showWeak: false,
         confirmPasswordInputClassName: '',
       });
-      if (this.state.confirmPassword.length === 0) {
-        this.setState({
-          showPassword: false,
-        });
-      }
     } else if (value.length > 40) {
       this.setState({
         passwordInputClassName: invalid,
@@ -256,7 +258,7 @@ class Register extends Component {
         });
       }
     }
-    if (this.isEmailAndPasswordSame(this.state.email, value)) {
+    if (this.areEmailAndPasswordSame(this.state.email, value)) {
       this.showWeak();
     }
     if (value.length < 8 && this.state.confirmPassword.length > 0) {
@@ -297,14 +299,6 @@ class Register extends Component {
           });
         });
       } else if (value.length > this.state.password.length && this.state.passwordInputClassName === valid) {
-        this.setState({
-          confirmPasswordInputClassName: invalid,
-        });
-      }
-    }
-    if (value !== this.state.password && this.state.password.length < 8) {
-      if (this.state.passwordStrength !== 'weak') {
-        console.log(293);
         this.setState({
           confirmPasswordInputClassName: invalid,
         });
@@ -467,7 +461,7 @@ class Register extends Component {
     }
   }
 
-  isEmailAndPasswordSame(email, password) {
+  areEmailAndPasswordSame(email, password) {
     if (email.length > 5 && password.length >= 8) {
       if (email === password && emailRegex.test(email)) {
         this.setState({
