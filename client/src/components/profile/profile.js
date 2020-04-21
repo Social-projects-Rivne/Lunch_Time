@@ -16,6 +16,7 @@ import Api from '../../services/api';
 import '../../styles/profile.css';
 import PhotoEditor from '../shared/photo-editor';
 import InfoChange from './info-change';
+import Auth from '../../services/auth';
 
 class Profile extends Component {
   constructor(props) {
@@ -41,7 +42,7 @@ class Profile extends Component {
   }
 
   getProfile() {
-    this.token = localStorage.getItem('Bearer ');
+    if (Auth.isAuthenticated) { this.token = Auth.getToken(); }
     Api.getCurrentUser('persons/currentUser', this.token)
       .then((response) => {
         if (response.error) {
