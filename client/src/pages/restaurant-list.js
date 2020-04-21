@@ -25,7 +25,7 @@ class RestaurantList extends Component {
   }
 
   getAll(page, pageSize) {
-    Api.getAll(`restaurants?page=${page}&size=${pageSize}`)
+    Api.get(`restaurants?page=${page}&size=${pageSize}`)
       .then((response) => {
         if (response.error) {
           // eslint-disable-next-line no-console

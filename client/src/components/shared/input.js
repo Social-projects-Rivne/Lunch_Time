@@ -39,7 +39,6 @@ class Input extends React.Component {
           <InputGroup.Append>
             <Button
               onClick={() => this.handleClick()}
-              className="m-button"
               style={{ width: '4rem' }}
             >
               {type === 'text' ? 'Hide' : 'Show'}

@@ -27,14 +27,24 @@ class NavigationBar extends Component {
       {
         link: '/profile', name: 'Profile', isUnAuthenticatedSee: false, isAuthenticatedSee: true,
       },
-      {
-        link: '/', name: 'Logout', isUnAuthenticatedSee: false, isAuthenticatedSee: true,
-      },
     ];
   }
 
+  showLogoutLink(className, callback) {
+    return (
+      <Nav.Item
+        className={className}
+        onClick={() => {
+          callback();
+        }}
+      >
+        <Link className="link" to="/">Logout</Link>
+      </Nav.Item>
+    );
+  }
+
   render() {
-    const { isAuthenticated } = this.props;
+    const { isAuthenticated, logoutHandler } = this.props;
     const className = 'mr-3';
 
     return (
@@ -69,6 +79,7 @@ class NavigationBar extends Component {
                   key={e.link}
                 />
               ))}
+            {isAuthenticated ? this.showLogoutLink(className, logoutHandler) : null}
           </Nav>
         </Navbar.Collapse>
       </Navbar>
@@ -78,6 +89,7 @@ class NavigationBar extends Component {
 
 NavigationBar.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
+  logoutHandler: PropTypes.func.isRequired,
 };
 
 export default NavigationBar;

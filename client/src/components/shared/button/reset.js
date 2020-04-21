@@ -6,7 +6,6 @@ class Reset extends Component {
     return (
       <SearchMenuButton
         onClick={() => window.location.reload()}
-        buttonClassName="m-button ml-5"
         buttonName="Reset"
       />
     );

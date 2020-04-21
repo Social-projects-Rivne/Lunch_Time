@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 import java.net.URISyntaxException;
 import java.time.Instant;
 import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 
 @Component
 @RequiredArgsConstructor
@@ -49,6 +51,7 @@ public class DatabaseSeed {
     int[] eventType = {0, 1, 2, 5, 0};
     Float[] cordLatitude = new Float[]{50.616294f, 50.618261f, 50.620219f, 50.616146f, 50.618318f};
     Float[] cordLongitude = new Float[]{26.275728f, 26.260064f, 26.241863f, 26.253994f, 26.252249f};
+    String[] orderStatuses = new String[]{"new", "pending", "approved", "performed", "close"};
 
     private final RestaurantRepository restaurantRepository;
     private final FeedbackRepository feedbackRepository;
@@ -59,6 +62,8 @@ public class DatabaseSeed {
     private final EventCategoryRepository eventCategoryRepository;
     private final EventRepository eventRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final OrderStatusRepository orderStatusRepository;
+    private final RestaurantTableRepository restaurantTableRepository;
 
     @EventListener
     public void seed(ContextRefreshedEvent event) {
@@ -89,7 +94,12 @@ public class DatabaseSeed {
             } catch (URISyntaxException e) {
                 e.printStackTrace();
             }
-
+        }
+        if (orderStatusRepository.count() == 0L) {
+            seedOrderStatuses();
+        }
+        if (restaurantTableRepository.count() == 0L) {
+            seedRestaurantTables();
         }
     }
 
@@ -97,15 +107,15 @@ public class DatabaseSeed {
 
         List<Dish> dishesList = dishRepository.findAll();
 
-        for (Long j = 0L; j < getRestaurantList().size(); j++) {
-            for (Long i = 0L; i < dishesList.size(); i++) {
+        for (long j = 0L; j < getRestaurantList().size(); j++) {
+            for (long i = 0L; i < dishesList.size(); i++) {
                 MenuItemDish menuItemDish = new MenuItemDish();
-                menuItemDish.setPortionSize(dishPortion[i.intValue()]);
+                menuItemDish.setPortionSize(dishPortion[(int) i]);
                 menuItemDish.setPortionPrice(i + 10L);
-                menuItemDish.setDish(dishesList.get(i.intValue()));
-                menuItemDish.setPortionUnit(i.longValue() + 70L);
-                menuItemDish.setImageUrl(dishUrl[i.intValue()]);
-                menuItemDish.setRestaurant(getRestaurantList().get(j.intValue()));
+                menuItemDish.setDish(dishesList.get((int) i));
+                menuItemDish.setPortionUnit(i + 70L);
+                menuItemDish.setImageUrl(dishUrl[(int) i]);
+                menuItemDish.setRestaurant(getRestaurantList().get((int) j));
                 menuItemDishRepository.save(menuItemDish);
             }
         }
@@ -126,11 +136,11 @@ public class DatabaseSeed {
 
         List<CategoryFood> categoryFoodList = categoryFoodRepository.findAll();
 
-        for (Long i = 0L; i < dishesName.length; i++) {
+        for (long i = 0L; i < dishesName.length; i++) {
             Dish dish = new Dish();
-            dish.setName(dishesName[i.intValue()]);
+            dish.setName(dishesName[(int) i]);
             dish.setIngredients(" first ingredient," + " second ingredient," + " third ingredient");
-            dish.setCategoryfood(categoryFoodList.get(i.intValue()));
+            dish.setCategoryfood(categoryFoodList.get((int) i));
             dishRepository.save(dish);
         }
     }
@@ -238,6 +248,38 @@ public class DatabaseSeed {
 
     private List<EventCategory> getEventCategoryList() {
         return eventCategoryRepository.findAll();
+    }
+
+    private OrderStatus createOrderStatus(String name) {
+        return OrderStatus.builder()
+            .name(name)
+            .build();
+    }
+
+    private void seedOrderStatuses() {
+        for (String orderStatus : orderStatuses) {
+            orderStatusRepository.save(createOrderStatus(orderStatus));
+        }
+    }
+
+    private RestaurantTable createRestaurantTable(int number, Restaurant restaurant, int capacity) {
+        return RestaurantTable.builder()
+            .number(number)
+            .restaurant(restaurant)
+            .capacity(capacity)
+            .build();
+    }
+
+    private void seedRestaurantTables() {
+        for (int i = 1; i <= restaurantName.length; i++) {
+            Optional<Restaurant> restaurant = restaurantRepository.findByIdAndIsDeletedFalse((long) i);
+            if (restaurant.isPresent()) {
+                Random random = new Random();
+                for (int j = 1; j < 5; j++) {
+                    restaurantTableRepository.save(createRestaurantTable(j, restaurant.get(), random.nextInt(6) + 2));
+                }
+            }
+        }
     }
 }
 
