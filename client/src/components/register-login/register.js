@@ -189,6 +189,7 @@ class Register extends Component {
     if (this.isEmailAndPasswordSame(value, this.state.password)) {
       this.showWeak();
     }
+    this.checkConfirmPasswordStatus();
   }
 
   validateInputPassword(e) {
@@ -200,8 +201,7 @@ class Register extends Component {
       this.setState({
         showPassword: true,
       });
-    }
-    if (value.length === 0 && this.state.confirmPassword === 0) {
+    } else if (value.length === 0 && this.state.confirmPassword === 0) {
       this.setState({
         showPassword: false,
       });
@@ -222,6 +222,7 @@ class Register extends Component {
     } else if (this.state.passwordInputStarted && value.length < 8) {
       this.setState({
         passwordInputClassName: invalid,
+        confirmPasswordInputClassName: '',
       });
     }
     if (value.length === 0) {
@@ -257,6 +258,19 @@ class Register extends Component {
     }
     if (this.isEmailAndPasswordSame(this.state.email, value)) {
       this.showWeak();
+    }
+    if (value.length < 8 && this.state.confirmPassword.length > 0) {
+      this.setState({
+        confirmPasswordInputClassName: '',
+      });
+    }
+  }
+
+  checkConfirmPasswordStatus() {
+    if (this.state.passwordInputClassName === invalid) {
+      this.setState({
+        confirmPasswordInputClassName: '',
+      });
     }
   }
 
