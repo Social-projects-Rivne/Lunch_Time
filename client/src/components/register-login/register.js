@@ -179,15 +179,29 @@ class Register extends Component {
       this.setState({
         emailInputClassName: '',
       });
+      if (this.state.confirmPassword.length === 0) {
+        this.setState({
+          showPassword: false,
+        });
+      }
     }
   }
 
   validateInputPassword(e) {
     const { value } = e.target;
     this.setState({
-      showPassword: value.length > 0,
       password: value,
     });
+    if (value.length > 0) {
+      this.setState({
+        showPassword: true,
+      });
+    }
+    if (value.length === 0 && this.state.confirmPassword === 0) {
+      this.setState({
+        showPassword: false,
+      });
+    }
     if (value.length >= 8) {
       if (!this.state.passwordInputStarted) {
         this.setState({ passwordInputStarted: value.length >= 8 });
@@ -215,7 +229,7 @@ class Register extends Component {
       });
       if (this.state.confirmPassword.length === 0) {
         this.setState({
-          isPasswordShown: false,
+          showPassword: false,
         });
       }
     } else if (value.length > 40) {
@@ -278,9 +292,13 @@ class Register extends Component {
     if (value.length === 0) {
       this.setState({
         confirmPasswordInputClassName: '',
-        isPasswordShown: false,
         passwordsAreConfirmed: '',
       });
+      if (this.state.password.length === 0) {
+        this.setState({
+          showPassword: false,
+        });
+      }
     }
   }
 
