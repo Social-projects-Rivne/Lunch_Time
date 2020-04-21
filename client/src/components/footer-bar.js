@@ -16,7 +16,7 @@ class FooterBar extends Component {
       />
     ));
     return (
-      <Navbar className="footer" fixed="bottom" expand="lg" bg="light">
+      <Navbar className="footer" expand="lg" variant="dark" sticky="bottom" fixed="bottom">
         {footerContent}
       </Navbar>
     );

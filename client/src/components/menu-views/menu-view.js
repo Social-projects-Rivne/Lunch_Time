@@ -27,7 +27,7 @@ class Menu extends Component {
 
   getAll(path, page, pageSize) {
     const { id } = this.props;
-    Api.getAll(`${path}page=${page}&size=${pageSize}&restaurantId=${id}`)
+    Api.get(`${path}page=${page}&size=${pageSize}&restaurantId=${id}`)
       .then((response) => {
         if (response.error) {
           // eslint-disable-next-line no-console

@@ -3,6 +3,7 @@ import { Nav, Navbar } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import NavigationItem from './shared/navigation/navigation-item';
+import '../styles/navbar.css';
 
 class NavigationBar extends Component {
   constructor(props) {
@@ -26,18 +27,28 @@ class NavigationBar extends Component {
       {
         link: '/profile', name: 'Profile', isUnAuthenticatedSee: false, isAuthenticatedSee: true,
       },
-      {
-        link: '/', name: 'Logout', isUnAuthenticatedSee: false, isAuthenticatedSee: true,
-      },
     ];
   }
 
+  showLogoutLink(className, callback) {
+    return (
+      <Nav.Item
+        className={className}
+        onClick={() => {
+          callback();
+        }}
+      >
+        <Link className="link" to="/">Logout</Link>
+      </Nav.Item>
+    );
+  }
+
   render() {
-    const { isAuthenticated } = this.props;
+    const { isAuthenticated, logoutHandler } = this.props;
     const className = 'mr-3';
 
     return (
-      <Navbar expand="lg" bg="light">
+      <Navbar expand="lg" bg="black" variant="dark">
         <Navbar.Brand>
           <img
             alt=""
@@ -47,7 +58,7 @@ class NavigationBar extends Component {
             className="d-inline-block align-top"
           />
           {' '}
-          <Link to="/">Lunch Time</Link>
+          <Link className="link" to="/">Lunch Time</Link>
         </Navbar.Brand>
 
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -68,6 +79,7 @@ class NavigationBar extends Component {
                   key={e.link}
                 />
               ))}
+            {isAuthenticated ? this.showLogoutLink(className, logoutHandler) : null}
           </Nav>
         </Navbar.Collapse>
       </Navbar>
@@ -77,6 +89,7 @@ class NavigationBar extends Component {
 
 NavigationBar.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
+  logoutHandler: PropTypes.func.isRequired,
 };
 
 export default NavigationBar;
