@@ -22,5 +22,7 @@ public interface PersonService {
 
     PersonDto getPersonDtoById(Long id);
 
+    PersonDto getPersonDtoByEmail(String email);
+
     Optional<Person> getPersonById(Long id);
 }

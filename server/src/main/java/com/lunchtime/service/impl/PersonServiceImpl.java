@@ -77,6 +77,11 @@ public class PersonServiceImpl implements PersonService {
         return result.map(personMapper::fromPersonToDto).orElse(null);
     }
 
+    public PersonDto getPersonDtoByEmail(String email) {
+        Optional<Person> result = Optional.ofNullable(personRepository.findFirstByEmail(email));
+        return result.map(personMapper::fromPersonToDto).orElse(null);
+    }
+
     public Optional<Person> getPersonById(Long id) {
         return personRepository.findById(id);
     }

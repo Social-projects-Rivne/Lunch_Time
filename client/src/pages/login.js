@@ -4,6 +4,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Api from '../services/api';
 import Auth from '../services/auth';
+import Person from '../services/person';
 import '../styles/login.css';
 
 class Login extends Component {
@@ -37,6 +38,7 @@ class Login extends Component {
       .then((response) => {
         if (response.status === 200) {
           Auth.setToken(response.data);
+          Person.getProfile();
           loginHandler();
           this.props.history.push('/');
         } else if (response.error.status === 403) {

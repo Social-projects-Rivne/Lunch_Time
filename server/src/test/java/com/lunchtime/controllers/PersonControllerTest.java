@@ -1,5 +1,6 @@
 package com.lunchtime.controllers;
 
+import com.lunchtime.security.JwtUtil;
 import com.lunchtime.security.TokenHistory;
 import com.lunchtime.service.dto.PersonDto;
 import com.lunchtime.service.dto.PersonPassDto;
@@ -25,12 +26,13 @@ public class PersonControllerTest {
     private AuthController authController = new AuthController();
     private TokenHistory tokenHistory = new TokenHistory();
     private PersonDto personDto;
+    private JwtUtil jwtUtil= new JwtUtil();
 
     @Before
     public void setUp() {
         initMocks(this);
         personControllerUnderTest = new PersonController(
-            mockPersonService, authController, tokenHistory);
+            mockPersonService, jwtUtil, authController, tokenHistory);
         personDto = PersonDto.builder()
             .id(1)
             .name("NewName")
