@@ -13,6 +13,7 @@ import NoMatch from './pages/no-match';
 import Events from './pages/events';
 import Restaurant from './components/restaurant/restaurant-item';
 import Profile from './components/profile/profile';
+import NewOrder from './components/order/new-order';
 import Auth from './services/auth';
 
 class App extends Component {
@@ -51,7 +52,13 @@ class App extends Component {
           <Route exact path="/" component={Home} />
           <Route path="/about" component={About} />
           <Route path="/events" component={Events} />
-          <Route path="/restaurants/:id" component={Restaurant} />
+          <Route path="/restaurants/:id/new-order" component={NewOrder} />
+          <Route
+            path="/restaurants/:id"
+            render={(routeProps) => {
+              return <Restaurant isAuthenticated={isAuthenticated} {...routeProps} />;
+            }}
+          />
           <Route path="/restaurants" component={RestaurantList} />
           <Route
             path="/login"

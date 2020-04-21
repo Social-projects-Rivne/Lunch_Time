@@ -22,3 +22,8 @@
   border-color: #fac564 !important;
   box-shadow: none !important;
 }
+
+.btn-primary:disabled{
+  border-color: #fac564 !important;
+  box-shadow: none !important;
+}
