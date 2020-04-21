@@ -48,8 +48,6 @@ class Auth {
           }
           this.userInfo = response.data;
           localStorage.setItem('user', response.data);
-          console.log('USER INFO');
-          console.log(this.userInfo.id);
         });
     }
   }
