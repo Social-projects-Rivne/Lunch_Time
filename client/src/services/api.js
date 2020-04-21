@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { config as configDev } from '../environments/environment.dev';
 import { config as configProd } from '../environments/environment.prod';
+// eslint-disable-next-line import/no-cycle
 import Auth from './auth';
 
 axios.interceptors.request.use((config) => {
