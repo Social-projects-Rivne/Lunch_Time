@@ -73,7 +73,7 @@ class Menu extends Component {
     this.setState({
       path: match,
     });
-    this.getAll(match, this.state.number, this.state.pageSize);
+    this.getAll(match, 0, this.state.pageSize);
   }
 
   render() {

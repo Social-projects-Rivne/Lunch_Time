@@ -46,7 +46,10 @@ class MenuItemDish extends Component {
               </Col>
               <Col className="col-item">
                 <br />
-                <Button variant="primary">
+                <Button
+                  variant="primary"
+                  disabled="true"
+                >
                   Add
                 </Button>
               </Col>
