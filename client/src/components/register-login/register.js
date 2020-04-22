@@ -39,6 +39,8 @@ class Register extends Component {
       emailInputTitle: 'email must consist of 5 or more symbols',
       emailInputClassName: '',
       emailInputWrongClassName: false,
+      alreadyRegisteredPhoneNumber: '',
+      alreadyRegisteredEmail: '',
       showPassword: false,
       isPasswordShown: false,
       color: '#fcfffc',
@@ -132,6 +134,15 @@ class Register extends Component {
     this.setState({
       phoneNumber: value,
     });
+    if (value === this.state.alreadyRegisteredPhoneNumber) {
+      setTimeout(() => {
+        this.setState({
+          phoneInputClassName: invalid,
+          phoneInputTitle: 'This phone is already registered. Use another one.',
+        });
+      }, 150);
+      return;
+    }
     if (value.charAt(0) !== '+') {
       this.setState({
         phoneInputClassName: invalid,
@@ -165,6 +176,15 @@ class Register extends Component {
     this.setState({
       email: value,
     });
+    if (value === this.state.alreadyRegisteredEmail) {
+      setTimeout(() => {
+        this.setState({
+          emailInputClassName: invalid,
+          emailInputTitle: 'This email is already registered. Use another one.',
+        });
+      }, 150);
+      return;
+    }
     const testEmailRegex = RegExp(
       /^\w+(@(\w+(\.(\w+)?)?)?)?$/,
     );
@@ -376,8 +396,10 @@ class Register extends Component {
               this.setState({
                 phoneInputClassName: invalid,
                 phoneInputTitle: 'This phone is already registered. Use another one.',
+                alreadyRegisteredPhoneNumber: phoneNumber,
                 emailInputClassName: invalid,
                 emailInputTitle: 'This email is already registered. Use another one.',
+                alreadyRegisteredEmail: email,
               });
             }, 300);
           } else if (response.error.status === 602) {
@@ -388,6 +410,7 @@ class Register extends Component {
               this.setState({
                 phoneInputClassName: invalid,
                 phoneInputTitle: 'This phone is already registered. Use another one.',
+                alreadyRegisteredPhoneNumber: phoneNumber,
               });
             }, 300);
           } if (response.error.status === 603) {
@@ -398,6 +421,7 @@ class Register extends Component {
               this.setState({
                 emailInputClassName: invalid,
                 emailInputTitle: 'This email is already registered. Use another one.',
+                alreadyRegisteredPhoneNumber: phoneNumber,
               });
             }, 300);
           }
