@@ -520,6 +520,7 @@ class Register extends Component {
       passwordInputClassName, confirmPasswordInputClassName,
     } = this.state;
     let isValid = true;
+    let time = 100;
     if (nameInputClassName !== valid) {
       isValid = false;
       this.setState({
@@ -530,7 +531,7 @@ class Register extends Component {
           nameInputClassName: invalid,
           nameInputWrongClassName: false,
         });
-      }, 100);
+      }, time);
     }
     if (phoneInputClassName !== valid) {
       isValid = false;
@@ -538,7 +539,8 @@ class Register extends Component {
         this.setState({
           phoneInputWrongClassName: true,
         });
-      }, 100);
+      }, time);
+      time += 100;
       this.setState({
       });
       setTimeout(() => {
@@ -546,7 +548,7 @@ class Register extends Component {
           phoneInputClassName: invalid,
           phoneInputWrongClassName: false,
         });
-      }, 200);
+      }, time);
     }
     if (emailInputClassName !== valid) {
       isValid = false;
@@ -554,13 +556,14 @@ class Register extends Component {
         this.setState({
           emailInputWrongClassName: true,
         });
-      }, 200);
+      }, time);
+      time += 100;
       setTimeout(() => {
         this.setState({
           emailInputClassName: invalid,
           emailInputWrongClassName: false,
         });
-      }, 300);
+      }, time);
     }
     if (passwordInputClassName !== valid) {
       isValid = false;
@@ -568,13 +571,14 @@ class Register extends Component {
         this.setState({
           passwordInputWrongClassName: true,
         });
-      }, 300);
+      }, time);
+      time += 100;
       setTimeout(() => {
         this.setState({
           passwordInputClassName: invalid,
           passwordInputWrongClassName: false,
         });
-      }, 400);
+      }, time);
     }
     if (confirmPasswordInputClassName !== valid) {
       isValid = false;
@@ -582,13 +586,14 @@ class Register extends Component {
         this.setState({
           confirmPasswordInputWrongClassName: true,
         });
-      }, 400);
+      }, time);
+      time += 100;
       setTimeout(() => {
         this.setState({
           confirmPasswordInputClassName: invalid,
           confirmPasswordInputWrongClassName: false,
         });
-      }, 500);
+      }, time);
     }
     return isValid;
   }
