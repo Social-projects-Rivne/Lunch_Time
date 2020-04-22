@@ -8,6 +8,8 @@ import PropTypes from 'prop-types';
 import Api from '../../services/api';
 import Timer from '../shared/timer';
 import Auth from '../../services/auth';
+import Person from '../../services/person';
+
 
 const valid = 'form-control is-valid';
 const invalid = 'form-control is-invalid';
@@ -349,6 +351,7 @@ class Register extends Component {
         .then((response) => {
           if (response.status === 200) {
             Auth.setToken(response.data);
+            Person.getProfile();
             this.setState({
               isRegistered: true,
               unexpectedError: false,
