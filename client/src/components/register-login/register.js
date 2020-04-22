@@ -296,13 +296,14 @@ class Register extends Component {
     }
     if (this.areEmailAndPasswordSame(this.state.email, value)) {
       this.showWeak();
+    } else {
+      this.arePhoneAndPasswordSame(this.state.phoneNumber, value);
     }
     if (value.length < 8 && this.state.confirmPassword.length > 0) {
       this.setState({
         confirmPasswordInputClassName: '',
       });
     }
-    this.arePhoneAndPasswordSame(this.state.phoneNumber, value);
   }
 
   checkConfirmPasswordStatus() {
@@ -450,6 +451,42 @@ class Register extends Component {
     });
   }
 
+  arePhoneAndPasswordSame(phone, password) {
+    if (phone.length >= 8 && password.length >= 8 && phone === password) {
+      if (phone.length <= 17 && password.length <= 40 && phone === password) {
+        this.setState({
+          color: '#BC0008',
+          passwordStrength: 'weak',
+          phoneInputClassName: invalid,
+          passwordInputClassName: invalid,
+          confirmPasswordInputClassName: '',
+          passwordsAreConfirmed: false,
+        });
+      }
+      return true;
+    }
+    if (phone !== password && password === this.state.confirmPassword) {
+      if (password.length >= 8) {
+        this.setState({
+          passwordInputClassName: valid,
+          confirmPasswordInputClassName: valid,
+          passwordsAreConfirmed: true,
+        }, () => {
+          this.setClassesNamesValid();
+        });
+      }
+    }
+    if (phoneRegex.test(phone)) {
+      this.setState({
+        phoneInputClassName: valid,
+      });
+    }
+    if (!this.state.passwordsAreConfirmed) {
+      this.isPasswordStrong(password);
+    }
+    return false;
+  }
+
   areEmailAndPasswordSame(email, password) {
     if (email.length > 5 && password.length >= 8) {
       if (email === password && emailRegex.test(email)) {
@@ -489,36 +526,6 @@ class Register extends Component {
       });
       this.isPasswordStrong(password);
     }
-    return false;
-  }
-
-  arePhoneAndPasswordSame(phone, password) {
-    if (phone.length >= 8 && password.length >= 8 && phone === password) {
-      this.setState({
-        color: '#BC0008',
-        passwordStrength: 'weak',
-        phoneInputClassName: invalid,
-        passwordInputClassName: invalid,
-        confirmPasswordInputClassName: '',
-      });
-      return true;
-    }
-    if (phone !== password && password === this.state.confirmPassword) {
-      if (password.length >= 8) {
-        this.setState({
-          passwordInputClassName: valid,
-          confirmPasswordInputClassName: valid,
-        }, () => {
-          this.setClassesNamesValid();
-        });
-      }
-    }
-    if (phoneRegex.test(phone)) {
-      this.setState({
-        phoneInputClassName: valid,
-      });
-    }
-    this.isPasswordStrong(password);
     return false;
   }
 
@@ -855,20 +862,15 @@ class Register extends Component {
                     />
                   )}
                   {password.length >= 8 && <text style={{ color: color }}> ● </text>}
-                  {password.length >= 8 && showWeak && email === password(
-                    <text style={{ color: color, fontSize: 13 }}>
-                      password equals email
-                    </text>,
-                  )}
-                  {password.length >= 8 && showWeak && phoneNumber === password(
-                    <text style={{ color: color, fontSize: 13 }}>
-                      password equals email
-                    </text>,
+                  {password.length >= 8 && showWeak && email === password && (
+                  <text style={{ color: color, fontSize: 13 }}>
+                    password equals email
+                  </text>
                   )}
                   {password.length >= 8 && showEasy && <text style={{ color: color, fontSize: 13 }}> easy </text>}
                   {phoneNumber !== password && password.length >= 8 && showGood
                   && <text style={{ color: color, fontSize: 13 }}> good </text>}
-                  {phoneNumber === password && password.length >= 8 && showGood
+                  {phoneNumber === password && password.length >= 8 && password.length <= 17 && showGood
                   && <text style={{ color: color, fontSize: 13 }}> phone equals password </text>}
                   {password.length >= 8 && showStrong && <text style={{ color: color, fontSize: 13 }}> strong </text>}
                 </FormLabel>
