@@ -18,12 +18,16 @@ public class PersonMapper {
     final BCryptPasswordEncoder bcryptPasswordEncoder;
 
     public Person fromDtoToPerson(PersonDto personDto) {
-        return Person.builder()
-            .name(personDto.getName())
-            .phoneNumber(personDto.getPhoneNumber())
-            .email(personDto.getEmail())
-            .photoUrl(personDto.getPhotoUrl())
-            .build();
+        Optional<Person> result = personRepository.findById(personDto.getId());
+        if (result.isPresent()) {
+            Person person = result.get();
+            person.setName(personDto.getName());
+            person.setPhoneNumber(personDto.getPhoneNumber());
+            person.setEmail(personDto.getEmail());
+            person.setPhotoUrl(personDto.getPhotoUrl());
+            return person;
+        }
+        return null;
     }
 
     public PersonDto fromPersonToDto(Person person) {
