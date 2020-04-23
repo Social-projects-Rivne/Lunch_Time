@@ -5,6 +5,7 @@ import com.lunchtime.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import java.net.URISyntaxException;
 import java.time.Instant;
@@ -12,8 +13,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
-@RequiredArgsConstructor
 @Component
+@RequiredArgsConstructor
 public class DatabaseSeed {
 
     String[] dishesName = new String[] {"Salami", "Margarita", "Manhattan", "Soup", "Hamburger", "Ice"};
@@ -59,6 +60,7 @@ public class DatabaseSeed {
     private final MenuItemDishRepository menuItemDishRepository;
     private final EventCategoryRepository eventCategoryRepository;
     private final EventRepository eventRepository;
+    private final BCryptPasswordEncoder bcryptPasswordEncoder;
     private final OrderStatusRepository orderStatusRepository;
     private final RestaurantTableRepository restaurantTableRepository;
 
@@ -102,15 +104,16 @@ public class DatabaseSeed {
 
     private void seedMeuItemDish() {
 
-        for (Long j = 0L; j < getRestaurantList().size(); j++) {
-            for (Long i = 0L; i < getDishesList().size(); i++) {
+        List<Dish> dishesList = dishRepository.findAll();
+        for (long j = 0L; j < getRestaurantList().size(); j++) {
+            for (long i = 0L; i < dishesList.size(); i++) {
                 MenuItemDish menuItemDish = new MenuItemDish();
-                menuItemDish.setPortionSize(dishPortion[i.intValue()]);
+                menuItemDish.setPortionSize(dishPortion[(int) i]);
                 menuItemDish.setPortionPrice(i + 10L);
-                menuItemDish.setDish(getDishesList().get(i.intValue()));
-                menuItemDish.setPortionUnit(i.longValue() + 70L);
-                menuItemDish.setImageUrl(dishUrl[i.intValue()]);
-                menuItemDish.setRestaurant(getRestaurantList().get(j.intValue()));
+                menuItemDish.setDish(dishesList.get((int) i));
+                menuItemDish.setPortionUnit(i + 70L);
+                menuItemDish.setImageUrl(dishUrl[(int) i]);
+                menuItemDish.setRestaurant(getRestaurantList().get((int) j));
                 menuItemDishRepository.save(menuItemDish);
             }
         }
@@ -118,10 +121,10 @@ public class DatabaseSeed {
 
     private void seedCategoryFood() {
 
-        for (Long i = 0L; i < categoryFood.length; i++) {
+        for (long i = 0L; i < categoryFood.length; i++) {
 
             CategoryFood category = new CategoryFood();
-            category.setName(categoryFood[i.intValue()]);
+            category.setName(categoryFood[(int) i]);
             categoryFoodRepository.save(category);
         }
 
@@ -131,11 +134,11 @@ public class DatabaseSeed {
 
         List<CategoryFood> categoryFoodList = categoryFoodRepository.findAll();
 
-        for (Long i = 0L; i < dishesName.length; i++) {
+        for (long i = 0L; i < dishesName.length; i++) {
             Dish dish = new Dish();
-            dish.setName(dishesName[i.intValue()]);
+            dish.setName(dishesName[(int) i]);
             dish.setIngredients(" first ingredient," + " second ingredient," + " third ingredient");
-            dish.setCategoryFood(categoryFoodList.get(i.intValue()));
+            dish.setCategoryFood(categoryFoodList.get((int) i));
             dishRepository.save(dish);
         }
     }
@@ -197,8 +200,9 @@ public class DatabaseSeed {
         Person person = new Person();
         person.setName(userName[i]);
         person.setEmail(userName[i].concat("@gmail.com").toLowerCase());
-        person.setPassword(userName[i].concat("password").toLowerCase());
-        person.setPhoneNumber("096-77-77-77".concat(String.valueOf(i)));
+        person.setPassword(
+            bcryptPasswordEncoder.encode(userName[i].concat("password").toLowerCase()));
+        person.setPhoneNumber("+38050123456".concat(String.valueOf(i)));
         return person;
     }
 
@@ -242,10 +246,6 @@ public class DatabaseSeed {
 
     private List<EventCategory> getEventCategoryList() {
         return eventCategoryRepository.findAll();
-    }
-
-    private List<Dish> getDishesList() {
-        return dishRepository.findAll();
     }
 
     private OrderStatus createOrderStatus(String name) {

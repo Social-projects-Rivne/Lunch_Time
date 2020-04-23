@@ -16,10 +16,12 @@ import Api from '../../services/api';
 import '../../styles/profile.css';
 import PhotoEditor from '../shared/photo-editor';
 import InfoChange from './info-change';
+import Auth from '../../services/auth';
 
 class Profile extends Component {
   constructor(props) {
     super(props);
+    this.token = '';
     this.state = {
       user: {},
       isFetching: false,
@@ -40,7 +42,8 @@ class Profile extends Component {
   }
 
   getProfile() {
-    Api.getOne('persons', 1)
+    if (Auth.isAuthenticated) { this.token = Auth.getToken(); }
+    Api.getCurrentUser('persons/currentUser', this.token)
       .then((response) => {
         if (response.error) {
           // eslint-disable-next-line no-console

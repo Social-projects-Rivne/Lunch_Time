@@ -1,45 +1,53 @@
 package com.lunchtime.controllers;
 
+import com.lunchtime.security.JwtUtil;
+import com.lunchtime.models.JwtPersonDetails;
+import com.lunchtime.security.TokenHistory;
 import com.lunchtime.service.dto.RegisterPerson;
 import com.lunchtime.service.dto.PersonDto;
 import com.lunchtime.service.dto.PersonPassDto;
 import com.lunchtime.service.PersonService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import javax.persistence.NonUniqueResultException;
 import javax.validation.Valid;
-import java.net.URI;
-import java.net.URISyntaxException;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/persons")
 public class PersonController {
-    private final PersonService personService;
 
-    public PersonController(PersonService personService) {
-        this.personService = personService;
-    }
+    private final PersonService personService;
+    private final JwtUtil jwtUtil;
+    private final AuthController authController;
+    private final TokenHistory tokenHistory;
 
     @PostMapping
-    public ResponseEntity<PersonDto> createPerson(
-        @Valid @RequestBody RegisterPerson registerPerson) throws URISyntaxException {
+    public ResponseEntity<?> createPerson(
+        @Valid @RequestBody RegisterPerson registerPerson) throws Exception {
+
         if (registerPerson.getId() != null) {
             return ResponseEntity.badRequest()
                 .build();
-        } else if (personService.findByEmail(registerPerson.getEmail()) != null) {
-            return ResponseEntity.badRequest()
-                .build();
-        } else if (personService.findByPhoneNumber(registerPerson.getPhoneNumber()) != null) {
-            return ResponseEntity.badRequest()
-                .build();
         }
-        personService.findByPhoneNumber(registerPerson.getPhoneNumber());
 
-        PersonDto personDto = personService.saveRegisterPerson(registerPerson);
-
+        PersonDto personDto = null;
+        try {
+            personDto = personService.saveRegisterPerson(registerPerson);
+        } catch (NonUniqueResultException nue) {
+            return ResponseEntity.status(Integer.parseInt(nue.getMessage())).build();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
         if (personDto != null) {
-            return ResponseEntity.created(new URI("/api/restaurants"))
-                .body(personDto);
+            JwtPersonDetails jwtPersonDetails = new JwtPersonDetails(
+                registerPerson.getEmail(), registerPerson.getPassword());
+            authController.createAuthenticationToken(jwtPersonDetails);
+            String token = tokenHistory.getTokenList().remove(0);
+            return ResponseEntity.ok(token);
+
         }
         return null;
     }
@@ -65,6 +73,18 @@ public class PersonController {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping("/currentUser")
+    public ResponseEntity<PersonDto> getPersonByEmail(@RequestBody String token) {
+        String email = jwtUtil.extractEmail(token);
+        PersonDto personDto = personService.getPersonDtoByEmail(email);
+        if (personDto != null) {
+            return ResponseEntity.ok()
+                .body(personDto);
+        }
+        return ResponseEntity.notFound()
+            .build();
     }
 
     @GetMapping("{id}")

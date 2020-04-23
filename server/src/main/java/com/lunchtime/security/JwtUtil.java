@@ -23,7 +23,7 @@ public class JwtUtil {
     private int minutes = 60;
     private int hours = 10;
 
-    String extractEmail(String token) {
+    public String extractEmail(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
