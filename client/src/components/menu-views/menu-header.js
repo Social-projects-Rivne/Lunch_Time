@@ -61,16 +61,14 @@ class Header extends Component {
                 {categories.map((category) => {
                   return (
                     <Dropdown.Item
-                      key={category.id}
-                      eventKey={category.id}
-                      onClick={() => this.onHandleClick(`menuItemDish/category?categoryId=${category.id}&`)}
+                      key={category.name}
+                      onClick={() => this.onHandleClick(`menuItemDish/category?name=${category.name}&`)}
                     >
                       {category.name}
                     </Dropdown.Item>
                   );
                 })}
               </Dropdown.Menu>
-
             </Dropdown>
           </Col>
           <Col className="header-item">
