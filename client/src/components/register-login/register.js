@@ -17,6 +17,8 @@ const emailRegex = RegExp(
   /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
 );
 const validPassword = new RegExp(/^(?=.*([a-zа-я]|[A-ZА-Я]|[0-9])).{8,40}$/);
+const phoneRegex = RegExp(/^\+[0-9]{7,16}$/);
+
 
 class Register extends Component {
   constructor(props) {
@@ -35,6 +37,7 @@ class Register extends Component {
       phoneInputTitle: "Phone number must be in '+***' format with digits",
       phoneInputClassName: '',
       phoneInputWrongClassName: false,
+      phoneAndPassword: false,
       passwordChanged: false,
       emailInputStarted: false,
       emailInputTitle: 'email must consist of 5 or more symbols',
@@ -144,12 +147,14 @@ class Register extends Component {
       }, 150);
       return;
     }
+    this.setState({
+      phoneInputTitle: "Phone number must be in '+***' format with digits",
+    });
     if (value.charAt(0) !== '+') {
       this.setState({
         phoneInputClassName: invalid,
       });
     }
-    const phoneRegex = RegExp(/^\+[0-9]{7,16}$/);
     if (value.length >= 8) {
       if (!this.state.phoneInputStarted) {
         this.setState({ phoneInputStarted: value.length >= 8 });
@@ -167,8 +172,10 @@ class Register extends Component {
     if (value.length === 0) {
       this.setState({
         phoneInputClassName: '',
+        phoneInputStarted: false,
       });
     }
+    this.arePhoneAndPasswordSame(value, this.state.password);
   }
 
   validateInputEmail(e) {
@@ -185,6 +192,9 @@ class Register extends Component {
       }, 150);
       return;
     }
+    this.setState({
+      emailInputTitle: 'email must consist of 5 or more symbols',
+    });
     const testEmailRegex = RegExp(
       /^\w+(@(\w+(\.(\w+)?)?)?)?$/,
     );
@@ -221,8 +231,10 @@ class Register extends Component {
         });
       }
     }
-    if (this.areEmailAndPasswordSame(value, this.state.password)) {
-      this.showWeak();
+    if (emailRegex.test(value)) {
+      if (this.areEmailAndPasswordSame(value, this.state.password)) {
+        this.showWeak();
+      }
     }
     this.checkConfirmPasswordStatus();
   }
@@ -288,6 +300,8 @@ class Register extends Component {
     }
     if (this.areEmailAndPasswordSame(this.state.email, value)) {
       this.showWeak();
+    } else {
+      this.arePhoneAndPasswordSame(this.state.phoneNumber, value);
     }
     if (value.length < 8 && this.state.confirmPassword.length > 0) {
       this.setState({
@@ -451,6 +465,58 @@ class Register extends Component {
     this.setState({
       buttonDisabled: false,
     });
+  }
+
+  arePhoneAndPasswordSame(phone, password) {
+    if (!this.areEmailAndPasswordSame(this.state.email, this.state.password)) {
+      if (phoneRegex.test(phone) && validPassword.test(password)) {
+        if (phone === password) {
+          if (!this.state.alreadyRegisteredPhoneNumber.includes(phone)) {
+            this.setState({
+              color: '#BC0008',
+              passwordStrength: 'weak',
+              phoneInputClassName: invalid,
+              passwordInputClassName: invalid,
+              confirmPasswordInputClassName: '',
+              passwordChanged: false,
+              phoneAndPassword: true,
+            });
+            return true;
+          }
+        }
+      }
+      this.setState({
+        phoneAndPassword: false,
+      });
+      if (phone !== password && validPassword.test(password) && password === this.state.confirmPassword) {
+        this.setState({
+          passwordInputClassName: valid,
+          confirmPasswordInputClassName: valid,
+        }, () => {
+          this.setClassesNamesValid();
+        });
+      }
+      if (password !== this.state.confirmPassword && this.state.confirmPassword.length > 0) {
+        this.setState({
+          confirmPasswordInputClassName: invalid,
+        }, () => {
+          this.setClassesNamesInvalid();
+        });
+      }
+      if (phoneRegex.test(phone) && !this.state.alreadyRegisteredPhoneNumber.includes(phone)) {
+        this.setState({
+          phoneInputClassName: valid,
+        });
+      }
+      if (validPassword.test(password) && !this.state.passwordChanged) {
+        this.setState({
+          passwordInputClassName: valid,
+          passwordChanged: true,
+        });
+        this.isPasswordStrong(password);
+      }
+    }
+    return false;
   }
 
   areEmailAndPasswordSame(email, password) {
@@ -760,7 +826,7 @@ class Register extends Component {
       showEasy, showGood, showStrong, photo1, openMainPage,
       buttonDisabled, nameInputWrongClassName, phoneInputWrongClassName,
       emailInputWrongClassName, passwordInputWrongClassName,
-      confirmPasswordInputWrongClassName, name,
+      confirmPasswordInputWrongClassName, name, phoneAndPassword,
     } = this.state;
     const nameBackgroundColor = nameInputWrongClassName ? 'rgba(246,3,43,0.36)' : '#dff1ff4a';
     const phoneBackgroundColor = phoneInputWrongClassName ? 'rgba(246,3,43,0.36)' : '#dff1ff4a';
@@ -831,13 +897,19 @@ class Register extends Component {
                     />
                   )}
                   {password.length >= 8 && <text style={{ color: color }}> ● </text>}
+                  {password.length >= 8 && phoneAndPassword && (
+                    <text style={{ color: color, fontSize: 13 }}>
+                      password equals phone
+                    </text>
+                  )}
                   {password.length >= 8 && showWeak && (
-                  <text style={{ color: color, fontSize: 13 }}>
-                    password equals email
-                  </text>
+                    <text style={{ color: color, fontSize: 13 }}>
+                      password equals email
+                    </text>
                   )}
                   {password.length >= 8 && showEasy && <text style={{ color: color, fontSize: 13 }}> easy </text>}
-                  {password.length >= 8 && showGood && <text style={{ color: color, fontSize: 13 }}> good </text>}
+                  {password.length >= 8 && showGood
+                  && !phoneAndPassword && <text style={{ color: color, fontSize: 13 }}> good </text>}
                   {password.length >= 8 && showStrong && <text style={{ color: color, fontSize: 13 }}> strong </text>}
                 </FormLabel>
                 <input
