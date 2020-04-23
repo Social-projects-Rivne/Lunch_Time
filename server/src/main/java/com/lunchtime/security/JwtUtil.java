@@ -22,8 +22,8 @@ public class JwtUtil {
     private int seconds = 60;
     private int minutes = 60;
     private int hours = 24;
-    private int days = 30;
-    private int timeLimit = miliseconds * seconds * minutes * hours * days;
+    private int days = 24;
+    private long timeLimit = miliseconds * seconds * minutes * hours * days;
 
     public String extractEmail(String token) {
         return extractClaim(token, Claims::getSubject);
