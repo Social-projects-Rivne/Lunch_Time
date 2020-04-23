@@ -1,5 +1,6 @@
 package com.lunchtime.service.dto;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -8,6 +9,7 @@ import javax.validation.constraints.NotBlank;
 
 @Setter
 @Getter
+@Builder
 public class PersonDto {
     private long id;
 

@@ -5,10 +5,12 @@ import Api from '../../services/api';
 import '../../styles/feedback-send.css';
 import MyBadge from '../shared/my-batch';
 import CancelButton from '../shared/button/cancel';
+import Person from '../../services/person';
 
 class FeedbackSend extends Component {
   constructor(props) {
     super(props);
+    this.userID = null;
     this.state = {
       description: '',
       isLoading: false,
@@ -37,7 +39,7 @@ class FeedbackSend extends Component {
     if (this.state.validInput) {
       if (this.state.description.length < 10) {
         this.tooShortFeedback();
-      } else if (this.state.description.length > 400) {
+      } else if (this.state.description.length > 1000) {
         this.tooLongFeedback();
       } else {
         this.sendApi();
@@ -58,7 +60,7 @@ class FeedbackSend extends Component {
     const { description } = this.state;
     if (description.length > 1) {
       // eslint-disable-next-line no-unused-expressions
-      description.length > 400
+      description.length > 1000
         ? this.setState({
           tooLongFeedback: true,
           validInput: true,
@@ -137,7 +139,7 @@ class FeedbackSend extends Component {
       if (currentCallId !== this.state.currentCallId) return;
       if (!this.state.isLoading) return;
       Api.post('feedback', {
-        personId: 1,
+        personId: Person.userInfo.id,
         restId: this.props.id,
         description: this.state.description,
       })
@@ -200,7 +202,7 @@ class FeedbackSend extends Component {
       tooLongFeedback, feedbackNotSent, timerCount,
       showTimer, attemptCount, feedbackSent, validInput,
     } = this.state;
-    const tooLong = 'Your feedback must be not more than 400 symbols';
+    const tooLong = 'Your feedback must be not more than 1000 symbols';
     return (
       <Form.Group className="m-0">
         <Form.Control

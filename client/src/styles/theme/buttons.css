@@ -1,0 +1,29 @@
+.btn-primary {
+  background: #fac564 !important;
+  border-color: #fac564 !important;
+  color: #000000 !important;
+  box-shadow: none !important;
+}
+
+.btn-primary:hover {
+  background: none !important;
+  border-color: #fac564 !important;
+  box-shadow: none !important;
+}
+
+.btn-btn-primary:focus {
+  background: none !important;
+  border-color: #fac564 !important;
+  box-shadow: none !important;
+}
+
+.btn-primary:active{
+  background: #fac564 !important;
+  border-color: #fac564 !important;
+  box-shadow: none !important;
+}
+
+.btn-primary:disabled{
+  border-color: #fac564 !important;
+  box-shadow: none !important;
+}

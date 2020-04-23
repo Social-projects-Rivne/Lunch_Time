@@ -11,7 +11,12 @@ class FeedbackComment extends Component {
         <img src="/img/defAvatar.png" width="50px" height="50px" alt="defAvava" />
         <div className="cooment">
           <strong className="name">{item.person.name}</strong>
-          <small className="date">{item.date}</small>
+          <small className="date">
+            {
+            `${item.date.substring(8, 10)}/${item.date.substring(5, 7)}/${item.date.substring(0, 4)}`
+            + ` ${item.date.substring(11, 16)}`
+          }
+          </small>
           <hr className="hrStyle" />
           <div>{item.description}</div>
           <hr className="hrStyle" />

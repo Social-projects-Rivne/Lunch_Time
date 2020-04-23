@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
-import { Tab, Tabs, Container } from 'react-bootstrap';
+import {
+  Tab, Tabs, Container, Button,
+} from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import Api from '../../services/api';
 import About from './restaurant-about';
 import Menu from '../menu-views/menu-view';
@@ -39,10 +42,36 @@ class Restaurant extends Component {
 
   render() {
     const { isFetching, restaurant } = this.state;
-    const { match: { params: { id } } } = this.props;
+    const { match: { params: { id } }, isAuthenticated } = this.props;
+
+    let newOrderLink;
+    if (isAuthenticated) {
+      newOrderLink = (
+        <Link to={{
+          pathname: `/restaurants/${id}/new-order`,
+          state: {
+            restaurantName: restaurant.name,
+          },
+        }}
+        >
+          <Button className="btn-inf ml-5">Make order</Button>
+        </Link>
+      );
+    } else {
+      newOrderLink = (
+        <Link to={{
+          pathname: '/login',
+        }}
+        >
+          <Button className="btn-inf ml-5">Login before making order</Button>
+        </Link>
+      );
+    }
+
     return (
       <Container className="restaurant-container">
         <h2>{restaurant.name}</h2>
+        {newOrderLink}
         <Tabs defaultActiveKey="about">
           <Tab eventKey="about" title="About">
             <About restaurant={restaurant} isFetching={isFetching} />
@@ -64,6 +93,7 @@ class Restaurant extends Component {
 
 Restaurant.propTypes = {
   match: PropTypes.any.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
 };
 
 export default Restaurant;

@@ -13,6 +13,7 @@ import NoMatch from './pages/no-match';
 import Events from './pages/events';
 import Restaurant from './components/restaurant/restaurant-item';
 import Profile from './components/profile/profile';
+import NewOrder from './components/order/new-order';
 import Auth from './services/auth';
 
 class App extends Component {
@@ -35,16 +36,29 @@ class App extends Component {
     this.setState({ isAuthenticated: true });
   }
 
+  handleLogout() {
+    this.setState({ isAuthenticated: false }, () => {
+      Auth.removeToken();
+    });
+  }
+
   render() {
     const { isAuthenticated } = this.state;
+
     return (
       <Router>
-        <NavigationBar isAuthenticated={isAuthenticated} />
+        <NavigationBar isAuthenticated={isAuthenticated} logoutHandler={() => { this.handleLogout(); }} />
         <Switch>
           <Route exact path="/" component={Home} />
           <Route path="/about" component={About} />
           <Route path="/events" component={Events} />
-          <Route path="/restaurants/:id" component={Restaurant} />
+          <Route path="/restaurants/:id/new-order" component={NewOrder} />
+          <Route
+            path="/restaurants/:id"
+            render={(routeProps) => {
+              return <Restaurant isAuthenticated={isAuthenticated} {...routeProps} />;
+            }}
+          />
           <Route path="/restaurants" component={RestaurantList} />
           <Route
             path="/login"
@@ -52,7 +66,12 @@ class App extends Component {
               return <Login loginHandler={() => { this.handleLogin(); }} {...routeProps} />;
             }}
           />
-          <Route path="/registration" component={Registration} />
+          <Route
+            path="/registration"
+            render={(routeProps) => {
+              return <Registration loginHandler={() => { this.handleLogin(); }} {...routeProps} />;
+            }}
+          />
           <Route path="/map" component={Map} />
           <Route path="/contact" component={Contact} />
           <Route path="/profile" component={Profile} />

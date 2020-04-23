@@ -25,7 +25,7 @@ class Menu extends Component {
 
   getAll(page, pageSize) {
     const { id } = this.props;
-    Api.getAll(`menuitemdish/restaurantId?restaurantId=${id}
+    Api.get(`menuitemdish/restaurantId?restaurantId=${id}
                 &page=${page}&size=${pageSize}`)
       .then((response) => {
         if (response.error) {
