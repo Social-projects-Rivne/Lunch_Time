@@ -13,8 +13,8 @@ class FeedbackComment extends Component {
           <strong className="name">{item.person.name}</strong>
           <small className="date">
             {
-              // eslint-disable-next-line max-len
-            `${item.date.substring(8, 10)}.${item.date.substring(5, 7)}.${item.date.substring(0, 4)} ${item.date.substring(11, 16)}`
+            `${item.date.substring(8, 10)}/${item.date.substring(5, 7)}/${item.date.substring(0, 4)}`
+            + ` ${item.date.substring(11, 16)}`
           }
           </small>
           <hr className="hrStyle" />
