@@ -59,12 +59,12 @@ public class MenuItemDishController {
 
     @GetMapping("/category")
     public ResponseEntity<Page<MenuItemDish>> getAllByDishCategoryName(
-        @RequestParam("categoryId") Long categoryId,
+        @RequestParam("name") String name,
         @RequestParam("restaurantId") Long id,
         Pageable pageable) {
 
         Page<MenuItemDish> menuItemDishPage = menuItemDishService
-            .findMenuItemDishesByRestaurantIdAndDish_CategoryFood_Name(categoryId, id, pageable);
+            .findMenuItemDishesByRestaurantIdAndDish_CategoryFood_Name(name, id, pageable);
         if (menuItemDishPage.isEmpty()) {
             return ResponseEntity.notFound().build();
         }

@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.OnDelete;
 
 @Getter
 @Setter
@@ -13,7 +14,7 @@ import org.hibernate.annotations.ColumnDefault;
 
 public class Dish {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @NotBlank
@@ -34,6 +35,7 @@ public class Dish {
     @ManyToOne
     @NotNull
     @JoinColumn(name = "categoryfood_id", referencedColumnName = "id")
+
     private CategoryFood categoryFood;
 
 }

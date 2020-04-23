@@ -14,7 +14,7 @@ import org.hibernate.annotations.ColumnDefault;
 
 public class MenuItemDish {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @NotBlank
@@ -35,7 +35,7 @@ public class MenuItemDish {
 
     @ColumnDefault("false")
     @Column(name = "is_deleted")
-    private boolean isDeleted;
+    private Boolean isDeleted;
 
     public MenuItemDish() {
     }

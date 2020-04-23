@@ -13,10 +13,10 @@ public interface MenuItemDishRepository extends JpaRepository<MenuItemDish, Long
 
     Page<MenuItemDish> findByRestaurantId(Long id, Pageable pageable);
 
-    @Query("select m from MenuItemDish m "
+    @Query("select distinct m from MenuItemDish m "
         + "where m.restaurant.id = :id "
-        + "and m.dish.categoryFood.id = :categoryId "
-        + "and m.isDeleted = false")
+        + "and m.dish.categoryFood.name = :name "
+        + "and m.isDeleted = false ")
     Page<MenuItemDish> findMenuItemDishesByRestaurantIdAndDish_CategoryFood_Name(
-                                                      Long categoryId, Long id, Pageable pageable);
+                                                      String name, Long id, Pageable pageable);
 }

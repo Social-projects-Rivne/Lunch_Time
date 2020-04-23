@@ -40,7 +40,7 @@ public class MenuItemDishControllerTest {
         menuItem.setPortionSize("500 gr");
         menuItem.setPortionUnit(2L);
         menuItem.setRestaurant(new Restaurant());
-        menuItem.setDeleted(false);
+        menuItem.setIsDeleted(false);
 
         ResponseEntity<MenuItemDish> menuItemDish = menuItemDishControllerUnderTest
             .newMenuItemDish(menuItem);
