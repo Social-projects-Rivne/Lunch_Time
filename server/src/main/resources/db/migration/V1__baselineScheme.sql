@@ -1,3 +1,7 @@
+create sequence hibernate_sequence;
+
+alter sequence hibernate_sequence owner to "lunchTimeAppUser";
+
 create table category_food
 (
     id bigint not null
