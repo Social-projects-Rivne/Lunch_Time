@@ -23,6 +23,11 @@ public class PersonServiceImpl implements PersonService {
     private final BCryptPasswordEncoder bcryptPasswordEncoder;
 
     public PersonDto saveRegisterPerson(RegisterPerson registerPerson) {
+        if (registerPerson.getEmail().equals(registerPerson.getPassword())
+            || registerPerson.getPhoneNumber().equals(registerPerson.getPassword())) {
+            return null;
+        }
+
         boolean phoneExists = false;
         boolean emailExists = false;
         String code = null;
