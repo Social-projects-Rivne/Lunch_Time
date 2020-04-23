@@ -35,10 +35,13 @@ class Register extends Component {
       phoneInputTitle: "Phone number must be in '+***' format with digits",
       phoneInputClassName: '',
       phoneInputWrongClassName: false,
+      passwordChanged: false,
       emailInputStarted: false,
       emailInputTitle: 'email must consist of 5 or more symbols',
       emailInputClassName: '',
       emailInputWrongClassName: false,
+      alreadyRegisteredPhoneNumber: [],
+      alreadyRegisteredEmail: [],
       showPassword: false,
       isPasswordShown: false,
       color: '#fcfffc',
@@ -132,6 +135,15 @@ class Register extends Component {
     this.setState({
       phoneNumber: value,
     });
+    if (this.state.alreadyRegisteredPhoneNumber.includes(value)) {
+      setTimeout(() => {
+        this.setState({
+          phoneInputClassName: invalid,
+          phoneInputTitle: 'This phone is already registered. Use another one.',
+        });
+      }, 150);
+      return;
+    }
     if (value.charAt(0) !== '+') {
       this.setState({
         phoneInputClassName: invalid,
@@ -161,10 +173,18 @@ class Register extends Component {
 
   validateInputEmail(e) {
     const { value } = e.target;
-
     this.setState({
       email: value,
     });
+    if (this.state.alreadyRegisteredEmail.includes(value)) {
+      setTimeout(() => {
+        this.setState({
+          emailInputClassName: invalid,
+          emailInputTitle: 'This email is already registered. Use another one.',
+        });
+      }, 150);
+      return;
+    }
     const testEmailRegex = RegExp(
       /^\w+(@(\w+(\.(\w+)?)?)?)?$/,
     );
@@ -266,13 +286,6 @@ class Register extends Component {
         });
       }
     }
-    if (this.state.passwordInputClassName === valid) {
-      if (value !== this.state.email && emailRegex.test(this.state.email)) {
-        this.setState({
-          emailInputClassName: valid,
-        });
-      }
-    }
     if (this.areEmailAndPasswordSame(this.state.email, value)) {
       this.showWeak();
     }
@@ -364,20 +377,24 @@ class Register extends Component {
               unexpectedError: false,
             });
             this.openMainPage();
-          } else if (response.error.status === 400) {
-            this.setState({
-              unexpectedError: false,
-            });
           } else if (response.error.status === 601) {
             this.setState({
               unexpectedError: false,
             });
             setTimeout(() => {
+              const previousPhoneArray = this.state.alreadyRegisteredPhoneNumber;
+              const alreadyRegisteredPhoneNumber = [...previousPhoneArray];
+              alreadyRegisteredPhoneNumber.push(phoneNumber);
+              const previousEmailArray = this.state.alreadyRegisteredEmail;
+              const alreadyRegisteredEmail = [...previousEmailArray];
+              alreadyRegisteredEmail.push(email);
               this.setState({
                 phoneInputClassName: invalid,
                 phoneInputTitle: 'This phone is already registered. Use another one.',
                 emailInputClassName: invalid,
                 emailInputTitle: 'This email is already registered. Use another one.',
+                alreadyRegisteredPhoneNumber,
+                alreadyRegisteredEmail,
               });
             }, 300);
           } else if (response.error.status === 602) {
@@ -385,21 +402,33 @@ class Register extends Component {
               unexpectedError: false,
             });
             setTimeout(() => {
+              const previousArray = this.state.alreadyRegisteredPhoneNumber;
+              const alreadyRegisteredPhoneNumber = [...previousArray];
+              alreadyRegisteredPhoneNumber.push(phoneNumber);
               this.setState({
                 phoneInputClassName: invalid,
                 phoneInputTitle: 'This phone is already registered. Use another one.',
+                alreadyRegisteredPhoneNumber,
               });
             }, 300);
-          } if (response.error.status === 603) {
+          } else if (response.error.status === 603) {
             this.setState({
               unexpectedError: false,
             });
             setTimeout(() => {
+              const previousArray = this.state.alreadyRegisteredEmail;
+              const alreadyRegisteredEmail = [...previousArray];
+              alreadyRegisteredEmail.push(email);
               this.setState({
                 emailInputClassName: invalid,
                 emailInputTitle: 'This email is already registered. Use another one.',
+                alreadyRegisteredEmail,
               });
             }, 300);
+          } else if (response.error.status === 400) {
+            this.setState({
+              unexpectedError: false,
+            });
           }
         })
         .catch((error) => {
@@ -427,39 +456,43 @@ class Register extends Component {
   areEmailAndPasswordSame(email, password) {
     if (email.length > 5 && password.length >= 8) {
       if (email === password && emailRegex.test(email)) {
-        this.setState({
-          color: '#BC0008',
-          passwordStrength: 'weak',
-          emailInputClassName: invalid,
-          passwordInputClassName: invalid,
-          confirmPasswordInputClassName: '',
-        });
-        return true;
-      }
-      if (email !== password && password === this.state.confirmPassword) {
-        this.setState({
-          passwordInputClassName: valid,
-          confirmPasswordInputClassName: valid,
-        }, () => {
-          this.setClassesNamesValid();
-        });
-      }
-      if (password !== this.state.confirmPassword && this.state.confirmPassword.length > 0) {
-        this.setState({
-          confirmPasswordInputClassName: invalid,
-        }, () => {
-          this.setClassesNamesInvalid();
-        });
+        if (!this.state.alreadyRegisteredEmail.includes(email)) {
+          this.setState({
+            color: '#BC0008',
+            passwordStrength: 'weak',
+            emailInputClassName: invalid,
+            passwordInputClassName: invalid,
+            confirmPasswordInputClassName: '',
+            passwordChanged: false,
+          });
+          return true;
+        }
       }
     }
-    if (emailRegex.test(email)) {
+    if (email !== password && validPassword.test(password) && password === this.state.confirmPassword) {
+      this.setState({
+        passwordInputClassName: valid,
+        confirmPasswordInputClassName: valid,
+      }, () => {
+        this.setClassesNamesValid();
+      });
+    }
+    if (password !== this.state.confirmPassword && this.state.confirmPassword.length > 0) {
+      this.setState({
+        confirmPasswordInputClassName: invalid,
+      }, () => {
+        this.setClassesNamesInvalid();
+      });
+    }
+    if (emailRegex.test(email) && !this.state.alreadyRegisteredEmail.includes(this.state.email)) {
       this.setState({
         emailInputClassName: valid,
       });
     }
-    if (validPassword.test(password)) {
+    if (validPassword.test(password) && !this.state.passwordChanged) {
       this.setState({
         passwordInputClassName: valid,
+        passwordChanged: true,
       });
       this.isPasswordStrong(password);
     }
