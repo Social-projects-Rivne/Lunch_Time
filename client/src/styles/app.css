@@ -25,14 +25,19 @@ body{
 
 .btn-restaurants{
   font-size: 160%;
+  background: #fac564;
 }
 
 .btn-restaurants:hover{
-  color: black;
-  text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-  border-width: 2px;
+  background: #F4A460;
 }
 
 .btn-restaurants:active{
-  text-shadow: none;
+  background: #fac564;
+  box-shadow: none !important;
+}
+
+.btn-restaurants:focus {
+  background: #fac564 !important;
+  box-shadow: none !important;
 }
