@@ -17,6 +17,7 @@ const emailRegex = RegExp(
   /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/,
 );
 const validPassword = new RegExp(/^(?=.*([a-zа-я]|[A-ZА-Я]|[0-9])).{8,40}$/);
+const phoneRegex = RegExp(/^\+[0-9]{7,16}$/);
 
 class Register extends Component {
   constructor(props) {
@@ -36,6 +37,7 @@ class Register extends Component {
       phoneInputClassName: '',
       phoneInputWrongClassName: false,
       passwordChanged: false,
+      phoneAndPassword: false,
       emailInputStarted: false,
       emailInputTitle: 'email must consist of 5 or more symbols',
       emailInputClassName: '',
@@ -75,10 +77,28 @@ class Register extends Component {
     this.openMainPage = this.openMainPage.bind(this);
   }
 
+  setEmailValid() {
+    this.setState({
+      emailInputClassName: valid,
+    });
+  }
+
+  setConfPassClassName() {
+    this.setState({
+      confirmPasswordInputClassName: '',
+    });
+  }
+
   setClassesNamesValid() {
     this.setState({
       passwordInputClassName: valid,
       confirmPasswordInputClassName: valid,
+    });
+  }
+
+  setPasswordClassNamesInvalid() {
+    this.setState({
+      passwordInputClassName: invalid,
     });
   }
 
@@ -144,12 +164,14 @@ class Register extends Component {
       }, 150);
       return;
     }
+    this.setState({
+      phoneInputTitle: "Phone number must be in '+***' format with digits",
+    });
     if (value.charAt(0) !== '+') {
       this.setState({
         phoneInputClassName: invalid,
       });
     }
-    const phoneRegex = RegExp(/^\+[0-9]{7,16}$/);
     if (value.length >= 8) {
       if (!this.state.phoneInputStarted) {
         this.setState({ phoneInputStarted: value.length >= 8 });
@@ -167,8 +189,10 @@ class Register extends Component {
     if (value.length === 0) {
       this.setState({
         phoneInputClassName: '',
+        phoneInputStarted: false,
       });
     }
+    this.arePhoneAndPasswordSame(value, this.state.password);
   }
 
   validateInputEmail(e) {
@@ -185,6 +209,9 @@ class Register extends Component {
       }, 150);
       return;
     }
+    this.setState({
+      emailInputTitle: 'email must consist of 5 or more symbols',
+    });
     const testEmailRegex = RegExp(
       /^\w+(@(\w+(\.(\w+)?)?)?)?$/,
     );
@@ -221,8 +248,10 @@ class Register extends Component {
         });
       }
     }
-    if (this.areEmailAndPasswordSame(value, this.state.password)) {
-      this.showWeak();
+    if (emailRegex.test(value)) {
+      if (this.areEmailAndPasswordSame(value, this.state.password)) {
+        this.showWeak();
+      }
     }
     this.checkConfirmPasswordStatus();
   }
@@ -288,12 +317,29 @@ class Register extends Component {
     }
     if (this.areEmailAndPasswordSame(this.state.email, value)) {
       this.showWeak();
+    } else {
+      this.arePhoneAndPasswordSame(this.state.phoneNumber, value);
     }
     if (value.length < 8 && this.state.confirmPassword.length > 0) {
       this.setState({
         confirmPasswordInputClassName: '',
       });
     }
+    if (value.length === 0 && this.state.confirmPassword.length > 0) {
+      this.setState({
+        passwordInputClassName: '',
+        confirmPasswordInputClassName: '',
+      }, () => {
+        this.checkPasswordsStatuses();
+      });
+    }
+  }
+
+  checkPasswordsStatuses() {
+    this.setState({
+      passwordInputClassName: '',
+      confirmPasswordInputClassName: '',
+    });
   }
 
   checkConfirmPasswordStatus() {
@@ -453,23 +499,33 @@ class Register extends Component {
     });
   }
 
-  areEmailAndPasswordSame(email, password) {
-    if (email.length > 5 && password.length >= 8) {
-      if (email === password && emailRegex.test(email)) {
-        if (!this.state.alreadyRegisteredEmail.includes(email)) {
-          this.setState({
-            color: '#BC0008',
-            passwordStrength: 'weak',
-            emailInputClassName: invalid,
-            passwordInputClassName: invalid,
-            confirmPasswordInputClassName: '',
-            passwordChanged: false,
-          });
-          return true;
+  arePhoneAndPasswordSame(phone, password) {
+    if (!this.areEmailAndPasswordSame(this.state.email, this.state.password)) {
+      if (phoneRegex.test(phone) && validPassword.test(password)) {
+        if (phone === password) {
+          if (!this.state.alreadyRegisteredPhoneNumber.includes(phone)) {
+            this.setState({
+              color: '#BC0008',
+              passwordStrength: 'weak',
+              phoneInputClassName: invalid,
+              passwordInputClassName: invalid,
+              confirmPasswordInputClassName: '',
+              passwordChanged: false,
+              phoneAndPassword: true,
+            }, () => {
+              this.setPasswordClassNamesInvalid();
+              this.setConfPassClassName();
+              // this.setClassesNamesInvalid();
+            });
+            return true;
+          }
         }
       }
     }
-    if (email !== password && validPassword.test(password) && password === this.state.confirmPassword) {
+    this.setState({
+      phoneAndPassword: false,
+    });
+    if (phone !== password && validPassword.test(password) && password === this.state.confirmPassword) {
       this.setState({
         passwordInputClassName: valid,
         confirmPasswordInputClassName: valid,
@@ -484,9 +540,9 @@ class Register extends Component {
         this.setClassesNamesInvalid();
       });
     }
-    if (emailRegex.test(email) && !this.state.alreadyRegisteredEmail.includes(this.state.email)) {
+    if (phoneRegex.test(phone) && !this.state.alreadyRegisteredPhoneNumber.includes(phone)) {
       this.setState({
-        emailInputClassName: valid,
+        phoneInputClassName: valid,
       });
     }
     if (validPassword.test(password) && !this.state.passwordChanged) {
@@ -495,6 +551,75 @@ class Register extends Component {
         passwordChanged: true,
       });
       this.isPasswordStrong(password);
+    }
+    if (password.length === 0) {
+      this.setState({
+        passwordInputClassName: '',
+      });
+    }
+    if (password.length === 0 && this.state.confirmPassword.length > 0) {
+      this.setState({
+        passwordInputClassName: '',
+        confirmPasswordInputClassName: '',
+      }, () => {
+        this.checkPasswordsStatuses();
+      });
+    }
+    return false;
+  }
+
+  areEmailAndPasswordSame(email, password) {
+    if (!this.state.phoneNumber !== password) {
+      if (emailRegex.test(email) && validPassword.test(password)) {
+        if (email === password && !this.state.alreadyRegisteredEmail.includes(email)) {
+          this.setState({
+            color: '#BC0008',
+            passwordStrength: 'weak',
+            emailInputClassName: invalid,
+            passwordInputClassName: invalid,
+            confirmPasswordInputClassName: '',
+            passwordChanged: false,
+          });
+          return true;
+        }
+      }
+      if (email !== password && validPassword.test(password) && password === this.state.confirmPassword) {
+        this.setState({
+          passwordInputClassName: valid,
+          confirmPasswordInputClassName: valid,
+        }, () => {
+          this.setClassesNamesValid();
+        });
+      }
+      if (password !== this.state.confirmPassword && this.state.confirmPassword.length > 0) {
+        this.setState({
+          confirmPasswordInputClassName: invalid,
+        }, () => {
+          this.setClassesNamesInvalid();
+        });
+      }
+      if (emailRegex.test(email) && !this.state.alreadyRegisteredEmail.includes(email)) {
+        this.setState({
+          emailInputClassName: valid,
+        }, () => {
+          this.setEmailValid();
+        });
+      }
+      if (validPassword.test(password) && !this.state.passwordChanged) {
+        this.setState({
+          passwordInputClassName: valid,
+          passwordChanged: true,
+        });
+        this.isPasswordStrong(password);
+      }
+      if (password.length === 0 && this.state.confirmPassword.length > 0) {
+        this.setState({
+          passwordInputClassName: '',
+          confirmPasswordInputClassName: '',
+        }, () => {
+          this.checkPasswordsStatuses();
+        });
+      }
     }
     return false;
   }
@@ -669,12 +794,10 @@ class Register extends Component {
       showGood: false,
       showStrong: false,
     });
-    setTimeout(() => {
-      if (currentCallId !== this.state.currentCallId) return;
-      this.setState({
-        showWeak: false,
-      });
-    }, 1900);
+    if (currentCallId !== this.state.currentCallId) return;
+    this.setState({
+      showWeak: false,
+    });
   }
 
   showEasy() {
@@ -760,7 +883,7 @@ class Register extends Component {
       showEasy, showGood, showStrong, photo1, openMainPage,
       buttonDisabled, nameInputWrongClassName, phoneInputWrongClassName,
       emailInputWrongClassName, passwordInputWrongClassName,
-      confirmPasswordInputWrongClassName, name,
+      confirmPasswordInputWrongClassName, name, phoneAndPassword,
     } = this.state;
     const nameBackgroundColor = nameInputWrongClassName ? 'rgba(246,3,43,0.36)' : '#dff1ff4a';
     const phoneBackgroundColor = phoneInputWrongClassName ? 'rgba(246,3,43,0.36)' : '#dff1ff4a';
@@ -831,13 +954,19 @@ class Register extends Component {
                     />
                   )}
                   {password.length >= 8 && <text style={{ color: color }}> ● </text>}
+                  {password.length >= 8 && phoneAndPassword && (
+                    <text style={{ color: color, fontSize: 13 }}>
+                      password equals phone
+                    </text>
+                  )}
                   {password.length >= 8 && showWeak && (
-                  <text style={{ color: color, fontSize: 13 }}>
-                    password equals email
-                  </text>
+                    <text style={{ color: color, fontSize: 13 }}>
+                      password equals email
+                    </text>
                   )}
                   {password.length >= 8 && showEasy && <text style={{ color: color, fontSize: 13 }}> easy </text>}
-                  {password.length >= 8 && showGood && <text style={{ color: color, fontSize: 13 }}> good </text>}
+                  {password.length >= 8 && showGood
+                  && !phoneAndPassword && <text style={{ color: color, fontSize: 13 }}> good </text>}
                   {password.length >= 8 && showStrong && <text style={{ color: color, fontSize: 13 }}> strong </text>}
                 </FormLabel>
                 <input
