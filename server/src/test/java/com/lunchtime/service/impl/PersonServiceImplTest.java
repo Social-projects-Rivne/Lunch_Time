@@ -32,6 +32,38 @@ public class PersonServiceImplTest {
     }
 
     @Test
+    public void return_null_if_phone_number_equals_password() throws Exception {
+        Person person = Person
+            .builder()
+            .phoneNumber("+380501234567")
+            .password("+380501234567")
+            .build();
+
+        String phoneNumber = person.getPhoneNumber();
+        String password = person.getPassword();
+        if (phoneNumber.equals(password)) {
+            person = null;
+        }
+        Assert.assertNull(person);
+    }
+
+    @Test
+    public void return_null_if_email_equals_password() throws Exception {
+        Person person = Person
+            .builder()
+            .email("person@gmail.com")
+            .password("person@gmail.com")
+            .build();
+
+        String email = person.getEmail();
+        String password = person.getPassword();
+        if (email.equals(password)) {
+            person = null;
+        }
+        Assert.assertNull(person);
+    }
+
+    @Test
     public void save_valid_person_and_return_not_null_dto() throws Exception {
         Person mappedPerson = personMapperStub.fromRegisterToPerson(registerPerson);
         personRepository.save(mappedPerson);
