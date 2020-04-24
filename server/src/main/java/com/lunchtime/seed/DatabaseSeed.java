@@ -122,9 +122,11 @@ public class DatabaseSeed {
     private void seedCategoryFood() {
 
         for (long i = 0L; i < categoryFood.length; i++) {
-
             CategoryFood category = new CategoryFood();
             category.setName(categoryFood[(int) i]);
+            if(i==1L ||i==2L) {
+                category.setDeleted(true);
+            }
             categoryFoodRepository.save(category);
         }
 
