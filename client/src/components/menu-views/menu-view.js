@@ -14,7 +14,7 @@ class Menu extends Component {
       number: 0,
       pageSize: 2,
       menuItemDishes: [],
-      path: 'menuItemDish/restaurantId?',
+      path: 'menuitemdish/restaurantId?',
       isFetching: false,
     };
     this.handlePageChange = this.handlePageChange.bind(this);
