@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import com.lunchtime.models.MenuItemDish;
 
 @RestController
-@RequestMapping("/api/menuItemDish")
+@RequestMapping("/api/menuitemdish")
 public class MenuItemDishController {
 
     private final MenuItemDishService menuItemDishService;
