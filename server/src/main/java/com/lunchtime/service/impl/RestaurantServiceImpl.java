@@ -21,9 +21,9 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     public Restaurant saveRestaurant(Restaurant restaurant) {
-        return personService.getPersonById(restaurant.getPerson().getId())
+        return personService.getPersonById(restaurant.getPersonId())
             .map(person -> {
-                restaurant.setPerson(person);
+                restaurant.setPersonId(person.getId());
                 return restaurantRepository.save(restaurant);
             })
             .orElse(null);
@@ -46,7 +46,7 @@ public class RestaurantServiceImpl implements RestaurantService {
                 restaurant.setWebsite(newRestaurant.getWebsite());
                 restaurant.setDescription(newRestaurant.getDescription());
                 restaurant.setWorkingTime(newRestaurant.getWorkingTime());
-                restaurant.setPerson(newRestaurant.getPerson());
+                restaurant.setPersonId(newRestaurant.getPersonId());
                 restaurant.setTables(newRestaurant.getTables());
                 restaurant.setLongitude(newRestaurant.getLongitude());
                 restaurant.setLatitude(newRestaurant.getLatitude());
