@@ -42,7 +42,7 @@ public class MenuItemDish {
 
     @ColumnDefault("false")
     @Column(name = "is_deleted")
-    private Boolean isDeleted;
+    private boolean isDeleted;
 
     public MenuItemDish() {
     }

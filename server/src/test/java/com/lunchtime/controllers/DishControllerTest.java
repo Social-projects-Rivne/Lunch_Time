@@ -38,7 +38,7 @@ public class DishControllerTest {
         dish.setName("Cola");
         dish.setDeleted(false);
         dish.setIngredients("first, second");
-        dish.setCategoryfood(new CategoryFood());
+        dish.setCategoryFood(new CategoryFood());
         ResponseEntity<Dish> dish1 = dishControllerUnderTest
             .newDish(dish);
         verify(mockDishService).save(dish);
