@@ -1,14 +1,12 @@
 package com.lunchtime.service.impl;
 
 import com.lunchtime.models.CategoryFood;
-import com.lunchtime.models.Restaurant;
 import com.lunchtime.repository.CategoryFoodRepository;
 import com.lunchtime.service.CategoryFoodService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 
 @Service
