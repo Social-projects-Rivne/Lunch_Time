@@ -18,7 +18,7 @@ class MenuItemDish extends Component {
           return (
             <Row key={menuitemdish.id}>
               <Col>
-                <Category category={menuitemdish.dish.categoryfood} />
+                <Category category={menuitemdish.dish.categoryFood} />
               </Col>
               <Col>
                 <Dish dish={menuitemdish} />
