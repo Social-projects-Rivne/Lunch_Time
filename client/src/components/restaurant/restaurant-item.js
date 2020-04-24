@@ -44,22 +44,18 @@ class Restaurant extends Component {
     const { isFetching, restaurant } = this.state;
     const { match: { params: { id } }, isAuthenticated } = this.props;
 
-    const newOrderLink = (
-      <Link to={{
-        pathname: `/restaurants/${id}/new-order`,
-        state: {
-          restaurantName: restaurant.name,
-        },
-      }}
-      >
-        <Button className="btn-inf ml-5" disabled={!isAuthenticated}>Make order</Button>
-      </Link>
-    );
-
     return (
       <Container className="restaurant-container">
         <h2>{restaurant.name}</h2>
-        {newOrderLink}
+        <Link to={{
+          pathname: `/restaurants/${id}/new-order`,
+          state: {
+            restaurantName: restaurant.name,
+          },
+        }}
+        >
+          <Button className="btn-inf ml-5" disabled={!isAuthenticated}>Make order</Button>
+        </Link>
         <Tabs defaultActiveKey="about">
           <Tab eventKey="about" title="About">
             <About restaurant={restaurant} isFetching={isFetching} />
