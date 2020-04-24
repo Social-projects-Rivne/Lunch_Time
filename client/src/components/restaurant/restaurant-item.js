@@ -44,29 +44,17 @@ class Restaurant extends Component {
     const { isFetching, restaurant } = this.state;
     const { match: { params: { id } }, isAuthenticated } = this.props;
 
-    let newOrderLink;
-    if (isAuthenticated) {
-      newOrderLink = (
-        <Link to={{
-          pathname: `/restaurants/${id}/new-order`,
-          state: {
-            restaurantName: restaurant.name,
-          },
-        }}
-        >
-          <Button className="btn-inf ml-5">Make order</Button>
-        </Link>
-      );
-    } else {
-      newOrderLink = (
-        <Link to={{
-          pathname: '/login',
-        }}
-        >
-          <Button className="btn-inf ml-5">Login before making order</Button>
-        </Link>
-      );
-    }
+    const newOrderLink = (
+      <Link to={{
+        pathname: `/restaurants/${id}/new-order`,
+        state: {
+          restaurantName: restaurant.name,
+        },
+      }}
+      >
+        <Button className="btn-inf ml-5" disabled={!isAuthenticated}>Make order</Button>
+      </Link>
+    );
 
     return (
       <Container className="restaurant-container">
