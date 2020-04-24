@@ -9,9 +9,9 @@ class Home extends Component {
       <Container fluid className="home text-center">
         <h1 className="title">Lunch Time</h1>
         <h3 className="titles">Online reservation service</h3>
-        <ButtonToolbar className="justify-content-center">
+        <ButtonToolbar className="justify-content-center mt-5">
           <Link to="/restaurants">
-            <Button size="lg" className="btn-restaurants mt-5">Restaurants</Button>
+            <Button size="lg" variant="warning" className="btn-restaurants">Restaurants</Button>
           </Link>
         </ButtonToolbar>
       </Container>
