@@ -48,7 +48,7 @@ class MenuItemDish extends Component {
                 <br />
                 <Button
                   variant="primary"
-                  disabled="true"
+                  disabled
                 >
                   Add
                 </Button>
