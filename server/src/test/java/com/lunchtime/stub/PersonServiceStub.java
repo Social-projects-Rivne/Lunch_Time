@@ -12,6 +12,17 @@ public class PersonServiceStub implements PersonService {
     @Override
     public PersonDto saveRegisterPerson(RegisterPerson registerPerson) {
         if (registerPerson != null) {
+            System.out.println(registerPerson.getPhoneNumber());
+            System.out.println(registerPerson.getPassword());
+            if (registerPerson.getId() != null) {
+                return null;
+            }
+            if (registerPerson.getPhoneNumber().equals(registerPerson.getPassword())) {
+                return null;
+            }
+            if (registerPerson.getEmail().equals(registerPerson.getPassword())) {
+                return null;
+            }
             return PersonDto.builder()
                 .name(registerPerson.getName())
                 .phoneNumber(registerPerson.getPhoneNumber())

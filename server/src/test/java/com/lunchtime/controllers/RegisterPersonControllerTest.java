@@ -7,6 +7,7 @@ import com.lunchtime.service.PersonService;
 import com.lunchtime.service.dto.PersonDto;
 import com.lunchtime.service.dto.RegisterPerson;
 import com.lunchtime.stub.PersonServiceStub;
+import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -29,7 +30,7 @@ public class RegisterPersonControllerTest {
     private final PersonController personController = new PersonController(
         personService,jwtUtil, authController, tokenHistory);
 
-    private final RegisterPerson registerPerson = new RegisterPerson();
+    private RegisterPerson registerPerson = new RegisterPerson();
 
     @Before
     public void setUp() {
@@ -38,6 +39,11 @@ public class RegisterPersonControllerTest {
         registerPerson.setPhoneNumber("+380501234567");
         registerPerson.setEmail("test@gmail.com");
         registerPerson.setPassword("123456Qwerty");
+    }
+
+    @After
+    public void tearDown() {
+        registerPerson = null;
     }
 
     @Test
@@ -83,5 +89,19 @@ public class RegisterPersonControllerTest {
     public void create_not_null_person_expected_true() throws Exception {
         PersonDto personDto = personService.saveRegisterPerson(registerPerson);
         Assert.assertNotNull(personDto);
+    }
+
+    @Test
+    public void return_null_if_phone_number_equals_password() throws Exception {
+        registerPerson.setPassword(registerPerson.getPhoneNumber());
+        ResponseEntity<?> person = personController.createPerson(registerPerson);
+        Assert.assertNull(person);
+    }
+
+    @Test
+    public void return_null_if_email_equals_password() throws Exception {
+        registerPerson.setPassword(registerPerson.getEmail());
+        ResponseEntity<?> person = personController.createPerson(registerPerson);
+        Assert.assertNull(person);
     }
 }
