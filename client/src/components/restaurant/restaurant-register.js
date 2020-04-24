@@ -1,6 +1,5 @@
 
-// eslint-disable-next-line no-undef
-class RestaurantRegistration extends Component {
+class RestaurantRegistration {
   render() {
     return (
       // eslint-disable-next-line react/react-in-jsx-scope
