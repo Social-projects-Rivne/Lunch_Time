@@ -5,7 +5,6 @@ import com.lunchtime.security.TokenHistory;
 import com.lunchtime.service.dto.PersonDto;
 import com.lunchtime.service.dto.PersonPassDto;
 import com.lunchtime.service.PersonService;
-import com.lunchtime.stub.PersonServiceStub;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
@@ -23,10 +22,10 @@ public class PersonControllerTest {
     private PersonService mockPersonService;
 
     private PersonController personControllerUnderTest;
-    private AuthController authController = new AuthController();
-    private TokenHistory tokenHistory = new TokenHistory();
+    private final AuthController authController = new AuthController();
+    private final TokenHistory tokenHistory = new TokenHistory();
     private PersonDto personDto;
-    private JwtUtil jwtUtil= new JwtUtil();
+    private final JwtUtil jwtUtil= new JwtUtil();
 
     @Before
     public void setUp() {
