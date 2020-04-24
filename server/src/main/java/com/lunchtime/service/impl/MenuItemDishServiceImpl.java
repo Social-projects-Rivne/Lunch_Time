@@ -34,9 +34,9 @@ public class MenuItemDishServiceImpl implements MenuItemDishService {
     }
 
     @Override
-    public Page<MenuItemDish> findMenuItemDishesByRestaurantIdAndDish_CategoryFood_Name(
+    public Page<MenuItemDish> findDishesByRestaurantIdAndDishCategoryName(
             String name, Long id, Pageable pageable) {
-        return menuItemDishRepository.findMenuItemDishesByRestaurantIdAndDish_CategoryFood_Name(
+        return menuItemDishRepository.findDishesByRestaurantIdAndDishCategoryName(
                                                         name, id, pageable);
     }
 

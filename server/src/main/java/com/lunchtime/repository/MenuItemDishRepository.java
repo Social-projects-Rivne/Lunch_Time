@@ -17,6 +17,6 @@ public interface MenuItemDishRepository extends JpaRepository<MenuItemDish, Long
         + "where m.restaurant.id = :id "
         + "and m.dish.categoryFood.name = :name "
         + "and m.isDeleted = false ")
-    Page<MenuItemDish> findMenuItemDishesByRestaurantIdAndDish_CategoryFood_Name(
+    Page<MenuItemDish> findDishesByRestaurantIdAndDishCategoryName(
                                                       String name, Long id, Pageable pageable);
 }

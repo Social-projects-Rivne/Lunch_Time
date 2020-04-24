@@ -62,7 +62,7 @@ public class MenuItemDishController {
         Pageable pageable) {
 
         Page<MenuItemDish> menuItemDishPage = menuItemDishService
-            .findMenuItemDishesByRestaurantIdAndDish_CategoryFood_Name(name, id, pageable);
+            .findDishesByRestaurantIdAndDishCategoryName(name, id, pageable);
         if (menuItemDishPage.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
