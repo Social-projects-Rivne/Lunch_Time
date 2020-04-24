@@ -37,9 +37,6 @@ public class MenuItemDish {
     @Column(name = "is_deleted")
     private Boolean isDeleted;
 
-    public MenuItemDish() {
-    }
-
     @ManyToOne
     @JoinColumn(name = "restaurant_id", referencedColumnName = "id")
     private Restaurant restaurant;
@@ -49,4 +46,6 @@ public class MenuItemDish {
     @JoinColumn(name = "dish_id", referencedColumnName = "id")
     private Dish dish;
 
+    public MenuItemDish() {
+    }
 }

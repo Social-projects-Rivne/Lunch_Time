@@ -28,13 +28,12 @@ public class Dish {
     @Column(name = "is_deleted")
     private boolean isDeleted;
 
-    public Dish() {
-    }
-
     @ManyToOne
     @NotNull
     @JoinColumn(name = "categoryfood_id", referencedColumnName = "id")
-
     private CategoryFood categoryFood;
+
+    public Dish() {
+    }
 
 }
