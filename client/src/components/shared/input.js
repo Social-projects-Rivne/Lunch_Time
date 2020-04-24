@@ -21,7 +21,7 @@ class Input extends React.Component {
 
   render() {
     const {
-      placeholder, name, label, onChange,
+      label, name, value, placeholder, onChange,
     } = this.props;
     const { type } = this.state;
 
@@ -32,8 +32,9 @@ class Input extends React.Component {
           <Form.Control
             type={type}
             name={name}
-            onChange={onChange}
+            value={value}
             placeholder={placeholder}
+            onChange={onChange}
           />
           {(type === 'password' || type === 'text') && (
           <InputGroup.Append>
@@ -56,12 +57,14 @@ Input.propTypes = {
   label: PropTypes.string.isRequired,
   onChange: PropTypes.any.isRequired,
   type: PropTypes.string,
+  value: PropTypes.string,
   placeholder: PropTypes.string,
 };
 
 Input.defaultProps = {
   type: null,
   placeholder: null,
+  value: undefined,
 };
 
 export default Input;

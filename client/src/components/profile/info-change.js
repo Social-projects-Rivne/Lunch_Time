@@ -31,6 +31,12 @@ class InfoChange extends React.Component {
     });
   }
 
+  updateUser(data) {
+    this.setState({
+      user: data,
+    });
+  }
+
   handleChange(event) {
     const { name, value } = event.target;
     const { errors } = this.state;
@@ -76,6 +82,9 @@ class InfoChange extends React.Component {
     Object.values(errors).forEach(
       (val) => { if (val.length > 0) valid = false; },
     );
+    if (errors.err === 'Profile is not changed') {
+      this.props.history.push('/profile');
+    }
     return valid;
   }
 
@@ -93,6 +102,9 @@ class InfoChange extends React.Component {
           this.setAlertState(true);
           return;
         }
+        // eslint-disable-next-line no-param-reassign
+        data.password = undefined;
+        this.updateUser(data);
         this.props.updateUser(data);
         this.props.history.push('/profile');
       });
@@ -113,14 +125,14 @@ class InfoChange extends React.Component {
           <Col md="6">
             <Input
               name="name"
-              placeholder={user.name}
               label="Name"
+              value={user.name}
               onChange={this.handleChange}
             />
             <Input
               name="phoneNumber"
-              placeholder={user.phoneNumber}
               label="Phone number"
+              value={user.phoneNumber}
               onChange={this.handleChange}
             />
             <PassChange
