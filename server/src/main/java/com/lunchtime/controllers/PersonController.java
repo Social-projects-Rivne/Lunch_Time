@@ -40,7 +40,7 @@ public class PersonController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         if (personDto != null) {
             JwtPersonDetails jwtPersonDetails = new JwtPersonDetails(
                 registerPerson.getEmail(), registerPerson.getPassword());
