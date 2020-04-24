@@ -29,6 +29,7 @@ class Profile extends Component {
     };
     this.menuItems = [
       { path: '/profile/info', title: 'Info' },
+      { path: '/profile/owners-restaurants', title: 'My Restaurants' },
       { path: '/profile/orders', title: 'Orders' },
       { path: '/profile/history', title: 'History' },
       { path: '/profile/subscriptions', title: 'Subscriptions' },
