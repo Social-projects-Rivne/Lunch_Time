@@ -67,10 +67,10 @@ class Api {
   }
 
   getAvatarUrl(user) {
-    console.log(`photo=${user.photoUrl}`);
     if (user.photoUrl === undefined || user.photoUrl === null) {
       return '/img/default-avatar.png';
     }
+    console.log(`${this.apiUrl}images/profile/${user.photoUrl}`);
     return `${this.apiUrl}images/profile/${user.photoUrl}`;
   }
 

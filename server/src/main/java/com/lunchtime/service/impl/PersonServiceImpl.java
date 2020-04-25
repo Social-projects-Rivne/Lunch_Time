@@ -1,5 +1,6 @@
 package com.lunchtime.service.impl;
 
+import com.lunchtime.config.ResourcesPath;
 import com.lunchtime.mapper.PersonMapper;
 import com.lunchtime.models.Person;
 import com.lunchtime.repository.PersonRepository;
@@ -104,7 +105,7 @@ public class PersonServiceImpl implements PersonService {
     public boolean saveAvatar(MultipartFile file) {
         try {
             byte[] bytes = file.getBytes();
-            String filePath = "static/images/profile/";
+            String filePath = ResourcesPath.getResourcePath() + "images/profile/";
             Path path = Paths.get(filePath + file.getOriginalFilename());
             Files.write(path, bytes);
             return true;
