@@ -17,6 +17,7 @@ import '../../styles/profile.css';
 import PhotoEditor from '../shared/photo-editor';
 import InfoChange from './info-change';
 import Auth from '../../services/auth';
+import OwnersRestaurants from './owners-restaurants';
 
 class Profile extends Component {
   constructor(props) {
@@ -121,6 +122,7 @@ class Profile extends Component {
                   }}
                 />
                 <Route path="/profile/avatar" component={PhotoEditor} />
+                <Route path="/profile/owners-restaurants" component={OwnersRestaurants} />
                 <Route path="/profile/orders" component={Orders} />
                 <Route path="/profile/history" component={History} />
                 <Route path="/profile/subscriptions" component={Subscriptions} />
