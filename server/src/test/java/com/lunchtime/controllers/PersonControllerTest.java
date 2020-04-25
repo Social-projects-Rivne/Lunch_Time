@@ -22,8 +22,6 @@ public class PersonControllerTest {
     private PersonService mockPersonService;
 
     private PersonController personControllerUnderTest;
-    private final AuthController authController = new AuthController();
-    private final TokenHistory tokenHistory = new TokenHistory();
     private PersonDto personDto;
     private final JwtUtil jwtUtil= new JwtUtil();
 
@@ -31,7 +29,7 @@ public class PersonControllerTest {
     public void setUp() {
         initMocks(this);
         personControllerUnderTest = new PersonController(
-            mockPersonService, jwtUtil, authController, tokenHistory);
+            mockPersonService, jwtUtil);
         personDto = PersonDto.builder()
             .id(1)
             .name("NewName")
