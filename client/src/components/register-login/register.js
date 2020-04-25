@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 import Api from '../../services/api';
 import Timer from '../shared/timer';
 import Person from '../../services/person';
-
+import Auth from '../../services/auth';
 
 const valid = 'form-control is-valid';
 const invalid = 'form-control is-invalid';
@@ -408,18 +408,11 @@ class Register extends Component {
       Api.post('persons', body)
         .then((response) => {
           if (response.status === 200) {
-            Person.getProfile();
             this.setState({
               isRegistered: true,
               unexpectedError: false,
             });
-            this.openMainPage();
-          } else if (response.status === 201) {
-            this.setState({
-              isRegistered: true,
-              unexpectedError: false,
-            });
-            this.openMainPage();
+            this.login();
           } else if (response.error.status === 409) {
             if (response.error.data === 'Phone number and email are not unique') {
               this.setState({
@@ -850,17 +843,25 @@ class Register extends Component {
     }, 1900);
   }
 
+  login() {
+    const { loginHandler } = this.props;
+    Api.post('authenticate', { email: this.state.email, password: this.state.password })
+      .then((response) => {
+        if (response.status === 200) {
+          Auth.setToken(response.data);
+          Person.getProfile();
+          loginHandler();
+        }
+        this.openMainPage();
+      });
+  }
+
   openMainPage() {
-    this.loginHandler();
     setTimeout(() => {
       this.setState({
         openMainPage: true,
       });
-    }, 6000);
-  }
-
-  loginHandler() {
-    this.props.loginHandler();
+    }, 5000);
   }
 
   photo() {
