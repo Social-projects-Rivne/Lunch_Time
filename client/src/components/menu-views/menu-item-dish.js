@@ -10,6 +10,22 @@ import Api from '../../services/api';
 
 
 class MenuItemDish extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dishes: [],
+    };
+  }
+
+  addDishToOrder(dish) {
+    const previousDishArray = this.state.dishes;
+    const dishes = [...previousDishArray];
+    dishes.push(dish);
+    this.setState({
+      dishes,
+    });
+  }
+
   render() {
     const { menuitemdishes } = this.props;
     return (
@@ -46,7 +62,7 @@ class MenuItemDish extends Component {
               </Col>
               <Col className="col-item">
                 <br />
-                <Button variant="primary">
+                <Button variant="primary" onClick={() => { this.addDishToOrder(); }}>
                   Add
                 </Button>
               </Col>
