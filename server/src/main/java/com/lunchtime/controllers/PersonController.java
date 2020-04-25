@@ -1,8 +1,6 @@
 package com.lunchtime.controllers;
 
 import com.lunchtime.security.JwtUtil;
-import com.lunchtime.models.JwtPersonDetails;
-import com.lunchtime.security.TokenHistory;
 import com.lunchtime.service.dto.RegisterPerson;
 import com.lunchtime.service.dto.PersonDto;
 import com.lunchtime.service.dto.PersonPassDto;
@@ -20,8 +18,6 @@ public class PersonController {
 
     private final PersonService personService;
     private final JwtUtil jwtUtil;
-    private final AuthController authController;
-    private final TokenHistory tokenHistory;
 
     @PostMapping
     public ResponseEntity<?> createPerson(
@@ -41,11 +37,7 @@ public class PersonController {
         }
 
         if (personDto != null) {
-            JwtPersonDetails jwtPersonDetails = new JwtPersonDetails(
-                registerPerson.getEmail(), registerPerson.getPassword());
-            authController.createAuthenticationToken(jwtPersonDetails);
-            String token = tokenHistory.getTokenList().remove(0);
-            return ResponseEntity.ok(token);
+            return ResponseEntity.ok(personDto);
 
         }
         return null;
