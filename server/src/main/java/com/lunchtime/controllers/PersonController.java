@@ -28,8 +28,7 @@ public class PersonController {
         @Valid @RequestBody RegisterPerson registerPerson) throws Exception {
 
         if (registerPerson.getId() != null) {
-            return ResponseEntity.badRequest()
-                .build();
+            return null;
         }
 
         PersonDto personDto = null;

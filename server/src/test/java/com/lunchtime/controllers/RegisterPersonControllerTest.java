@@ -24,20 +24,20 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 public class RegisterPersonControllerTest {
+    @Mock
     AuthController authController = new AuthController();
+    @Mock
     TokenHistory tokenHistory = new TokenHistory();
+    @Mock
     JwtUtil jwtUtil = new JwtUtil();
 
-    @Mock
     PersonRepository personRepository;
-    @Mock
     PersonMapper personMapper;
     BCryptPasswordEncoder bcryptPasswordEncoder = new BCryptPasswordEncoder();
-
+    @Mock
     PersonService personService = new PersonServiceImpl(
         personRepository, personMapper, bcryptPasswordEncoder);
 
-    @Mock
     private final PersonController personController = new PersonController(
         personService, jwtUtil, authController, tokenHistory);
 
@@ -58,47 +58,25 @@ public class RegisterPersonControllerTest {
     }
 
     @Test
-    public void createPerson_with_existing_id_expected_false() throws Exception {
+    public void can_not_create_person_with_existing_id_expected_null() throws Exception {
         registerPerson.setId(1L);
         ResponseEntity<?> personDto = personController.createPerson(registerPerson);
         Assert.assertNull(personDto);
-        verify(personController, times(1)).createPerson(registerPerson);
-        verifyNoMoreInteractions(personController);
+        verify(personService, times(0)).saveRegisterPerson(registerPerson);
+        verifyNoMoreInteractions(personService);
     }
 
-//    @Test
-//    public void createPerson_with_existing_phone_number_expected_false() throws Exception {
-//        String phoneNumber = registerPerson.getPhoneNumber();
-//        Person existingPerson = personService.findByPhoneNumber(phoneNumber);
-//        ResponseEntity<?> personDto = personController.createPerson(registerPerson);
-//        if (existingPerson != null) {
-//            Assert.assertNull(personDto);
-//        } else {
-//            Assert.assertNotNull(personDto);
-//        }
-//
-//        verify(personController, times(1)).createPerson(registerPerson);
-//        verifyNoMoreInteractions(personController);
-//    }
-//
-//    @Test
-//    public void createPerson_with_existing_email_expected_false() throws Exception {
-//        String email = registerPerson.getEmail();
-//        Person existingPerson = personService.findByEmail(email);
-//        ResponseEntity<?> personDto = personController.createPerson(registerPerson);
-//        if (existingPerson != null) {
-//            Assert.assertNull(personDto);
-//        } else {
-//            Assert.assertNotNull(personDto);
-//        }
-//
-//        verify(personController, times(1)).createPerson(registerPerson);
-//        verifyNoMoreInteractions(personController);
-//    }
-//
-//    @Test
-//    public void create_not_null_person_expected_true() throws Exception {
-//        PersonDto personDto = personService.saveRegisterPerson(registerPerson);
-//        Assert.assertNotNull(personDto);
-//    }
+    @Test
+    public void can_not_create_person_with_existing_phone_number_expected_null() throws Exception {
+        registerPerson.setPassword(registerPerson.getPhoneNumber());
+        ResponseEntity<?> person = personController.createPerson(registerPerson);
+        Assert.assertNull(person);
+    }
+
+    @Test
+    public void can_not_create_person_with_existing_email_expected_null() throws Exception {
+        registerPerson.setPassword(registerPerson.getEmail());
+        ResponseEntity<?> person = personController.createPerson(registerPerson);
+        Assert.assertNull(person);
+    }
 }
