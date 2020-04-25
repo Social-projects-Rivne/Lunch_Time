@@ -5,6 +5,7 @@ import com.lunchtime.service.dto.PersonDto;
 import com.lunchtime.service.dto.PersonPassDto;
 import com.lunchtime.service.dto.RegisterPerson;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 
@@ -25,4 +26,6 @@ public interface PersonService {
     PersonDto getPersonDtoByEmail(String email);
 
     Optional<Person> getPersonById(Long id);
+
+    boolean saveAvatar(MultipartFile file);
 }

@@ -1,15 +1,18 @@
 package com.lunchtime.controllers;
 
-import com.lunchtime.security.JwtUtil;
 import com.lunchtime.models.JwtPersonDetails;
+import com.lunchtime.security.JwtUtil;
 import com.lunchtime.security.TokenHistory;
-import com.lunchtime.service.dto.RegisterPerson;
+import com.lunchtime.service.PersonService;
 import com.lunchtime.service.dto.PersonDto;
 import com.lunchtime.service.dto.PersonPassDto;
-import com.lunchtime.service.PersonService;
+import com.lunchtime.service.dto.RegisterPerson;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
 import javax.persistence.NonUniqueResultException;
 import javax.validation.Valid;
 
@@ -40,7 +43,7 @@ public class PersonController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         if (personDto != null) {
             JwtPersonDetails jwtPersonDetails = new JwtPersonDetails(
                 registerPerson.getEmail(), registerPerson.getPassword());
@@ -96,5 +99,14 @@ public class PersonController {
         }
         return ResponseEntity.notFound()
             .build();
+    }
+
+    @PostMapping(value = "/avatar", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<Void> uploadAvatar(@RequestParam MultipartFile file) {
+        boolean result = personService.saveAvatar(file);
+        if (result) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().build();
     }
 }

@@ -34,8 +34,12 @@ class AlertBase extends React.Component {
 
 AlertBase.propTypes = {
   type: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
+  title: PropTypes.string,
   show: PropTypes.bool.isRequired,
+};
+
+AlertBase.defaultProps = {
+  title: 'Unknown error',
 };
 
 export default AlertBase;

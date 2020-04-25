@@ -57,17 +57,20 @@ class Profile extends Component {
       });
   }
 
-  saveAlertState(show) {
+  saveAlertState(show, title) {
     const { isShowAlert } = this.state;
     if (isShowAlert !== show) {
       this.setState({
         isShowAlert: show,
+        title: title,
       });
     }
   }
 
   render() {
-    const { isFetching, user, isShowAlert } = this.state;
+    const {
+      isFetching, user, isShowAlert, title,
+    } = this.state;
     const { location } = this.props;
     return (
       <Container fluid>
@@ -104,6 +107,7 @@ class Profile extends Component {
                         user={user}
                         isShowAlert={isShowAlert}
                         showAlert={(e) => this.saveAlertState(e)}
+                        title={title}
                       />
                     );
                   }}
@@ -114,12 +118,26 @@ class Profile extends Component {
                     return (
                       <InfoChange
                         user={user}
-                        updateUser={(updatedUser) => this.setState({ user: updatedUser, isShowAlert: true })}
+                        updateUser={(updatedUser) => this.setState({
+                          user: updatedUser,
+                          isShowAlert: true,
+                          title: 'Your profile was successfully updated',
+                        })}
                       />
                     );
                   }}
                 />
-                <Route path="/profile/avatar" component={PhotoEditor} />
+                <Route
+                  path="/profile/avatar"
+                  component={() => {
+                    return (
+                      <PhotoEditor
+                        user={user}
+                        title={(e) => this.saveAlertState(true, e)}
+                      />
+                    );
+                  }}
+                />
                 <Route path="/profile/orders" component={Orders} />
                 <Route path="/profile/history" component={History} />
                 <Route path="/profile/subscriptions" component={Subscriptions} />

@@ -30,6 +30,6 @@ public class WebConfiguration implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         registry.addResourceHandler("/api/**")
-            .addResourceLocations("classpath:/static/");
+            .addResourceLocations("/").setCachePeriod(0);;
     }
 }

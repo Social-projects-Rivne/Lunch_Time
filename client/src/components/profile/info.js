@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import '../../styles/profile-info.css';
 import { Link } from 'react-router-dom';
 import AlertBase from '../shared/alert-base';
+import Api from '../../services/api';
 
 class Info extends Component {
   componentWillUnmount() {
@@ -14,14 +15,16 @@ class Info extends Component {
   }
 
   render() {
-    const { isFetching, user, isShowAlert } = this.props;
+    const {
+      isFetching, user, isShowAlert, title,
+    } = this.props;
     if (isFetching) {
       return (
         <Container fluid>
           <AlertBase
             show={isShowAlert}
             type="success"
-            title="Your profile was successfully updated"
+            title={title}
           />
           <Row className="profile-row">
             <Col md="6">
@@ -42,7 +45,7 @@ class Info extends Component {
               </p>
             </Col>
             <Col>
-              <Avatar name={user.name} size="150" round src={user.avatarUrl} />
+              <Avatar size="150" round src={Api.getAvatarUrl(user)} />
             </Col>
           </Row>
 
@@ -71,6 +74,11 @@ Info.propTypes = {
   isShowAlert: PropTypes.bool.isRequired,
   user: PropTypes.any.isRequired,
   showAlert: PropTypes.any.isRequired,
+  title: PropTypes.string,
+};
+
+Info.defaultProps = {
+  title: '',
 };
 
 export default Info;

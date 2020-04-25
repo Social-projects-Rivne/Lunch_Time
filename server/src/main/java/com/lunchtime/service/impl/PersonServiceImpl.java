@@ -2,17 +2,22 @@ package com.lunchtime.service.impl;
 
 import com.lunchtime.mapper.PersonMapper;
 import com.lunchtime.models.Person;
-import com.lunchtime.service.dto.RegisterPerson;
-import com.lunchtime.service.dto.PersonDto;
-import com.lunchtime.service.dto.PersonPassDto;
 import com.lunchtime.repository.PersonRepository;
 import com.lunchtime.service.PersonService;
+import com.lunchtime.service.dto.PersonDto;
+import com.lunchtime.service.dto.PersonPassDto;
+import com.lunchtime.service.dto.RegisterPerson;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.NonUniqueResultException;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Optional;
 
 @Service
@@ -94,5 +99,18 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public Person findByPhoneNumber(String phoneNumber) {
         return personRepository.findPersonByPhoneNumber(phoneNumber);
+    }
+
+    public boolean saveAvatar(MultipartFile file) {
+        try {
+            byte[] bytes = file.getBytes();
+            String filePath = "static/images/profile/";
+            Path path = Paths.get(filePath + file.getOriginalFilename());
+            Files.write(path, bytes);
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 }
