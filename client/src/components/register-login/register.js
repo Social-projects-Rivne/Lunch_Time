@@ -7,7 +7,6 @@ import { Redirect } from 'react-router';
 import PropTypes from 'prop-types';
 import Api from '../../services/api';
 import Timer from '../shared/timer';
-import Auth from '../../services/auth';
 import Person from '../../services/person';
 
 
@@ -409,68 +408,68 @@ class Register extends Component {
       Api.post('persons', body)
         .then((response) => {
           if (response.status === 200) {
-            Auth.setToken(response.data);
             Person.getProfile();
             this.setState({
               isRegistered: true,
               unexpectedError: false,
             });
             this.openMainPage();
-          }
-          if (response.status === 201) {
+          } else if (response.status === 201) {
             this.setState({
               isRegistered: true,
               unexpectedError: false,
             });
             this.openMainPage();
-          } else if (response.error.status === 601) {
-            this.setState({
-              unexpectedError: false,
-            });
-            setTimeout(() => {
-              const previousPhoneArray = this.state.alreadyRegisteredPhoneNumber;
-              const alreadyRegisteredPhoneNumber = [...previousPhoneArray];
-              alreadyRegisteredPhoneNumber.push(phoneNumber);
-              const previousEmailArray = this.state.alreadyRegisteredEmail;
-              const alreadyRegisteredEmail = [...previousEmailArray];
-              alreadyRegisteredEmail.push(email);
+          } else if (response.error.status === 409) {
+            if (response.error.data === 'Phone number and email are not unique') {
               this.setState({
-                phoneInputClassName: invalid,
-                phoneInputTitle: 'This phone is already registered. Use another one.',
-                emailInputClassName: invalid,
-                emailInputTitle: 'This email is already registered. Use another one.',
-                alreadyRegisteredPhoneNumber,
-                alreadyRegisteredEmail,
+                unexpectedError: false,
               });
-            }, 300);
-          } else if (response.error.status === 602) {
-            this.setState({
-              unexpectedError: false,
-            });
-            setTimeout(() => {
-              const previousArray = this.state.alreadyRegisteredPhoneNumber;
-              const alreadyRegisteredPhoneNumber = [...previousArray];
-              alreadyRegisteredPhoneNumber.push(phoneNumber);
+              setTimeout(() => {
+                const previousPhoneArray = this.state.alreadyRegisteredPhoneNumber;
+                const alreadyRegisteredPhoneNumber = [...previousPhoneArray];
+                alreadyRegisteredPhoneNumber.push(phoneNumber);
+                const previousEmailArray = this.state.alreadyRegisteredEmail;
+                const alreadyRegisteredEmail = [...previousEmailArray];
+                alreadyRegisteredEmail.push(email);
+                this.setState({
+                  phoneInputClassName: invalid,
+                  phoneInputTitle: 'This phone is already registered. Use another one.',
+                  emailInputClassName: invalid,
+                  emailInputTitle: 'This email is already registered. Use another one.',
+                  alreadyRegisteredPhoneNumber,
+                  alreadyRegisteredEmail,
+                });
+              }, 300);
+            } else if (response.error.data === "Phone number isn't unique") {
               this.setState({
-                phoneInputClassName: invalid,
-                phoneInputTitle: 'This phone is already registered. Use another one.',
-                alreadyRegisteredPhoneNumber,
+                unexpectedError: false,
               });
-            }, 300);
-          } else if (response.error.status === 603) {
-            this.setState({
-              unexpectedError: false,
-            });
-            setTimeout(() => {
-              const previousArray = this.state.alreadyRegisteredEmail;
-              const alreadyRegisteredEmail = [...previousArray];
-              alreadyRegisteredEmail.push(email);
+              setTimeout(() => {
+                const previousArray = this.state.alreadyRegisteredPhoneNumber;
+                const alreadyRegisteredPhoneNumber = [...previousArray];
+                alreadyRegisteredPhoneNumber.push(phoneNumber);
+                this.setState({
+                  phoneInputClassName: invalid,
+                  phoneInputTitle: 'This phone is already registered. Use another one.',
+                  alreadyRegisteredPhoneNumber,
+                });
+              }, 300);
+            } else if (response.error.data === "email isn't unique") {
               this.setState({
-                emailInputClassName: invalid,
-                emailInputTitle: 'This email is already registered. Use another one.',
-                alreadyRegisteredEmail,
+                unexpectedError: false,
               });
-            }, 300);
+              setTimeout(() => {
+                const previousArray = this.state.alreadyRegisteredEmail;
+                const alreadyRegisteredEmail = [...previousArray];
+                alreadyRegisteredEmail.push(email);
+                this.setState({
+                  emailInputClassName: invalid,
+                  emailInputTitle: 'This email is already registered. Use another one.',
+                  alreadyRegisteredEmail,
+                });
+              }, 300);
+            }
           } else if (response.error.status === 400) {
             this.setState({
               unexpectedError: false,

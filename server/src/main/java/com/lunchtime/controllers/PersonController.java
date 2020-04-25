@@ -31,7 +31,8 @@ public class PersonController {
         try {
             personDto = personService.saveRegisterPerson(registerPerson);
         } catch (NonUniqueResultException nue) {
-            return ResponseEntity.status(Integer.parseInt(nue.getMessage())).build();
+            return ResponseEntity.status(409)
+                .body(nue.getMessage());
         } catch (Exception e) {
             e.printStackTrace();
         }
