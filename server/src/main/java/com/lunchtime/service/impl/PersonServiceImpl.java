@@ -30,7 +30,6 @@ public class PersonServiceImpl implements PersonService {
 
         boolean phoneExists = false;
         boolean emailExists = false;
-        String code = null;
 
         if (findByPhoneNumber(registerPerson.getPhoneNumber()) != null) {
             phoneExists = true;
@@ -40,14 +39,11 @@ public class PersonServiceImpl implements PersonService {
         }
 
         if (phoneExists && emailExists) {
-            code = "601";
+            throw new NonUniqueResultException("Phone number and email are not unique");
         } else if (phoneExists) {
-            code = "602";
+            throw new NonUniqueResultException("Phone number isn't unique");
         } else if (emailExists) {
-            code = "603";
-        }
-        if (code != null) {
-            throw new NonUniqueResultException(code);
+            throw new NonUniqueResultException("email isn't unique");
         }
 
         Person person = personMapper.fromRegisterToPerson(registerPerson);
