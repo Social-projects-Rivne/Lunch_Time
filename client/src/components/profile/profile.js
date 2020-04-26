@@ -122,7 +122,16 @@ class Profile extends Component {
                   }}
                 />
                 <Route path="/profile/avatar" component={PhotoEditor} />
-                <Route path="/profile/owners-restaurants" component={OwnersRestaurants} />
+                <Route
+                  path="/profile/owners-restaurants"
+                  component={() => {
+                    return (
+                      <OwnersRestaurants
+                        userId={user.id}
+                      />
+                    );
+                  }}
+                />
                 <Route path="/profile/orders" component={Orders} />
                 <Route path="/profile/history" component={History} />
                 <Route path="/profile/subscriptions" component={Subscriptions} />
