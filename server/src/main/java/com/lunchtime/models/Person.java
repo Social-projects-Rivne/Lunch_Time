@@ -69,13 +69,6 @@ public class Person {
     @Column(name = "status", columnDefinition = "varchar(50) default 'ACTIVE'")
     private Status status;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_roles",
-        joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
-        inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
-
-    private Role role;
-
     public Person() {
     }
 }
