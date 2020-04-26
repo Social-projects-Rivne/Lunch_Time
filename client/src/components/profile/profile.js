@@ -14,7 +14,7 @@ import Sharing from './sharing';
 import Subscriptions from './subscriptions';
 import Api from '../../services/api';
 import '../../styles/profile.css';
-import PhotoEditor from '../shared/photo-editor';
+import PhotoEditor from './avatar';
 import InfoChange from './info-change';
 import Auth from '../../services/auth';
 

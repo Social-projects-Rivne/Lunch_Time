@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import Api from '../../services/api';
 
-class PhotoEditor extends React.Component {
+class Avatar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -48,10 +48,13 @@ class PhotoEditor extends React.Component {
     Api.post('/persons/avatar', formData)
       .then((response) => {
         if (response.error == null) {
-          Api.put('persons', user);
-          this.props.updateAvatar(dataURL);
-          this.props.title('Your avatar will updated soon');
-          this.props.history.push('/profile/info');
+          Api.put('persons', user).then((r) => {
+            if (r.error == null) {
+              this.props.updateAvatar(dataURL);
+              this.props.title('Your avatar has been updated successfully');
+              this.props.history.push('/profile/info');
+            }
+          });
         }
       });
   }
@@ -139,7 +142,7 @@ class PhotoEditor extends React.Component {
   }
 }
 
-PhotoEditor.propTypes = {
+Avatar.propTypes = {
   user: PropTypes.any.isRequired,
   history: PropTypes.any.isRequired,
   title: PropTypes.any.isRequired,
@@ -147,4 +150,4 @@ PhotoEditor.propTypes = {
   updateAvatar: PropTypes.any.isRequired,
 };
 
-export default withRouter(PhotoEditor);
+export default withRouter(Avatar);
