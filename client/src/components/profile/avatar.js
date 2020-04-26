@@ -45,7 +45,7 @@ class Avatar extends React.Component {
     formData.append('file', blob, fileName);
     user.photoUrl = fileName;
 
-    Api.post('/persons/avatar', formData)
+    Api.post('/image/upload/profile', formData)
       .then((response) => {
         if (response.error == null) {
           Api.put('persons', user).then((r) => {
@@ -146,7 +146,7 @@ Avatar.propTypes = {
   user: PropTypes.any.isRequired,
   history: PropTypes.any.isRequired,
   title: PropTypes.any.isRequired,
-  isFetching: PropTypes.string.isRequired,
+  isFetching: PropTypes.bool.isRequired,
   updateAvatar: PropTypes.any.isRequired,
 };
 

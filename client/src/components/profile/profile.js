@@ -62,7 +62,7 @@ class Profile extends Component {
     if (user.photoUrl === undefined || user.photoUrl === null) {
       this.saveAvatarState('/img/default-avatar.png');
     } else {
-      Api.getImage(`persons/avatar/${user.id}`)
+      Api.getImage(`image/profile/${user.id}`)
         .then((response) => {
           this.saveAvatarState(`data:image/jpg;base64,${response}`);
         });
