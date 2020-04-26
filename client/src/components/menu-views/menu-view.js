@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Container, Spinner } from 'react-bootstrap';
+import {
+  Button, Container, Spinner,
+} from 'react-bootstrap';
 import Pagination from 'react-bootstrap-pagination-logic';
 import PropTypes from 'prop-types';
 import Header from './menu-header';
@@ -18,7 +20,7 @@ class Menu extends Component {
       dishes: [],
     };
     this.handlePageChange = this.handlePageChange.bind(this);
-    this.addDishToOrder = this.addDishToOrder.bind(this);
+    this.addDishToOrderList = this.addDishToOrderList.bind(this);
   }
 
   componentDidMount() {
@@ -60,17 +62,18 @@ class Menu extends Component {
         position="center"
         handlePageChange={this.handlePageChange}
       />
+
     );
   }
 
   initMenuItemDish() {
     const { menuitemdishes } = this.state;
     return (
-      <MenuItemDish menuitemdishes={menuitemdishes} addDishToOrder={this.addDishToOrder} />
+      <MenuItemDish menuitemdishes={menuitemdishes} addDishToOrderList={this.addDishToOrderList} />
     );
   }
 
-  addDishToOrder(dishCategory, dishName) {
+  addDishToOrderList(dishCategory, dishName) {
     const previousDishArray = this.state.dishes;
     const dishes = [...previousDishArray];
     const dish = `${dishCategory} ${dishName}, `;
@@ -88,6 +91,22 @@ class Menu extends Component {
           <Header />
           {this.initMenuItemDish()}
           {this.initPagination()}
+          <div>
+            {this.state.dishes.length > 0 && (
+            <Button
+              className="complete"
+              variant="primary"
+              style={{
+                marginRight: 40,
+              }}
+            >
+              Complete order
+              {' ('}
+              {this.state.dishes.length}
+              )
+            </Button>
+            )}
+          </div>
         </Container>
       );
     }

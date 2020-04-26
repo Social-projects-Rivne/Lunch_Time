@@ -18,17 +18,17 @@ class MenuItemDish extends Component {
     };
   }
 
-  addDishToOrder() {
+  addDishToOrderList() {
     const { dishCategory, dishName } = this.state;
-    this.props.addDishToOrder(dishCategory, dishName);
+    this.props.addDishToOrderList(dishCategory, dishName);
   }
 
-  sendDishToOrder(dichCategory, dishName) {
+  sendDishToOrderList(dichCategory, dishName) {
     this.setState({
       dishCategory: dichCategory,
       dishName: dishName,
     }, () => {
-      this.addDishToOrder();
+      this.addDishToOrderList();
     });
   }
 
@@ -70,7 +70,9 @@ class MenuItemDish extends Component {
                 <br />
                 <Button
                   variant="primary"
-                  onClick={() => { this.sendDishToOrder(menuitemdish.dish.categoryfood.name, menuitemdish.dish.name); }}
+                  onClick={() => {
+                    this.sendDishToOrderList(menuitemdish.dish.categoryfood.name, menuitemdish.dish.name);
+                  }}
                 >
                   Add
                 </Button>
@@ -86,6 +88,6 @@ class MenuItemDish extends Component {
 
 MenuItemDish.propTypes = {
   menuitemdishes: PropTypes.array.isRequired,
-  addDishToOrder: PropTypes.func.isRequired,
+  addDishToOrderList: PropTypes.func.isRequired,
 };
 export default MenuItemDish;
