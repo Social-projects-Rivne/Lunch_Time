@@ -5,7 +5,6 @@ import Auth from './auth';
 class Person {
   constructor() {
     this.userInfo = {};
-    this.userKey = 'user';
   }
 
   getProfile() {
@@ -18,7 +17,6 @@ class Person {
             return;
           }
           this.userInfo = response.data;
-          localStorage.setItem(this.userKey, response.data);
         });
     }
   }
