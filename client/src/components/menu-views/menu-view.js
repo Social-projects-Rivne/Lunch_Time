@@ -15,8 +15,10 @@ class Menu extends Component {
       pageSize: 2,
       menuitemdishes: [],
       isFetching: false,
+      dishes: [],
     };
     this.handlePageChange = this.handlePageChange.bind(this);
+    this.addDishToOrder = this.addDishToOrder.bind(this);
   }
 
   componentDidMount() {
@@ -64,8 +66,18 @@ class Menu extends Component {
   initMenuItemDish() {
     const { menuitemdishes } = this.state;
     return (
-      <MenuItemDish menuitemdishes={menuitemdishes} />
+      <MenuItemDish menuitemdishes={menuitemdishes} addDishToOrder={this.addDishToOrder} />
     );
+  }
+
+  addDishToOrder(dishCategory, dishName) {
+    const previousDishArray = this.state.dishes;
+    const dishes = [...previousDishArray];
+    const dish = `${dishCategory} ${dishName}, `;
+    dishes.push(dish);
+    this.setState({
+      dishes,
+    });
   }
 
   render() {
