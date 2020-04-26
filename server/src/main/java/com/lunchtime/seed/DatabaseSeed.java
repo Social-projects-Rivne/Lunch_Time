@@ -140,7 +140,7 @@ public class DatabaseSeed {
             Dish dish = new Dish();
             dish.setName(dishesName[(int) i]);
             dish.setIngredients(" first ingredient," + " second ingredient," + " third ingredient");
-            dish.setCategoryFood(categoryFoodList.get((int) i));
+            dish.setCategoryfood(categoryFoodList.get((int) i));
             dishRepository.save(dish);
         }
     }

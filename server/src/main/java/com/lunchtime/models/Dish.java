@@ -31,7 +31,7 @@ public class Dish {
     @ManyToOne
     @NotNull
     @JoinColumn(name = "categoryfood_id", referencedColumnName = "id")
-    private CategoryFood categoryFood;
+    private CategoryFood categoryfood;
 
     public Dish() {
     }
