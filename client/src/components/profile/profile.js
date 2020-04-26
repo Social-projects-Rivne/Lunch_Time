@@ -54,7 +54,19 @@ class Profile extends Component {
           user: response.data,
           isFetching: true,
         });
+        this.getAvatarUrl(response.data);
       });
+  }
+
+  getAvatarUrl(user) {
+    if (user.photoUrl === undefined || user.photoUrl === null) {
+      this.saveAvatarState('/img/default-avatar.png');
+    } else {
+      Api.getImage(`persons/avatar/${user.id}`)
+        .then((response) => {
+          this.saveAvatarState(`data:image/jpg;base64,${response}`);
+        });
+    }
   }
 
   saveAlertState(show, title) {
@@ -65,6 +77,15 @@ class Profile extends Component {
         title: title,
       });
     }
+  }
+
+  saveAvatarState(avatar) {
+    this.setState((prevState) => ({
+      user: {
+        ...prevState.user,
+        avatar: avatar,
+      },
+    }));
   }
 
   render() {
@@ -132,6 +153,7 @@ class Profile extends Component {
                   component={() => {
                     return (
                       <PhotoEditor
+                        isFetching={isFetching}
                         user={user}
                         title={(e) => this.saveAlertState(true, e)}
                       />

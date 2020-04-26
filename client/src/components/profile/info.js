@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 import '../../styles/profile-info.css';
 import { Link } from 'react-router-dom';
 import AlertBase from '../shared/alert-base';
-import Api from '../../services/api';
 
 class Info extends Component {
   componentWillUnmount() {
@@ -45,7 +44,7 @@ class Info extends Component {
               </p>
             </Col>
             <Col>
-              <Avatar size="150" round src={Api.getAvatarUrl(user)} />
+              <Avatar size="150" round src={user.avatar} />
             </Col>
           </Row>
 

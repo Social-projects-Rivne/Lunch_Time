@@ -62,18 +62,18 @@ class Api {
         return { error: null, data: response.data, status: response.status };
       })
       .catch((error) => {
-        return { error: error.response };
+        return { error: error };
       });
   }
 
-  getAvatarUrl(user) {
-    if (user.photoUrl === undefined || user.photoUrl === null) {
-      return '/img/default-avatar.png';
-    }
-    console.log(`${this.apiUrl}images/profile/${user.photoUrl}`);
-    return `${this.apiUrl}images/profile/${user.photoUrl}`;
+  getImage(endpoint) {
+    const url = this.getApiEndpoint(endpoint);
+    return axios
+      .get(url, {
+        responseType: 'arraybuffer',
+      })
+      .then((response) => Buffer.from(response.data, 'binary').toString('base64'));
   }
-
 
   async getAllRestaurantFeedback(endpoint, id) {
     let response; let data;

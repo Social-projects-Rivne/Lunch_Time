@@ -134,7 +134,7 @@ class InfoChange extends React.Component {
                 className="mt-2"
                 size="150"
                 round
-                src={Api.getAvatarUrl(user)}
+                src={user.avatar}
               />
             </Link>
           </Col>

@@ -1,5 +1,6 @@
 package com.lunchtime.controllers;
 
+import com.lunchtime.config.ResourcesPath;
 import com.lunchtime.models.JwtPersonDetails;
 import com.lunchtime.security.JwtUtil;
 import com.lunchtime.security.TokenHistory;
@@ -8,13 +9,16 @@ import com.lunchtime.service.dto.PersonDto;
 import com.lunchtime.service.dto.PersonPassDto;
 import com.lunchtime.service.dto.RegisterPerson;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.StreamUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.NonUniqueResultException;
 import javax.validation.Valid;
+import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
@@ -108,5 +112,16 @@ public class PersonController {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.badRequest().build();
+    }
+
+    @GetMapping(value = "/avatar/{id}", produces = MediaType.IMAGE_JPEG_VALUE)
+    public ResponseEntity<byte[]> getImage(@PathVariable Long id) throws IOException {
+        FileSystemResource file = new FileSystemResource(ResourcesPath.getResourcePath()
+            + "images/profile/" + id + ".jpg");
+        byte[] bytes = StreamUtils.copyToByteArray(file.getInputStream());
+        return ResponseEntity
+            .ok()
+            //.contentType(MediaType.IMAGE_JPEG)
+            .body(bytes);
     }
 }
