@@ -86,7 +86,7 @@ class Menu extends Component {
 
   render() {
     const { id, name } = this.props;
-    const { isFetching } = this.state;
+    const { isFetching, dishes } = this.state;
     if (isFetching) {
       return (
         <Container className="menu">
@@ -97,6 +97,7 @@ class Menu extends Component {
             pathname: `/restaurants/${id}/new-order`,
             state: {
               restaurantName: name,
+              dishes: dishes,
             },
           }}
           >

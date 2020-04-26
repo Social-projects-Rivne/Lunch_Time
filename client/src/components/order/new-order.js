@@ -20,6 +20,7 @@ class NewOrder extends Component {
       availableTables: [],
       table: null,
       visitors: 1,
+      dishes: '',
       description: '',
       isBadRequestError: false,
     };
@@ -231,6 +232,19 @@ class NewOrder extends Component {
               placeholder="Number of visitors"
               min="1"
               max={this.getMaximumOfVisitors()}
+            />
+          </Form.Group>
+
+          <Form.Group>
+            <Form.Label>Ordered dishes</Form.Label>
+            <Form.Control
+              as="textarea"
+              rows="3"
+              name="description"
+              placeholder="Write any comments to order"
+              maxLength="999"
+              value={location.state.dishes}
+              onChange={(event) => this.handleFormControl(event)}
             />
           </Form.Group>
 
