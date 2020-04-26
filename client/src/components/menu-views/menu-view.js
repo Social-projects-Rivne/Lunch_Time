@@ -4,6 +4,7 @@ import {
 } from 'react-bootstrap';
 import Pagination from 'react-bootstrap-pagination-logic';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import Header from './menu-header';
 import MenuItemDish from './menu-item-dish';
 import Api from '../../services/api';
@@ -84,6 +85,7 @@ class Menu extends Component {
   }
 
   render() {
+    const { id, name } = this.props;
     const { isFetching } = this.state;
     if (isFetching) {
       return (
@@ -91,22 +93,28 @@ class Menu extends Component {
           <Header />
           {this.initMenuItemDish()}
           {this.initPagination()}
-          <div>
+          <Link to={{
+            pathname: `/restaurants/${id}/new-order`,
+            state: {
+              restaurantName: name,
+            },
+          }}
+          >
             {this.state.dishes.length > 0 && (
-            <Button
-              className="complete"
-              variant="primary"
-              style={{
-                marginRight: 40,
-              }}
-            >
-              Complete order
-              {' ('}
-              {this.state.dishes.length}
-              )
-            </Button>
+              <Button
+                className="complete"
+                variant="primary"
+                style={{
+                  marginRight: 40,
+                }}
+              >
+                Complete order
+                {' ('}
+                {this.state.dishes.length}
+                )
+              </Button>
             )}
-          </div>
+          </Link>
         </Container>
       );
     }
@@ -117,6 +125,7 @@ class Menu extends Component {
 }
 
 Menu.propTypes = {
-  id: PropTypes.any.isRequired,
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
 };
 export default Menu;
