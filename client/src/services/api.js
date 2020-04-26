@@ -68,11 +68,12 @@ class Api {
 
   getImage(endpoint) {
     const url = this.getApiEndpoint(endpoint);
-    return axios
-      .get(url, {
-        responseType: 'arraybuffer',
-      })
-      .then((response) => Buffer.from(response.data, 'binary').toString('base64'));
+    return axios.get(url, { responseType: 'arraybuffer' })
+      .then((response) => {
+        return { error: null, data: Buffer.from(response.data, 'binary').toString('base64') };
+      }).catch((error) => {
+        return { error: error };
+      });
   }
 
   async getAllRestaurantFeedback(endpoint, id) {

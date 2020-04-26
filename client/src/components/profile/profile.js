@@ -64,7 +64,9 @@ class Profile extends Component {
     } else {
       Api.getImage(`image/profile/${user.id}`)
         .then((response) => {
-          this.saveAvatarState(`data:image/jpg;base64,${response}`);
+          if (response.error == null) {
+            this.saveAvatarState(`data:image/jpg;base64,${response.data}`);
+          }
         });
     }
   }
