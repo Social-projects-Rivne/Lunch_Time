@@ -156,6 +156,7 @@ class Profile extends Component {
                         isFetching={isFetching}
                         user={user}
                         title={(e) => this.saveAlertState(true, e)}
+                        updateAvatar={(avatar) => this.saveAvatarState(avatar)}
                       />
                     );
                   }}

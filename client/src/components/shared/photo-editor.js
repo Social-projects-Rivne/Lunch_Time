@@ -49,6 +49,7 @@ class PhotoEditor extends React.Component {
       .then((response) => {
         if (response.error == null) {
           Api.put('persons', user);
+          this.props.updateAvatar(dataURL);
           this.props.title('Your avatar will updated soon');
           this.props.history.push('/profile/info');
         }
@@ -143,6 +144,7 @@ PhotoEditor.propTypes = {
   history: PropTypes.any.isRequired,
   title: PropTypes.any.isRequired,
   isFetching: PropTypes.string.isRequired,
+  updateAvatar: PropTypes.any.isRequired,
 };
 
 export default withRouter(PhotoEditor);
