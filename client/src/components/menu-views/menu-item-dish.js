@@ -10,6 +10,28 @@ import Api from '../../services/api';
 
 
 class MenuItemDish extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dishCategory: '',
+      dishName: '',
+    };
+  }
+
+  addDishToOrder() {
+    const { dishCategory, dishName } = this.state;
+    this.props.addDishToOrder(dishCategory, dishName);
+  }
+
+  sendDishToOrder(dichCategory, dishName) {
+    this.setState({
+      dishCategory: dichCategory,
+      dishName: dishName,
+    }, () => {
+      this.addDishToOrder();
+    });
+  }
+
   render() {
     const { menuitemdishes } = this.props;
     return (
@@ -46,7 +68,10 @@ class MenuItemDish extends Component {
               </Col>
               <Col className="col-item">
                 <br />
-                <Button variant="primary" onClick={() => { this.addDishToOrder(); }}>
+                <Button
+                  variant="primary"
+                  onClick={() => { this.sendDishToOrder(menuitemdish.dish.categoryfood.name, menuitemdish.dish.name); }}
+                >
                   Add
                 </Button>
               </Col>
@@ -61,5 +86,6 @@ class MenuItemDish extends Component {
 
 MenuItemDish.propTypes = {
   menuitemdishes: PropTypes.array.isRequired,
+  addDishToOrder: PropTypes.func.isRequired,
 };
 export default MenuItemDish;
