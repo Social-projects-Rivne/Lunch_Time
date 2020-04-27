@@ -19,9 +19,11 @@ class Menu extends Component {
       menuitemdishes: [],
       isFetching: false,
       dishes: [],
+      menuItemDishesMap: new Map(),
     };
     this.handlePageChange = this.handlePageChange.bind(this);
     this.addDishToOrderList = this.addDishToOrderList.bind(this);
+    this.addMenuItemDishToOrderList = this.addMenuItemDishToOrderList.bind(this);
   }
 
   componentDidMount() {
@@ -70,7 +72,11 @@ class Menu extends Component {
   initMenuItemDish() {
     const { menuitemdishes } = this.state;
     return (
-      <MenuItemDish menuitemdishes={menuitemdishes} addDishToOrderList={this.addDishToOrderList} />
+      <MenuItemDish
+        menuitemdishes={menuitemdishes}
+        addDishToOrderList={this.addDishToOrderList}
+        addMenuItemDishToOrderList={this.addMenuItemDishToOrderList}
+      />
     );
   }
 
@@ -84,9 +90,21 @@ class Menu extends Component {
     });
   }
 
+  addMenuItemDishToOrderList(newMenuItemDish) {
+    const { menuItemDishesMap } = this.state;
+    let quantity = 1;
+    if (menuItemDishesMap.has(newMenuItemDish)) {
+      quantity = menuItemDishesMap.get(newMenuItemDish) + 1;
+    }
+    menuItemDishesMap.set(newMenuItemDish, quantity);
+    this.setState({
+      menuItemDishesMap,
+    });
+  }
+
   render() {
     const { id, name } = this.props;
-    const { isFetching, dishes } = this.state;
+    const { isFetching, dishes, menuItemDishesMap } = this.state;
     if (isFetching) {
       return (
         <Container className="menu">
@@ -98,6 +116,7 @@ class Menu extends Component {
             state: {
               restaurantName: name,
               dishes: dishes,
+              menuItemDishesMap: menuItemDishesMap,
             },
           }}
           >

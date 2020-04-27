@@ -21,6 +21,7 @@ class NewOrder extends Component {
       table: null,
       visitors: 1,
       dishes: '',
+      menuItemDishMap: new Map(),
       description: '',
       isBadRequestError: false,
     };
@@ -81,6 +82,7 @@ class NewOrder extends Component {
       visitors: this.state.visitors,
       table: { id: tableId },
       description: this.state.description,
+      menuItemDishMap: this.props.location.state.menuItemDishesMap,
     };
 
     Api.post('orders', order)

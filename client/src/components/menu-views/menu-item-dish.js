@@ -15,6 +15,7 @@ class MenuItemDish extends Component {
     this.state = {
       dishCategory: '',
       dishName: '',
+      menuItemDish: '',
     };
   }
 
@@ -23,12 +24,26 @@ class MenuItemDish extends Component {
     this.props.addDishToOrderList(dishCategory, dishName);
   }
 
-  sendDishToOrderList(dichCategory, dishName) {
+  sendDishToOrderList(dishCategory, dishName) {
     this.setState({
-      dishCategory: dichCategory,
+      dishCategory: dishCategory,
       dishName: dishName,
     }, () => {
       this.addDishToOrderList();
+    });
+  }
+
+  addMenuItemDishToOrderList() {
+    const { menuItemDish } = this.state;
+    this.props.addMenuItemDishToOrderList(menuItemDish);
+  }
+
+  sendMenuItemDishToOrderList(newMenuItemDish) {
+    const menuItemDish = newMenuItemDish;
+    this.setState({
+      menuItemDish,
+    }, () => {
+      this.addMenuItemDishToOrderList();
     });
   }
 
@@ -72,6 +87,7 @@ class MenuItemDish extends Component {
                   variant="primary"
                   onClick={() => {
                     this.sendDishToOrderList(menuitemdish.dish.categoryfood.name, menuitemdish.dish.name);
+                    this.sendMenuItemDishToOrderList(menuitemdish);
                   }}
                 >
                   Add
@@ -89,5 +105,6 @@ class MenuItemDish extends Component {
 MenuItemDish.propTypes = {
   menuitemdishes: PropTypes.array.isRequired,
   addDishToOrderList: PropTypes.func.isRequired,
+  addMenuItemDishToOrderList: PropTypes.func.isRequired,
 };
 export default MenuItemDish;
