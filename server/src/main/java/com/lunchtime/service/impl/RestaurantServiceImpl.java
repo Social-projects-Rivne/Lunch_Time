@@ -33,6 +33,10 @@ public class RestaurantServiceImpl implements RestaurantService {
         return restaurantRepository.findByIsDeletedFalse(pageable);
     }
 
+    public Page<Restaurant> getRestaurantPageByUserId(Long userId, Pageable pageable) {
+        return restaurantRepository.findByPersonIdAndIsDeletedFalse(userId, pageable);
+    }
+
     public Optional<Restaurant> getRestaurantById(Long id) {
         return restaurantRepository.findByIdAndIsDeletedFalse(id);
     }

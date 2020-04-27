@@ -66,6 +66,13 @@ public class RestaurantController {
             .body(restaurantService.getRestaurantPage(pageable));
     }
 
+    @GetMapping("/userId")
+    public ResponseEntity<Page<Restaurant>> getRestaurantPageByUserId(
+        Long userId, Pageable pageable) {
+        return ResponseEntity.ok()
+            .body(restaurantService.getRestaurantPageByUserId(userId, pageable));
+    }
+
     @GetMapping("{id}")
     public ResponseEntity<Restaurant> getRestaurantById(@PathVariable Long id) {
         Optional<Restaurant> restaurant = restaurantService.getRestaurantById(id);
