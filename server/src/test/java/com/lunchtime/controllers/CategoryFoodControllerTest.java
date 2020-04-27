@@ -22,14 +22,10 @@ public class CategoryFoodControllerTest {
     private CategoryFoodService mockCategoryFoodService;
     private CategoryFoodController categoryFoodControllerUnderTest;
 
-    @Mock
-    CategoryFoodController mockCategoryFoodController;
-
     @Before
     public void setUp() {
         initMocks(this);
         categoryFoodControllerUnderTest = new CategoryFoodController(mockCategoryFoodService);
-        mockCategoryFoodController = new CategoryFoodController(mockCategoryFoodService);
     }
 
     @Test

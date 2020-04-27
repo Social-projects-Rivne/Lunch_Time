@@ -24,7 +24,7 @@ public class MenuItemDish {
     @NotNull
     @DecimalMin(message = "Price is not valid",
                            value = "0")
-    @Column(name = "portion_price", length = 20)
+    @Column(name = "portion_price")
     private Long portionPrice;
 
     @Column(name = "portion_unit")
