@@ -7,6 +7,8 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
+
+import java.math.BigDecimal;
 import java.net.URISyntaxException;
 import java.time.Instant;
 import java.util.List;
@@ -109,7 +111,7 @@ public class DatabaseSeed {
             for (long i = 0L; i < dishesList.size(); i++) {
                 MenuItemDish menuItemDish = new MenuItemDish();
                 menuItemDish.setPortionSize(dishPortion[(int) i]);
-                menuItemDish.setPortionPrice(i + 10L);
+                menuItemDish.setPortionPrice(BigDecimal.valueOf(i + 10L));
                 menuItemDish.setDish(dishesList.get((int) i));
                 menuItemDish.setPortionUnit(i + 70L);
                 menuItemDish.setImageUrl(dishUrl[(int) i]);

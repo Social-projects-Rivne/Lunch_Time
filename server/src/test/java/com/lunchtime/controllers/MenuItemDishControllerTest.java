@@ -13,6 +13,7 @@ import org.mockito.Mockito;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.math.BigDecimal;
 import java.net.URISyntaxException;
 
 import static org.mockito.Mockito.verify;
@@ -36,7 +37,7 @@ public class MenuItemDishControllerTest {
         menuItem.setId(6L);
         menuItem.setDish(new Dish());
         menuItem.setImageUrl("glasses-4720011_640.jpg");
-        menuItem.setPortionPrice(100L);
+        menuItem.setPortionPrice(BigDecimal.valueOf(100));
         menuItem.setPortionSize("500 gr");
         menuItem.setPortionUnit(2L);
         menuItem.setRestaurant(new Restaurant());

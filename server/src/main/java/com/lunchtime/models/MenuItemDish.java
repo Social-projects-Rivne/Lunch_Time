@@ -7,6 +7,7 @@ import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -21,11 +22,12 @@ public class MenuItemDish {
     @Column(name = "portion_size", length = 30)
     private String portionSize;
 
+
     @NotNull
     @DecimalMin(message = "Price is not valid",
                            value = "0")
     @Column(name = "portion_price")
-    private Long portionPrice;
+    private BigDecimal portionPrice;
 
     @Column(name = "portion_unit")
     private Long portionUnit;
