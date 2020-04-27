@@ -5,7 +5,6 @@ import com.lunchtime.service.PersonService;
 import com.lunchtime.service.dto.PersonDto;
 import com.lunchtime.service.dto.PersonPassDto;
 import com.lunchtime.service.dto.RegisterPerson;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 
@@ -62,10 +61,5 @@ public class PersonServiceStub implements PersonService {
     @Override
     public Optional<Person> getPersonById(Long id) {
         return Optional.empty();
-    }
-
-    @Override
-    public boolean saveAvatar(MultipartFile file) {
-        return false;
     }
 }
