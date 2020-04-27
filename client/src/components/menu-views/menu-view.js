@@ -64,8 +64,9 @@ class Menu extends Component {
 
   initMenuItemDish() {
     const { menuItemDishes } = this.state;
+    const { isAuthenticated } = this.props;
     return (
-      <MenuItemDish menuItemDishes={menuItemDishes} />
+      <MenuItemDish menuItemDishes={menuItemDishes} isAuthenticated={isAuthenticated} />
     );
   }
 
@@ -95,5 +96,6 @@ class Menu extends Component {
 
 Menu.propTypes = {
   id: PropTypes.any.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
 };
 export default Menu;

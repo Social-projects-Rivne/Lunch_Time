@@ -11,7 +11,7 @@ import Api from '../../services/api';
 
 class MenuItemDish extends Component {
   render() {
-    const { menuItemDishes } = this.props;
+    const { menuItemDishes, isAuthenticated } = this.props;
     return (
       <Container>
         {menuItemDishes.map((menuItemDish) => {
@@ -48,7 +48,7 @@ class MenuItemDish extends Component {
                 <br />
                 <Button
                   variant="primary"
-                  disabled
+                  disabled={!isAuthenticated}
                 >
                   Add
                 </Button>
@@ -64,5 +64,6 @@ class MenuItemDish extends Component {
 
 MenuItemDish.propTypes = {
   menuItemDishes: PropTypes.array.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
 };
 export default MenuItemDish;
