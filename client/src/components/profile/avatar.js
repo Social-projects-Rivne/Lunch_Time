@@ -50,9 +50,9 @@ class Avatar extends React.Component {
         if (response.error == null) {
           Api.put('persons', user).then((r) => {
             if (r.error == null) {
+              this.props.history.push('/profile/info');
               this.props.updateAvatar(dataURL);
               this.props.title('Your avatar has been updated successfully');
-              this.props.history.push('/profile/info');
             }
           });
         }
