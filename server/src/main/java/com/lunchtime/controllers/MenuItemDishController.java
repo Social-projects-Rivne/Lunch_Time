@@ -3,7 +3,6 @@ package com.lunchtime.controllers;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import javax.validation.Valid;
@@ -62,7 +61,7 @@ public class MenuItemDishController {
         Pageable pageable) {
 
         Page<MenuItemDish> menuItemDishPage = menuItemDishService
-            .findDishesByRestaurantIdAndDishCategoryName(name, id, pageable);
+            .findDishesByRestaurantIdAndCategoryName(name, id, pageable);
         if (menuItemDishPage.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
@@ -75,7 +74,7 @@ public class MenuItemDishController {
                throws URISyntaxException {
         MenuItemDish newMenuItemDish = menuItemDishService.save(menuItemDish);
         return  ResponseEntity
-               .created(new URI("/api/menuItemDish"))
+               .created(new URI("/api/menuitemdish"))
                .body(newMenuItemDish);
     }
 

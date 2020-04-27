@@ -18,7 +18,7 @@ import java.util.Random;
 public class DatabaseSeed {
 
     String[] dishesName = new String[] {"Salami", "Margarita", "Manhattan", "Soup", "Hamburger", "Ice"};
-    String[] categoryFood = new String[] {"Pizza", "Pizza", "Pizza", "Main course", "Snacks", "Dessert"};
+    String[] categoryFood = new String[] {"Pizza", "Main course", "Snacks", "Dessert"};
     String[] dishPortion = new String[] {"500 gr", "300 gr", "230 gr", "150 gr", "500 gr", "200 gr"};
     String[] dishUrl = new String[] { "pizza-salami.jpg",
                                       "pizza-margarita.jpg",
@@ -124,9 +124,6 @@ public class DatabaseSeed {
         for (long i = 0L; i < categoryFood.length; i++) {
             CategoryFood category = new CategoryFood();
             category.setName(categoryFood[(int) i]);
-            if (i == 1L || i == 2L) {
-                category.setDeleted(true);
-            }
             categoryFoodRepository.save(category);
         }
 
