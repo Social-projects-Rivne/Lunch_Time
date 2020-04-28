@@ -1,4 +1,4 @@
-create schema public;
+-- create schema public;
 
 comment on schema public is 'standard public schema';
 
