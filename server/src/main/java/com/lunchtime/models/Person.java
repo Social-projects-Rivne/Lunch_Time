@@ -71,7 +71,6 @@ public class Person {
     private Long modifyBy;
 
     @Enumerated(EnumType.STRING)
-    @Size(max = 255)
     @Column(name = "status", columnDefinition = "varchar(50) default 'ACTIVE'")
     private Status status;
 
