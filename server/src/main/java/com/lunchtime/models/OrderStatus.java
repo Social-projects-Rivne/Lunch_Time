@@ -24,7 +24,7 @@ public class OrderStatus {
     private Long id;
 
     @NotNull
-    @Size(max = 32)
+    @Size(min = 1, max = 32)
     @Column(name = "name")
     private String name;
 

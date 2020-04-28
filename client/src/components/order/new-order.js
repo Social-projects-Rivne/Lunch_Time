@@ -21,10 +21,6 @@ class NewOrder extends Component {
       table: null,
       visitors: 1,
       dishes: '',
-      menuItemDishMap: new Map([
-        ['foo', 'bar'],
-        ['1', 42],
-      ]),
       description: '',
       isBadRequestError: false,
     };
@@ -78,14 +74,19 @@ class NewOrder extends Component {
     } else {
       return;
     }
-    const mapToObj = (m) => {
-      return Array.from(m).reduce((obj, [key, value]) => {
-        // eslint-disable-next-line no-param-reassign
-        obj[key] = value;
-        return obj;
-      }, {});
-    };
-    const orderedDishes = JSON.stringify(mapToObj(this.props.location.state.menuItemDishesMap));
+    let orderedDishes = this.props.location.state.menuItemDishesMap;
+    if (orderedDishes !== undefined) {
+      const mapToObj = (m) => {
+        return Array.from(m).reduce((obj, [key, value]) => {
+          // eslint-disable-next-line no-param-reassign
+          obj[key] = value;
+          return obj;
+        }, {});
+      };
+      orderedDishes = JSON.stringify(mapToObj(orderedDishes));
+    } else {
+      orderedDishes = null;
+    }
     const order = {
       person: { id: 1 },
       startTime: this.state.startDate.toUTCString(),
@@ -93,7 +94,7 @@ class NewOrder extends Component {
       visitors: this.state.visitors,
       table: { id: tableId },
       description: this.state.description,
-      menuItemDishMap: orderedDishes,
+      orderedDishes: orderedDishes,
     };
 
     Api.post('orders', order)

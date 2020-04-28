@@ -5,22 +5,23 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-
 @Entity
 @Setter
 @Getter
-
 public class Restaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank
+    @Size(min = 1, max = 100)
     @Column(name = "name", length = 100)
     private String name;
 
@@ -30,17 +31,21 @@ public class Restaurant {
     private String email;
 
     @NotBlank
+    @Size(min = 1, max = 255)
     @Column(name = "text_address")
     private String textAddress;
 
+    @Size(max = 255)
     @Column(name = "website")
     private String website;
 
     @NotBlank
-    @Column(name = "description", length = 255)
+    @Size(min = 1, max = 255)
+    @Column(name = "description")
     private String description;
 
     @NotBlank
+    @Size(min = 1, max = 255)
     @Column(name = "working_time")
     private String workingTime;
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  Tab, Tabs, Container, Button,
+  Tab, Tabs, Container, Button, OverlayTrigger, Tooltip,
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
@@ -44,9 +44,9 @@ class Restaurant extends Component {
     const { isFetching, restaurant } = this.state;
     const { match: { params: { id } }, isAuthenticated } = this.props;
 
-    let newOrderLink;
+    let newOrderBtn;
     if (isAuthenticated) {
-      newOrderLink = (
+      newOrderBtn = (
         <Link to={{
           pathname: `/restaurants/${id}/new-order`,
           state: {
@@ -54,24 +54,29 @@ class Restaurant extends Component {
           },
         }}
         >
-          <Button className="btn-inf ml-5">Make order</Button>
+          <span className="d-inline-block ml-5">
+            <Button>Make order</Button>
+          </span>
         </Link>
       );
     } else {
-      newOrderLink = (
-        <Link to={{
-          pathname: '/login',
-        }}
+      newOrderBtn = (
+        <OverlayTrigger
+          key="right"
+          placement="right"
+          overlay={<Tooltip id="tooltip-disabled">You need to login before to make order</Tooltip>}
         >
-          <Button className="btn-inf ml-5">Login before making order</Button>
-        </Link>
+          <span className="d-inline-block ml-5">
+            <Button disabled style={{ pointerEvents: 'none' }}>Make order</Button>
+          </span>
+        </OverlayTrigger>
       );
     }
 
     return (
       <Container className="restaurant-container">
         <h2>{restaurant.name}</h2>
-        {newOrderLink}
+        {newOrderBtn}
         <Tabs defaultActiveKey="about">
           <Tab eventKey="about" title="About">
             <About restaurant={restaurant} isFetching={isFetching} />
