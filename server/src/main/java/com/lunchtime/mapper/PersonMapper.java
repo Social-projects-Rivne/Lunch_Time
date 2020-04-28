@@ -1,10 +1,10 @@
 package com.lunchtime.mapper;
 
 import com.lunchtime.models.Person;
+import com.lunchtime.repository.RoleRepository;
 import com.lunchtime.service.dto.RegisterPerson;
 import com.lunchtime.service.dto.PersonDto;
 import com.lunchtime.repository.PersonRepository;
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -15,6 +15,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PersonMapper {
     final PersonRepository personRepository;
+    final RoleRepository roleRepository;
     final BCryptPasswordEncoder bcryptPasswordEncoder;
 
     public Person fromDtoToPerson(PersonDto personDto) {
@@ -41,11 +42,13 @@ public class PersonMapper {
     }
 
     public Person fromRegisterToPerson(RegisterPerson registerPerson) {
+        long id = roleRepository.findByName("USER").getId();
         return Person.builder()
             .name(registerPerson.getName())
             .phoneNumber(registerPerson.getPhoneNumber())
             .email(registerPerson.getEmail())
             .password(bcryptPasswordEncoder.encode(registerPerson.getPassword()))
+            .roleId(id)
             .build();
     }
 }

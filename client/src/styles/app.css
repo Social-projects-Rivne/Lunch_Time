@@ -24,10 +24,20 @@ body{
 }
 
 .btn-restaurants{
-  font-size: 150%;
+  font-size: 160%;
+  background: #fac564;
 }
 
 .btn-restaurants:hover{
-  color: black;
-  text-shadow: -1px 0 white, 0 1px white, 1px 0 white, 0 -1px white;
+  background: #F4A460;
+}
+
+.btn-restaurants:active{
+  background: #fac564;
+  box-shadow: none !important;
+}
+
+.btn-restaurants:focus {
+  background: #fac564 !important;
+  box-shadow: none !important;
 }
