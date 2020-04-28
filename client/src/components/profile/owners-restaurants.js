@@ -56,12 +56,12 @@ class OwnersRestaurants extends Component {
       <Container className="card-body pl-5 pr-5">
         {restaurants.map((restaurant) => (
           <Card className="m-2" border="dark">
-            <Link to={`/restaurants/${restaurant.id}`}>
-              <Card.Body>
+            <Card.Body>
+              <Link to={`/restaurants/${restaurant.id}`}>
                 <Card.Title>{restaurant.name}</Card.Title>
-                <Card.Subtitle>{restaurant.textAddress}</Card.Subtitle>
-              </Card.Body>
-            </Link>
+              </Link>
+              <Card.Subtitle>{restaurant.textAddress}</Card.Subtitle>
+            </Card.Body>
           </Card>
         ))}
       </Container>
