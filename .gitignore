@@ -53,3 +53,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### Resources ###
+/server/static/images/profile/
