@@ -55,4 +55,4 @@ build/
 .vscode/
 
 ### Resources ###
-/server/static/images/profile/
+/server/static/

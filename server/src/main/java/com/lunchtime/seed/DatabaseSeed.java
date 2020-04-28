@@ -1,12 +1,18 @@
 package com.lunchtime.seed;
 
+import com.lunchtime.config.ResourcesPath;
 import com.lunchtime.models.*;
 import com.lunchtime.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.util.FileSystemUtils;
+
+import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.time.Instant;
 import java.util.List;
@@ -100,6 +106,16 @@ public class DatabaseSeed {
         }
         if (restaurantTableRepository.count() == 0L) {
             seedRestaurantTables();
+        }
+
+        File resourcesFolder = new File(ResourcesPath.getResourcePath());
+        if (!resourcesFolder.exists()) {
+            try {
+                File source = new ClassPathResource("static").getFile();
+                FileSystemUtils.copyRecursively(source, resourcesFolder);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
