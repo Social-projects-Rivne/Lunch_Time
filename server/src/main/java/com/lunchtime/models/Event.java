@@ -35,6 +35,7 @@ public class Event {
     private Date date;
 
     @NotNull
+    @Size(min = 1, max = 255)
     @Column(name = "image")
     private String image;
 
