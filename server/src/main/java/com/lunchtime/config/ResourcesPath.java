@@ -8,6 +8,6 @@ import java.io.File;
 public class ResourcesPath {
 
     public static String getResourcePath() {
-        return new File(System.getProperty("user.dir")).getParent() + "/static/";
+        return new File(System.getProperty("user.dir")) + "/static/";
     }
 }
