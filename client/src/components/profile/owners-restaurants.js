@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import Pagination from 'react-bootstrap-pagination-logic';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import Card from 'react-bootstrap/Card';
+import { Link } from 'react-router-dom';
 import Api from '../../services/api';
 
 class OwnersRestaurants extends Component {
@@ -55,10 +56,12 @@ class OwnersRestaurants extends Component {
       <Container className="card-body pl-5 pr-5">
         {restaurants.map((restaurant) => (
           <Card className="m-2" border="dark">
-            <Card.Body>
-              <Card.Title>{restaurant.name}</Card.Title>
-              <Card.Subtitle>{restaurant.textAddress}</Card.Subtitle>
-            </Card.Body>
+            <Link to={`/restaurants/${restaurant.id}`}>
+              <Card.Body>
+                <Card.Title>{restaurant.name}</Card.Title>
+                <Card.Subtitle>{restaurant.textAddress}</Card.Subtitle>
+              </Card.Body>
+            </Link>
           </Card>
         ))}
       </Container>
