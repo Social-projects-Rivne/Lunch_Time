@@ -26,9 +26,6 @@ public class AuthController {
     @Autowired
     private PersonDetailsImpl userDetailsService;
 
-    @Autowired
-    private TokenHistory tokenHistory;
-
     @PostMapping("/api/authenticate")
     public ResponseEntity<?> createAuthenticationToken(
         @RequestBody JwtPersonDetails jwtPersonDetails) throws Exception {
@@ -44,7 +41,6 @@ public class AuthController {
         if (BCrypt.checkpw(jwtPersonDetails.getPassword(), userDetails.getPassword())) {
             final String jwt = jwtTokenUtil.generateToken(userDetails);
             JwtAuthenticationToken token = new JwtAuthenticationToken(jwt);
-            tokenHistory.getTokenList().add(token.getJwt());
             return ResponseEntity.ok(token.getJwt());
         }
         return null;
