@@ -15,6 +15,7 @@ import Restaurant from './components/restaurant/restaurant-item';
 import Profile from './components/profile/profile';
 import NewOrder from './components/order/new-order';
 import Auth from './services/auth';
+import RestaurantRegistration from './components/restaurant/restaurant-register';
 
 class App extends Component {
   constructor(props) {
@@ -52,6 +53,7 @@ class App extends Component {
           <Route exact path="/" component={Home} />
           <Route path="/about" component={About} />
           <Route path="/events" component={Events} />
+          <Route path="/restaurants/restaurant-register" component={RestaurantRegistration} />
           <Route path="/restaurants/:id/new-order" component={NewOrder} />
           <Route
             path="/restaurants/:id"
