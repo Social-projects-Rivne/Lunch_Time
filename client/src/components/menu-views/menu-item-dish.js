@@ -87,7 +87,7 @@ class MenuItemDish extends Component {
                   variant="primary"
                   onClick={() => {
                     this.sendDishToOrderList(menuitemdish.dish.categoryfood.name, menuitemdish.dish.name);
-                    this.sendMenuItemDishToOrderList(menuitemdish);
+                    this.sendMenuItemDishToOrderList(menuitemdish.id);
                   }}
                 >
                   Add
