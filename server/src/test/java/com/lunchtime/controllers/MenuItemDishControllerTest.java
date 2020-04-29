@@ -37,7 +37,7 @@ public class MenuItemDishControllerTest {
         menuItem.setId(6L);
         menuItem.setDish(new Dish());
         menuItem.setImageUrl("glasses-4720011_640.jpg");
-        menuItem.setPortionPrice(BigDecimal.valueOf(100));
+        menuItem.setPortionPrice(Double.valueOf(100));
         menuItem.setPortionSize("500 gr");
         menuItem.setPortionUnit(2L);
         menuItem.setRestaurant(new Restaurant());

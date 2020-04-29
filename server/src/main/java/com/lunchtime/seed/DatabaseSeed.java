@@ -111,7 +111,7 @@ public class DatabaseSeed {
             for (long i = 0L; i < dishesList.size(); i++) {
                 MenuItemDish menuItemDish = new MenuItemDish();
                 menuItemDish.setPortionSize(dishPortion[(int) i]);
-                menuItemDish.setPortionPrice(BigDecimal.valueOf(i + 10L));
+                menuItemDish.setPortionPrice(Double.valueOf(i + 10L));
                 menuItemDish.setDish(dishesList.get((int) i));
                 menuItemDish.setPortionUnit(i + 70L);
                 menuItemDish.setImageUrl(dishUrl[(int) i]);
