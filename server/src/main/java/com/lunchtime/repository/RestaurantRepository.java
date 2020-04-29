@@ -23,8 +23,8 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
      * @param pageable identifies what page needs to be returned and with what size
      * @return the restaurant list of concrete user (owner)
      */
-    @Query("select r from Restaurant r " +
-        "where r.personId in :id " +
-        "and r.isDeleted = false")
+    @Query("select r from Restaurant r "
+        + "where r.personId in :id "
+        + "and r.isDeleted = false")
     Page<Restaurant> findByOwnerRestList(Long id, Pageable pageable);
 }
