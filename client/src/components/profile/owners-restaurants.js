@@ -55,7 +55,7 @@ class OwnersRestaurants extends Component {
     return (
       <Container className="card-body pl-5 pr-5">
         {restaurants.map((restaurant) => (
-          <Card className="m-2" border="dark">
+          <Card key={restaurant.id} className="m-2" border="dark">
             <Card.Body>
               <Link to={`/restaurants/${restaurant.id}`}>
                 <Card.Title>{restaurant.name}</Card.Title>
