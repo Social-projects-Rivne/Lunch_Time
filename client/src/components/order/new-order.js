@@ -6,6 +6,7 @@ import {
 } from 'react-bootstrap';
 import Api from '../../services/api';
 import '../../styles/new-order.css';
+import Person from '../../services/person';
 
 class NewOrder extends Component {
   constructor(props) {
@@ -88,7 +89,7 @@ class NewOrder extends Component {
       orderedDishes = null;
     }
     const order = {
-      person: { id: 1 },
+      person: { id: Person.userInfo.id },
       startTime: this.state.startDate.toUTCString(),
       finishTime: this.state.finishDate.toUTCString(),
       visitors: this.state.visitors,
