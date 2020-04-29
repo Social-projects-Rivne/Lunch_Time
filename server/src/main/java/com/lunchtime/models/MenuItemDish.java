@@ -9,7 +9,6 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.validator.constraints.Currency;
-import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -25,10 +24,16 @@ public class MenuItemDish {
     private String portionSize;
 
     @NotNull
+    @Digits(integer = 6, fraction = 2)
     @DecimalMin(message = "Price is not valid",
-                           value = "1.0")
+        value = "1.0")
     @Column(name = "portion_price")
-    private BigDecimal portionPrice;
+    private Double portionPrice;
+
+    @Currency(value = {"UAH", "USD", "EUR"})
+    @ColumnDefault("UAH")
+    @Column(name = "currency")
+    private String currency;
 
     @Column(name = "portion_unit")
     private Long portionUnit;

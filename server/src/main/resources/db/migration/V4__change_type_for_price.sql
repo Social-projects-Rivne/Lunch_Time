@@ -1,2 +1,3 @@
 alter table menu_item_dish
-     alter column portion_price type decimal;
+    add currency varchar (3) default 'UAH',
+    alter column portion_price type numeric(6,2);
