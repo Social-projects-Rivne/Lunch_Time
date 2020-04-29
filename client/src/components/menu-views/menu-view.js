@@ -131,7 +131,6 @@ class Menu extends Component {
                 Complete order (
                 {this.state.dishes.length}
                 {' '}
-                {' '}
                 items)
               </Button>
             )}

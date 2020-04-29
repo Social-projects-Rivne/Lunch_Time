@@ -89,7 +89,7 @@ class NewOrder extends Component {
       orderedDishes = null;
     }
     const order = {
-      person: { id: Person.userInfo.id },
+      person: { id: Person.getId() },
       startTime: this.state.startDate.toUTCString(),
       finishTime: this.state.finishDate.toUTCString(),
       visitors: this.state.visitors,
@@ -256,7 +256,7 @@ class NewOrder extends Component {
               rows="2"
               maxLength="9999"
               value={location.state.dishes}
-              readonly="readonly"
+              readOnly
             />
           </Form.Group>
 
