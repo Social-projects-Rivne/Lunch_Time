@@ -17,6 +17,7 @@ class Restaurant extends Component {
     this.state = {
       restaurant: {},
       isFetching: false,
+      isOwner: false,
     };
   }
 
@@ -36,13 +37,24 @@ class Restaurant extends Component {
         this.setState({
           restaurant: response.data,
           isFetching: true,
+          // eslint-disable-next-line eqeqeq
+          isOwner: response.data.personId == localStorage.getItem('userID'),
         });
       });
   }
 
   render() {
-    const { isFetching, restaurant } = this.state;
+    const { isFetching, restaurant, isOwner } = this.state;
     const { match: { params: { id } }, isAuthenticated } = this.props;
+
+    let isOwnerText;
+    if (isOwner) {
+      isOwnerText = (
+        <Container>
+          <h4>(You are the owner of this restaurant)</h4>
+        </Container>
+      );
+    }
 
     let newOrderBtn;
     if (isAuthenticated) {
@@ -76,6 +88,7 @@ class Restaurant extends Component {
     return (
       <Container className="restaurant-container">
         <h2>{restaurant.name}</h2>
+        {isOwnerText}
         {newOrderBtn}
         <Tabs defaultActiveKey="about">
           <Tab eventKey="about" title="About">
