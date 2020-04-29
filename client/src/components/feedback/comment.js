@@ -17,7 +17,7 @@ class FeedbackComment extends Component {
   }
 
   getAvatar(user) {
-    if (user.photoUrl !== undefined && user.photoUrl !== null) {
+    if (user && user.photoUrl && user.photoUrl.length) {
       Api.getImage(`image/profile/${user.id}`)
         .then((response) => {
           if (response.error == null) {
