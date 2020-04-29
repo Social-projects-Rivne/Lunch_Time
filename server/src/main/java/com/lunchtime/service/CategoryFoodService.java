@@ -13,4 +13,5 @@ public interface CategoryFoodService  {
 
     Optional<CategoryFood> findById(Long id);
 
+    CategoryFood deleteCategoryFoodById(Long id);
 }

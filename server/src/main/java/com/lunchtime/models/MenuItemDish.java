@@ -2,11 +2,13 @@ package com.lunchtime.models;
 
 import javax.persistence.*;
 import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.validator.constraints.Currency;
 import java.math.BigDecimal;
 
 @Getter
@@ -22,10 +24,9 @@ public class MenuItemDish {
     @Column(name = "portion_size", length = 30)
     private String portionSize;
 
-
     @NotNull
     @DecimalMin(message = "Price is not valid",
-                           value = "0")
+                           value = "1.0")
     @Column(name = "portion_price")
     private BigDecimal portionPrice;
 

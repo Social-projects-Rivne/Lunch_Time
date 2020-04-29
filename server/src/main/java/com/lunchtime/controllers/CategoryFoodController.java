@@ -52,6 +52,16 @@ public class CategoryFoodController {
                .body(newCategory);
     }
 
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteCategoryFoodById(@PathVariable Long id) {
+        CategoryFood categoryFood = categoryFoodService.deleteCategoryFoodById(id);
+        if (categoryFood == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok()
+            .build();
+    }
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     private Map<String, String> handleValidationExceptions(MethodArgumentNotValidException ex) {

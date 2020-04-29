@@ -1,6 +1,7 @@
 package com.lunchtime.service.impl;
 
 import com.lunchtime.models.CategoryFood;
+import com.lunchtime.models.Restaurant;
 import com.lunchtime.repository.CategoryFoodRepository;
 import com.lunchtime.service.CategoryFoodService;
 import org.springframework.data.domain.Page;
@@ -29,6 +30,14 @@ public class CategoryFoodServiceImpl implements CategoryFoodService {
         return categoryFoodRepository.findById(id);
     }
 
+    public CategoryFood deleteCategoryFoodById(Long id) {
+        return findById(id)
+            .map(categoryFood -> {
+                categoryFood.setDeleted(true);
+                return save(categoryFood);
+            })
+            .orElse(null);
+    }
 }
 
 
