@@ -38,6 +38,7 @@ public class PersonMapper {
             .phoneNumber(person.getPhoneNumber())
             .email(person.getEmail())
             .photoUrl(person.getPhotoUrl())
+            .role(person.getRoleId())
             .build();
     }
 
