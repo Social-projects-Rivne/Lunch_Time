@@ -36,6 +36,7 @@ class NavigationBar extends Component {
         className={className}
         onClick={() => {
           callback();
+          localStorage.clear();
         }}
       >
         <Link className="link" to="/">Logout</Link>
