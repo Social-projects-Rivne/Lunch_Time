@@ -252,13 +252,10 @@ class NewOrder extends Component {
           <Form.Group>
             <Form.Label>Ordered dishes</Form.Label>
             <Form.Control
-              as="textarea"
-              rows="3"
-              name="description"
-              placeholder="Write any comments to order"
-              maxLength="999"
+              rows="2"
+              maxLength="9999"
               value={location.state.dishes}
-              onChange={(event) => this.handleFormControl(event)}
+              readonly="readonly"
             />
           </Form.Group>
 
