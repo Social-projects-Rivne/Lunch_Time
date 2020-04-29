@@ -58,6 +58,13 @@ public class EventServiceImpl implements EventService {
         return eventRepository.findAllByDateBetween(start, end);
     }
 
+    @Override
+    public List<Event> getEventByRestaurantId(Long id) {
+        return id != null
+            ? eventRepository.findAllByRestaurantId(id)
+            : null;
+    }
+
     public Optional<Event> getEventById(Long id) {
         return eventRepository.findById(id);
     }
