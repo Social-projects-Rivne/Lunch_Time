@@ -27,15 +27,30 @@ class Profile extends Component {
       user: {},
       isFetching: false,
       isShowAlert: false,
+      isOwnerRole: 2, // id that refers to Restaurant Owner role in DB
     };
     this.menuItems = [
-      { path: '/profile/info', title: 'Info' },
-      { path: '/profile/owners-restaurants', title: 'My Restaurants' },
-      { path: '/profile/orders', title: 'Orders' },
-      { path: '/profile/history', title: 'History' },
-      { path: '/profile/subscriptions', title: 'Subscriptions' },
-      { path: '/profile/sharing', title: 'Sharing' },
-      { path: '/profile/settings', title: 'Settings' },
+      {
+        path: '/profile/info', title: 'Info', ownerSee: true, userSee: true,
+      },
+      {
+        path: '/profile/owners-restaurants', title: 'My Restaurants', ownerSee: true, userSee: false,
+      },
+      {
+        path: '/profile/orders', title: 'Orders', ownerSee: true, userSee: true,
+      },
+      {
+        path: '/profile/history', title: 'History', ownerSee: true, userSee: true,
+      },
+      {
+        path: '/profile/subscriptions', title: 'Subscriptions', ownerSee: true, userSee: true,
+      },
+      {
+        path: '/profile/sharing', title: 'Sharing', ownerSee: true, userSee: true,
+      },
+      {
+        path: '/profile/settings', title: 'Settings', ownerSee: true, userSee: true,
+      },
     ];
   }
 
@@ -69,7 +84,9 @@ class Profile extends Component {
   }
 
   render() {
-    const { isFetching, user, isShowAlert } = this.state;
+    const {
+      isFetching, user, isShowAlert, isOwnerRole,
+    } = this.state;
     const { location } = this.props;
     return (
       <Container fluid>
@@ -82,16 +99,23 @@ class Profile extends Component {
           <Row>
             <Col md="3" className="profile-menu">
               <ListGroup>
-                {this.menuItems.map((menuItem, index) => {
-                  return (
-                    // eslint-disable-next-line react/no-array-index-key
-                    <Link to={menuItem.path} key={index}>
-                      <ListGroup.Item active={location.pathname === menuItem.path}>
-                        {menuItem.title}
-                      </ListGroup.Item>
-                    </Link>
-                  );
-                })}
+                {this.menuItems
+                  .filter((item) => {
+                    if (user.role === isOwnerRole) {
+                      return item.ownerSee === true;
+                    }
+                    return item.userSee === true;
+                  })
+                  .map((menuItem, index) => {
+                    return (
+                      // eslint-disable-next-line react/no-array-index-key
+                      <Link to={menuItem.path} key={index}>
+                        <ListGroup.Item active={location.pathname === menuItem.path}>
+                          {menuItem.title}
+                        </ListGroup.Item>
+                      </Link>
+                    );
+                  })}
               </ListGroup>
             </Col>
             <Col>
