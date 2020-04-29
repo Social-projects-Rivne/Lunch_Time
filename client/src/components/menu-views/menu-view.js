@@ -83,7 +83,7 @@ class Menu extends Component {
   addDishToOrderList(dishCategory, dishName) {
     const previousDishArray = this.state.dishes;
     const dishes = [...previousDishArray];
-    const dish = `${dishCategory} ${dishName}, `;
+    const dish = ` ${dishCategory} ${dishName}`;
     dishes.push(dish);
     this.setState({
       dishes,
@@ -128,10 +128,11 @@ class Menu extends Component {
                   marginRight: 40,
                 }}
               >
-                Complete order
-                {' ('}
+                Complete order (
                 {this.state.dishes.length}
-                )
+                {' '}
+                {' '}
+                items)
               </Button>
             )}
           </Link>
@@ -144,8 +145,12 @@ class Menu extends Component {
   }
 }
 
+Menu.defaultProps = {
+  name: 'selected restaurant',
+};
+
 Menu.propTypes = {
   id: PropTypes.string.isRequired,
-  name: PropTypes.string.isRequired,
+  name: PropTypes.string,
 };
 export default Menu;
