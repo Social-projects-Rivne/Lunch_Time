@@ -1,14 +1,15 @@
 package com.lunchtime.models;
 
+import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.Instant;
@@ -20,6 +21,10 @@ import java.util.Date;
 @Entity
 @Data
 @Table(name = "ordering")
+@TypeDef(
+    name = "jsonb",
+    typeClass = JsonBinaryType.class
+)
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,6 +52,10 @@ public class Order {
     @JoinColumn(name = "status_id", referencedColumnName = "id")
     private OrderStatus status;
 
+    @Type(type = "jsonb")
+    @Column(columnDefinition = "jsonb", name = "ordered_dishes")
+    private Object orderedDishes;
+
     @Size(max = 999)
     @Column(name = "description")
     private String description;
@@ -59,9 +68,6 @@ public class Order {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "table_id", referencedColumnName = "id")
     private RestaurantTable table;
-
-    @Column(name = "dish_details_id")
-    private Long dishDetails;
 
     @ColumnDefault("false")
     @Column(name = "is_deleted")
