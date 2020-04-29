@@ -14,7 +14,7 @@ import Sharing from './sharing';
 import Subscriptions from './subscriptions';
 import Api from '../../services/api';
 import '../../styles/profile.css';
-import PhotoEditor from '../shared/photo-editor';
+import PhotoEditor from './avatar';
 import InfoChange from './info-change';
 import Auth from '../../services/auth';
 import OwnersRestaurants from './owners-restaurants';
@@ -71,21 +71,45 @@ class Profile extends Component {
           user: response.data,
           isFetching: true,
         });
+        this.getAvatarUrl(response.data);
       });
   }
 
-  saveAlertState(show) {
+  getAvatarUrl(user) {
+    if (user.photoUrl === undefined || user.photoUrl === null) {
+      this.saveAvatarState('/img/default-avatar.png');
+    } else {
+      Api.getImage(`image/profile/${user.id}`)
+        .then((response) => {
+          if (response.error == null) {
+            this.saveAvatarState(`data:image/jpg;base64,${response.data}`);
+          }
+        });
+    }
+  }
+
+  saveAlertState(show, title) {
     const { isShowAlert } = this.state;
     if (isShowAlert !== show) {
       this.setState({
         isShowAlert: show,
+        title: title,
       });
     }
   }
 
+  saveAvatarState(avatar) {
+    this.setState((prevState) => ({
+      user: {
+        ...prevState.user,
+        avatar: avatar,
+      },
+    }));
+  }
+
   render() {
     const {
-      isFetching, user, isShowAlert, isOwnerRole,
+      isFetching, user, isShowAlert, title, isOwnerRole,
     } = this.state;
     const { location } = this.props;
     return (
@@ -130,6 +154,7 @@ class Profile extends Component {
                         user={user}
                         isShowAlert={isShowAlert}
                         showAlert={(e) => this.saveAlertState(e)}
+                        title={title}
                       />
                     );
                   }}
@@ -140,7 +165,24 @@ class Profile extends Component {
                     return (
                       <InfoChange
                         user={user}
-                        updateUser={(updatedUser) => this.setState({ user: updatedUser, isShowAlert: true })}
+                        updateUser={(updatedUser) => this.setState({
+                          user: updatedUser,
+                          isShowAlert: true,
+                          title: 'Your profile was successfully updated',
+                        })}
+                      />
+                    );
+                  }}
+                />
+                <Route
+                  path="/profile/avatar"
+                  component={() => {
+                    return (
+                      <PhotoEditor
+                        isFetching={isFetching}
+                        user={user}
+                        title={(e) => this.saveAlertState(true, e)}
+                        updateAvatar={(avatar) => this.saveAvatarState(avatar)}
                       />
                     );
                   }}
