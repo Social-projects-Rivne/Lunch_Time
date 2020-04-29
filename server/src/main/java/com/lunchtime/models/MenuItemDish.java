@@ -6,7 +6,6 @@ import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
@@ -33,7 +32,6 @@ public class MenuItemDish {
     @Column(name = "portion_price")
     private Double portionPrice;
 
-    @Currency(value = {"UAH", "USD", "EUR"})
     @ColumnDefault("UAH")
     @Column(name = "currency")
     private String currency;
