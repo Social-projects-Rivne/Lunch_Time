@@ -7,6 +7,8 @@
 .registe_btn_container {
     display: flex;
     justify-content: flex-end;
+    width: 10%;
+    float: right;
   }
   
   .registe_btn_cancel {
