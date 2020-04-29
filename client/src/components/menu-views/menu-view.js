@@ -111,30 +111,33 @@ class Menu extends Component {
           <Header />
           {this.initMenuItemDish()}
           {this.initPagination()}
-          <Link to={{
-            pathname: `/restaurants/${id}/new-order`,
-            state: {
-              restaurantName: name,
-              dishes: dishes,
-              menuItemDishesMap: menuItemDishesMap,
-            },
+          <div style={{
+            display: 'flex',
+            justifyContent: 'flex-end',
           }}
           >
-            {this.state.dishes.length > 0 && (
-              <Button
-                className="complete"
-                variant="primary"
-                style={{
-                  marginRight: 40,
-                }}
-              >
-                Complete order (
-                {this.state.dishes.length}
-                {' '}
-                items)
-              </Button>
-            )}
-          </Link>
+            <Link to={{
+              pathname: `/restaurants/${id}/new-order`,
+              state: {
+                restaurantName: name,
+                dishes: dishes,
+                menuItemDishesMap: menuItemDishesMap,
+              },
+            }}
+            >
+              {this.state.dishes.length > 0 && (
+                <Button
+                  className="complete"
+                  variant="primary"
+                >
+                  Complete order (
+                  {this.state.dishes.length}
+                  {' '}
+                  items)
+                </Button>
+              )}
+            </Link>
+          </div>
         </Container>
       );
     }
