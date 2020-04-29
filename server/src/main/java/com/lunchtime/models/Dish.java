@@ -1,27 +1,29 @@
 package com.lunchtime.models;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.ColumnDefault;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.ColumnDefault;
 
 @Getter
 @Setter
 @Entity
-
 public class Dish {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @NotBlank
+    @Size(min = 1, max = 30)
     @Column(name = "name", length = 30)
     private String name;
 
     @NotBlank
-    @Column(name = "ingredients", length = 255)
+    @Size(min = 1, max = 255)
+    @Column(name = "ingredients")
     private String ingredients;
 
     @ColumnDefault("false")
