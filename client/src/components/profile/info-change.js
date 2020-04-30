@@ -127,12 +127,14 @@ class InfoChange extends React.Component {
               name="name"
               label="Name"
               value={user.name}
+              placeholder="Enter a new name"
               onChange={this.handleChange}
             />
             <Input
               name="phoneNumber"
               label="Phone number"
               value={user.phoneNumber}
+              placeholder="Enter a new phone number"
               onChange={this.handleChange}
             />
             <PassChange
