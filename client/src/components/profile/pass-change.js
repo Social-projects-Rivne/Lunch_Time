@@ -42,6 +42,8 @@ class PassChange extends React.Component {
         errors.newPass += /^\s|\s$/.test(value) ? 'New password cannot begin or end with a space! ' : '';
         errors.newPass += value === this.props.user.phoneNumber
           ? 'Password cannot be the same as the phone number! ' : '';
+        errors.newPass += value === this.props.user.email
+          ? 'Password cannot be the same as the email address! ' : '';
         errors.password = password === value ? '' : 'Passwords do not match! ';
         this.checkIfAllEmpty(oldPass, value, password, errors);
         break;
