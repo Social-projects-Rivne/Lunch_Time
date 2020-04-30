@@ -10,7 +10,6 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.FileSystemUtils;
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -22,17 +21,15 @@ import java.util.Random;
 @Component
 @RequiredArgsConstructor
 public class DatabaseSeed {
-
-    String[] dishesName = new String[]{"Salami", "Margarita", "Manhattan", "Soup", "Hamburger", "Ice"};
-    String[] categoryFood = new String[]{"Pizza", "Pizza", "Pizza",
-        "Main course", "Snacks", "Dessert"};
-    String[] dishPortion = new String[]{"500 gr", "300 gr", "230 gr", "150 gr", "500 gr", "200 gr"};
-    String[] dishUrl = new String[]{"pizza-salami.jpg",
-        "pizza-margarita.jpg",
-        "pizza-manhattan.jpg",
-        "Soup_with_meatballs.jpg",
-        "hamburger.jpg",
-        "ice.jpg"};
+    String[] dishesName = new String[] {"Salami", "Margarita", "Manhattan", "Soup", "Hamburger", "Ice"};
+    String[] categoryFood = new String[] {"Pizza", "Main course", "Snacks", "Dessert"};
+    String[] dishPortion = new String[] {"500 gr", "300 gr", "230 gr", "150 gr", "500 gr", "200 gr"};
+    String[] dishUrl = new String[] { "pizza-salami.jpg",
+                                      "pizza-margarita.jpg",
+                                      "pizza-manhattan.jpg",
+                                      "Soup_with_meatballs.jpg",
+                                      "hamburger.jpg",
+                                      "ice.jpg"};
     String[] restaurantName = new String[]{"Celentano", "Manhattan", "CasaNuova", "LaRiva", "PuriRivne"};
     String[] userName = new String[]{"Bob", "Devid", "Andriy", "Yura", "Roma"};
     String[] eventCategoryName = new String[]{"party", "karaoke", "concert", "for_children",
@@ -129,12 +126,11 @@ public class DatabaseSeed {
     private void seedMeuItemDish() {
 
         List<Dish> dishesList = dishRepository.findAll();
-
         for (long j = 0L; j < getRestaurantList().size(); j++) {
             for (long i = 0L; i < dishesList.size(); i++) {
                 MenuItemDish menuItemDish = new MenuItemDish();
                 menuItemDish.setPortionSize(dishPortion[(int) i]);
-                menuItemDish.setPortionPrice(i + 10L);
+                menuItemDish.setPortionPrice(Double.valueOf(i + 10L));
                 menuItemDish.setDish(dishesList.get((int) i));
                 menuItemDish.setPortionUnit(i + 70L);
                 menuItemDish.setImageUrl(dishUrl[(int) i]);
@@ -147,7 +143,6 @@ public class DatabaseSeed {
     private void seedCategoryFood() {
 
         for (long i = 0L; i < categoryFood.length; i++) {
-
             CategoryFood category = new CategoryFood();
             category.setName(categoryFood[(int) i]);
             categoryFoodRepository.save(category);
@@ -305,5 +300,3 @@ public class DatabaseSeed {
         }
     }
 }
-
-
