@@ -10,8 +10,18 @@ import Api from '../../services/api';
 
 
 class MenuItemDish extends Component {
+  onDeleteClick(id) {
+    Api.delete(`menuitemdish/${id}`)
+      .then((r) => {
+        if (r.error != null) {
+          console.log(r.error);
+        }
+        this.props.update();
+      });
+  }
+
   render() {
-    const { menuItemDishes, isAuthenticated } = this.props;
+    const { menuItemDishes, isAuthenticated, isEdit } = this.props;
     return (
       <Container>
         {menuItemDishes.map((menuItemDish) => {
@@ -46,12 +56,17 @@ class MenuItemDish extends Component {
               </Col>
               <Col className="col-item">
                 <br />
-                <Button
-                  variant="primary"
-                  disabled={!isAuthenticated}
-                >
-                  Add
-                </Button>
+                {!isEdit ? (
+                  <Button variant="primary" disabled={!isAuthenticated}>Add</Button>
+                ) : (
+                  <Button
+                    id={menuItemDish.id}
+                    variant="primary"
+                    onClick={(e) => this.onDeleteClick(e.target.id)}
+                  >
+                    Delete
+                  </Button>
+                )}
               </Col>
             </Row>
           );
@@ -65,5 +80,7 @@ class MenuItemDish extends Component {
 MenuItemDish.propTypes = {
   menuItemDishes: PropTypes.array.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
+  isEdit: PropTypes.bool.isRequired,
+  update: PropTypes.any.isRequired,
 };
 export default MenuItemDish;

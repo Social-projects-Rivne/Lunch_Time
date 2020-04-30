@@ -16,6 +16,7 @@ class Menu extends Component {
       menuItemDishes: [],
       path: 'menuitemdish/restaurantId?',
       isFetching: false,
+      isEdit: false,
     };
     this.handlePageChange = this.handlePageChange.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -23,6 +24,10 @@ class Menu extends Component {
 
   componentDidMount() {
     this.getAll(this.state.path, this.state.number, this.state.pageSize);
+  }
+
+  onEditMenu() {
+    this.setState((currentState) => ({ isEdit: !currentState.isEdit }));
   }
 
   getAll(path, page, pageSize) {
@@ -48,8 +53,8 @@ class Menu extends Component {
   }
 
   initPagination() {
-    const { number, totalPages } = this.state;
-    if (totalPages === 1) {
+    const { number, totalPages, menuItemDishes } = this.state;
+    if (totalPages === 1 || menuItemDishes === undefined) {
       return null;
     }
     return (
@@ -63,11 +68,19 @@ class Menu extends Component {
   }
 
   initMenuItemDish() {
-    const { menuItemDishes } = this.state;
+    const { menuItemDishes, isEdit } = this.state;
     const { isAuthenticated } = this.props;
-    return (
-      <MenuItemDish menuItemDishes={menuItemDishes} isAuthenticated={isAuthenticated} />
-    );
+    if (menuItemDishes !== undefined) {
+      return (
+        <MenuItemDish
+          menuItemDishes={menuItemDishes}
+          isAuthenticated={isAuthenticated}
+          isEdit={isEdit}
+          update={() => this.componentDidMount()}
+        />
+      );
+    }
+    return null;
   }
 
   handleChange(match) {
@@ -82,7 +95,7 @@ class Menu extends Component {
     if (isFetching) {
       return (
         <Container className="menu">
-          <Header onChange={this.handleChange} />
+          <Header onChange={this.handleChange} isEdit={() => this.onEditMenu()} />
           {this.initMenuItemDish()}
           {this.initPagination()}
         </Container>

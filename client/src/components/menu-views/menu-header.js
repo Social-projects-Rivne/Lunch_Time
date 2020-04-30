@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import {
   Container, Row,
-  Dropdown, Col,
+  Dropdown, Col, ButtonToolbar, Button,
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import Api from '../../services/api';
@@ -11,11 +11,17 @@ class Header extends Component {
     super(props);
     this.state = {
       categories: [],
+      isEdit: false,
     };
   }
 
   componentDidMount() {
     this.getCategories('category');
+  }
+
+  onEditClick() {
+    this.setState((currentState) => ({ isEdit: !currentState.isEdit }));
+    this.props.isEdit(this.state.isEdit);
   }
 
   onHandleClick(path) {
@@ -41,6 +47,22 @@ class Header extends Component {
     return (
       <Container>
         <br />
+        <ButtonToolbar className="justify-content-center">
+          <Button
+            className="ml-3 mb-1"
+            onClick={() => this.onEditClick()}
+          >
+            {!this.state.isEdit ? 'Edit Menu' : 'Close'}
+          </Button>
+          {this.state.isEdit && (
+            <Button
+              className="ml-3 mb-1"
+              onClick={() => this.onEditClick()}
+            >
+              Add a new dish
+            </Button>
+          )}
+        </ButtonToolbar>
         <Row>
           <Col className="header-item">
             <Dropdown>
@@ -85,9 +107,15 @@ class Header extends Component {
           <Col className="header-item">
             Portion price
           </Col>
-          <Col className="header-item">
-            Add to Order
-          </Col>
+          {!this.state.isEdit ? (
+            <Col className="header-item">
+              Add to Order
+            </Col>
+          ) : (
+            <Col className="header-item">
+              Delete item
+            </Col>
+          )}
         </Row>
         <hr className="menu-item" />
       </Container>
@@ -97,5 +125,6 @@ class Header extends Component {
 
 Header.propTypes = {
   onChange: PropTypes.any.isRequired,
+  isEdit: PropTypes.bool.isRequired,
 };
 export default Header;
