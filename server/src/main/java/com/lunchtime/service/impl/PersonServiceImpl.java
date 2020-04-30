@@ -61,6 +61,10 @@ public class PersonServiceImpl implements PersonService {
         Optional<Person> result = personRepository.findById(personPassDto.getId());
         if (result.isPresent()) {
             Person person = result.get();
+            if (person.getPhoneNumber().equals(personPassDto.getPassword())
+                || person.getEmail().equals(personPassDto.getPassword())) {
+                throw new Exception();
+            }
             if (BCrypt.checkpw(personPassDto.getOldPassword(), person.getPassword())) {
                 person.setPassword(bcryptPasswordEncoder.encode(personPassDto.getPassword()));
                 person.setName(personPassDto.getName());
