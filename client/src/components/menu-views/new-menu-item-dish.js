@@ -1,17 +1,41 @@
 import React, { Component } from 'react';
 import {
-  Button, ButtonToolbar, Col, Container, Form, Image,
+  Button, ButtonToolbar, Col, Container, Dropdown, Form, Image,
 } from 'react-bootstrap';
 import '../../styles/new-menu-item-dish.css';
 import PropTypes from 'prop-types';
+import Api from '../../services/api';
 
 class NewMenuItemDish extends Component {
   constructor(props) {
     super(props);
     this.path = '/new-dish';
+    this.state = {
+      categories: [],
+      selectedCategory: 'All categories',
+    };
+  }
+
+  componentDidMount() {
+    this.getCategories('category');
+  }
+
+  getCategories(path) {
+    Api.get(path)
+      .then((response) => {
+        if (response.error) {
+          // eslint-disable-next-line no-console
+          console.error(response);
+          return;
+        }
+        this.setState({
+          categories: response.data.content,
+        });
+      });
   }
 
   render() {
+    const { categories, selectedCategory } = this.state;
     return (
       <Container fluid className="new-menu-item-container">
         <h5>
@@ -21,13 +45,19 @@ class NewMenuItemDish extends Component {
         <Form.Group>
           <Form.Label>Select category: </Form.Label>
           <br />
-          <Form.Control as="select">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-          </Form.Control>
+          <Dropdown onSelect={(e) => { this.setState({ selectedCategory: e }); }}>
+            <Dropdown.Toggle>{selectedCategory}</Dropdown.Toggle>
+            <Dropdown.Menu>
+              {categories.map((category) => (
+                <Dropdown.Item
+                  eventKey={category.name}
+                  key={category.id}
+                >
+                  {category.name}
+                </Dropdown.Item>
+              ))}
+            </Dropdown.Menu>
+          </Dropdown>
         </Form.Group>
 
         <Form.Group>

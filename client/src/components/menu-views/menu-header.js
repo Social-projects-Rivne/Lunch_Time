@@ -25,10 +25,6 @@ class Header extends Component {
     this.props.isEdit(this.state.isEdit);
   }
 
-  onNewDishClick() {
-
-  }
-
   onHandleClick(path) {
     this.props.onChange(path);
   }
