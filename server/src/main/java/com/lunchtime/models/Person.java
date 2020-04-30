@@ -11,6 +11,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.time.Instant;
 
 @Entity
@@ -23,10 +24,12 @@ public class Person {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Size(max = 255)
     @Column(name = "avatar_url")
     private String photoUrl;
 
     @NotBlank
+    @Size(min = 1, max = 255)
     @Pattern(regexp = "^.{1,50}$")
     @Column(name = "name")
     private String name;
@@ -37,10 +40,12 @@ public class Person {
     private String email;
 
     @NotBlank
+    @Size(min = 1, max = 255)
     @Column(name = "password")
     private String password;
 
     @NotBlank
+    @Size(min = 1, max = 255)
     @Pattern(regexp = "^\\+[0-9]{7,16}$")
     @Column(name = "phone_number")
     private String phoneNumber;
@@ -68,13 +73,6 @@ public class Person {
     @Enumerated(EnumType.STRING)
     @Column(name = "status", columnDefinition = "varchar(50) default 'ACTIVE'")
     private Status status;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinTable(name = "user_roles",
-        joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
-        inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
-
-    private Role role;
 
     public Person() {
     }

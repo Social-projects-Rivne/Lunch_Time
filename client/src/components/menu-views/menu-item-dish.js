@@ -11,22 +11,22 @@ import Api from '../../services/api';
 
 class MenuItemDish extends Component {
   render() {
-    const { menuitemdishes } = this.props;
+    const { menuItemDishes, isAuthenticated } = this.props;
     return (
       <Container>
-        {menuitemdishes.map((menuitemdish) => {
+        {menuItemDishes.map((menuItemDish) => {
           return (
-            <Row key={menuitemdish.id}>
+            <Row key={menuItemDish.id}>
               <Col>
-                <Category category={menuitemdish.dish.categoryFood} />
+                <Category category={menuItemDish.dish.categoryfood} />
               </Col>
               <Col>
-                <Dish dish={menuitemdish} />
+                <Dish dish={menuItemDish} />
               </Col>
               <Col className="col-item">
                 <Image
                   className="image-menu-item"
-                  src={`${Api.apiUrl}images/dishes/${menuitemdish.imageUrl}`}
+                  src={`${Api.apiUrl}images/dishes/${menuItemDish.imageUrl}`}
                   roundedCircle
                   width="150"
                   height="75"
@@ -35,18 +35,21 @@ class MenuItemDish extends Component {
               </Col>
               <Col className="col-item">
                 <br />
-                {menuitemdish.portionSize}
+                {menuItemDish.portionSize}
               </Col>
               <Col className="col-item">
                 <br />
-                {menuitemdish.portionPrice}
+                {menuItemDish.portionPrice}
                 {' '}
                 {'  '}
-                grn
+                {menuItemDish.currency}
               </Col>
               <Col className="col-item">
                 <br />
-                <Button variant="primary">
+                <Button
+                  variant="primary"
+                  disabled={!isAuthenticated}
+                >
                   Add
                 </Button>
               </Col>
@@ -60,6 +63,7 @@ class MenuItemDish extends Component {
 }
 
 MenuItemDish.propTypes = {
-  menuitemdishes: PropTypes.array.isRequired,
+  menuItemDishes: PropTypes.array.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
 };
 export default MenuItemDish;

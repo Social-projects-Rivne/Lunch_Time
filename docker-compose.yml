@@ -23,6 +23,7 @@ services:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/lunchtime?useUnicode=true&characterEncoding=utf8&useSSL=false
     volumes:
       - ./server/:/app/
+      - ./server/static/:/app/static/
     working_dir: /app
     user: appuser
     command: mvn clean spring-boot:run
