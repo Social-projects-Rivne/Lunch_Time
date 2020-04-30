@@ -7,8 +7,6 @@ import com.lunchtime.service.CategoryFoodService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -32,6 +30,14 @@ public class CategoryFoodServiceImpl implements CategoryFoodService {
         return categoryFoodRepository.findById(id);
     }
 
+    public CategoryFood deleteCategoryFoodById(Long id) {
+        return findById(id)
+            .map(categoryFood -> {
+                categoryFood.setDeleted(true);
+                return save(categoryFood);
+            })
+            .orElse(null);
+    }
 }
 
 
