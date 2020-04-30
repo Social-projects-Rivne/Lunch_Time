@@ -1,6 +1,5 @@
 package com.lunchtime.service.impl;
 
-import com.lunchtime.models.CategoryFood;
 import com.lunchtime.models.Dish;
 import com.lunchtime.repository.DishRepository;
 import com.lunchtime.service.DishService;
