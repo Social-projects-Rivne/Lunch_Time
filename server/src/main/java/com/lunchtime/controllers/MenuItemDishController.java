@@ -3,11 +3,9 @@ package com.lunchtime.controllers;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import javax.validation.Valid;
-
 import com.lunchtime.service.MenuItemDishService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -54,6 +52,21 @@ public class MenuItemDishController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(menuItemDishPage);
+    }
+
+    @GetMapping("/category")
+    public ResponseEntity<Page<MenuItemDish>> getAllByDishCategoryName(
+        @RequestParam("name") String name,
+        @RequestParam("restaurantId") Long id,
+        Pageable pageable) {
+
+        Page<MenuItemDish> menuItemDishPage = menuItemDishService
+            .findDishesByRestaurantIdAndCategoryName(name, id, pageable);
+        if (menuItemDishPage.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(menuItemDishPage);
+
     }
 
     @PostMapping

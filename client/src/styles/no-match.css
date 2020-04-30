@@ -9,3 +9,13 @@
 .m-button {
   font-size: 100%;
 }
+
+.m-button:hover{
+  color: white !important;
+  text-shadow: 1px 0 white;
+}
+
+.m-button:active{
+  color: black !important;
+  text-shadow: 1px 0 black;
+}

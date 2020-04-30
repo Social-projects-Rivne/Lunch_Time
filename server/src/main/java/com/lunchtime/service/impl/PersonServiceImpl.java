@@ -2,11 +2,11 @@ package com.lunchtime.service.impl;
 
 import com.lunchtime.mapper.PersonMapper;
 import com.lunchtime.models.Person;
-import com.lunchtime.service.dto.RegisterPerson;
-import com.lunchtime.service.dto.PersonDto;
-import com.lunchtime.service.dto.PersonPassDto;
 import com.lunchtime.repository.PersonRepository;
 import com.lunchtime.service.PersonService;
+import com.lunchtime.service.dto.PersonDto;
+import com.lunchtime.service.dto.PersonPassDto;
+import com.lunchtime.service.dto.RegisterPerson;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,9 +23,13 @@ public class PersonServiceImpl implements PersonService {
     private final BCryptPasswordEncoder bcryptPasswordEncoder;
 
     public PersonDto saveRegisterPerson(RegisterPerson registerPerson) {
+        if (registerPerson.getEmail().equals(registerPerson.getPassword())
+            || registerPerson.getPhoneNumber().equals(registerPerson.getPassword())) {
+            return null;
+        }
+
         boolean phoneExists = false;
         boolean emailExists = false;
-        String code = null;
 
         if (findByPhoneNumber(registerPerson.getPhoneNumber()) != null) {
             phoneExists = true;
@@ -35,14 +39,11 @@ public class PersonServiceImpl implements PersonService {
         }
 
         if (phoneExists && emailExists) {
-            code = "601";
+            throw new NonUniqueResultException("Phone number and email are not unique");
         } else if (phoneExists) {
-            code = "602";
+            throw new NonUniqueResultException("Phone number isn't unique");
         } else if (emailExists) {
-            code = "603";
-        }
-        if (code != null) {
-            throw new NonUniqueResultException(code);
+            throw new NonUniqueResultException("email isn't unique");
         }
 
         Person person = personMapper.fromRegisterToPerson(registerPerson);

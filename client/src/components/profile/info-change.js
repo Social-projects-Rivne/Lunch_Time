@@ -144,10 +144,9 @@ class InfoChange extends React.Component {
             <Link to="avatar">
               <Avatar
                 className="mt-2"
-                name={user.name}
                 size="150"
                 round
-                src={user.avatarUrl}
+                src={user.avatar}
               />
             </Link>
           </Col>
