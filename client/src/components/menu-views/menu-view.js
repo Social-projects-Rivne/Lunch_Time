@@ -92,10 +92,11 @@ class Menu extends Component {
 
   render() {
     const { isFetching } = this.state;
+    const { id } = this.props;
     if (isFetching) {
       return (
         <Container className="menu">
-          <Header onChange={this.handleChange} isEdit={() => this.onEditMenu()} />
+          <Header onChange={this.handleChange} isEdit={() => this.onEditMenu()} id={id} />
           {this.initMenuItemDish()}
           {this.initPagination()}
         </Container>

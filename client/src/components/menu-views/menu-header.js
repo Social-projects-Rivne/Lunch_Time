@@ -4,6 +4,7 @@ import {
   Dropdown, Col, ButtonToolbar, Button,
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import Api from '../../services/api';
 
 class Header extends Component {
@@ -22,6 +23,10 @@ class Header extends Component {
   onEditClick() {
     this.setState((currentState) => ({ isEdit: !currentState.isEdit }));
     this.props.isEdit(this.state.isEdit);
+  }
+
+  onNewDishClick() {
+
   }
 
   onHandleClick(path) {
@@ -44,6 +49,7 @@ class Header extends Component {
 
   render() {
     const { categories } = this.state;
+    const { id } = this.props;
     return (
       <Container>
         <br />
@@ -55,12 +61,11 @@ class Header extends Component {
             {!this.state.isEdit ? 'Edit Menu' : 'Close'}
           </Button>
           {this.state.isEdit && (
-            <Button
-              className="ml-3 mb-1"
-              onClick={() => this.onEditClick()}
-            >
-              Add a new dish
-            </Button>
+            <Link to={{ pathname: `/restaurants/${id}/new-dish` }}>
+              <span className="d-inline-block ml-2">
+                <Button>Add a new dish</Button>
+              </span>
+            </Link>
           )}
         </ButtonToolbar>
         <Row>
@@ -126,5 +131,6 @@ class Header extends Component {
 Header.propTypes = {
   onChange: PropTypes.any.isRequired,
   isEdit: PropTypes.bool.isRequired,
+  id: PropTypes.number.isRequired,
 };
 export default Header;
