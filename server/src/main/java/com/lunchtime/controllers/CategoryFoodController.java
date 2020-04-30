@@ -1,15 +1,7 @@
 package com.lunchtime.controllers;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import javax.validation.Valid;
-
+import com.lunchtime.models.CategoryFood;
 import com.lunchtime.service.CategoryFoodService;
-import com.lunchtime.service.impl.CategoryFoodServiceImpl;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -17,7 +9,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-import com.lunchtime.models.CategoryFood;
+import javax.validation.Valid;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/category")
@@ -37,10 +34,10 @@ public class CategoryFoodController {
 
     @GetMapping("{id}")
     public ResponseEntity<CategoryFood> getCategory(@PathVariable Long id) {
-        Optional<CategoryFood> dish = categoryFoodService.findById(id);
-        if (dish.isPresent()) {
+        Optional<CategoryFood> category = categoryFoodService.findById(id);
+        if (category.isPresent()) {
             return ResponseEntity.ok()
-                .body(dish.get());
+                .body(category.get());
         }
         return ResponseEntity.notFound()
             .build();
@@ -53,6 +50,16 @@ public class CategoryFoodController {
         return  ResponseEntity
                .created(new URI("/api/category"))
                .body(newCategory);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deleteCategoryFoodById(@PathVariable Long id) {
+        CategoryFood categoryFood = categoryFoodService.deleteCategoryFoodById(id);
+        if (categoryFood == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok()
+            .build();
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
