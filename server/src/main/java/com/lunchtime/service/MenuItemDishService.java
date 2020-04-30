@@ -14,4 +14,7 @@ public interface MenuItemDishService {
     Optional<MenuItemDish> findById(Long id);
 
     Page<MenuItemDish> findByRestaurantId(Long id, Pageable pageable);
+
+    Page<MenuItemDish> findDishesByRestaurantIdAndCategoryName(String name,
+                                                                   Long id, Pageable pageable);
 }

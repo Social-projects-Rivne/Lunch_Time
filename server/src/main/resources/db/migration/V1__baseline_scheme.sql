@@ -1,4 +1,4 @@
-create schema public;
+create schema if not exists public;
 
 comment on schema public is 'standard public schema';
 
