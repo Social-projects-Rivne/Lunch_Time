@@ -160,6 +160,8 @@ public class DatabaseSeed {
             dish.setIngredients(" first ingredient," + " second ingredient," + " third ingredient");
             if (i == 1 || i == 2) {
                 dish.setCategoryFood(categoryFoodList.get(0));
+            } else if (i > 2) {
+                dish.setCategoryFood(categoryFoodList.get((int) (i - 2L)));
             } else {
                 dish.setCategoryFood(categoryFoodList.get((int) i));
             }
