@@ -3,10 +3,15 @@ package com.lunchtime.seed;
 import com.lunchtime.models.*;
 import com.lunchtime.repository.*;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
+import org.springframework.util.FileSystemUtils;
+import java.io.File;
+import java.io.IOException;
 import java.net.URISyntaxException;
 import java.time.Instant;
 import java.util.List;
@@ -16,10 +21,8 @@ import java.util.Random;
 @Component
 @RequiredArgsConstructor
 public class DatabaseSeed {
-
     String[] dishesName = new String[] {"Salami", "Margarita", "Manhattan", "Soup", "Hamburger", "Ice"};
-    String[] categoryFood = new String[] {"Pizza", "Pizza", "Pizza",
-                                          "Main course", "Snacks", "Dessert"};
+    String[] categoryFood = new String[] {"Pizza", "Main course", "Snacks", "Dessert"};
     String[] dishPortion = new String[] {"500 gr", "300 gr", "230 gr", "150 gr", "500 gr", "200 gr"};
     String[] dishUrl = new String[] { "pizza-salami.jpg",
                                       "pizza-margarita.jpg",
@@ -33,7 +36,7 @@ public class DatabaseSeed {
         "master_class", "tasting", "sports_broadcasting"};
     String[] eventName = new String[]{"New Year Party", "Karaoke evening", "Concert Mikhail Poplavskiy",
         "CAKE DEGUSTATION", "Chillout every Thursday!"};
-    String[] eventImage = new String[] {
+    String[] eventImage = new String[]{
         "glasses-4720011_640.jpg", "video-4647668_640.jpg", "audience-868074_640.jpg",
         "cupcakes-690040_640.jpg", "concert-336695_640.jpg"};
     String[] eventDesc = new String[]{
@@ -52,6 +55,9 @@ public class DatabaseSeed {
     Float[] cordLatitude = new Float[]{50.616294f, 50.618261f, 50.620219f, 50.616146f, 50.618318f};
     Float[] cordLongitude = new Float[]{26.275728f, 26.260064f, 26.241863f, 26.253994f, 26.252249f};
     String[] orderStatuses = new String[]{"new", "pending", "approved", "performed", "close"};
+
+    @Value("${resourceFolders}")
+    private String[] resourceFolders;
 
     private final RestaurantRepository restaurantRepository;
     private final FeedbackRepository feedbackRepository;
@@ -101,17 +107,30 @@ public class DatabaseSeed {
         if (restaurantTableRepository.count() == 0L) {
             seedRestaurantTables();
         }
+
+        for (String folder : resourceFolders) {
+            File resourceFolder = new File(folder);
+            if (resourceFolder.isDirectory() && resourceFolder.list().length == 0) {
+                try {
+                    File source = new ClassPathResource("static").getFile();
+                    File imageFolder = new File(source.getParent() + "/" + folder);
+                    FileSystemUtils.copyRecursively(imageFolder, resourceFolder);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
     }
 
     private void seedMeuItemDish() {
 
         List<Dish> dishesList = dishRepository.findAll();
-
         for (long j = 0L; j < getRestaurantList().size(); j++) {
             for (long i = 0L; i < dishesList.size(); i++) {
                 MenuItemDish menuItemDish = new MenuItemDish();
                 menuItemDish.setPortionSize(dishPortion[(int) i]);
-                menuItemDish.setPortionPrice(i + 10L);
+                menuItemDish.setPortionPrice(Double.valueOf(i + 10L));
                 menuItemDish.setDish(dishesList.get((int) i));
                 menuItemDish.setPortionUnit(i + 70L);
                 menuItemDish.setImageUrl(dishUrl[(int) i]);
@@ -124,7 +143,6 @@ public class DatabaseSeed {
     private void seedCategoryFood() {
 
         for (long i = 0L; i < categoryFood.length; i++) {
-
             CategoryFood category = new CategoryFood();
             category.setName(categoryFood[(int) i]);
             categoryFoodRepository.save(category);
@@ -282,5 +300,3 @@ public class DatabaseSeed {
         }
     }
 }
-
-

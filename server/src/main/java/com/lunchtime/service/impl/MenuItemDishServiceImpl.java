@@ -6,8 +6,6 @@ import com.lunchtime.service.MenuItemDishService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -33,6 +31,13 @@ public class MenuItemDishServiceImpl implements MenuItemDishService {
 
     public Page<MenuItemDish> findByRestaurantId(Long id, Pageable pageable) {
         return menuItemDishRepository.findByRestaurantId(id, pageable);
+    }
+
+    @Override
+    public Page<MenuItemDish> findDishesByRestaurantIdAndCategoryName(
+            String name, Long id, Pageable pageable) {
+        return menuItemDishRepository.findDishesByRestaurantIdAndCategoryName(
+                                                        name, id, pageable);
     }
 
 

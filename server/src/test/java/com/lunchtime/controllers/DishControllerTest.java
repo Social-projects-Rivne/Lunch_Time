@@ -2,7 +2,6 @@ package com.lunchtime.controllers;
 
 import com.lunchtime.models.CategoryFood;
 import com.lunchtime.models.Dish;
-import com.lunchtime.service.CategoryFoodService;
 import com.lunchtime.service.DishService;
 import org.junit.Before;
 import org.junit.Test;
@@ -12,10 +11,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-
 import java.net.URISyntaxException;
-
-import static org.junit.Assert.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
