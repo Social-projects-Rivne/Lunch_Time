@@ -39,6 +39,9 @@ public class Person {
     @Column(name = "email", unique = true)
     private String email;
 
+    @Transient
+    private String activationCode;
+
     @NotBlank
     @Size(min = 1, max = 255)
     @Column(name = "password")
