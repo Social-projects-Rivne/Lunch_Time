@@ -50,32 +50,35 @@ class App extends Component {
         <NavigationBar isAuthenticated={isAuthenticated} logoutHandler={() => { this.handleLogout(); }} />
         <Switch>
           <Route exact path="/" component={Home} />
-          <Route path="/about" component={About} />
-          <Route path="/events" component={Events} />
-          <Route path="/restaurants/:id/new-order" component={NewOrder} />
+          <Route exact path="/about" component={About} />
+          <Route exact path="/events" component={Events} />
+          <Route exact path="/restaurants/:id/new-order" component={NewOrder} />
           <Route
+            exact
             path="/restaurants/:id"
             render={(routeProps) => {
               return <Restaurant isAuthenticated={isAuthenticated} {...routeProps} />;
             }}
           />
-          <Route path="/restaurants" component={RestaurantList} />
+          <Route exact path="/restaurants" component={RestaurantList} />
           <Route
+            exact
             path="/login"
             render={(routeProps) => {
               return <Login loginHandler={() => { this.handleLogin(); }} {...routeProps} />;
             }}
           />
           <Route
+            exact
             path="/registration"
             render={(routeProps) => {
               return <Registration loginHandler={() => { this.handleLogin(); }} {...routeProps} />;
             }}
           />
-          <Route path="/map" component={Map} />
-          <Route path="/contact" component={Contact} />
-          <Route path="/profile" component={Profile} />
-          <Route path="" component={NoMatch} />
+          <Route exact path="/map" component={Map} />
+          <Route exact path="/contact" component={Contact} />
+          <Route exact path="/profile/info" component={Profile} />
+          <Route component={NoMatch} />
         </Switch>
         <FooterBar />
       </Router>
