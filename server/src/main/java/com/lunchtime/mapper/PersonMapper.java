@@ -15,7 +15,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PersonMapper {
     final PersonRepository personRepository;
-    final RoleRepository roleRepository;
     final BCryptPasswordEncoder bcryptPasswordEncoder;
 
     public Person fromDtoToPerson(PersonDto personDto) {
@@ -38,17 +37,16 @@ public class PersonMapper {
             .phoneNumber(person.getPhoneNumber())
             .email(person.getEmail())
             .photoUrl(person.getPhotoUrl())
+            .roleId(person.getRoleId())
             .build();
     }
 
     public Person fromRegisterToPerson(RegisterPerson registerPerson) {
-        long id = roleRepository.findByName("USER").getId();
         return Person.builder()
             .name(registerPerson.getName())
             .phoneNumber(registerPerson.getPhoneNumber())
             .email(registerPerson.getEmail())
             .password(bcryptPasswordEncoder.encode(registerPerson.getPassword()))
-            .roleId(id)
             .build();
     }
 }

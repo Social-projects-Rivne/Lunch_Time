@@ -3,6 +3,7 @@ package com.lunchtime.service.impl;
 import com.lunchtime.mapper.PersonMapper;
 import com.lunchtime.models.Person;
 import com.lunchtime.repository.PersonRepository;
+import com.lunchtime.repository.RoleRepository;
 import com.lunchtime.service.PersonService;
 import com.lunchtime.service.dto.PersonDto;
 import com.lunchtime.service.dto.PersonPassDto;
@@ -14,11 +15,13 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.NonUniqueResultException;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 public class PersonServiceImpl implements PersonService {
     private final PersonRepository personRepository;
+    private final RoleRepository roleRepository;
     private final PersonMapper personMapper;
     private final BCryptPasswordEncoder bcryptPasswordEncoder;
 
@@ -47,6 +50,9 @@ public class PersonServiceImpl implements PersonService {
         }
 
         Person person = personMapper.fromRegisterToPerson(registerPerson);
+        Long userRoleId = roleRepository.findByName("USER").getId();
+        person.setActivationCode(UUID.randomUUID().toString());
+        person.setRoleId(userRoleId);
         personRepository.save(person);
         return personMapper.fromPersonToDto(person);
     }
