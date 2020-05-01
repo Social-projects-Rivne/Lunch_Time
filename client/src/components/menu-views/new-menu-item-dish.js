@@ -9,10 +9,12 @@ import Api from '../../services/api';
 class NewMenuItemDish extends Component {
   constructor(props) {
     super(props);
-    this.path = '/new-dish';
     this.state = {
       categories: [],
-      selectedCategory: 'All categories',
+      units: [{ id: 0, name: 'gram' }, { id: 1, name: 'pcs' }, { id: 2, name: 'l' }, { id: 3, name: 'ml' }],
+
+      selectedCategory: 'Pizza',
+      selectedPortionSize: 'gram',
     };
   }
 
@@ -23,19 +25,19 @@ class NewMenuItemDish extends Component {
   getCategories(path) {
     Api.get(path)
       .then((response) => {
-        if (response.error) {
-          // eslint-disable-next-line no-console
-          console.error(response);
-          return;
+        if (response.error == null) {
+          this.setState({
+            categories: response.data.content,
+          });
         }
-        this.setState({
-          categories: response.data.content,
-        });
       });
   }
 
   render() {
-    const { categories, selectedCategory } = this.state;
+    const {
+      categories, units, selectedCategory, selectedPortionSize,
+    } = this.state;
+    console.log(categories);
     return (
       <Container fluid className="new-menu-item-container">
         <h5>
@@ -62,21 +64,44 @@ class NewMenuItemDish extends Component {
 
         <Form.Group>
           <Form.Label>Ingredients: </Form.Label>
-          <Form.Control type="text" placeholder="Normal text" />
-          <br />
+          <Form.Control type="text" placeholder="Please enter the ingredient list" />
         </Form.Group>
 
-        <Form.Row>
-          <Col>
-            <Form.Label>Portion size: </Form.Label>
-            <Form.Control placeholder="Size" />
-          </Col>
-          <Col>
-            <Form.Label>Portion price: </Form.Label>
-            <Form.Control placeholder="Price" />
-          </Col>
-        </Form.Row>
-        <br />
+        <Form.Group>
+          <Form.Label>Portion size: </Form.Label>
+          <Form.Row>
+            <Col>
+              <Form.Control placeholder="Please enter portion size" />
+            </Col>
+            <Col>
+              <Dropdown onSelect={(e) => { this.setState({ selectedPortionSize: e }); }}>
+                <Dropdown.Toggle>{selectedPortionSize}</Dropdown.Toggle>
+                <Dropdown.Menu>
+                  {units.map((category) => (
+                    <Dropdown.Item
+                      eventKey={category.name}
+                      key={category.id}
+                    >
+                      {category.name}
+                    </Dropdown.Item>
+                  ))}
+                </Dropdown.Menu>
+              </Dropdown>
+            </Col>
+          </Form.Row>
+        </Form.Group>
+
+        <Form.Group>
+          <Form.Label>Portion price: </Form.Label>
+          <Form.Row>
+            <Col>
+              <Form.Control placeholder="Price" />
+            </Col>
+            <Col className="col">
+              <span className="">UAN</span>
+            </Col>
+          </Form.Row>
+        </Form.Group>
 
         <Form.Group>
           <Button>Select dish photo</Button>
