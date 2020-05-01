@@ -12,14 +12,36 @@ class NewMenuItemDish extends Component {
     this.state = {
       categories: [],
       units: [{ id: 0, name: 'gram' }, { id: 1, name: 'pcs' }, { id: 2, name: 'l' }, { id: 3, name: 'ml' }],
-
       selectedCategory: 'Pizza',
       selectedPortionSize: 'gram',
+      // ingredients: '',
+      // price: '',
+      image: '/img/dish-default.png',
     };
+    this.fileInputRef = React.createRef();
   }
 
   componentDidMount() {
     this.getCategories('category');
+  }
+
+  onFileSelect(e) {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    const imageTag = document.getElementById('dishImage');
+
+    reader.onload = function (event) {
+      imageTag.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  onSelectClick() {
+    this.fileInputRef.current.click();
+  }
+
+  onAddClick() {
+
   }
 
   getCategories(path) {
@@ -36,8 +58,8 @@ class NewMenuItemDish extends Component {
   render() {
     const {
       categories, units, selectedCategory, selectedPortionSize,
+      image,
     } = this.state;
-    console.log(categories);
     return (
       <Container fluid className="new-menu-item-container">
         <h5>
@@ -63,7 +85,7 @@ class NewMenuItemDish extends Component {
         </Form.Group>
 
         <Form.Group>
-          <Form.Label>Ingredients: </Form.Label>
+          <Form.Label>Ingredients: (e.g.: chicken, ham, cheese)</Form.Label>
           <Form.Control type="text" placeholder="Please enter the ingredient list" />
         </Form.Group>
 
@@ -104,16 +126,24 @@ class NewMenuItemDish extends Component {
         </Form.Group>
 
         <Form.Group>
-          <Button>Select dish photo</Button>
+          <Button onClick={() => this.onSelectClick()}>Select dish photo</Button>
           <br />
-          <Image className="img mt-3" src="/img/like.png" />
+          <Image roundedCircle className="img mt-3" id="dishImage" src={image} />
         </Form.Group>
+
+        <input
+          ref={this.fileInputRef}
+          type="file"
+          accept="image/jpeg,image/png"
+          hidden
+          onChange={(e) => this.onFileSelect(e)}
+        />
 
         <ButtonToolbar>
           <Button
             disabled
             className="mr-3 m-button"
-            onClick={null}
+            onClick={() => this.onAddClick()}
           >
             Add
           </Button>
