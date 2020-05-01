@@ -1,13 +1,14 @@
 package com.lunchtime.controllers;
 
 import com.lunchtime.security.JwtUtil;
-import com.lunchtime.service.dto.RegisterPerson;
+import com.lunchtime.service.PersonService;
 import com.lunchtime.service.dto.PersonDto;
 import com.lunchtime.service.dto.PersonPassDto;
-import com.lunchtime.service.PersonService;
+import com.lunchtime.service.dto.RegisterPerson;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import javax.persistence.NonUniqueResultException;
 import javax.validation.Valid;
 

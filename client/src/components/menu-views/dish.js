@@ -9,7 +9,9 @@ class Dish extends Component {
       <Row className="col-item">
         {dish.name}
         <br />
-        {dish.ingredients}
+        <p>
+          {dish.ingredients}
+        </p>
       </Row>
     );
   }

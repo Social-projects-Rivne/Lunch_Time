@@ -4,10 +4,20 @@ body{
 }
 
 .home {
-  background: url("/img/main-bkg.jpg") no-repeat center center fixed;
+  background: url("/img/main-bkg.jpg") no-repeat center fixed;
   background-size: cover;
   padding: 7rem 0 0 0;
   min-height: calc(100vh - 70px);
+  display: flex;
+  justify-content: center;
+}
+
+.home-title {
+  background-color:rgba(0, 0, 0, 0.5);
+  padding: 30px 50px;
+  border-radius: 5px;
+  border: 3px solid #f1f1f1;
+  height: fit-content;
 }
 
 .title{
@@ -19,7 +29,6 @@ body{
 .titles{
   color: black;
   font-weight: bold;
-  font-family: "AR PL UKai HK", sans-serif;
   text-shadow: -2px 0 white, 0 2px white, 2px 0 white, 0 -2px white;
 }
 
