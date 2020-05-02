@@ -2,6 +2,7 @@ package com.lunchtime.controllers;
 
 import com.lunchtime.models.Order;
 import com.lunchtime.service.OrderService;
+import com.lunchtime.service.dto.OrderDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -23,13 +24,13 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<Order> createOrder(@Valid @RequestBody Order order) throws URISyntaxException {
-        if (order.getId() != null) {
+    public ResponseEntity<OrderDto> createOrder(@Valid @RequestBody OrderDto orderDto) throws URISyntaxException {
+        if (orderDto.getId() != null) {
             return ResponseEntity.badRequest()
                 .build();
         }
 
-        Order result = orderService.saveOrder(order);
+        OrderDto result = orderService.saveOrder(orderDto);
         if (result == null) {
             return ResponseEntity.badRequest().build();
         }
