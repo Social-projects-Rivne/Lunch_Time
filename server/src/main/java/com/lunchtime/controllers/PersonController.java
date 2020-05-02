@@ -45,6 +45,13 @@ public class PersonController {
         return null;
     }
 
+    @GetMapping("/confirm/{code}")
+    public ResponseEntity<?> confirmAccount(@PathVariable String code) {
+        return personService.isActivated(code)
+            ? ResponseEntity.ok().build()
+            : ResponseEntity.notFound().build();
+    }
+
     @PutMapping
     public ResponseEntity<PersonDto> update(@Valid @RequestBody PersonDto personDto) {
         PersonDto result = personService.updatePerson(personDto);
