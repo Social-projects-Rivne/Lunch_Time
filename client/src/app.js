@@ -40,6 +40,7 @@ class App extends Component {
     this.setState({ isAuthenticated: false }, () => {
       Auth.removeToken();
     });
+    localStorage.removeItem('userID');
   }
 
   render() {

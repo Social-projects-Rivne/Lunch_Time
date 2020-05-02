@@ -18,6 +18,7 @@ import PhotoEditor from './avatar';
 import InfoChange from './info-change';
 import Auth from '../../services/auth';
 import OwnersRestaurants from './owners-restaurants';
+import { OWNER_ROLE_ID } from '../../constants';
 
 class Profile extends Component {
   constructor(props) {
@@ -27,7 +28,6 @@ class Profile extends Component {
       user: {},
       isFetching: false,
       isShowAlert: false,
-      isOwnerRole: 2, // id that refers to Restaurant Owner role in DB
     };
     this.menuItems = [
       {
@@ -109,7 +109,7 @@ class Profile extends Component {
 
   render() {
     const {
-      isFetching, user, isShowAlert, title, isOwnerRole,
+      isFetching, user, isShowAlert, title,
     } = this.state;
     const { location } = this.props;
     return (
@@ -125,7 +125,7 @@ class Profile extends Component {
               <ListGroup>
                 {this.menuItems
                   .filter((item) => {
-                    if (user.role === isOwnerRole) {
+                    if (user.role === OWNER_ROLE_ID) {
                       return item.ownerSee === true;
                     }
                     return item.userSee === true;
