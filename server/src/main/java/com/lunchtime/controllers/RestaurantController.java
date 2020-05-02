@@ -2,11 +2,13 @@ package com.lunchtime.controllers;
 
 import com.lunchtime.models.Person;
 import com.lunchtime.models.Restaurant;
+
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+
 import com.lunchtime.repository.PersonRepository;
 import com.lunchtime.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
@@ -35,9 +37,11 @@ public class RestaurantController {
                 .build();
         }
         Optional<Person> res = personRepository.findById(restaurant.getPersonId());
-        Person person = res.get();
-        person.setRoleId((long)2);
-        personRepository.save(person);
+        if (res.isPresent()) {
+            Person person = res.get();
+            person.setRoleId((long) 2);
+            personRepository.save(person);
+        }
 
         Restaurant result = restaurantService.saveRestaurant(restaurant);
         if (result == null) {
