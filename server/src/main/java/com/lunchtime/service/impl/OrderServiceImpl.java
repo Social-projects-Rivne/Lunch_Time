@@ -30,7 +30,7 @@ public class OrderServiceImpl implements OrderService {
     private final OrderStatusService orderStatusService;
     private final OrderMapper orderMapper;
 
-//    private final String newOrderStatus = "new";
+    private final String newOrderStatus = "new";
 
     public OrderDto saveOrder(OrderDto orderDto) {
         Date currentDate = new Date();
@@ -47,26 +47,26 @@ public class OrderServiceImpl implements OrderService {
             return null;
         }
 
-//        Optional<Person> person = personService.getPersonById(orderDto.getPersonId());
-//        if (person.isPresent()) {
-//            orderDto.setPersonId(person.get().getId());
-//        } else {
-//            return null;
-//        }
-
-//        Optional<RestaurantTable> table = restaurantTableService.getTableById(orderDto.getTableId());
-//        if (table.isPresent() && table.get().getCapacity() >= orderDto.getVisitors()) {
-//            orderDto.setTableId(table.get().getId());
-//        } else {
-//            return null;
-//        }
-
-//        Optional<OrderStatus> status = orderStatusService.getOrderStatusByName(newOrderStatus);
-//        status.ifPresent(orderDto::setStatus);
-
         Order validOrder = orderMapper.fromDtoToOrder(orderDto);
 
         if (validOrder != null) {
+            Optional<Person> person = personService.getPersonById(orderDto.getPersonId());
+            if (person.isPresent()) {
+                validOrder.setPerson(person.get());
+            } else {
+                return null;
+            }
+
+            Optional<RestaurantTable> table = restaurantTableService.getTableById(orderDto.getTableId());
+            if (table.isPresent() && table.get().getCapacity() >= orderDto.getVisitors()) {
+                validOrder.setTable(table.get());
+            } else {
+                return null;
+            }
+
+            Optional<OrderStatus> status = orderStatusService.getOrderStatusByName(newOrderStatus);
+            status.ifPresent(validOrder::setStatus);
+
             orderRepository.save(validOrder);
             return orderMapper.fromOrderToDto(validOrder);
         }

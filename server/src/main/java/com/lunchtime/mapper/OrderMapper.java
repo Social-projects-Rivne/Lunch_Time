@@ -10,17 +10,11 @@ import org.springframework.stereotype.Component;
 public class OrderMapper {
 
     public Order fromDtoToOrder(OrderDto orderDto) {
-        Person person = Person.builder()
-            .id(orderDto.getPersonId()).build();
-        RestaurantTable table = new RestaurantTable();
-        table.setId(orderDto.getTableId());
 
         return Order.builder()
-            .person(person)
             .startTime(orderDto.getStartTime())
             .finishTime(orderDto.getFinishTime())
             .description(orderDto.getDescription())
-            .table(table)
             .visitors(orderDto.getVisitors())
             .orderDishList(orderDto.getOrderedDishes())
             .build();

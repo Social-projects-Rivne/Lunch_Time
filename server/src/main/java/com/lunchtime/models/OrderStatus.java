@@ -26,7 +26,6 @@ public class OrderStatus {
     @NotNull
     @Size(min = 1, max = 32)
     @Column(name = "name")
-    @ColumnDefault("new")
     private String name;
 
     @ColumnDefault("false")
