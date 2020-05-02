@@ -1,6 +1,5 @@
 package com.lunchtime.models;
 
-import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -8,12 +7,13 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.Instant;
-import java.util.Date;
+import java.util.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,10 +21,6 @@ import java.util.Date;
 @Entity
 @Data
 @Table(name = "ordering")
-@TypeDef(
-    name = "jsonb",
-    typeClass = JsonBinaryType.class
-)
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,9 +48,12 @@ public class Order {
     @JoinColumn(name = "status_id", referencedColumnName = "id")
     private OrderStatus status;
 
-    @Type(type = "jsonb")
-    @Column(columnDefinition = "jsonb", name = "ordered_dishes")
-    private Object orderedDishes;
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinTable(name = "order_menu_dishes",
+        joinColumns = @JoinColumn(name = "order_id"),
+        inverseJoinColumns = @JoinColumn(name = "order_dish_id")
+    )
+    private List<OrderDish> orderDishList = new ArrayList<>();
 
     @Size(max = 999)
     @Column(name = "description")
@@ -86,4 +85,14 @@ public class Order {
 
     @Column(name = "modify_by")
     private Long modifyBy;
+
+//    public void addOrderDish(OrderDish orderDish) {
+//        orderDishList.add(orderDish);
+//        orderDish.setOrder(this);
+//    }
+//
+//    public void removeOrderDish(OrderDish orderDish) {
+//        orderDishList.remove(orderDish);
+//        orderDish.setOrder(null);
+//    }
 }
