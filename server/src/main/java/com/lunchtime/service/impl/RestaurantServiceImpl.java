@@ -1,6 +1,7 @@
 package com.lunchtime.service.impl;
 
 import com.lunchtime.models.Restaurant;
+import com.lunchtime.repository.PersonRepository;
 import com.lunchtime.repository.RestaurantRepository;
 import com.lunchtime.service.PersonService;
 import com.lunchtime.service.RestaurantService;
@@ -13,10 +14,16 @@ import java.util.Optional;
 @Service
 public class RestaurantServiceImpl implements RestaurantService {
     private final RestaurantRepository restaurantRepository;
+    private final PersonRepository personRepository;
     private final PersonService personService;
+    private final static long OWNER_ROLE_ID = 2;
 
-    public RestaurantServiceImpl(RestaurantRepository restaurantRepository, PersonService personService) {
+    public RestaurantServiceImpl(
+        RestaurantRepository restaurantRepository,
+        PersonRepository personRepository,
+        PersonService personService) {
         this.restaurantRepository = restaurantRepository;
+        this.personRepository = personRepository;
         this.personService = personService;
     }
 
@@ -34,7 +41,11 @@ public class RestaurantServiceImpl implements RestaurantService {
     }
 
     public Page<Restaurant> getRestaurantPageByUserId(Long userId, Pageable pageable) {
-        return restaurantRepository.findByOwnerRestList(userId, pageable);
+        long userRoleId = personRepository.findByRoleId(userId);
+        if (userRoleId == OWNER_ROLE_ID) {
+            return restaurantRepository.findByOwnerRestList(userId, pageable);
+        }
+        return null;
     }
 
     public Optional<Restaurant> getRestaurantById(Long id) {
