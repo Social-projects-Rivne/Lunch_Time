@@ -1,5 +1,6 @@
 package com.lunchtime.service.impl;
 
+import com.lunchtime.mapper.OrderMapper;
 import com.lunchtime.models.Order;
 import com.lunchtime.models.OrderStatus;
 import com.lunchtime.models.Person;
@@ -9,6 +10,7 @@ import com.lunchtime.service.OrderService;
 import com.lunchtime.service.OrderStatusService;
 import com.lunchtime.service.PersonService;
 import com.lunchtime.service.RestaurantTableService;
+import com.lunchtime.service.dto.OrderDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,42 +28,49 @@ public class OrderServiceImpl implements OrderService {
     private final RestaurantTableService restaurantTableService;
     private final PersonService personService;
     private final OrderStatusService orderStatusService;
+    private final OrderMapper orderMapper;
 
-    private final String newOrderStatus = "new";
+//    private final String newOrderStatus = "new";
 
-    public Order saveOrder(Order order) {
+    public OrderDto saveOrder(OrderDto orderDto) {
         Date currentDate = new Date();
-        if (currentDate.after(order.getStartTime())) {
+        if (currentDate.after(orderDto.getStartTime())) {
             return null;
         }
-        if (order.getStartTime().after(order.getFinishTime())) {
+        if (orderDto.getStartTime().after(orderDto.getFinishTime())) {
             return null;
         }
 
         List<Order> orders = orderRepository
-            .findAllOrdersByTableInTime(order.getTable().getId(), order.getStartTime(), order.getFinishTime());
+            .findAllOrdersByTableInTime((long) orderDto.getTableId(), orderDto.getStartTime(), orderDto.getFinishTime());
         if (!orders.isEmpty()) {
             return null;
         }
 
-        Optional<Person> person = personService.getPersonById(order.getPerson().getId());
-        if (person.isPresent()) {
-            order.setPerson(person.get());
-        } else {
-            return null;
+//        Optional<Person> person = personService.getPersonById(orderDto.getPersonId());
+//        if (person.isPresent()) {
+//            orderDto.setPersonId(person.get().getId());
+//        } else {
+//            return null;
+//        }
+
+//        Optional<RestaurantTable> table = restaurantTableService.getTableById(orderDto.getTableId());
+//        if (table.isPresent() && table.get().getCapacity() >= orderDto.getVisitors()) {
+//            orderDto.setTableId(table.get().getId());
+//        } else {
+//            return null;
+//        }
+
+//        Optional<OrderStatus> status = orderStatusService.getOrderStatusByName(newOrderStatus);
+//        status.ifPresent(orderDto::setStatus);
+
+        Order validOrder = orderMapper.fromDtoToOrder(orderDto);
+
+        if (validOrder != null) {
+            orderRepository.save(validOrder);
+            return orderMapper.fromOrderToDto(validOrder);
         }
-
-        Optional<RestaurantTable> table = restaurantTableService.getTableById(order.getTable().getId());
-        if (table.isPresent() && table.get().getCapacity() >= order.getVisitors()) {
-            order.setTable(table.get());
-        } else {
-            return null;
-        }
-
-        Optional<OrderStatus> status = orderStatusService.getOrderStatusByName(newOrderStatus);
-        status.ifPresent(order::setStatus);
-
-        return orderRepository.save(order);
+        return null;
     }
 
     public Page<Order> getAllOrders(Pageable pageable) {
