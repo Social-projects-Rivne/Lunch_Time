@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @Table(name = "order_dish")
 public class OrderDish {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
