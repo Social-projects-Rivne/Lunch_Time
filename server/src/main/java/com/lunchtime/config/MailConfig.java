@@ -17,7 +17,7 @@ public class MailConfig {
     @Value("${spring.mail.userName}")
     String userName;
 
-    @Value("${spring.mail.password}")
+    @Value("${spring.mail.password")
     String password;
 
     @Value("${spring.mail.port}")
@@ -41,7 +41,6 @@ public class MailConfig {
         Properties properties = mailSender.getJavaMailProperties();
         properties.setProperty("mail.transport.protocol", protocol);
         properties.setProperty("mail.debug", debug);
-
 
         return mailSender;
     }
