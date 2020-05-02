@@ -1,10 +1,16 @@
 import React, { Component } from 'react';
-
+import '../styles/contact.css';
 
 class Contact extends Component {
   render() {
     return (
-      <h1>Contact Page</h1>
+      <article className="contact">
+        <h3>
+          Write your issues or wishes in
+          {' '}
+          <a href="https://github.com/Social-projects-Rivne/Lunch_Time">GitHub</a>
+        </h3>
+      </article>
     );
   }
 }

@@ -1,6 +1,5 @@
 package com.lunchtime.repository;
 
-
 import com.lunchtime.models.MenuItemDish;
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.JpaRepository;

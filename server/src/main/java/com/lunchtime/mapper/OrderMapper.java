@@ -21,18 +21,21 @@ public class OrderMapper {
     private final MenuItemDishRepository menuItemDishRepository;
 
     public Order fromDtoToOrder(OrderDto orderDto) throws IOException {
-        ObjectMapper objectMapper = new ObjectMapper();
-        Map<String, Integer> map = objectMapper.readValue(orderDto.getOrderedDishes().toString(), Map.class);
-
         Order order = new Order();
-        for (Map.Entry<String,Integer> entry : map.entrySet()) {
-            OrderDish orderDish = new OrderDish();
-            MenuItemDish dish = menuItemDishRepository.findMenuItemDishById(Long.valueOf(entry.getKey()));
-            Integer quantity = entry.getValue();
-            orderDish.setMenuItemDish(dish);
-            orderDish.setQuantity(quantity);
-            order.addOrderDish(orderDish);
-        };
+
+        if (orderDto.getOrderedDishes() != null) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            Map<String, Integer> map = objectMapper.readValue(orderDto.getOrderedDishes().toString(), Map.class);
+
+            for (Map.Entry<String, Integer> entry : map.entrySet()) {
+                OrderDish orderDish = new OrderDish();
+                MenuItemDish dish = menuItemDishRepository.findMenuItemDishById(Long.valueOf(entry.getKey()));
+                Integer quantity = entry.getValue();
+                orderDish.setMenuItemDish(dish);
+                orderDish.setQuantity(quantity);
+                order.addOrderDish(orderDish);
+            }
+        }
 
         order.setStartTime(orderDto.getStartTime());
         order.setFinishTime(orderDto.getFinishTime());
