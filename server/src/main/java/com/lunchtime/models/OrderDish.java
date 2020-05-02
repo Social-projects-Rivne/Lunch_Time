@@ -5,8 +5,6 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
@@ -17,8 +15,8 @@ public class OrderDish {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToMany(mappedBy = "orderDishList")
-    private List<Order> order = new ArrayList<>();
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Order order;
 
     @OneToOne(optional = false)
     @JoinColumn(name = "menu_item_dish_id", referencedColumnName = "id")
@@ -28,15 +26,15 @@ public class OrderDish {
     @Column(name = "quantity")
     private Integer quantity;
 
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (!(o instanceof OrderDish )) return false;
-//        return id != null && id.equals(((OrderDish) o).getId());
-//    }
-//
-//    @Override
-//    public int hashCode() {
-//        return 31;
-//    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof OrderDish )) return false;
+        return id != null && id.equals(((OrderDish) o).getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return 31;
+    }
 }

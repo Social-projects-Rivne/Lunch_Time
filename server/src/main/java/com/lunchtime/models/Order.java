@@ -48,12 +48,12 @@ public class Order {
     @JoinColumn(name = "status_id", referencedColumnName = "id")
     private OrderStatus status;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "order_menu_dishes",
-        joinColumns = @JoinColumn(name = "order_id"),
-        inverseJoinColumns = @JoinColumn(name = "order_dish_id")
+    @OneToMany(
+        mappedBy = "order",
+        cascade = CascadeType.ALL,
+        orphanRemoval = true
     )
-    private List<OrderDish> orderDishList = new ArrayList<>();
+    private List<OrderDish> orderDishList = new ArrayList<>(); //?
 
     @Size(max = 999)
     @Column(name = "description")
@@ -86,13 +86,13 @@ public class Order {
     @Column(name = "modify_by")
     private Long modifyBy;
 
-//    public void addOrderDish(OrderDish orderDish) {
-//        orderDishList.add(orderDish);
-//        orderDish.setOrder(this);
-//    }
-//
-//    public void removeOrderDish(OrderDish orderDish) {
-//        orderDishList.remove(orderDish);
-//        orderDish.setOrder(null);
-//    }
+    public void addOrderDish(OrderDish orderDish) {
+        orderDishList.add(orderDish);
+        orderDish.setOrder(this);
+    }
+
+    public void removeOrderDish(OrderDish orderDish) {
+        orderDishList.remove(orderDish);
+        orderDish.setOrder(null);
+    }
 }
