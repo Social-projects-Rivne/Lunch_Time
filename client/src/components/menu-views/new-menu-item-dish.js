@@ -5,13 +5,14 @@ import {
 import '../../styles/new-menu-item-dish.css';
 import PropTypes from 'prop-types';
 import Api from '../../services/api';
+import View from '../shared/dropdown/view';
 
 class NewMenuItemDish extends Component {
   constructor(props) {
     super(props);
     this.state = {
       categories: [],
-      units: [{ id: 0, name: 'gram' }, { id: 1, name: 'pcs' }, { id: 2, name: 'l' }, { id: 3, name: 'ml' }],
+      units: ['gram', 'pcs', 'L', 'ml'],
       selectedCategory: 'Pizza',
       selectedPortionSize: 'gram',
       // ingredients: '',
@@ -55,6 +56,10 @@ class NewMenuItemDish extends Component {
       });
   }
 
+  handleChange() {
+
+  }
+
   render() {
     const {
       categories, units, selectedCategory, selectedPortionSize,
@@ -96,19 +101,13 @@ class NewMenuItemDish extends Component {
               <Form.Control placeholder="Please enter portion size" />
             </Col>
             <Col>
-              <Dropdown onSelect={(e) => { this.setState({ selectedPortionSize: e }); }}>
-                <Dropdown.Toggle>{selectedPortionSize}</Dropdown.Toggle>
-                <Dropdown.Menu>
-                  {units.map((category) => (
-                    <Dropdown.Item
-                      eventKey={category.name}
-                      key={category.id}
-                    >
-                      {category.name}
-                    </Dropdown.Item>
-                  ))}
-                </Dropdown.Menu>
-              </Dropdown>
+              <View
+                className="portion-size"
+                id="portion-size"
+                name={selectedPortionSize}
+                values={units}
+                onSelect={(e) => { this.setState({ selectedPortionSize: e }); }}
+              />
             </Col>
           </Form.Row>
         </Form.Group>

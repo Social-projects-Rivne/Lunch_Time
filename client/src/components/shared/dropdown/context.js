@@ -19,6 +19,7 @@ class Context extends Component {
               values={e.values}
               key={e.id}
               onSelect={(p) => this.onSelectCategory(`events/month/${p}`)}
+              className=""
             />
           );
         }));
