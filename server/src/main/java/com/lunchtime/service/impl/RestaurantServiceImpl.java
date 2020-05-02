@@ -16,7 +16,7 @@ public class RestaurantServiceImpl implements RestaurantService {
     private final RestaurantRepository restaurantRepository;
     private final PersonRepository personRepository;
     private final PersonService personService;
-    private final static long OWNER_ROLE_ID = 2;
+    private static final long OWNER_ROLE_ID = 2;
 
     public RestaurantServiceImpl(
         RestaurantRepository restaurantRepository,
