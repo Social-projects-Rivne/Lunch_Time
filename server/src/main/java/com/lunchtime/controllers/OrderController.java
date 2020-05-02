@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Optional;
@@ -24,7 +25,7 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<OrderDto> createOrder(@Valid @RequestBody OrderDto orderDto) throws URISyntaxException {
+    public ResponseEntity<OrderDto> createOrder(@Valid @RequestBody OrderDto orderDto) throws URISyntaxException, IOException {
         if (orderDto.getId() != null) {
             return ResponseEntity.badRequest()
                 .build();

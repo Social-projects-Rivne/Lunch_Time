@@ -16,6 +16,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -32,7 +33,7 @@ public class OrderServiceImpl implements OrderService {
 
     private final String newOrderStatus = "new";
 
-    public OrderDto saveOrder(OrderDto orderDto) {
+    public OrderDto saveOrder(OrderDto orderDto) throws IOException {
         Date currentDate = new Date();
         if (currentDate.after(orderDto.getStartTime())) {
             return null;
