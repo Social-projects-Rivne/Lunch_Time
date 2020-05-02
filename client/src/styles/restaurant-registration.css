@@ -3,6 +3,15 @@
 }
 .register_info_container{
     width: 40%;
+    float: left;
+    margin-right: 16px;
+}
+.register_map_container{
+    float: left;
+}
+.form_registration{
+    width: 100%;
+    display: inline-block;
 }
 .registe_btn_container {
     display: flex;
@@ -10,14 +19,8 @@
     width: 10%;
     float: right;
   }
-  
   .registe_btn_cancel {
     margin-right: 16px;
-  }
-  .register_map_container {
-    right: 20%;
-    height: 100%;
-    position: absolute;
   }
   .time_from{
     width: 48%;
@@ -26,4 +29,7 @@
   .time_to{
     float: right;
     width: 48%;
+  }
+  .warning{
+      color: red;
   }
