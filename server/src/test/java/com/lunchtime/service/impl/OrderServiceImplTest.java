@@ -18,6 +18,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
@@ -53,7 +54,7 @@ public class OrderServiceImplTest {
     private final int tableCapacity = 4;
 
     @Before
-    public void setup() {
+    public void setup() throws IOException {
         LocalDateTime start = LocalDateTime.now().plusDays(2);
         LocalDateTime finish = LocalDateTime.now().plusMinutes(40).plusDays(2);
         startDate = Date.from(start.atZone(ZoneId.systemDefault()).toInstant());
@@ -100,7 +101,7 @@ public class OrderServiceImplTest {
     }
 
     @Test
-    public void personCanMakeOrderInSpecificTimeIfRestaurantTableIsAvailable() {
+    public void personCanMakeOrderInSpecificTimeIfRestaurantTableIsAvailable() throws IOException {
         OrderDto createdOrder = orderServiceImpl.saveOrder(orderDto);
 
         assertNotNull(createdOrder);
@@ -108,7 +109,7 @@ public class OrderServiceImplTest {
     }
 
     @Test
-    public void personCanNotMakeOrderIfThereAreOtherOrdersInThatTimeInThatTableInThatRestaurant() {
+    public void personCanNotMakeOrderIfThereAreOtherOrdersInThatTimeInThatTableInThatRestaurant() throws IOException {
         List<Order> orders = new ArrayList<>();
         orders.add(Order.builder().build());
 
@@ -121,7 +122,7 @@ public class OrderServiceImplTest {
     }
 
     @Test
-    public void personCanNotMakeOrderWhenNumberOfVisitorsMoreThanTableCapacity() {
+    public void personCanNotMakeOrderWhenNumberOfVisitorsMoreThanTableCapacity() throws IOException {
         Order order = Order.builder()
             .table(restaurantTable)
             .person(person)
@@ -138,7 +139,7 @@ public class OrderServiceImplTest {
     }
 
     @Test
-    public void personCanNotMakeOrderWhenStartTimeBiggerThanFinishTime() {
+    public void personCanNotMakeOrderWhenStartTimeBiggerThanFinishTime() throws IOException {
         LocalDateTime start = LocalDateTime.now().plusDays(3);
         LocalDateTime finish = LocalDateTime.now().plusMinutes(40).plusDays(2);
         Date startDate = Date.from(start.atZone(ZoneId.systemDefault()).toInstant());
@@ -162,7 +163,7 @@ public class OrderServiceImplTest {
     }
 
     @Test
-    public void personCanNotMakeOrderWhenStartTimeLessThanCurrentTime() {
+    public void personCanNotMakeOrderWhenStartTimeLessThanCurrentTime() throws IOException {
         LocalDateTime start = LocalDateTime.now().minusDays(1);
         LocalDateTime finish = LocalDateTime.now().plusMinutes(40).plusDays(2);
         Date startDate = Date.from(start.atZone(ZoneId.systemDefault()).toInstant());
@@ -186,7 +187,7 @@ public class OrderServiceImplTest {
     }
 
     @Test
-    public void personCanNotMakeOrderWhenPersonDoesNotExist() {
+    public void personCanNotMakeOrderWhenPersonDoesNotExist() throws IOException {
         Person anotherPerson = new Person();
         anotherPerson.setId(2L);
 
