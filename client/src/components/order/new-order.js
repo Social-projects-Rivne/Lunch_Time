@@ -88,12 +88,13 @@ class NewOrder extends Component {
     } else {
       orderedDishes = null;
     }
+    const personId = Person.userInfo.id;
     const order = {
-      person: { id: Person.userInfo.id },
+      personId: personId,
       startTime: this.state.startDate.toUTCString(),
       finishTime: this.state.finishDate.toUTCString(),
       visitors: this.state.visitors,
-      table: { id: tableId },
+      tableId: tableId,
       description: this.state.description,
       orderedDishes: orderedDishes,
     };
