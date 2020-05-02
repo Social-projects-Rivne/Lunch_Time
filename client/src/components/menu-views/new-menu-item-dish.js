@@ -6,6 +6,7 @@ import '../../styles/new-menu-item-dish.css';
 import PropTypes from 'prop-types';
 import Api from '../../services/api';
 import View from '../shared/dropdown/view';
+import AlertBase from '../shared/alert-base';
 
 class NewMenuItemDish extends Component {
   constructor(props) {
@@ -13,7 +14,7 @@ class NewMenuItemDish extends Component {
     this.state = {
       categories: [],
       selectedCategory: 'Pizza',
-      selectedCategoryId: 0,
+      selectedCategoryId: 1,
 
       units: ['gram', 'pcs', 'L', 'ml'],
       selectedPortionSize: 'gram',
@@ -23,6 +24,8 @@ class NewMenuItemDish extends Component {
       dish: {
         categoryfood: { id: 0 },
       },
+      isShowAlert: false,
+      errors: { err: 'Please fill all fields' },
     };
     this.fileInputRef = React.createRef();
   }
@@ -47,19 +50,19 @@ class NewMenuItemDish extends Component {
   }
 
   onAddClick() {
-    const { name, ingredients, selectedCategoryId } = this.state;
+    const {
+      name, ingredients, selectedCategoryId, errors,
+    } = this.state;
     const { dish } = this.state;
 
-    dish.name = name;
-    dish.ingredients = ingredients;
-    dish.categoryfood.id = selectedCategoryId;
-
-    Api.post('dish', dish)
-      .then((r) => {
-        if (r.error === null) {
-          console.log('sended');
-        }
-      });
+    if (!this.validateForm(errors)) {
+      this.setAlertState(true);
+    } else {
+      dish.name = name;
+      dish.ingredients = ingredients;
+      dish.categoryfood.id = selectedCategoryId;
+      this.sendData(dish);
+    }
   }
 
   getCategories(path) {
@@ -73,15 +76,30 @@ class NewMenuItemDish extends Component {
       });
   }
 
+  setAlertState(showAlert) {
+    this.setState({
+      isShowAlert: showAlert,
+    });
+  }
+
+  validateForm(errors) {
+    let valid = true;
+    Object.values(errors).forEach(
+      (val) => { if (val.length > 0) valid = false; },
+    );
+    return valid;
+  }
+
   handleChange(e) {
     const { name, value } = e.target;
+    const { errors } = this.state;
     console.log(`name=${name}val=${value}`);
     switch (name) {
       case 'ingredients':
-
+        errors.ingredients = value.length > 2 ? '' : 'Ingredients field must be at least 3 characters! ';
         break;
       case 'name':
-
+        errors.name = value.length > 1 ? '' : 'Dish name must be at least 2 characters! ';
         break;
       case 'password':
 
@@ -89,27 +107,47 @@ class NewMenuItemDish extends Component {
       default:
         break;
     }
+    errors.err = this.checkIfEmptyFields();
     this.setState({
+      errors,
       [name]: value,
+      isShowAlert: false,
     });
   }
 
-  saveState(name, value) {
-    this.setState({
-      [name]: value,
-    });
+  checkIfEmptyFields() {
+    const { name, ingredients } = this.state;
+    if (name === undefined || name.length === 0 || ingredients === undefined || ingredients.length === 0) {
+      return 'Not all fields are filled';
+    }
+    return '';
+  }
+
+  sendData(dish) {
+    Api.post('dish', dish)
+      .then((r) => {
+        if (r.error === null) {
+          console.log('sended');
+          this.props.history.goBack();
+        }
+      });
   }
 
   render() {
     const {
       categories, units, selectedCategory, selectedPortionSize,
-      image,
+      image, isShowAlert, errors,
     } = this.state;
     return (
       <Container fluid className="new-menu-item-container">
         <h5>
           Add a new dish
         </h5>
+        <AlertBase
+          show={isShowAlert}
+          type="danger"
+          title={Object.values(errors).join('')}
+        />
         <Form.Group>
           <Form.Label>Select category: </Form.Label>
           <br />
