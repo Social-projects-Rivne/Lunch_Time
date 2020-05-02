@@ -1,5 +1,6 @@
 package com.lunchtime.service.impl;
 
+import com.lunchtime.mapper.OrderMapper;
 import com.lunchtime.models.Order;
 import com.lunchtime.models.OrderStatus;
 import com.lunchtime.models.Person;
@@ -8,6 +9,7 @@ import com.lunchtime.repository.OrderRepository;
 import com.lunchtime.service.OrderStatusService;
 import com.lunchtime.service.PersonService;
 import com.lunchtime.service.RestaurantTableService;
+import com.lunchtime.service.dto.OrderDto;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -37,11 +39,14 @@ public class OrderServiceImplTest {
     private PersonService personService;
     @Mock
     private OrderStatusService orderStatusService;
+    @Mock
+    private OrderMapper orderMapper;
 
     private RestaurantTable restaurantTable;
     private Person person;
     private Date startDate;
     private Date finishDate;
+    private OrderDto orderDto;
     private Order order;
     private final Long personId = 1L;
     private final Long tableId = 1L;
@@ -68,13 +73,15 @@ public class OrderServiceImplTest {
             .capacity(tableCapacity)
             .build();
 
-        order = Order.builder()
-            .table(restaurantTable)
-            .person(person)
+        orderDto = OrderDto.builder()
+            .tableId(restaurantTable.getId())
+            .personId(person.getId())
             .startTime(startDate)
             .finishTime(finishDate)
             .visitors(3)
             .build();
+
+        order = orderMapper.fromDtoToOrder(orderDto);
 
         when(orderStatusService.getOrderStatusByName(statusName)).thenReturn(Optional.of(status));
         when(personService.getPersonById(personId)).thenReturn(Optional.of(person));
@@ -94,10 +101,10 @@ public class OrderServiceImplTest {
 
     @Test
     public void personCanMakeOrderInSpecificTimeIfRestaurantTableIsAvailable() {
-        Order createdOrder = orderServiceImpl.saveOrder(order);
+        OrderDto createdOrder = orderServiceImpl.saveOrder(orderDto);
 
         assertNotNull(createdOrder);
-        assertEquals(order, createdOrder);
+        assertEquals(orderDto, createdOrder);
     }
 
     @Test
@@ -108,7 +115,7 @@ public class OrderServiceImplTest {
         when(orderRepository.findAllOrdersByTableInTime(order.getTable().getId(), startDate, finishDate))
             .thenReturn(orders);
 
-        Order createdOrder = orderServiceImpl.saveOrder(order);
+        OrderDto createdOrder = orderServiceImpl.saveOrder(orderDto);
 
         assertNull(createdOrder);
     }
@@ -125,7 +132,7 @@ public class OrderServiceImplTest {
 
         when(orderRepository.save(order)).thenReturn(order);
 
-        Order createdOrder = orderServiceImpl.saveOrder(order);
+        OrderDto createdOrder = orderServiceImpl.saveOrder(orderDto);
 
         assertNull(createdOrder);
     }
@@ -137,9 +144,9 @@ public class OrderServiceImplTest {
         Date startDate = Date.from(start.atZone(ZoneId.systemDefault()).toInstant());
         Date finishDate = Date.from(finish.atZone(ZoneId.systemDefault()).toInstant());
 
-        Order order = Order.builder()
-            .table(restaurantTable)
-            .person(person)
+        OrderDto orderDto = OrderDto.builder()
+            .tableId(restaurantTable.getId())
+            .personId(person.getId())
             .startTime(startDate)
             .finishTime(finishDate)
             .visitors(3)
@@ -149,7 +156,7 @@ public class OrderServiceImplTest {
             .thenReturn(Collections.emptyList());
         when(orderRepository.save(order)).thenReturn(order);
 
-        Order createdOrder = orderServiceImpl.saveOrder(order);
+        OrderDto createdOrder = orderServiceImpl.saveOrder(orderDto);
 
         assertNull(createdOrder);
     }
@@ -161,9 +168,9 @@ public class OrderServiceImplTest {
         Date startDate = Date.from(start.atZone(ZoneId.systemDefault()).toInstant());
         Date finishDate = Date.from(finish.atZone(ZoneId.systemDefault()).toInstant());
 
-        Order order = Order.builder()
-            .table(restaurantTable)
-            .person(person)
+        OrderDto orderDto = OrderDto.builder()
+            .tableId(restaurantTable.getId())
+            .personId(person.getId())
             .startTime(startDate)
             .finishTime(finishDate)
             .visitors(3)
@@ -173,7 +180,7 @@ public class OrderServiceImplTest {
             .thenReturn(Collections.emptyList());
         when(orderRepository.save(order)).thenReturn(order);
 
-        Order createdOrder = orderServiceImpl.saveOrder(order);
+        OrderDto createdOrder = orderServiceImpl.saveOrder(orderDto);
 
         assertNull(createdOrder);
     }
@@ -183,9 +190,9 @@ public class OrderServiceImplTest {
         Person anotherPerson = new Person();
         anotherPerson.setId(2L);
 
-        Order order = Order.builder()
-            .table(restaurantTable)
-            .person(anotherPerson)
+        OrderDto orderDto = OrderDto.builder()
+            .tableId(restaurantTable.getId())
+            .personId(anotherPerson.getId())
             .startTime(startDate)
             .finishTime(finishDate)
             .visitors(3)
@@ -193,7 +200,7 @@ public class OrderServiceImplTest {
 
         when(orderRepository.save(order)).thenReturn(order);
 
-        Order createdOrder = orderServiceImpl.saveOrder(order);
+        OrderDto createdOrder = orderServiceImpl.saveOrder(orderDto);
 
         assertNull(createdOrder);
     }
