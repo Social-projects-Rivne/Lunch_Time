@@ -9,9 +9,11 @@ import com.lunchtime.service.dto.PersonDto;
 import com.lunchtime.service.dto.PersonPassDto;
 import com.lunchtime.service.dto.RegisterPerson;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.NonUniqueResultException;
 import java.util.Optional;
@@ -24,6 +26,7 @@ public class PersonServiceImpl implements PersonService {
     private final RoleRepository roleRepository;
     private final PersonMapper personMapper;
     private final BCryptPasswordEncoder bcryptPasswordEncoder;
+    private final MailSender mailSender;
 
     public PersonDto saveRegisterPerson(RegisterPerson registerPerson) {
         if (registerPerson.getEmail().equals(registerPerson.getPassword())
@@ -54,6 +57,18 @@ public class PersonServiceImpl implements PersonService {
         person.setActivationCode(UUID.randomUUID().toString());
         person.setRoleId(userRoleId);
         personRepository.save(person);
+
+        if (!StringUtils.isEmpty(person.getEmail())) {
+            String message = String.format(
+                "Hello, %s! \n" +
+                    "Welcome to LunchTime! To activate your account, confirm it" +
+                    "by moving this link: http://localhost:3000/confirm/%s",
+
+                person.getName(),
+                person.getActivationCode()
+            );
+            mailSender.send(person.getEmail(), "Activation code", message);
+        }
         return personMapper.fromPersonToDto(person);
     }
 
@@ -91,6 +106,17 @@ public class PersonServiceImpl implements PersonService {
 
     public Optional<Person> getPersonById(Long id) {
         return personRepository.findById(id);
+    }
+
+    @Override
+    public boolean isActivated(String code) {
+        Person person = personRepository.findByActivationCode(code);
+        if (person != null) {
+            person.setActivationCode(null);
+            personRepository.save(person);
+            return true;
+        }
+        return false;
     }
 
     @Override

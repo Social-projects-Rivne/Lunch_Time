@@ -25,4 +25,6 @@ public interface PersonService {
     PersonDto getPersonDtoByEmail(String email);
 
     Optional<Person> getPersonById(Long id);
+
+    boolean isActivated(String code);
 }
