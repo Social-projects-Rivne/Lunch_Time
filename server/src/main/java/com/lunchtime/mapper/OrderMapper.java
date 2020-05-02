@@ -1,23 +1,45 @@
 package com.lunchtime.mapper;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.lunchtime.models.MenuItemDish;
 import com.lunchtime.models.Order;
-import com.lunchtime.models.Person;
-import com.lunchtime.models.RestaurantTable;
+import com.lunchtime.models.OrderDish;
+import com.lunchtime.repository.MenuItemDishRepository;
 import com.lunchtime.service.dto.OrderDto;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+
 @Component
+@RequiredArgsConstructor
 public class OrderMapper {
+    private final MenuItemDishRepository menuItemDishRepository;
 
-    public Order fromDtoToOrder(OrderDto orderDto) {
+    public Order fromDtoToOrder(OrderDto orderDto) throws IOException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        Map<String, Integer> map = objectMapper.readValue(orderDto.getOrderedDishes().toString(), Map.class);
 
-        return Order.builder()
-            .startTime(orderDto.getStartTime())
-            .finishTime(orderDto.getFinishTime())
-            .description(orderDto.getDescription())
-            .visitors(orderDto.getVisitors())
-            .orderDishList(orderDto.getOrderedDishes())
-            .build();
+        Order order = new Order();
+        for (Map.Entry<String,Integer> entry : map.entrySet()) {
+            OrderDish orderDish = new OrderDish();
+            MenuItemDish dish = menuItemDishRepository.findMenuItemDishById(Long.valueOf(entry.getKey()));
+            Integer quantity = entry.getValue();
+            orderDish.setMenuItemDish(dish);
+            orderDish.setQuantity(quantity);
+            order.addOrderDish(orderDish);
+        };
+
+        order.setStartTime(orderDto.getStartTime());
+        order.setFinishTime(orderDto.getFinishTime());
+        order.setDescription(orderDto.getDescription());
+        order.setVisitors(orderDto.getVisitors());;
+
+        return order;
     }
 
     public OrderDto fromOrderToDto(Order order) {

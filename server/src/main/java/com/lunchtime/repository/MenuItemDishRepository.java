@@ -11,6 +11,8 @@ import org.springframework.data.domain.Pageable;
 @Repository
 public interface MenuItemDishRepository extends JpaRepository<MenuItemDish, Long> {
 
+    MenuItemDish findMenuItemDishById(Long id);
+
     Page<MenuItemDish> findByRestaurantId(Long id, Pageable pageable);
 
     @Query("select m from MenuItemDish m "
@@ -18,4 +20,5 @@ public interface MenuItemDishRepository extends JpaRepository<MenuItemDish, Long
         + "and m.dish.categoryFood.name = :name ")
     Page<MenuItemDish> findDishesByRestaurantIdAndCategoryName(
                                                       String name, Long id, Pageable pageable);
+
 }
