@@ -12,12 +12,17 @@ class NewMenuItemDish extends Component {
     super(props);
     this.state = {
       categories: [],
-      units: ['gram', 'pcs', 'L', 'ml'],
       selectedCategory: 'Pizza',
+      selectedCategoryId: 0,
+
+      units: ['gram', 'pcs', 'L', 'ml'],
       selectedPortionSize: 'gram',
-      // ingredients: '',
-      // price: '',
+
       image: '/img/dish-default.png',
+
+      dish: {
+        categoryfood: { id: 0 },
+      },
     };
     this.fileInputRef = React.createRef();
   }
@@ -42,7 +47,19 @@ class NewMenuItemDish extends Component {
   }
 
   onAddClick() {
+    const { name, ingredients, selectedCategoryId } = this.state;
+    const { dish } = this.state;
 
+    dish.name = name;
+    dish.ingredients = ingredients;
+    dish.categoryfood.id = selectedCategoryId;
+
+    Api.post('dish', dish)
+      .then((r) => {
+        if (r.error === null) {
+          console.log('sended');
+        }
+      });
   }
 
   getCategories(path) {
@@ -56,8 +73,31 @@ class NewMenuItemDish extends Component {
       });
   }
 
-  handleChange() {
+  handleChange(e) {
+    const { name, value } = e.target;
+    console.log(`name=${name}val=${value}`);
+    switch (name) {
+      case 'ingredients':
 
+        break;
+      case 'name':
+
+        break;
+      case 'password':
+
+        break;
+      default:
+        break;
+    }
+    this.setState({
+      [name]: value,
+    });
+  }
+
+  saveState(name, value) {
+    this.setState({
+      [name]: value,
+    });
   }
 
   render() {
@@ -70,15 +110,15 @@ class NewMenuItemDish extends Component {
         <h5>
           Add a new dish
         </h5>
-
         <Form.Group>
           <Form.Label>Select category: </Form.Label>
           <br />
-          <Dropdown onSelect={(e) => { this.setState({ selectedCategory: e }); }}>
+          <Dropdown>
             <Dropdown.Toggle>{selectedCategory}</Dropdown.Toggle>
             <Dropdown.Menu>
               {categories.map((category) => (
                 <Dropdown.Item
+                  onSelect={(e) => { this.setState({ selectedCategory: e, selectedCategoryId: category.id }); }}
                   eventKey={category.name}
                   key={category.id}
                 >
@@ -90,15 +130,35 @@ class NewMenuItemDish extends Component {
         </Form.Group>
 
         <Form.Group>
+          <Form.Label>Dish name</Form.Label>
+          <Form.Control
+            type="text"
+            name="name"
+            placeholder="Please enter the dish name"
+            onChange={(e) => this.handleChange(e)}
+          />
+        </Form.Group>
+
+        <Form.Group>
           <Form.Label>Ingredients: (e.g.: chicken, ham, cheese)</Form.Label>
-          <Form.Control type="text" placeholder="Please enter the ingredient list" />
+          <Form.Control
+            type="text"
+            name="ingredients"
+            placeholder="Please enter the ingredient list"
+            onChange={(e) => this.handleChange(e)}
+          />
         </Form.Group>
 
         <Form.Group>
           <Form.Label>Portion size: </Form.Label>
           <Form.Row>
             <Col>
-              <Form.Control placeholder="Please enter portion size" />
+              <Form.Control
+                type="number"
+                placeholder="Please enter portion size"
+                name="size"
+                onChange={(e) => this.handleChange(e)}
+              />
             </Col>
             <Col>
               <View
@@ -116,7 +176,11 @@ class NewMenuItemDish extends Component {
           <Form.Label>Portion price: </Form.Label>
           <Form.Row>
             <Col>
-              <Form.Control placeholder="Price" />
+              <Form.Control
+                type="number"
+                name="price"
+                placeholder="Price"
+              />
             </Col>
             <Col className="col">
               <span className="">UAN</span>
@@ -138,9 +202,9 @@ class NewMenuItemDish extends Component {
           onChange={(e) => this.onFileSelect(e)}
         />
 
-        <ButtonToolbar>
+        <ButtonToolbar className="mb-5">
           <Button
-            disabled
+            disabled={false}
             className="mr-3 m-button"
             onClick={() => this.onAddClick()}
           >

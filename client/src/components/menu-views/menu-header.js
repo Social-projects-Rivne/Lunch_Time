@@ -126,7 +126,7 @@ class Header extends Component {
 
 Header.propTypes = {
   onChange: PropTypes.any.isRequired,
-  isEdit: PropTypes.bool.isRequired,
-  id: PropTypes.number.isRequired,
+  isEdit: PropTypes.func.isRequired,
+  id: PropTypes.string.isRequired,
 };
 export default Header;
