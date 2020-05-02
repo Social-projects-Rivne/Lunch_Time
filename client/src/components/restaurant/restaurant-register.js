@@ -87,14 +87,13 @@ class RestaurantRegistration extends Component {
     Api.post('restaurants', restaurant)
       .then((response) => {
         if (response.error) {
+          // eslint-disable-next-line no-console
           console.error(response);
           this.setState({
             isBadRequestError: true,
           });
           return;
         }
-        console.log('STATUS');
-        console.log(response.status);
         this.showRegistration();
         this.props.history.push(`/restaurants/${response.data.id}`);
       });
