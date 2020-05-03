@@ -9,6 +9,7 @@ import View from '../shared/dropdown/view';
 import AlertBase from '../shared/alert-base';
 
 class NewMenuItemDish extends Component {
+  // eslint-disable no-param-reassign
   constructor(props) {
     super(props);
     this.state = {
@@ -16,19 +17,16 @@ class NewMenuItemDish extends Component {
       selectedCategory: 'Pizza',
       selectedCategoryId: 1,
 
-      units: ['gram', 'pcs', 'L', 'ml'],
-      selectedPortionSize: 'gram',
-      menuItemDish: {
-        portionSize: 123,
-        portionPrice: 1,
-      },
-      image: '/img/dish-default.png',
+      units: ['pcs', 'gram', 'L', 'ml'],
+      selectedPortionSize: 'pcs',
+      portionSize: 1,
 
-      dish: {
-        categoryFood: { id: 0 },
-      },
+      portionPrice: 1,
+
+      image: '/img/dish-default.png',
+      dish: { categoryFood: { id: 0 } },
       isShowAlert: false,
-      errors: { err: 'Please fill all fields' },
+      errors: { err: 'Please fill all fields! ' },
     };
     this.fileInputRef = React.createRef();
   }
@@ -46,6 +44,7 @@ class NewMenuItemDish extends Component {
       imageTag.src = event.target.result;
     };
     reader.readAsDataURL(file);
+    this.setState({ image: file });
   }
 
   onSelectClick() {
@@ -54,9 +53,8 @@ class NewMenuItemDish extends Component {
 
   onAddClick() {
     const {
-      name, ingredients, selectedCategoryId, errors,
+      dish, name, ingredients, selectedCategoryId, errors,
     } = this.state;
-    const { menuItemDish, dish } = this.state;
 
     if (!this.validateForm(errors)) {
       this.setAlertState(true);
@@ -65,7 +63,7 @@ class NewMenuItemDish extends Component {
       dish.ingredients = ingredients;
       dish.categoryFood.id = selectedCategoryId;
 
-      this.sendData(dish, menuItemDish);
+      this.sendData(dish);
     }
   }
 
@@ -97,7 +95,6 @@ class NewMenuItemDish extends Component {
   handleChange(e) {
     const { name, value } = e.target;
     const { errors } = this.state;
-    console.log(`name=${name}val=${value}`);
     switch (name) {
       case 'ingredients':
         errors.ingredients = value.length > 2 ? '' : 'Ingredients field must be at least 3 characters! ';
@@ -105,8 +102,12 @@ class NewMenuItemDish extends Component {
       case 'name':
         errors.name = value.length > 1 ? '' : 'Dish name must be at least 2 characters! ';
         break;
-      case 'password':
-
+      case 'portionPrice':
+        errors.price = value >= 0 ? '' : 'The price cannot be negative! ';
+        errors.price += value.length > 0 ? '' : 'The Portion price field cannot be empty! ';
+        break;
+      case 'portionSize':
+        errors.size = value > 0 ? '' : 'The size cannot be negative or empty! ';
         break;
       default:
         break;
@@ -122,18 +123,24 @@ class NewMenuItemDish extends Component {
   checkIfEmptyFields() {
     const { name, ingredients } = this.state;
     if (name === undefined || name.length === 0 || ingredients === undefined || ingredients.length === 0) {
-      return 'Not all fields are filled';
+      return 'Not all fields are filled! ';
     }
     return '';
   }
 
-  sendData(dish, menuItemDish) {
+  sendData(dish) {
+    /* eslint-disable no-param-reassign */
     const { match } = this.props;
+    const { portionPrice, portionSize, selectedPortionSize } = this.state;
     Api.post('dish', dish)
       .then((r) => {
         if (r.error === null) {
-          // eslint-disable-next-line no-param-reassign
-          menuItemDish.dish = { id: r.data.id }; menuItemDish.restaurant = { id: match.params.id };
+          const menuItemDish = {};
+          menuItemDish.dish = { id: r.data.id };
+          menuItemDish.restaurant = { id: match.params.id };
+          menuItemDish.portionPrice = portionPrice;
+          menuItemDish.portionSize = `${portionSize} ${selectedPortionSize}`;
+          menuItemDish.currency = 'UAN';
           Api.post('menuitemdish', menuItemDish).then((response) => {
             if (response.error === null) {
               this.props.history.goBack();
@@ -141,12 +148,13 @@ class NewMenuItemDish extends Component {
           });
         }
       });
+    /* eslint-enable no-param-reassign */
   }
 
   render() {
     const {
       categories, units, selectedCategory, selectedPortionSize,
-      image, isShowAlert, errors, menuItemDish,
+      image, isShowAlert, errors, portionPrice, portionSize,
     } = this.state;
     return (
       <Container fluid className="new-menu-item-container">
@@ -204,7 +212,8 @@ class NewMenuItemDish extends Component {
               <Form.Control
                 type="number"
                 placeholder="Please enter portion size"
-                name="size"
+                name="portionSize"
+                value={portionSize}
                 onChange={(e) => this.handleChange(e)}
               />
             </Col>
@@ -226,9 +235,9 @@ class NewMenuItemDish extends Component {
             <Col>
               <Form.Control
                 type="number"
-                name="price"
-                value={menuItemDish.portionPrice}
-                onChange={(e) => { this.setState({ menuItemDish: { portionPrice: e.target.value } }); }}
+                name="portionPrice"
+                value={portionPrice}
+                onChange={(e) => this.handleChange(e)}
                 placeholder="Price"
               />
             </Col>
