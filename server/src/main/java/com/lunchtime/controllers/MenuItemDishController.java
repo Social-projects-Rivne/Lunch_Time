@@ -63,10 +63,9 @@ public class MenuItemDishController {
         Page<MenuItemDish> menuItemDishPage = menuItemDishService
             .findDishesByRestaurantIdAndCategoryName(name, id, pageable);
         if (menuItemDishPage.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.ok().build();
         }
         return ResponseEntity.ok(menuItemDishPage);
-
     }
 
     @PostMapping
