@@ -20,10 +20,7 @@ class NewMenuItemDish extends Component {
       units: ['pcs', 'gram', 'L', 'ml'],
       selectedPortionSize: 'pcs',
       portionSize: 1,
-
       portionPrice: 1,
-
-      image: '/img/dish-default.png',
       dish: { categoryFood: { id: 0 } },
       isShowAlert: false,
       errors: { err: 'Please fill all fields! ' },
@@ -135,15 +132,17 @@ class NewMenuItemDish extends Component {
     Api.post('dish', dish)
       .then((r) => {
         if (r.error === null) {
+          const imgFileName = `${r.data.id}.jpg`;
           const menuItemDish = {};
           menuItemDish.dish = { id: r.data.id };
           menuItemDish.restaurant = { id: match.params.id };
           menuItemDish.portionPrice = portionPrice;
           menuItemDish.portionSize = `${portionSize} ${selectedPortionSize}`;
           menuItemDish.currency = 'UAN';
+          menuItemDish.imageUrl = imgFileName;
           Api.post('menuitemdish', menuItemDish).then((response) => {
             if (response.error === null) {
-              this.props.history.goBack();
+              this.sendImage(imgFileName);
             }
           });
         }
@@ -151,10 +150,21 @@ class NewMenuItemDish extends Component {
     /* eslint-enable no-param-reassign */
   }
 
+  sendImage(fileName) {
+    const { image } = this.state;
+    const formData = new FormData();
+    formData.append('file', image, fileName);
+    Api.post('/image/upload/dishes', formData)
+      .then((response) => {
+        if (response.error == null) {
+          this.props.history.goBack();
+        }
+      });
+  }
+
   render() {
     const {
-      categories, units, selectedCategory, selectedPortionSize,
-      image, isShowAlert, errors, portionPrice, portionSize,
+      categories, units, selectedCategory, selectedPortionSize, isShowAlert, errors, portionPrice, portionSize,
     } = this.state;
     return (
       <Container fluid className="new-menu-item-container">
@@ -250,7 +260,7 @@ class NewMenuItemDish extends Component {
         <Form.Group>
           <Button onClick={() => this.onSelectClick()}>Select dish photo</Button>
           <br />
-          <Image roundedCircle className="img mt-3" id="dishImage" src={image} />
+          <Image roundedCircle className="img mt-3" id="dishImage" src="/img/dish-default.png" />
         </Form.Group>
 
         <input
