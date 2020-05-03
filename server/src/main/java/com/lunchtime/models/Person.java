@@ -39,7 +39,7 @@ public class Person {
     @Column(name = "email", unique = true)
     private String email;
 
-    @Transient
+    @Column(name = "activation_code")
     private String activationCode;
 
     @NotBlank
