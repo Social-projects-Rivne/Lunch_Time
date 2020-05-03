@@ -15,7 +15,7 @@ public class MailConfig {
     String host;
 
     @Value("${spring.mail.userName}")
-    String userName;
+    String username;
 
     @Value("${spring.mail.password")
     String password;
@@ -26,7 +26,7 @@ public class MailConfig {
     @Value("${spring.mail.protocol}")
     String protocol;
 
-    @Value("${spring.mail.debug}")
+    @Value("${mail.debug}")
     String debug;
 
     @Bean
@@ -35,12 +35,14 @@ public class MailConfig {
 
         mailSender.setHost(host);
         mailSender.setPort(port);
-        mailSender.setUsername(userName);
+        mailSender.setUsername(username);
         mailSender.setPassword(password);
 
         Properties properties = mailSender.getJavaMailProperties();
         properties.setProperty("mail.transport.protocol", protocol);
         properties.setProperty("mail.debug", debug);
+        properties.setProperty("mail.smtp.starttls.enable", "true");
+        properties.setProperty("mail.smtp.ssl.trust", "smtp.gmail.com");;
 
         return mailSender;
     }
