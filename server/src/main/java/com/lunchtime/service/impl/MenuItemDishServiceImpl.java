@@ -44,7 +44,7 @@ public class MenuItemDishServiceImpl implements MenuItemDishService {
         Optional<MenuItemDish> result = findById(id);
         if (result.isPresent()) {
             MenuItemDish menuItemDish = result.get();
-            menuItemDish.setIsDeleted(true);
+            menuItemDish.setDeleted(true);
             save(menuItemDish);
             return Optional.of(menuItemDish);
         }

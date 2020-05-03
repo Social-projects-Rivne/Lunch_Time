@@ -22,7 +22,7 @@ class NewMenuItemDish extends Component {
       image: '/img/dish-default.png',
 
       dish: {
-        categoryfood: { id: 0 },
+        categoryFood: { id: 0 },
       },
       isShowAlert: false,
       errors: { err: 'Please fill all fields' },
@@ -60,7 +60,7 @@ class NewMenuItemDish extends Component {
     } else {
       dish.name = name;
       dish.ingredients = ingredients;
-      dish.categoryfood.id = selectedCategoryId;
+      dish.categoryFood.id = selectedCategoryId;
       this.sendData(dish);
     }
   }
