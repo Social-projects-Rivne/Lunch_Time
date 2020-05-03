@@ -18,7 +18,10 @@ class NewMenuItemDish extends Component {
 
       units: ['gram', 'pcs', 'L', 'ml'],
       selectedPortionSize: 'gram',
-
+      menuItemDish: {
+        portionSize: 123,
+        portionPrice: 1,
+      },
       image: '/img/dish-default.png',
 
       dish: {
@@ -53,7 +56,7 @@ class NewMenuItemDish extends Component {
     const {
       name, ingredients, selectedCategoryId, errors,
     } = this.state;
-    const { dish } = this.state;
+    const { menuItemDish, dish } = this.state;
 
     if (!this.validateForm(errors)) {
       this.setAlertState(true);
@@ -61,7 +64,8 @@ class NewMenuItemDish extends Component {
       dish.name = name;
       dish.ingredients = ingredients;
       dish.categoryFood.id = selectedCategoryId;
-      this.sendData(dish);
+
+      this.sendData(dish, menuItemDish);
     }
   }
 
@@ -123,12 +127,18 @@ class NewMenuItemDish extends Component {
     return '';
   }
 
-  sendData(dish) {
+  sendData(dish, menuItemDish) {
+    const { match } = this.props;
     Api.post('dish', dish)
       .then((r) => {
         if (r.error === null) {
-          console.log('sended');
-          this.props.history.goBack();
+          // eslint-disable-next-line no-param-reassign
+          menuItemDish.dish = { id: r.data.id }; menuItemDish.restaurant = { id: match.params.id };
+          Api.post('menuitemdish', menuItemDish).then((response) => {
+            if (response.error === null) {
+              this.props.history.goBack();
+            }
+          });
         }
       });
   }
@@ -136,7 +146,7 @@ class NewMenuItemDish extends Component {
   render() {
     const {
       categories, units, selectedCategory, selectedPortionSize,
-      image, isShowAlert, errors,
+      image, isShowAlert, errors, menuItemDish,
     } = this.state;
     return (
       <Container fluid className="new-menu-item-container">
@@ -217,6 +227,8 @@ class NewMenuItemDish extends Component {
               <Form.Control
                 type="number"
                 name="price"
+                value={menuItemDish.portionPrice}
+                onChange={(e) => { this.setState({ menuItemDish: { portionPrice: e.target.value } }); }}
                 placeholder="Price"
               />
             </Col>
@@ -258,6 +270,7 @@ class NewMenuItemDish extends Component {
 
 NewMenuItemDish.propTypes = {
   history: PropTypes.any.isRequired,
+  match: PropTypes.object.isRequired,
 };
 
 export default NewMenuItemDish;
