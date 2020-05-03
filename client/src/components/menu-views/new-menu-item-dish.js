@@ -16,12 +16,12 @@ class NewMenuItemDish extends Component {
       categories: [],
       selectedCategory: 'Pizza',
       selectedCategoryId: 1,
-
       units: ['pcs', 'gram', 'L', 'ml'],
       selectedPortionSize: 'pcs',
       portionSize: 1,
       portionPrice: 1,
       dish: { categoryFood: { id: 0 } },
+      image: null,
       isShowAlert: false,
       errors: { err: 'Please fill all fields! ' },
     };
@@ -128,7 +128,9 @@ class NewMenuItemDish extends Component {
   sendData(dish) {
     /* eslint-disable no-param-reassign */
     const { match } = this.props;
-    const { portionPrice, portionSize, selectedPortionSize } = this.state;
+    const {
+      portionPrice, portionSize, selectedPortionSize, image,
+    } = this.state;
     Api.post('dish', dish)
       .then((r) => {
         if (r.error === null) {
@@ -139,11 +141,14 @@ class NewMenuItemDish extends Component {
           menuItemDish.portionPrice = portionPrice;
           menuItemDish.portionSize = `${portionSize} ${selectedPortionSize}`;
           menuItemDish.currency = 'UAN';
-          menuItemDish.imageUrl = imgFileName;
+          if (image != null) {
+            menuItemDish.imageUrl = imgFileName;
+          }
           Api.post('menuitemdish', menuItemDish).then((response) => {
-            if (response.error === null) {
+            if (response.error === null && image != null) {
               this.sendImage(imgFileName);
             }
+            this.props.history.goBack();
           });
         }
       });

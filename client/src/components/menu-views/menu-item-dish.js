@@ -20,6 +20,13 @@ class MenuItemDish extends Component {
       });
   }
 
+  getImage(menuItemDish) {
+    if (menuItemDish && menuItemDish.imageUrl && menuItemDish.imageUrl.length) {
+      return `${Api.apiUrl}images/dishes/${menuItemDish.imageUrl}`;
+    }
+    return '/img/dish-default.png';
+  }
+
   render() {
     const { menuItemDishes, isAuthenticated, isEdit } = this.props;
     return (
@@ -36,7 +43,7 @@ class MenuItemDish extends Component {
               <Col className="col-item">
                 <Image
                   className="image-menu-item"
-                  src={`${Api.apiUrl}images/dishes/${menuItemDish.imageUrl}`}
+                  src={this.getImage(menuItemDish)}
                   roundedCircle
                   width="150"
                   height="75"
