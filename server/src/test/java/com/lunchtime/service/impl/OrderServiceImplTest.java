@@ -10,12 +10,14 @@ import com.lunchtime.service.OrderStatusService;
 import com.lunchtime.service.PersonService;
 import com.lunchtime.service.RestaurantTableService;
 import com.lunchtime.service.dto.OrderDto;
+import lombok.var;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.IOException;
@@ -24,6 +26,7 @@ import java.time.ZoneId;
 import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -82,8 +85,6 @@ public class OrderServiceImplTest {
             .visitors(3)
             .build();
 
-        order = orderMapper.fromDtoToOrder(orderDto);
-
         when(orderStatusService.getOrderStatusByName(statusName)).thenReturn(Optional.of(status));
         when(personService.getPersonById(personId)).thenReturn(Optional.of(person));
         when(restaurantTableService.getTableById(tableId)).thenReturn(Optional.of(restaurantTable));
@@ -91,6 +92,9 @@ public class OrderServiceImplTest {
             .thenReturn(Collections.emptyList());
         when(orderRepository.save(order)).thenReturn(order);
 
+        var order = Mockito.mock(Order.class);
+        when(orderMapper.fromDtoToOrder(any(OrderDto.class))).thenReturn(order);
+        when(orderMapper.fromOrderToDto(order)).thenReturn(orderDto);
     }
 
     @After
@@ -98,10 +102,16 @@ public class OrderServiceImplTest {
         startDate = null;
         finishDate = null;
         order = null;
+        orderDto = null;
     }
 
     @Test
     public void personCanMakeOrderInSpecificTimeIfRestaurantTableIsAvailable() throws IOException {
+
+        var order = Mockito.mock(Order.class);
+        when(orderMapper.fromDtoToOrder(any(OrderDto.class))).thenReturn(order);
+        when(orderMapper.fromOrderToDto(order)).thenReturn(orderDto);
+
         OrderDto createdOrder = orderServiceImpl.saveOrder(orderDto);
 
         assertNotNull(createdOrder);
@@ -113,7 +123,7 @@ public class OrderServiceImplTest {
         List<Order> orders = new ArrayList<>();
         orders.add(Order.builder().build());
 
-        when(orderRepository.findAllOrdersByTableInTime(order.getTable().getId(), startDate, finishDate))
+        when(orderRepository.findAllOrdersByTableInTime(orderDto.getTableId(), startDate, finishDate))
             .thenReturn(orders);
 
         OrderDto createdOrder = orderServiceImpl.saveOrder(orderDto);
@@ -123,7 +133,8 @@ public class OrderServiceImplTest {
 
     @Test
     public void personCanNotMakeOrderWhenNumberOfVisitorsMoreThanTableCapacity() throws IOException {
-        Order order = Order.builder()
+
+        Order newOrder = Order.builder()
             .table(restaurantTable)
             .person(person)
             .startTime(startDate)
@@ -131,9 +142,13 @@ public class OrderServiceImplTest {
             .visitors(5)
             .build();
 
-        when(orderRepository.save(order)).thenReturn(order);
+        var order = Mockito.mock(Order.class);
+        when(orderMapper.fromDtoToOrder(any(OrderDto.class))).thenReturn(order);
+        when(orderMapper.fromOrderToDto(newOrder)).thenReturn(orderDto);
 
-        OrderDto createdOrder = orderServiceImpl.saveOrder(orderDto);
+        OrderDto newOrderDto = orderMapper.fromOrderToDto(newOrder);
+        OrderDto createdOrder = orderServiceImpl.saveOrder(newOrderDto);
+        when(orderRepository.save(newOrder)).thenReturn(newOrder);
 
         assertNull(createdOrder);
     }
@@ -153,9 +168,11 @@ public class OrderServiceImplTest {
             .visitors(3)
             .build();
 
-        when(orderRepository.findAllOrdersByTableInTime(order.getTable().getId(), startDate, finishDate))
+        Order newOrder = orderMapper.fromDtoToOrder(orderDto);
+
+        when(orderRepository.findAllOrdersByTableInTime(orderDto.getTableId(), startDate, finishDate))
             .thenReturn(Collections.emptyList());
-        when(orderRepository.save(order)).thenReturn(order);
+        when(orderRepository.save(newOrder)).thenReturn(newOrder);
 
         OrderDto createdOrder = orderServiceImpl.saveOrder(orderDto);
 
@@ -177,9 +194,11 @@ public class OrderServiceImplTest {
             .visitors(3)
             .build();
 
-        when(orderRepository.findAllOrdersByTableInTime(order.getTable().getId(), startDate, finishDate))
+        Order newOrder = orderMapper.fromDtoToOrder(orderDto);
+
+        when(orderRepository.findAllOrdersByTableInTime(orderDto.getTableId(), startDate, finishDate))
             .thenReturn(Collections.emptyList());
-        when(orderRepository.save(order)).thenReturn(order);
+        when(orderRepository.save(newOrder)).thenReturn(newOrder);
 
         OrderDto createdOrder = orderServiceImpl.saveOrder(orderDto);
 
@@ -199,7 +218,9 @@ public class OrderServiceImplTest {
             .visitors(3)
             .build();
 
-        when(orderRepository.save(order)).thenReturn(order);
+        Order newOrder = orderMapper.fromDtoToOrder(orderDto);
+
+        when(orderRepository.save(newOrder)).thenReturn(newOrder);
 
         OrderDto createdOrder = orderServiceImpl.saveOrder(orderDto);
 
