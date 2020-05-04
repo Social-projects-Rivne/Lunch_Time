@@ -53,7 +53,7 @@ public class Order {
         cascade = CascadeType.ALL,
         orphanRemoval = true
     )
-    private List<OrderDish> orderDishList = new ArrayList<>(); //?
+    private List<OrderDish> orderDishList = new ArrayList<>();
 
     @Size(max = 999)
     @Column(name = "description")
