@@ -76,7 +76,7 @@ class Menu extends Component {
           menuItemDishes={menuItemDishes}
           isAuthenticated={isAuthenticated}
           isEdit={isEdit}
-          update={() => this.componentDidMount()}
+          update={() => this.handleChange('menuitemdish/restaurantId?')}
         />
       );
     }

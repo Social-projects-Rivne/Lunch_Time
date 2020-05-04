@@ -147,8 +147,9 @@ class NewMenuItemDish extends Component {
           Api.post('menuitemdish', menuItemDish).then((response) => {
             if (response.error === null && image != null) {
               this.sendImage(imgFileName);
+            } else {
+              this.props.history.goBack();
             }
-            this.props.history.goBack();
           });
         }
       });
