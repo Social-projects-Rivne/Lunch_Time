@@ -50,7 +50,7 @@ class Restaurant extends Component {
     if (isOwner) {
       isOwnerText = (
         <Alert variant="info">
-          You are the owner of this restaurant !
+          You are the owner of this restaurant!
         </Alert>
       );
     }

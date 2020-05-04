@@ -81,7 +81,7 @@ class OwnersRestaurants extends Component {
   initTextNoRestaurants() {
     return (
       <Alert variant="info">
-        You have no restaurants yet !
+        You have no restaurants yet!
       </Alert>
     );
   }
