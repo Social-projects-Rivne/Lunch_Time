@@ -34,11 +34,14 @@
 .col-item {
     text-align: center;
     margin: 5px;
+
 }
 
 .col-item p{
     text-align: left;
     font-size: 10px;
+    max-width: 6rem;
+    overflow-wrap: break-word;
 }
 
 .drop-down {

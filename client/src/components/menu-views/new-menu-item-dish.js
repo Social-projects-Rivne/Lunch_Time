@@ -100,17 +100,19 @@ class NewMenuItemDish extends Component {
     const { errors } = this.state;
     switch (name) {
       case 'ingredients':
-        errors.ingredients = value.length > 2 ? '' : 'Ingredients field must be at least 3 characters! ';
+        errors.ingredients = (value.length > 2 && value.length < 256)
+          ? '' : 'Ingredients field must be 3-255 characters long! ';
         break;
       case 'name':
-        errors.name = value.length > 1 ? '' : 'Dish name must be at least 2 characters! ';
+        errors.name = (value.length > 0 && value.length < 31) ? '' : 'Dish name must be 1-30 characters! ';
         break;
       case 'portionPrice':
-        errors.price = value >= 0 ? '' : 'The price cannot be negative! ';
-        errors.price += value.length > 0 ? '' : 'The Portion price field cannot be empty! ';
+        errors.price = value > 0 ? '' : 'The price cannot be negative or zero! ';
+        errors.price += value < 10000000 ? '' : 'The Portion price is too high! ';
         break;
       case 'portionSize':
-        errors.size = value > 0 ? '' : 'The size cannot be negative or empty! ';
+        errors.size = value > 0 ? '' : 'The portion size cannot be negative or empty! ';
+        errors.size += value.length < 17 ? '' : 'The portion size value is to high ';
         break;
       default:
         break;
