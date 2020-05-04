@@ -25,7 +25,8 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<OrderDto> createOrder(@Valid @RequestBody OrderDto orderDto) throws URISyntaxException, IOException {
+    public ResponseEntity<OrderDto> createOrder(
+        @Valid @RequestBody OrderDto orderDto) throws URISyntaxException, IOException {
         if (orderDto.getId() != null) {
             return ResponseEntity.badRequest()
                 .build();
