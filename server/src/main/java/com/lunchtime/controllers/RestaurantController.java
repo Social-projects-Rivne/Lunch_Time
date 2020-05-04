@@ -39,7 +39,7 @@ public class RestaurantController {
         Optional<Person> res = personRepository.findById(restaurant.getPersonId());
         if (res.isPresent()) {
             Person person = res.get();
-            person.setRoleId((long) 2);
+            person.setRoleId(2L);
             personRepository.save(person);
         }
 
