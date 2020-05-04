@@ -12,7 +12,7 @@ class CardView extends React.Component {
       <Card className="text-dark m-2" border="dark">
         <Card.Img variant="top" src={img} alt="Event image" />
         <Card.Body className="">
-          <Card.Title className="" style={{ color: '#3170ED' }}>{event.name.toUpperCase()}</Card.Title>
+          <Card.Title className="" style={{ color: '#1e1e1e' }}>{event.name.toUpperCase()}</Card.Title>
           <Card.Subtitle className="font-weight-bold mb-2">{event.restaurant.name}</Card.Subtitle>
           <Card.Subtitle className="event-date mb-2 text-muted">
             {moment(event.date).format('DD.MM.YYYY HH:mm')}
