@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Spinner } from 'react-bootstrap';
+import { Alert, Container, Spinner } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import Pagination from 'react-bootstrap-pagination-logic';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
@@ -78,6 +78,14 @@ class OwnersRestaurants extends Component {
     );
   }
 
+  initTextNoRestaurants() {
+    return (
+      <Alert variant="info">
+        You have no restaurants yet !
+      </Alert>
+    );
+  }
+
   initPagination() {
     const { number, totalPages } = this.state;
     if (totalPages === 1) {
@@ -94,17 +102,24 @@ class OwnersRestaurants extends Component {
   }
 
   render() {
-    const { isFetching } = this.state;
+    const { isFetching, restaurants } = this.state;
     if (isFetching) {
+      if (restaurants.length === 0) {
+        return (
+          <Container fluid>
+            {this.initTextNoRestaurants()}
+          </Container>
+        );
+      }
       return (
-        <Container fluid className="restaurant-list-container">
+        <Container fluid>
           {this.initRestaurantResultCard()}
           {this.initPagination()}
         </Container>
       );
     }
     return (
-      <Container fluid className="restaurant-list-container">
+      <Container fluid>
         {this.initButtonToolbar()}
       </Container>
     );

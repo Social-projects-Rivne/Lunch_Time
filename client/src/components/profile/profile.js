@@ -125,7 +125,7 @@ class Profile extends Component {
               <ListGroup>
                 {this.menuItems
                   .filter((item) => {
-                    if (user.role === OWNER_ROLE_ID) {
+                    if (user.roleId === OWNER_ROLE_ID) {
                       return item.ownerSee === true;
                     }
                     return item.userSee === true;

@@ -26,7 +26,7 @@ public class PersonMapper {
             person.setPhoneNumber(personDto.getPhoneNumber());
             person.setEmail(personDto.getEmail());
             person.setPhotoUrl(personDto.getPhotoUrl());
-            person.setRoleId(personDto.getRole());
+            person.setRoleId(personDto.getRoleId());
             return person;
         }
         return null;
@@ -39,7 +39,7 @@ public class PersonMapper {
             .phoneNumber(person.getPhoneNumber())
             .email(person.getEmail())
             .photoUrl(person.getPhotoUrl())
-            .role(person.getRoleId())
+            .roleId(person.getRoleId())
             .build();
     }
 

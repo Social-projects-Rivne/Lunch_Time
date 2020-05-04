@@ -16,5 +16,5 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
     @Query("select p.roleId from Person p "
         + "where p.id in :userId "
         + "and p.isDeleted = false")
-    long findByRoleId(long userId);
+    long findRoleIdByUserId(long userId);
 }

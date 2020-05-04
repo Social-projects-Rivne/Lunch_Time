@@ -24,5 +24,5 @@ public class PersonDto {
     private String email;
 
     private String photoUrl;
-    private long role;
+    private long roleId;
 }
