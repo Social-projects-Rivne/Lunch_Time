@@ -4,6 +4,7 @@ import {
 } from 'react-bootstrap';
 import '../../styles/new-menu-item-dish.css';
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
 import Api from '../../services/api';
 import View from '../shared/dropdown/view';
 import AlertBase from '../shared/alert-base';
@@ -46,6 +47,11 @@ class NewMenuItemDish extends Component {
 
   onSelectClick() {
     this.fileInputRef.current.click();
+  }
+
+  onCancelClick() {
+    this.props.selectedTab('menu');
+    this.props.history.goBack();
   }
 
   onAddClick() {
@@ -148,6 +154,7 @@ class NewMenuItemDish extends Component {
             if (response.error === null && image != null) {
               this.sendImage(imgFileName);
             } else {
+              this.props.selectedTab('menu');
               this.props.history.goBack();
             }
           });
@@ -163,6 +170,7 @@ class NewMenuItemDish extends Component {
     Api.post('/image/upload/dishes', formData)
       .then((response) => {
         if (response.error == null) {
+          this.props.selectedTab('menu');
           this.props.history.goBack();
         }
       });
@@ -285,7 +293,7 @@ class NewMenuItemDish extends Component {
           >
             Add
           </Button>
-          <Button variant="danger" className="mr-3" onClick={this.props.history.goBack}>Cancel</Button>
+          <Button variant="danger" className="mr-3" onClick={() => this.onCancelClick()}>Cancel</Button>
         </ButtonToolbar>
 
       </Container>
@@ -296,6 +304,7 @@ class NewMenuItemDish extends Component {
 NewMenuItemDish.propTypes = {
   history: PropTypes.any.isRequired,
   match: PropTypes.object.isRequired,
+  selectedTab: PropTypes.func.isRequired,
 };
 
-export default NewMenuItemDish;
+export default withRouter(NewMenuItemDish);

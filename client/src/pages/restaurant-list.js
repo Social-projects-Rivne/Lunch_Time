@@ -3,6 +3,7 @@ import { Container } from 'react-bootstrap';
 import Pagination from 'react-bootstrap-pagination-logic';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
 import Spinner from 'react-bootstrap/Spinner';
+import PropTypes from 'prop-types';
 import Api from '../services/api';
 import RestaurantCardResults from '../components/restaurant/restaurant-card-results';
 import '../styles/restaurant-list.css';
@@ -43,6 +44,7 @@ class RestaurantList extends Component {
       restaurants: response.data.content,
       isFetching: true,
     });
+    this.props.selectedTab('about');
   }
 
   handlePageChange(page) {
@@ -98,5 +100,9 @@ class RestaurantList extends Component {
     );
   }
 }
+
+RestaurantList.propTypes = {
+  selectedTab: PropTypes.func.isRequired,
+};
 
 export default RestaurantList;

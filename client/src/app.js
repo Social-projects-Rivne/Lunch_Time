@@ -22,7 +22,9 @@ class App extends Component {
     super(props);
     this.state = {
       isAuthenticated: false,
+      // selectedTab: "about",
     };
+    this.selectedTab = undefined;
   }
 
   componentDidMount() {
@@ -54,14 +56,28 @@ class App extends Component {
           <Route path="/about" component={About} />
           <Route path="/events" component={Events} />
           <Route path="/restaurants/:id/new-order" component={NewOrder} />
-          <Route path="/restaurants/:id/new-dish" component={NewMenuItemDish} />
+          <Route
+            path="/restaurants/:id/new-dish"
+            component={() => {
+              return (
+                <NewMenuItemDish selectedTab={(e) => { this.selectedTab = e; }} />
+              );
+            }}
+          />
           <Route
             path="/restaurants/:id"
             render={(routeProps) => {
-              return <Restaurant isAuthenticated={isAuthenticated} {...routeProps} />;
+              return <Restaurant isAuthenticated={isAuthenticated} selectedTab={this.selectedTab} {...routeProps} />;
             }}
           />
-          <Route path="/restaurants" component={RestaurantList} />
+          <Route
+            path="/restaurants"
+            component={() => {
+              return (
+                <RestaurantList selectedTab={() => { this.selectedTab = undefined; }} />
+              );
+            }}
+          />
           <Route
             path="/login"
             render={(routeProps) => {
