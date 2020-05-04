@@ -52,7 +52,8 @@ class Register extends Component {
       showStrong: false,
       passwordStrength: '',
       passwordInputStarted: false,
-      passwordInputTitle: 'We recommend setting strong password with 8 or more symbols',
+      passwordInputTitle: 'We recommend'
+        + 'setting strong password with 8 or more symbols with no whitespaces beginning/ending',
       passwordInputClassName: '',
       passwordInputWrongClassName: false,
       confirmPasswordInputTitle: 'Passwords must match each other',
