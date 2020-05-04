@@ -42,8 +42,9 @@ public class OrderServiceImpl implements OrderService {
             return null;
         }
 
-        List<Order> orders = orderRepository
-            .findAllOrdersByTableInTime((long) orderDto.getTableId(), orderDto.getStartTime(), orderDto.getFinishTime());
+        List<Order> orders = orderRepository.findAllOrdersByTableInTime(
+            orderDto.getTableId(), orderDto.getStartTime(), orderDto.getFinishTime()
+        );
         if (!orders.isEmpty()) {
             return null;
         }

@@ -28,8 +28,12 @@ public class OrderDish {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof OrderDish )) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof OrderDish )) {
+            return false;
+        }
         return id != null && id.equals(((OrderDish) o).getId());
     }
 
