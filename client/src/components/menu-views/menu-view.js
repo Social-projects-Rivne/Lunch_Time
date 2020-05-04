@@ -92,11 +92,11 @@ class Menu extends Component {
 
   render() {
     const { isFetching } = this.state;
-    const { id } = this.props;
+    const { id, isOwner } = this.props;
     if (isFetching) {
       return (
         <Container className="menu">
-          <Header onChange={this.handleChange} isEdit={() => this.onEditMenu()} id={id} />
+          <Header onChange={this.handleChange} isEdit={() => this.onEditMenu()} id={id} isOwner={isOwner} />
           {this.initMenuItemDish()}
           {this.initPagination()}
         </Container>
@@ -111,5 +111,6 @@ class Menu extends Component {
 Menu.propTypes = {
   id: PropTypes.any.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
+  isOwner: PropTypes.bool.isRequired,
 };
 export default Menu;

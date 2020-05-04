@@ -45,17 +45,16 @@ class Header extends Component {
 
   render() {
     const { categories } = this.state;
-    const { id } = this.props;
+    const { id, isOwner } = this.props;
     return (
       <Container>
         <br />
         <ButtonToolbar className="justify-content-center">
-          <Button
-            className="ml-3 mb-1"
-            onClick={() => this.onEditClick()}
-          >
+          {isOwner && (
+          <Button className="ml-3 mb-1" onClick={() => this.onEditClick()}>
             {!this.state.isEdit ? 'Edit Menu' : 'Close'}
           </Button>
+          )}
           {this.state.isEdit && (
             <Link to={{ pathname: `/restaurants/${id}/new-dish` }}>
               <span className="d-inline-block ml-2">
@@ -128,5 +127,6 @@ Header.propTypes = {
   onChange: PropTypes.any.isRequired,
   isEdit: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
+  isOwner: PropTypes.bool.isRequired,
 };
 export default Header;
