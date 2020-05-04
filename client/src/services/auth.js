@@ -26,9 +26,9 @@ class Auth {
     this.isAuth = true;
   }
 
-  removeToken() {
+  cleanLocalStorage() {
     this.token = '';
-    localStorage.removeItem(this.tokenKey);
+    localStorage.clear();
     this.isAuth = false;
   }
 }
