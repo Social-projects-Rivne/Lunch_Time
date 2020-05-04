@@ -20,6 +20,13 @@ class RestaurantRegistration extends Component {
       description: '',
       tables: 3,
       isRegistered: false,
+      isValidName: false,
+      isValidEmail: false,
+      isValidAddress: false,
+      isValidWorkingTime: false,
+      isValidCountTables: false,
+      isValidDescription: false,
+      isValid: false,
     };
     this.userID = localStorage.getItem('userID');
     this.handleChange = this.handleChange.bind(this);
@@ -32,11 +39,40 @@ class RestaurantRegistration extends Component {
     });
   }
 
+
   validateForm() {
     const {
       email, name, address, description, tables,
     } = this.state;
     return email.length > 3 && name.length > 2 && address.length > 1 && description.length > 2 && tables > 0;
+  }
+
+  validInput() {
+    const {
+      email, name, address, description, tables, isValid, isValidName, isValidEmail,
+      isValidAddress, isValidCountTables, isValidDescription,
+    } = this.state;
+    if (email.length < 3) {
+      this.setState({ isValidEmail: true });
+    } else { this.setState({ isValidEmail: false }); }
+    if (name.length < 2) {
+      this.setState({ isValidName: true });
+    } else { this.setState({ isValidName: false }); }
+    if (address.length < 1) {
+      this.setState({ isValidAddress: true });
+    } else { this.setState({ isValidAddress: false }); }
+    if (description.length < 2) {
+      this.setState({ isValidDescription: true });
+    } else { this.setState({ isValidDescription: false }); }
+    // eslint-disable-next-line max-len
+    if (tables < 0) {
+      this.setState({ isValidCountTables: true });
+    } else { this.setState({ isValidCountTables: false }); }
+    if (isValidName || isValidEmail || isValidAddress || isValidCountTables || isValidDescription) {
+      // eslint-disable-next-line react/no-unused-state
+      this.setState({ isValid: true });
+    }
+    return isValid;
   }
 
   showRegistration() {
@@ -83,24 +119,29 @@ class RestaurantRegistration extends Component {
       modifyBy: this.userID,
       tables: this.state.tables,
     };
-
-    Api.post('restaurants', restaurant)
-      .then((response) => {
-        if (response.error) {
+    if (!this.validInput()) {
+      Api.post('restaurants', restaurant)
+        .then((response) => {
+          if (response.error) {
           // eslint-disable-next-line no-console
-          console.error(response);
-          this.setState({
-            isBadRequestError: true,
-          });
-          return;
-        }
-        this.showRegistration();
-        this.props.history.push(`/restaurants/${response.data.id}`);
-      });
+            console.error(response);
+            this.setState({
+              isBadRequestError: true,
+            });
+            return;
+          }
+          this.showRegistration();
+          this.props.history.push(`/restaurants/${response.data.id}`);
+        });
+    }
   }
 
   render() {
-    const { isRegistered } = this.state;
+    const {
+      isRegistered, isValidName,
+      isValidAddress, isValidWorkingTime,
+      isValidCountTables, isValidEmail, isValidDescription,
+    } = this.state;
     return (
       <Container fluid className="restaurantRegistration">
         <h4>
@@ -122,6 +163,9 @@ class RestaurantRegistration extends Component {
                   onChange={this.handleChange}
                 />
               </Form.Group>
+              {isValidName && (
+              <MyBadge variant="danger" message="Name must be inputed !" />
+              )}
               <Form.Group controlId="email">
                 <Form.Label>Email *</Form.Label>
                 <Form.Control
@@ -132,6 +176,9 @@ class RestaurantRegistration extends Component {
                   onChange={this.handleChange}
                 />
               </Form.Group>
+              {isValidEmail && (
+              <MyBadge variant="danger" message="Email must be inputed !" />
+              )}
               {' '}
               <Form.Group controlId="address">
                 <Form.Label>Address *</Form.Label>
@@ -142,6 +189,9 @@ class RestaurantRegistration extends Component {
                   onChange={this.handleChange}
                 />
               </Form.Group>
+              {isValidAddress && (
+              <MyBadge variant="danger" message="Address must be inputed !" />
+              )}
               {' '}
               <Form.Group controlId="workingTime">
                 <Form.Label>Working Time *</Form.Label>
@@ -176,8 +226,14 @@ class RestaurantRegistration extends Component {
                       onChange={(event) => { this.setState({ tables: event.target.value }); }}
                     />
                   </Form.Group>
+                  {isValidCountTables && (
+                  <MyBadge variant="danger" message="The number of tables must be greater than zero!" />
+                  )}
                 </div>
               </Form.Group>
+              {isValidWorkingTime && (
+              <MyBadge variant="danger" message="Time invalid !" />
+              )}
             </div>
             <div className="register_map_container">
               {' '}
@@ -193,7 +249,11 @@ class RestaurantRegistration extends Component {
               onChange={(event) => { this.setState({ description: event.target.value }); }}
             />
           </Form.Group>
+          {isValidDescription && (
+          <MyBadge variant="danger" message="Description must be inputed !" />
+          )}
         </Form>
+        <br />
         {
           this.state.isBadRequestError
             ? this.allertMessage('Something went wrong. Try again later', 'danger', true)
@@ -207,7 +267,6 @@ class RestaurantRegistration extends Component {
           <Button onClick={() => this.backtoInfo()} variant="danger" className="registe_btn_cancel">Cancel</Button>
           <Button
             block
-            disabled={!this.validateForm()}
             onClick={() => this.saveRestaurant()}
           >
             Register
