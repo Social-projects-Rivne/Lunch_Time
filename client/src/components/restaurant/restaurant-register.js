@@ -33,12 +33,12 @@ class RestaurantRegistration extends Component {
     this.showRegistration = this.showRegistration.bind(this);
   }
 
+  // eslint-disable-next-line react/sort-comp
   handleChange(event) {
     this.setState({
       [event.target.id]: event.target.value,
     });
   }
-
 
   validateForm() {
     const {
@@ -47,28 +47,22 @@ class RestaurantRegistration extends Component {
     return email.length > 3 && name.length > 2 && address.length > 1 && description.length > 2 && tables > 0;
   }
 
+  componentDidMount() { this.validateForm(); }
+
   validInput() {
     const {
       email, name, address, description, tables, isValidName, isValidEmail,
-      isValidAddress, isValidCountTables, isValidDescription,
+      // eslint-disable-next-line camelcase
+      isValidAddress, isValidCountTables, isValidDescription, time_from, time_to, isValidWorkingTime,
     } = this.state;
-    if (email.length < 3) {
-      this.setState({ isValidEmail: true });
-    } else { this.setState({ isValidEmail: false }); }
-    if (name.length < 2) {
-      this.setState({ isValidName: true });
-    } else { this.setState({ isValidName: false }); }
-    if (address.length < 1) {
-      this.setState({ isValidAddress: true });
-    } else { this.setState({ isValidAddress: false }); }
-    if (description.length < 2) {
-      this.setState({ isValidDescription: true });
-    } else { this.setState({ isValidDescription: false }); }
-    // eslint-disable-next-line max-len
-    if (tables < 0) {
-      this.setState({ isValidCountTables: true });
-    } else { this.setState({ isValidCountTables: false }); }
-    return isValidName && isValidEmail && isValidAddress && isValidCountTables && isValidDescription;
+    if (email.length > 3) { this.setState({ isValidEmail: true }); }
+    if (name.length > 2) { this.setState({ isValidName: true }); }
+    if (address.length > 1) { this.setState({ isValidAddress: true }); }
+    if (description.length > 2) { this.setState({ isValidDescription: true }); }
+    if (time_from.length > 1 && time_to.length > 1) { this.setState({ isValidWorkingTime: true }); }
+    if (tables > 0) { this.setState({ isValidCountTables: true }); }
+    return isValidName && isValidEmail && isValidAddress && isValidCountTables
+     && isValidDescription && isValidWorkingTime;
   }
 
   showRegistration() {
@@ -131,7 +125,7 @@ class RestaurantRegistration extends Component {
   }
 
   checkForSending() {
-    if (!this.validInput()) {
+    if (this.validInput()) {
       this.saveRestaurant();
     }
   }
@@ -163,7 +157,7 @@ class RestaurantRegistration extends Component {
                   onChange={this.handleChange}
                 />
               </Form.Group>
-              {isValidName && (
+              {!isValidName && (
               <MyBadge variant="danger" message="Name must be inputed !" />
               )}
               <Form.Group controlId="email">
@@ -176,7 +170,7 @@ class RestaurantRegistration extends Component {
                   onChange={this.handleChange}
                 />
               </Form.Group>
-              {isValidEmail && (
+              {!isValidEmail && (
               <MyBadge variant="danger" message="Email must be inputed !" />
               )}
               {' '}
@@ -189,7 +183,7 @@ class RestaurantRegistration extends Component {
                   onChange={this.handleChange}
                 />
               </Form.Group>
-              {isValidAddress && (
+              {!isValidAddress && (
               <MyBadge variant="danger" message="Address must be inputed !" />
               )}
               {' '}
@@ -227,11 +221,11 @@ class RestaurantRegistration extends Component {
                     onChange={(event) => { this.setState({ tables: event.target.value }); }}
                   />
                 </Form.Group>
-                {isValidCountTables && (
+                {!isValidCountTables && (
                   <MyBadge variant="danger" message="The number of tables must be greater than zero!" />
                 )}
               </div>
-              {isValidWorkingTime && (
+              {!isValidWorkingTime && (
               <MyBadge variant="danger" message="Time invalid !" />
               )}
             </div>
@@ -249,7 +243,7 @@ class RestaurantRegistration extends Component {
               onChange={(event) => { this.setState({ description: event.target.value }); }}
             />
           </Form.Group>
-          {isValidDescription && (
+          {!isValidDescription && (
           <MyBadge variant="danger" message="Description must be inputed !" />
           )}
         </Form>
