@@ -20,7 +20,7 @@ class NewMenuItemDish extends Component {
       units: ['pcs', 'gram', 'L', 'ml'],
       selectedPortionSize: 'pcs',
       portionSize: 1,
-      portionPrice: 1,
+      portionPrice: 1.00,
       dish: { categoryFood: { id: 0 } },
       image: null,
       isShowAlert: false,
@@ -112,6 +112,8 @@ class NewMenuItemDish extends Component {
       case 'portionPrice':
         errors.price = value > 0 ? '' : 'The price cannot be negative or zero! ';
         errors.price += value < 10000000 ? '' : 'The Portion price is too high! ';
+        errors.price += /^\d+(,\d{0,2})?$/.test(value) ? '' : 'The price must be a maximum of two decimal places';
+        errors.err = this.checkIfEmptyFields(dishName, ingredients);
         break;
       case 'portionSize':
         errors.size = value > 0 ? '' : 'The portion size cannot be negative or empty! ';
