@@ -22,7 +22,6 @@ class App extends Component {
     super(props);
     this.state = {
       isAuthenticated: false,
-      // selectedTab: "about",
     };
     this.selectedTab = undefined;
   }

@@ -56,13 +56,13 @@ class NewMenuItemDish extends Component {
 
   onAddClick() {
     const {
-      dish, name, ingredients, selectedCategoryId, errors,
+      dish, dishName, ingredients, selectedCategoryId, errors,
     } = this.state;
 
     if (!this.validateForm(errors)) {
       this.setAlertState(true);
     } else {
-      dish.name = name;
+      dish.name = dishName;
       dish.ingredients = ingredients;
       dish.categoryFood.id = selectedCategoryId;
 
@@ -97,14 +97,17 @@ class NewMenuItemDish extends Component {
 
   handleChange(e) {
     const { name, value } = e.target;
-    const { errors } = this.state;
+    const { errors, dishName, ingredients } = this.state;
+    errors.err = '';
     switch (name) {
       case 'ingredients':
         errors.ingredients = (value.length > 2 && value.length < 256)
           ? '' : 'Ingredients field must be 3-255 characters long! ';
+        errors.err = this.checkIfEmptyFields(dishName, value);
         break;
-      case 'name':
+      case 'dishName':
         errors.name = (value.length > 0 && value.length < 31) ? '' : 'Dish name must be 1-30 characters! ';
+        errors.err = this.checkIfEmptyFields(value, ingredients);
         break;
       case 'portionPrice':
         errors.price = value > 0 ? '' : 'The price cannot be negative or zero! ';
@@ -117,7 +120,6 @@ class NewMenuItemDish extends Component {
       default:
         break;
     }
-    errors.err = this.checkIfEmptyFields();
     this.setState({
       errors,
       [name]: value,
@@ -125,8 +127,7 @@ class NewMenuItemDish extends Component {
     });
   }
 
-  checkIfEmptyFields() {
-    const { name, ingredients } = this.state;
+  checkIfEmptyFields(name, ingredients) {
     if (name === undefined || name.length === 0 || ingredients === undefined || ingredients.length === 0) {
       return 'Not all fields are filled! ';
     }
@@ -215,7 +216,7 @@ class NewMenuItemDish extends Component {
           <Form.Label>Dish name</Form.Label>
           <Form.Control
             type="text"
-            name="name"
+            name="dishName"
             placeholder="Please enter the dish name"
             onChange={(e) => this.handleChange(e)}
           />
