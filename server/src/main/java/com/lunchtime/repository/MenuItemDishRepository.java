@@ -11,6 +11,9 @@ import org.springframework.data.domain.Pageable;
 public interface MenuItemDishRepository extends JpaRepository<MenuItemDish, Long> {
 
     @Query("select m from MenuItemDish m where m.isDeleted = false and m.restaurant.id = :id")
+    MenuItemDish findMenuItemDishById(Long id);
+
+    @Query("select m from MenuItemDish m where m.isDeleted = false and m.restaurant.id = :id")
     Page<MenuItemDish> findByRestaurantId(Long id, Pageable pageable);
 
     @Query("select m from MenuItemDish m "
