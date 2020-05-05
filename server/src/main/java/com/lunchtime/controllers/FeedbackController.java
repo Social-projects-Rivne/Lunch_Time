@@ -4,6 +4,7 @@ import com.lunchtime.models.Feedback;
 import com.lunchtime.service.FeedbackService;
 import com.lunchtime.service.dto.FeedbackDto;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +32,19 @@ public class FeedbackController {
         }
         return ResponseEntity.badRequest()
             .build();
+    }
+
+    @PostMapping("/like")
+    public ResponseEntity<FeedbackDto> likeFeedback(
+        @RequestParam("feedbackId") Long feedbackId,
+        @RequestParam("personId") Long personId) {
+        FeedbackDto feedbackDto = null;
+        if (feedbackId != null && personId != null) {
+            feedbackDto = feedbackService.likeFeedback(feedbackId, personId);
+        }
+        return feedbackDto != null
+            ? ResponseEntity.ok().body(feedbackDto)
+            : ResponseEntity.badRequest().build();
     }
 
     @GetMapping(params = ("restaurantId"))

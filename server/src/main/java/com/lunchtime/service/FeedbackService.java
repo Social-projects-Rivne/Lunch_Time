@@ -9,4 +9,6 @@ public interface FeedbackService {
     List<Feedback> getFeedbackListByRestaurantId(Long id);
 
     FeedbackDto saveFeedback(FeedbackDto feedbackDto);
+
+    FeedbackDto likeFeedback(Long feedbackId, Long personId);
 }

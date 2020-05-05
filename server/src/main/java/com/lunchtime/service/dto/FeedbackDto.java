@@ -1,5 +1,6 @@
 package com.lunchtime.service.dto;
 
+import com.lunchtime.models.Person;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,6 +8,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
 import java.time.Instant;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -27,7 +29,7 @@ public class FeedbackDto {
     @NotNull
     private int personId;
 
-    private int counterLike;
+    private Set<Person> likes;
 
     private int counterDislike;
 }
