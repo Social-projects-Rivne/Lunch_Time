@@ -11,14 +11,14 @@ class Results extends Component {
       isFetching, events, eventContainerClassName,
       cardDeckClassName, spinnerContainerClassName,
       buttonToolbarClassName, spinnerAnimation,
-      spinnerVariant,
+      spinnerVariant, showLink,
     } = this.props;
     return (
       <Container className={eventContainerClassName}>
         {isFetching ? (
           <CardDeck className={cardDeckClassName}>
             {events.map((event) => (
-              <CardView key={event.id} event={event} isFetching={isFetching} />
+              <CardView key={event.id} event={event} isFetching={isFetching} showLink={showLink} />
             ))}
           </CardDeck>
         ) : (
@@ -40,6 +40,7 @@ Results.defaultProps = {
   buttonToolbarClassName: 'justify-content-center',
   spinnerAnimation: 'border',
   spinnerVariant: 'warning',
+  showLink: false,
 };
 
 Results.propTypes = {
@@ -51,6 +52,7 @@ Results.propTypes = {
   buttonToolbarClassName: PropTypes.string,
   spinnerAnimation: PropTypes.string,
   spinnerVariant: PropTypes.string,
+  showLink: PropTypes.bool,
 };
 
 export default Results;

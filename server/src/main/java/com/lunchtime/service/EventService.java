@@ -17,6 +17,8 @@ public interface EventService {
 
     List<Event> getEventListByMonth(String month);
 
+    List<Event> getEventByRestaurantId(Long id);
+
     Optional<Event> getEventById(Long id);
 
     Optional<Event> deleteEventById(Long id);

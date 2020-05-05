@@ -1,6 +1,7 @@
 package com.lunchtime.repository;
 
 import com.lunchtime.models.Event;
+import com.lunchtime.models.RestaurantTable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -51,4 +52,15 @@ public interface EventRepository extends JpaRepository<Event, Long> {
         + "and e.isDeleted = false "
         + "order by e.date asc")
     List<Event> findAllByDateBetween(Date startDate, Date endDate);
+
+    /**
+     * Returns the list of events that belongs to restaurant according to its id.
+     *
+     * @param id restaurant id
+     * @return the list of events
+     */
+    @Query("select e from Event e "
+        + "where e.restaurant.id = :id "
+        + "and e.isDeleted = false")
+    List<Event> findAllByRestaurantId(Long id);
 }
