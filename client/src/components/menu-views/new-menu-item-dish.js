@@ -112,7 +112,8 @@ class NewMenuItemDish extends Component {
       case 'portionPrice':
         errors.price = value > 0 ? '' : 'The price cannot be negative or zero! ';
         errors.price += value < 10000000 ? '' : 'The Portion price is too high! ';
-        errors.price += /^\d+(,\d{0,2})?$/.test(value) ? '' : 'The price must be a maximum of two decimal places';
+        errors.price += /^[0-9]{0,6}.?[0-9]{0,2}$/.test(value)
+          ? '' : 'The price must be a maximum of two decimal places';
         errors.err = this.checkIfEmptyFields(dishName, ingredients);
         break;
       case 'portionSize':
