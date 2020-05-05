@@ -39,7 +39,7 @@ class App extends Component {
 
   handleLogout() {
     this.setState({ isAuthenticated: false }, () => {
-      Auth.removeToken();
+      Auth.cleanLocalStorage();
     });
   }
 

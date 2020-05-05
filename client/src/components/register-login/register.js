@@ -52,7 +52,8 @@ class Register extends Component {
       showStrong: false,
       passwordStrength: '',
       passwordInputStarted: false,
-      passwordInputTitle: "Password shouldn't be weak and less than 8 symbols",
+      passwordInputTitle: 'We recommend'
+        + 'setting strong password with 8 or more symbols with no whitespaces beginning/ending',
       passwordInputClassName: '',
       passwordInputWrongClassName: false,
       confirmPasswordInputTitle: 'Passwords must match each other',
@@ -392,103 +393,113 @@ class Register extends Component {
   }
 
   handleSubmit() {
-    this.setState({
-      buttonDisabled: true,
-    });
+    const validPass = /^(?!(.)\1+$)(?!\s)(?!.*\s$).{8,40}$/;
     const {
       name, phoneNumber, email, password,
     } = this.state;
-    if (this.checkAllFields()) {
-      const body = {
-        name: name,
-        phoneNumber: phoneNumber,
-        email: email,
-        password: password,
-      };
-      Api.post('persons', body)
-        .then((response) => {
-          if (response.status === 200) {
-            this.setState({
-              isRegistered: true,
-              unexpectedError: false,
-            });
-            this.login();
-          } else if (response.error.status === 409) {
-            if (response.error.data === 'Phone number and email are not unique') {
+    if (validPass.test(password)) {
+      this.setState({
+        buttonDisabled: true,
+        passwordInputClassName: valid,
+        confirmPasswordInputClassName: valid,
+      });
+      if (this.checkAllFields()) {
+        const body = {
+          name: name,
+          phoneNumber: phoneNumber,
+          email: email,
+          password: password,
+        };
+        Api.post('persons', body)
+          .then((response) => {
+            if (response.status === 200) {
+              this.setState({
+                isRegistered: true,
+                unexpectedError: false,
+              });
+              this.login();
+            } else if (response.error.status === 409) {
+              if (response.error.data === 'Phone number and email are not unique') {
+                this.setState({
+                  unexpectedError: false,
+                });
+                setTimeout(() => {
+                  const previousPhoneArray = this.state.alreadyRegisteredPhoneNumber;
+                  const alreadyRegisteredPhoneNumber = [...previousPhoneArray];
+                  alreadyRegisteredPhoneNumber.push(phoneNumber);
+                  const previousEmailArray = this.state.alreadyRegisteredEmail;
+                  const alreadyRegisteredEmail = [...previousEmailArray];
+                  alreadyRegisteredEmail.push(email);
+                  this.setState({
+                    phoneInputClassName: invalid,
+                    phoneInputTitle: 'This phone is already registered. Use another one.',
+                    emailInputClassName: invalid,
+                    emailInputTitle: 'This email is already registered. Use another one.',
+                    alreadyRegisteredPhoneNumber,
+                    alreadyRegisteredEmail,
+                  });
+                }, 300);
+              } else if (response.error.data === "Phone number isn't unique") {
+                this.setState({
+                  unexpectedError: false,
+                });
+                setTimeout(() => {
+                  const previousArray = this.state.alreadyRegisteredPhoneNumber;
+                  const alreadyRegisteredPhoneNumber = [...previousArray];
+                  alreadyRegisteredPhoneNumber.push(phoneNumber);
+                  this.setState({
+                    phoneInputClassName: invalid,
+                    phoneInputTitle: 'This phone is already registered. Use another one.',
+                    alreadyRegisteredPhoneNumber,
+                  });
+                }, 300);
+              } else if (response.error.data === "email isn't unique") {
+                this.setState({
+                  unexpectedError: false,
+                });
+                setTimeout(() => {
+                  const previousArray = this.state.alreadyRegisteredEmail;
+                  const alreadyRegisteredEmail = [...previousArray];
+                  alreadyRegisteredEmail.push(email);
+                  this.setState({
+                    emailInputClassName: invalid,
+                    emailInputTitle: 'This email is already registered. Use another one.',
+                    alreadyRegisteredEmail,
+                  });
+                }, 300);
+              }
+            } else if (response.error.status === 400) {
               this.setState({
                 unexpectedError: false,
               });
-              setTimeout(() => {
-                const previousPhoneArray = this.state.alreadyRegisteredPhoneNumber;
-                const alreadyRegisteredPhoneNumber = [...previousPhoneArray];
-                alreadyRegisteredPhoneNumber.push(phoneNumber);
-                const previousEmailArray = this.state.alreadyRegisteredEmail;
-                const alreadyRegisteredEmail = [...previousEmailArray];
-                alreadyRegisteredEmail.push(email);
-                this.setState({
-                  phoneInputClassName: invalid,
-                  phoneInputTitle: 'This phone is already registered. Use another one.',
-                  emailInputClassName: invalid,
-                  emailInputTitle: 'This email is already registered. Use another one.',
-                  alreadyRegisteredPhoneNumber,
-                  alreadyRegisteredEmail,
-                });
-              }, 300);
-            } else if (response.error.data === "Phone number isn't unique") {
-              this.setState({
-                unexpectedError: false,
-              });
-              setTimeout(() => {
-                const previousArray = this.state.alreadyRegisteredPhoneNumber;
-                const alreadyRegisteredPhoneNumber = [...previousArray];
-                alreadyRegisteredPhoneNumber.push(phoneNumber);
-                this.setState({
-                  phoneInputClassName: invalid,
-                  phoneInputTitle: 'This phone is already registered. Use another one.',
-                  alreadyRegisteredPhoneNumber,
-                });
-              }, 300);
-            } else if (response.error.data === "email isn't unique") {
-              this.setState({
-                unexpectedError: false,
-              });
-              setTimeout(() => {
-                const previousArray = this.state.alreadyRegisteredEmail;
-                const alreadyRegisteredEmail = [...previousArray];
-                alreadyRegisteredEmail.push(email);
-                this.setState({
-                  emailInputClassName: invalid,
-                  emailInputTitle: 'This email is already registered. Use another one.',
-                  alreadyRegisteredEmail,
-                });
-              }, 300);
             }
-          } else if (response.error.status === 400) {
-            this.setState({
-              unexpectedError: false,
-            });
-          }
-        })
-        .catch((error) => {
-          // eslint-disable-next-line no-console
-          console.log(error);
-        })
-        .finally(() => {
-          if (this.state.unexpectedError === '') {
-            this.setState({
-              unexpectedError: true,
-            });
-            setTimeout(() => {
+          })
+          .catch((error) => {
+            // eslint-disable-next-line no-console
+            console.log(error);
+          })
+          .finally(() => {
+            if (this.state.unexpectedError === '') {
               this.setState({
-                unexpectedError: '',
+                unexpectedError: true,
               });
-            }, 5000);
-          }
-        });
+              setTimeout(() => {
+                this.setState({
+                  unexpectedError: '',
+                });
+              }, 5000);
+            }
+          });
+      }
+      this.setState({
+        buttonDisabled: false,
+      });
+    } else {
+      this.setState({
+        passwordInputClassName: invalid,
+        confirmPasswordInputClassName: '',
+      });
     }
-    this.setState({
-      buttonDisabled: false,
-    });
   }
 
   arePhoneAndPasswordSame(phone, password) {
