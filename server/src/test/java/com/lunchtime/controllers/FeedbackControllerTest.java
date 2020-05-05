@@ -73,7 +73,6 @@ public class FeedbackControllerTest {
         feedback.setDate(Instant.ofEpochSecond(0L));
         feedback.setPerson(initPerson());
         feedback.setRestaurant(initRestaurant());
-        feedback.setCounterLike(0);
         feedback.setCounterDislike(0);
         return feedback;
     }

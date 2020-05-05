@@ -8,6 +8,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Setter
@@ -40,9 +42,13 @@ public class Feedback {
     @JoinColumn(name = "restaurant_id", referencedColumnName = "id")
     private Restaurant restaurant;
 
+    @ManyToMany
     @ColumnDefault("0")
-    @Column(name = "counter_like")
-    private Integer counterLike;
+    @JoinTable(
+        name = "feedback_like",
+        joinColumns = @JoinColumn(name = "person_id"),
+        inverseJoinColumns = @JoinColumn(name = "feedback_id"))
+    private Set<Person> likes;
 
     @ColumnDefault("0")
     @Column(name = "counter_dislike")
