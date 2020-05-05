@@ -26,7 +26,7 @@ class RestaurantRegistration extends Component {
       isValidWorkingTime: false,
       isValidCountTables: false,
       isValidDescription: false,
-      isValid: false,
+      isBadRequestError: '',
     };
     this.userID = localStorage.getItem('userID');
     this.handleChange = this.handleChange.bind(this);
@@ -49,7 +49,7 @@ class RestaurantRegistration extends Component {
 
   validInput() {
     const {
-      email, name, address, description, tables, isValid, isValidName, isValidEmail,
+      email, name, address, description, tables, isValidName, isValidEmail,
       isValidAddress, isValidCountTables, isValidDescription,
     } = this.state;
     if (email.length < 3) {
@@ -68,11 +68,7 @@ class RestaurantRegistration extends Component {
     if (tables < 0) {
       this.setState({ isValidCountTables: true });
     } else { this.setState({ isValidCountTables: false }); }
-    if (isValidName || isValidEmail || isValidAddress || isValidCountTables || isValidDescription) {
-      // eslint-disable-next-line react/no-unused-state
-      this.setState({ isValid: true });
-    }
-    return isValid;
+    return isValidName && isValidEmail && isValidAddress && isValidCountTables && isValidDescription;
   }
 
   showRegistration() {
@@ -119,20 +115,24 @@ class RestaurantRegistration extends Component {
       modifyBy: this.userID,
       tables: this.state.tables,
     };
+    Api.post('restaurants', restaurant)
+      .then((response) => {
+        if (response.error) {
+        // eslint-disable-next-line no-console
+          console.error(response);
+          this.setState({
+            isBadRequestError: true,
+          });
+          return;
+        }
+        this.showRegistration();
+        this.props.history.push(`/restaurants/${response.data.id}`);
+      });
+  }
+
+  checkForSending() {
     if (!this.validInput()) {
-      Api.post('restaurants', restaurant)
-        .then((response) => {
-          if (response.error) {
-          // eslint-disable-next-line no-console
-            console.error(response);
-            this.setState({
-              isBadRequestError: true,
-            });
-            return;
-          }
-          this.showRegistration();
-          this.props.history.push(`/restaurants/${response.data.id}`);
-        });
+      this.saveRestaurant();
     }
   }
 
@@ -214,23 +214,23 @@ class RestaurantRegistration extends Component {
                     onChange={(event) => { this.setState({ time_to: event.target.value }); }}
                   />
                 </div>
-                <br />
-                <div className="register_count_container">
-                  <Form.Group controlId="countTables">
-                    <Form.Label>Table count:</Form.Label>
-                    <Form.Control
-                      autoFocus
-                      name="count"
-                      type="number"
-                      value={this.state.tables}
-                      onChange={(event) => { this.setState({ tables: event.target.value }); }}
-                    />
-                  </Form.Group>
-                  {isValidCountTables && (
-                  <MyBadge variant="danger" message="The number of tables must be greater than zero!" />
-                  )}
-                </div>
               </Form.Group>
+              <br />
+              <div className="register_count_container">
+                <Form.Group controlId="countTables">
+                  <Form.Label>Table count:</Form.Label>
+                  <Form.Control
+                    autoFocus
+                    name="count"
+                    type="number"
+                    value={this.state.tables}
+                    onChange={(event) => { this.setState({ tables: event.target.value }); }}
+                  />
+                </Form.Group>
+                {isValidCountTables && (
+                  <MyBadge variant="danger" message="The number of tables must be greater than zero!" />
+                )}
+              </div>
               {isValidWorkingTime && (
               <MyBadge variant="danger" message="Time invalid !" />
               )}
@@ -267,7 +267,7 @@ class RestaurantRegistration extends Component {
           <Button onClick={() => this.backtoInfo()} variant="danger" className="registe_btn_cancel">Cancel</Button>
           <Button
             block
-            onClick={() => this.saveRestaurant()}
+            onClick={() => this.checkForSending()}
           >
             Register
           </Button>
