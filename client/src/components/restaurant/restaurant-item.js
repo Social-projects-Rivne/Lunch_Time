@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  Tab, Tabs, Container, Button, OverlayTrigger, Tooltip,
+  Tab, Tabs, Container, Button, OverlayTrigger, Tooltip, Alert,
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
@@ -17,6 +17,7 @@ class Restaurant extends Component {
     this.state = {
       restaurant: {},
       isFetching: false,
+      isOwner: false,
     };
   }
 
@@ -36,13 +37,23 @@ class Restaurant extends Component {
         this.setState({
           restaurant: response.data,
           isFetching: true,
+          isOwner: response.data.personId === Number(localStorage.getItem('userID')),
         });
       });
   }
 
   render() {
-    const { isFetching, restaurant } = this.state;
+    const { isFetching, restaurant, isOwner } = this.state;
     const { match: { params: { id } }, isAuthenticated } = this.props;
+
+    let isOwnerText;
+    if (isOwner) {
+      isOwnerText = (
+        <Alert variant="info">
+          You are the owner of this restaurant!
+        </Alert>
+      );
+    }
 
     let newOrderBtn;
     if (isAuthenticated) {
@@ -76,6 +87,7 @@ class Restaurant extends Component {
     return (
       <Container className="restaurant-container">
         <h2>{restaurant.name}</h2>
+        {isOwnerText}
         {newOrderBtn}
         <Tabs defaultActiveKey="about">
           <Tab eventKey="about" title="About">

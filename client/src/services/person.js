@@ -17,6 +17,7 @@ class Person {
             return;
           }
           this.userInfo = response.data;
+          localStorage.setItem('userID', this.userInfo.id);
         });
     }
   }

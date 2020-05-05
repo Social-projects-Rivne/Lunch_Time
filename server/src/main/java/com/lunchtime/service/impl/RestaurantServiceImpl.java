@@ -1,24 +1,24 @@
 package com.lunchtime.service.impl;
 
 import com.lunchtime.models.Restaurant;
+import com.lunchtime.repository.PersonRepository;
 import com.lunchtime.repository.RestaurantRepository;
 import com.lunchtime.service.PersonService;
 import com.lunchtime.service.RestaurantService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
+@RequiredArgsConstructor
 @Service
 public class RestaurantServiceImpl implements RestaurantService {
     private final RestaurantRepository restaurantRepository;
+    private final PersonRepository personRepository;
     private final PersonService personService;
-
-    public RestaurantServiceImpl(RestaurantRepository restaurantRepository, PersonService personService) {
-        this.restaurantRepository = restaurantRepository;
-        this.personService = personService;
-    }
+    private static final long OWNER_ROLE_ID = 2;
 
     public Restaurant saveRestaurant(Restaurant restaurant) {
         return personService.getPersonById(restaurant.getPersonId())
@@ -31,6 +31,14 @@ public class RestaurantServiceImpl implements RestaurantService {
 
     public Page<Restaurant> getRestaurantPage(Pageable pageable) {
         return restaurantRepository.findByIsDeletedFalse(pageable);
+    }
+
+    public Page<Restaurant> getRestaurantPageByUserId(Long userId, Pageable pageable) {
+        long userRoleId = personRepository.findRoleIdByUserId(userId);
+        if (userRoleId == OWNER_ROLE_ID) {
+            return restaurantRepository.findByOwnerRestList(userId, pageable);
+        }
+        return null;
     }
 
     public Optional<Restaurant> getRestaurantById(Long id) {
