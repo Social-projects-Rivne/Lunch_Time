@@ -13,6 +13,7 @@ public class RestaurantImageImpl implements RestaurantImageService {
 
     @Override
     public RestaurantImage getImageByRestaurantId(Long restaurantId) {
-        return restaurantImageRepository.findImageByRestaurantId(restaurantId);
+        // param "1L" in feature should be changed to "restaurantId"
+        return restaurantImageRepository.findImageByRestaurantId(1L);
     }
 }
