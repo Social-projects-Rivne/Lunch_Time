@@ -31,7 +31,7 @@ public class FeedbackDto {
 
     private String personName;
 
-    private Set<Person> likes;
+    private int likes;
 
     private int counterDislike;
 }

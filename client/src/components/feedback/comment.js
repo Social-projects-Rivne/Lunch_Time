@@ -80,7 +80,7 @@ class FeedbackComment extends Component {
                 style={{ cursor: 'pointer' }}
                 onClick={this.likeFeedback}
               />
-              <small>{item.likes.length}</small>
+              <small>{item.likes}</small>
             </span>
             <span className="mr-3 likeDislike">
               <img src="/img/dislike.png" width="25px" height="25px" alt="dislike" title="dislike feedback" />
