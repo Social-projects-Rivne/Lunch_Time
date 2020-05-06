@@ -13,20 +13,20 @@ class OpenlayersMap extends Component {
     this.newVector = this.newVector.bind(this);
   }
 
+
   newVector() {
-    const iconFeature = new ol.Feature(new ol.geom.Point([50.616294, 26.275728]));
+    const iconFeature = new ol.Feature(new ol.geom.Point([26.275728, 50.616294]));
     const iconStyle = new Style({
       image: new Icon({
-        anchor: [0.5, 46],
         anchorXUnits: 'fraction',
         anchorYUnits: 'pixels',
-        src: '../../map-pin-point.png',
+        src: '/img/map-pin-point.png',
       }),
     });
     iconFeature.setStyle(iconStyle);
     const source = new ol.source.Vector({ features: [iconFeature] });
     return (
-      <layer.Vector source={source} />
+      <layer.Vector source={source} zIndex="1" />
     );
   }
 
@@ -44,7 +44,7 @@ class OpenlayersMap extends Component {
         >
           <Layers>
             <layer.Tile />
-            {this.newVector()}
+            {this.newVector}
           </Layers>
         </Map>
       </Container>
