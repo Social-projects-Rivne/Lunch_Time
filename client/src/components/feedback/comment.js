@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Container, Image } from 'react-bootstrap';
+import { Container, Image, Badge } from 'react-bootstrap';
 import '../../styles/feedback-comment.css';
 import PropTypes from 'prop-types';
 import Api from '../../services/api';
@@ -35,7 +35,7 @@ class FeedbackComment extends Component {
   likeFeedback() {
     Api.post(`feedback/like?feedbackId=${this.props.item.id}&personId=${Person.userInfo.id}`)
       .then((response) => {
-        if (response.error == null) {
+        if (response.status === 201) {
           const { item } = this.state;
           if (item.id === response.data.id) {
             this.setState({
@@ -43,14 +43,20 @@ class FeedbackComment extends Component {
             });
           }
         } else {
-          // eslint-disable-next-line no-console
-          console.log(response.error);
+          setTimeout(() => {
+            this.setState({
+              unexpectedError: false,
+            });
+          }, 3000);
+          this.setState({
+            unexpectedError: true,
+          });
         }
       });
   }
 
   render() {
-    const { item } = this.state;
+    const { item, unexpectedError } = this.state;
     return (
       <Container className="feedbackContainer">
         <Image src={this.state.avatar} width="50px" height="50px" alt="defAvava" roundedCircle />
@@ -86,7 +92,21 @@ class FeedbackComment extends Component {
               <img src="/img/dislike.png" width="25px" height="25px" alt="dislike" title="dislike feedback" />
               <small>{item.counterDislike}</small>
             </span>
-
+            {/* eslint-disable-next-line react/no-unescaped-entities */}
+            {unexpectedError && (
+            <Badge
+              variant="warning"
+              style={{
+                marginLeft: 25,
+                marginTop: 4,
+                fontSize: 14,
+                height: 24,
+                width: 326,
+              }}
+            >
+              Your action can&apos;t be done now. Try again later
+            </Badge>
+            )}
             <span className="complaint">
               <img src="/img/complaint.png" width="25px" height="25px" alt="complaint" title="complaint feedback" />
             </span>

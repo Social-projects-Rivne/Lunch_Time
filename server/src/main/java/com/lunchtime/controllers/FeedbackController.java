@@ -43,7 +43,7 @@ public class FeedbackController {
             feedbackDto = feedbackService.likeFeedback(feedbackId, personId);
         }
         return feedbackDto != null
-            ? ResponseEntity.ok().body(feedbackDto)
+            ? ResponseEntity.created(URI.create("api/feedback/like")).body(feedbackDto)
             : ResponseEntity.badRequest().build();
     }
 
