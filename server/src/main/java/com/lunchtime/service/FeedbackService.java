@@ -1,6 +1,5 @@
 package com.lunchtime.service;
 
-import com.lunchtime.models.Feedback;
 import com.lunchtime.service.dto.FeedbackDto;
 
 import java.util.List;
