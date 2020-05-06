@@ -9,7 +9,9 @@ class PassChange extends React.Component {
     super(props);
     this.state = {
       showForm: false,
+      oldPass: '',
       newPass: '',
+      password: '',
       errors: {
         oldPass: 'Please enter old password! ',
         newPass: 'Please set a new password! ',
@@ -25,20 +27,30 @@ class PassChange extends React.Component {
 
   handleChange(event) {
     const { name, value } = event.target;
-    const { errors, newPass, password } = this.state;
+    const {
+      errors, oldPass, newPass, password,
+    } = this.state;
 
     switch (name) {
       case 'oldPass':
         errors.oldPass = value.length > 7 ? '' : 'Old password must be at least 8 characters! ';
         this.props.onChange({}, 'oldPassword', value);
+        this.checkIfAllEmpty(value, newPass, password, errors);
         break;
       case 'newPass':
         errors.newPass = value.length > 7 ? '' : 'New password must be at least 8 characters! ';
+        errors.newPass += /^\s|\s$/.test(value) ? 'New password cannot begin or end with a space! ' : '';
+        errors.newPass += value === this.props.user.phoneNumber
+          ? 'Password cannot be the same as the phone number! ' : '';
+        errors.newPass += value === this.props.user.email
+          ? 'Password cannot be the same as the email address! ' : '';
         errors.password = password === value ? '' : 'Passwords do not match! ';
+        this.checkIfAllEmpty(oldPass, value, password, errors);
         break;
       case 'password':
         errors.password = newPass === value ? '' : 'Passwords do not match! ';
         this.props.onChange({}, 'password', value);
+        this.checkIfAllEmpty(oldPass, newPass, value, errors);
         break;
       default:
         break;
@@ -49,13 +61,21 @@ class PassChange extends React.Component {
       errors,
       [name]: value,
     });
+  }
 
-    const e = { password: `${[Object.values(errors).join('')]}` };
-    this.props.onChange(e);
+  checkIfAllEmpty(oldPass, newPass, password, errors) {
+    if (oldPass === '' && newPass === '' && password === '') {
+      const error = {};
+      error.password = '';
+      this.props.onChange(error, 'password', undefined);
+    } else {
+      const e = { password: `${[Object.values(errors).join('')]}` };
+      this.props.onChange(e);
+    }
   }
 
   render() {
-    const { newPass } = this.state;
+    const { oldPass, newPass, password } = this.state;
     return (
       <div>
         {!this.state.showForm
@@ -72,6 +92,7 @@ class PassChange extends React.Component {
             type="password"
             label="Old password"
             placeholder="Enter old password"
+            value={oldPass}
             onChange={this.handleChange}
           />
           <Input
@@ -79,6 +100,7 @@ class PassChange extends React.Component {
             type="password"
             label="New password"
             placeholder="Enter new password"
+            value={newPass}
             onChange={this.handleChange}
           />
           {newPass.length > 0
@@ -93,6 +115,7 @@ class PassChange extends React.Component {
             type="password"
             label="Repeat new password"
             placeholder="Repeat new password"
+            value={password}
             onChange={this.handleChange}
           />
         </div>
@@ -104,6 +127,7 @@ class PassChange extends React.Component {
 
 PassChange.propTypes = {
   onChange: PropTypes.any.isRequired,
+  user: PropTypes.any.isRequired,
 };
 
 export default PassChange;

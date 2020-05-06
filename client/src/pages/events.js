@@ -52,7 +52,7 @@ class Events extends React.Component {
           onChangeEvents={this.handleEvents}
           showDate
         />
-        <Results events={events} isFetching={isFetching} />
+        <Results events={events} isFetching={isFetching} showLink />
       </Container>
     );
   }

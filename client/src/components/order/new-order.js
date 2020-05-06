@@ -6,6 +6,7 @@ import {
 } from 'react-bootstrap';
 import Api from '../../services/api';
 import '../../styles/new-order.css';
+import Person from '../../services/person';
 
 class NewOrder extends Component {
   constructor(props) {
@@ -20,6 +21,7 @@ class NewOrder extends Component {
       availableTables: [],
       table: null,
       visitors: 1,
+      dishes: '',
       description: '',
       isBadRequestError: false,
     };
@@ -73,13 +75,28 @@ class NewOrder extends Component {
     } else {
       return;
     }
+    let orderedDishes = this.props.location.state.menuItemDishesMap;
+    if (orderedDishes !== undefined) {
+      const mapToObj = (m) => {
+        return Array.from(m).reduce((obj, [key, value]) => {
+          // eslint-disable-next-line no-param-reassign
+          obj[key] = value;
+          return obj;
+        }, {});
+      };
+      orderedDishes = JSON.stringify(mapToObj(orderedDishes));
+    } else {
+      orderedDishes = null;
+    }
+    const personId = Person.userInfo.id;
     const order = {
-      person: { id: 1 },
+      personId: personId,
       startTime: this.state.startDate.toUTCString(),
       finishTime: this.state.finishDate.toUTCString(),
       visitors: this.state.visitors,
-      table: { id: tableId },
+      tableId: tableId,
       description: this.state.description,
+      orderedDishes: orderedDishes,
     };
 
     Api.post('orders', order)
@@ -231,6 +248,16 @@ class NewOrder extends Component {
               placeholder="Number of visitors"
               min="1"
               max={this.getMaximumOfVisitors()}
+            />
+          </Form.Group>
+
+          <Form.Group>
+            <Form.Label>Ordered dishes</Form.Label>
+            <Form.Control
+              rows="2"
+              maxLength="9999"
+              value={location.state.dishes}
+              readOnly
             />
           </Form.Group>
 

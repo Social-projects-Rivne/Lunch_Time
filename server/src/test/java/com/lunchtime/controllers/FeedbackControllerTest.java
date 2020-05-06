@@ -44,7 +44,7 @@ public class FeedbackControllerTest {
         feedbackDto.setActive(false);
         feedbackDto.setDate(Instant.ofEpochSecond(0L));
         feedbackDto.setPersonId(0);
-        feedbackDto.setCounterLike(0);
+//        feedbackDto.setCounterLike(0);
         feedbackDto.setCounterDislike(0);
 
         final ResponseEntity<FeedbackDto> feedbackDto1 = feedbackControllerUnderTest.saveFeedback(feedbackDto);
