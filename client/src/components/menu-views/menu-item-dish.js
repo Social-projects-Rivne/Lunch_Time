@@ -60,13 +60,13 @@ class MenuItemDish extends Component {
               <Col>
                 <Dish dish={menuItemDish} />
               </Col>
-              <Col className="col-item">
+              <Col md="auto">
                 <Image
                   className="image-menu-item"
                   src={`${Api.apiUrl}images/dishes/${menuItemDish.imageUrl}`}
                   roundedCircle
                   width="150"
-                  height="75"
+                  height="120"
                   alt="Dish image"
                 />
               </Col>

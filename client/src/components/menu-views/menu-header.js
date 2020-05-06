@@ -11,6 +11,7 @@ class Header extends Component {
     super(props);
     this.state = {
       categories: [],
+      dropdownName: 'All categories',
     };
   }
 
@@ -18,8 +19,11 @@ class Header extends Component {
     this.getCategories('category');
   }
 
-  onHandleClick(path) {
+  onHandleClick(path, categoryName) {
     this.props.onChange(path);
+    this.setState({
+      dropdownName: categoryName,
+    });
   }
 
   getCategories(path) {
@@ -37,7 +41,7 @@ class Header extends Component {
   }
 
   render() {
-    const { categories } = this.state;
+    const { categories, dropdownName } = this.state;
     return (
       <Container>
         <br />
@@ -45,16 +49,15 @@ class Header extends Component {
           <Col className="header-item">
             <Dropdown>
               <Dropdown.Toggle
-                variant="info"
                 id="dropdown-basic"
                 className="drop-down"
               >
-                All categories
+                {dropdownName}
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Item
                   eventKey="0"
-                  onClick={() => this.onHandleClick('menuitemdish/restaurantId?')}
+                  onClick={() => this.onHandleClick('menuitemdish/restaurantId?', 'All categories')}
                 >
                   All categories
                 </Dropdown.Item>
@@ -62,7 +65,7 @@ class Header extends Component {
                   return (
                     <Dropdown.Item
                       key={category.id}
-                      onClick={() => this.onHandleClick(`menuitemdish/category?name=${category.name}&`)}
+                      onClick={() => this.onHandleClick(`menuitemdish/category?name=${category.name}&`, category.name)}
                     >
                       {category.name}
                     </Dropdown.Item>
