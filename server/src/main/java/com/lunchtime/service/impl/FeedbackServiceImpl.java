@@ -10,6 +10,7 @@ import com.lunchtime.service.FeedbackService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,8 +27,15 @@ class FeedbackServiceImpl implements FeedbackService {
         return feedbackMapper.fromFeedbackToDto(feedback);
     }
 
-    public List<Feedback> getFeedbackListByRestaurantId(Long id) {
-        return feedbackRepository.findByRestaurantId(id);
+    public List<FeedbackDto> getFeedbackListByRestaurantId(Long id) {
+        List<Feedback> feedbacks = feedbackRepository.findByRestaurantId(id);
+        List<FeedbackDto> feedbackDtos = new ArrayList<>();
+            if (feedbacks != null) {
+                for (Feedback feedback : feedbacks) {
+                    feedbackDtos.add(feedbackMapper.fromFeedbackToDto(feedback));
+                }
+            }
+        return feedbackDtos;
     }
 
     @Override

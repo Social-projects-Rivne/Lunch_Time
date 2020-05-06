@@ -6,7 +6,7 @@ import com.lunchtime.service.dto.FeedbackDto;
 import java.util.List;
 
 public interface FeedbackService {
-    List<Feedback> getFeedbackListByRestaurantId(Long id);
+    List<FeedbackDto> getFeedbackListByRestaurantId(Long id);
 
     FeedbackDto saveFeedback(FeedbackDto feedbackDto);
 

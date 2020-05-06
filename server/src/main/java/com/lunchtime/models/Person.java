@@ -74,8 +74,8 @@ public class Person {
     @Column(name = "status", columnDefinition = "varchar(50) default 'ACTIVE'")
     private Status status;
 
-    @ManyToMany(mappedBy = "likes")
-    Set<Feedback> likes;
+//    @ManyToMany(mappedBy = "likes")
+//    Set<Feedback> likes;
 
     public Person() {
     }

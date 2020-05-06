@@ -46,8 +46,8 @@ public class Feedback {
     @ColumnDefault("0")
     @JoinTable(
         name = "feedback_like",
-        joinColumns = @JoinColumn(name = "person_id"),
-        inverseJoinColumns = @JoinColumn(name = "feedback_id"))
+        joinColumns = @JoinColumn(name = "feedback_id"),
+        inverseJoinColumns = @JoinColumn(name = "person_id"))
     private Set<Person> likes;
 
     @ColumnDefault("0")

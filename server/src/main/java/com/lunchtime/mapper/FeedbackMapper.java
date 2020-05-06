@@ -47,6 +47,7 @@ public class FeedbackMapper {
         feedbackDto.setId(feedback.getId());
         feedbackDto.setDescription(feedback.getDescription());
         feedbackDto.setPersonId(person.getId().intValue());
+        feedbackDto.setPersonName(person.getName());
         feedbackDto.setRestId(restaurant.getId());
         feedbackDto.setLikes(feedback.getLikes());
         feedbackDto.setCounterDislike(feedback.getCounterDislike());

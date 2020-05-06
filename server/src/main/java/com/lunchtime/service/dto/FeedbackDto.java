@@ -29,6 +29,8 @@ public class FeedbackDto {
     @NotNull
     private int personId;
 
+    private String personName;
+
     private Set<Person> likes;
 
     private int counterDislike;

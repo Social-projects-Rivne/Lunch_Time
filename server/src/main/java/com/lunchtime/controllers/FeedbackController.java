@@ -48,11 +48,11 @@ public class FeedbackController {
     }
 
     @GetMapping(params = ("restaurantId"))
-    public ResponseEntity<List<Feedback>> getAllByRestaurantId(@RequestParam("restaurantId") Long id) {
-        List<Feedback> feedback = feedbackService.getFeedbackListByRestaurantId(id);
-        if (feedback.isEmpty()) {
+    public ResponseEntity<List<FeedbackDto>> getAllByRestaurantId(@RequestParam("restaurantId") Long id) {
+        List<FeedbackDto> feedbackDtos = feedbackService.getFeedbackListByRestaurantId(id);
+        if (feedbackDtos.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(feedback);
+        return ResponseEntity.ok(feedbackDtos);
     }
 }
