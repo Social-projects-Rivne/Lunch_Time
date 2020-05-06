@@ -54,7 +54,7 @@ class FeedbackComment extends Component {
     return (
       <Container className="feedbackContainer">
         <Image src={this.state.avatar} width="50px" height="50px" alt="defAvava" roundedCircle />
-        <div className="cooment">
+        <div className="comment">
           <strong className="name">{item.personName}</strong>
           <small className="date">
             {
