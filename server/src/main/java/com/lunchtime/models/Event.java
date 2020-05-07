@@ -23,9 +23,7 @@ public class Event {
     private Long id;
 
     @NotNull
-    //TODO EAGER is not a good option, because if you will have a huge amount of restaurants your app can crash.
-    //Use LAZY and modify logic
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant", referencedColumnName = "id")
     private Restaurant restaurant;
 
