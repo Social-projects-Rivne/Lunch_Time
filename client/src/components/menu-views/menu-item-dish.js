@@ -83,15 +83,16 @@ class MenuItemDish extends Component {
               </Col>
               <Col className="col-item">
                 <br />
-                {/* <button */}
-                {/*  style={{ marginRight: 5 }} */}
-                {/*  type="button" */}
-                {/*  className="btn btn-danger" */}
-                {/*  id="minus" */}
-                {/*  // onClick={this.decrement.bind(this)} */}
-                {/* > */}
-                {/*  -*/}
-                {/* </button> */}
+                {quantity && (
+                <button
+                  style={{ marginRight: 2 }}
+                  type="button"
+                  className="btn btn-danger"
+                  id="minus"
+                >
+                  -
+                </button>
+                )}
                 <Button
                   variant="primary"
                   disabled={!isAuthenticated}
@@ -103,15 +104,17 @@ class MenuItemDish extends Component {
                   {' '}
                   {quantity}
                 </Button>
-                {/* <button */}
-                {/*  style={{ marginLeft: 5 }} */}
-                {/*  type="button" */}
-                {/*  className="btn btn-success" */}
-                {/*  id="plus" */}
-                {/*  // onClick={this.increment.bind(this)} */}
-                {/* > */}
-                {/*  +*/}
-                {/* </button> */}
+                {quantity
+                && (
+                <button
+                  style={{ marginLeft: 2 }}
+                  type="button"
+                  className="btn btn-success"
+                  id="plus"
+                >
+                  +
+                </button>
+                )}
               </Col>
             </Row>
           );
