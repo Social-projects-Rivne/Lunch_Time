@@ -71,9 +71,7 @@ class FeedbackSend extends Component {
           validInput: true,
         });
       // eslint-disable-next-line no-mixed-operators
-    } else if (description.length === 0
-      // eslint-disable-next-line no-mixed-operators
-      || description.length === 1 && /([a-zA-Z1-9])/.test(description)) {
+    } else if (description.length === 0 || description.length === 1) {
       this.setState({
         validInput: true,
         tooLongFeedback: false,

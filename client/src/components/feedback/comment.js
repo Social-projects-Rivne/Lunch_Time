@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Container, Image, Badge } from 'react-bootstrap';
+import {
+  Container, Image, Badge,
+} from 'react-bootstrap';
 import '../../styles/feedback-comment.css';
 import PropTypes from 'prop-types';
 import Api from '../../services/api';
@@ -13,6 +15,7 @@ class FeedbackComment extends Component {
       avatar: '/img/default-avatar.png',
     };
     this.likeFeedback = this.likeFeedback.bind(this);
+    this.unAuthorizedTrue = this.unAuthorizedTrue.bind(this);
   }
 
   componentDidMount() {
@@ -56,8 +59,26 @@ class FeedbackComment extends Component {
       });
   }
 
+  unAuthorizedTrue() {
+    const currentCallId = Math.random();
+    setTimeout(() => {
+      if (currentCallId !== this.state.currentCallId) return;
+      this.setState({
+        unAuthorized: false,
+      });
+    }, 3000);
+    this.setState({
+      unAuthorized: true,
+      currentCallId,
+    });
+  }
+
   render() {
-    const { item, unexpectedError } = this.state;
+    const { item, unexpectedError, unAuthorized } = this.state;
+    const { isAuthenticated } = this.props;
+    const title = isAuthenticated ? 'like feedback' : 'You need to login to like feedback';
+    const onClick = isAuthenticated ? this.likeFeedback : this.unAuthorizedTrue;
+
     const likeImage = item.likes.indexOf(Person.userInfo.id) >= 0 ? '/img/like.png' : '/img/like-empty.png';
     return (
       <Container className="feedbackContainer">
@@ -85,9 +106,9 @@ class FeedbackComment extends Component {
                 width="25px"
                 height="25px"
                 alt="like"
-                title="like feedback"
+                title={title}
                 style={{ cursor: 'pointer' }}
-                onClick={this.likeFeedback}
+                onClick={onClick}
               />
               <small>{item.likes.length > 0 ? item.likes.length : ''}</small>
             </span>
@@ -96,18 +117,31 @@ class FeedbackComment extends Component {
               <small>{item.counterDislike}</small>
             </span>
             {/* eslint-disable-next-line react/no-unescaped-entities */}
-            {unexpectedError && (
+            {unAuthorized && (
             <Badge
               variant="warning"
               style={{
                 marginLeft: 25,
                 fontSize: 14,
                 height: 24,
-                width: 326,
+                width: 260,
               }}
             >
-              Your action can&apos;t be done now. Try again later
+              You need to login to like feedback
             </Badge>
+            )}
+            {unexpectedError && (
+              <Badge
+                variant="warning"
+                style={{
+                  marginLeft: 25,
+                  fontSize: 14,
+                  height: 24,
+                  width: 326,
+                }}
+              >
+                Your action can&apos;t be done now. Try again later
+              </Badge>
             )}
             <span className="complaint">
               <img src="/img/complaint.png" width="25px" height="25px" alt="complaint" title="complaint feedback" />
@@ -124,6 +158,7 @@ class FeedbackComment extends Component {
 
 FeedbackComment.propTypes = {
   item: PropTypes.object.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
 };
 
 
