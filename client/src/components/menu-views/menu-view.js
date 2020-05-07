@@ -69,13 +69,14 @@ class Menu extends Component {
   }
 
   initMenuItemDish() {
-    const { menuItemDishes } = this.state;
+    const { menuItemDishes, menuItemDishesMap } = this.state;
     const { isAuthenticated } = this.props;
     return (
       <MenuItemDish
         menuItemDishes={menuItemDishes}
         isAuthenticated={isAuthenticated}
         addMenuItemDishToOrderList={this.addMenuItemDishToOrderList}
+        menuItemDishesMap={menuItemDishesMap}
       />
     );
   }

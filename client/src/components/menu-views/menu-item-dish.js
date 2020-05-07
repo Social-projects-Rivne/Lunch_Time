@@ -47,10 +47,11 @@ class MenuItemDish extends Component {
   }
 
   render() {
-    const { menuItemDishes, isAuthenticated } = this.props;
+    const { menuItemDishes, isAuthenticated, menuItemDishesMap } = this.props;
     return (
       <Container>
         {menuItemDishes.map((menuItemDish) => {
+          const quantity = menuItemDishesMap.get(menuItemDish.id);
           return (
             <Row key={menuItemDish.id}>
               <Col>
@@ -82,15 +83,15 @@ class MenuItemDish extends Component {
               </Col>
               <Col className="col-item">
                 <br />
-                <button
-                  style={{ marginRight: 5 }}
-                  type="button"
-                  className="btn btn-danger"
-                  id="minus"
-                  // onClick={this.decrement.bind(this)}
-                >
-                  -
-                </button>
+                {/* <button */}
+                {/*  style={{ marginRight: 5 }} */}
+                {/*  type="button" */}
+                {/*  className="btn btn-danger" */}
+                {/*  id="minus" */}
+                {/*  // onClick={this.decrement.bind(this)} */}
+                {/* > */}
+                {/*  -*/}
+                {/* </button> */}
                 <Button
                   variant="primary"
                   disabled={!isAuthenticated}
@@ -99,16 +100,18 @@ class MenuItemDish extends Component {
                   }}
                 >
                   Add
+                  {' '}
+                  {quantity}
                 </Button>
-                <button
-                  style={{ marginLeft: 5 }}
-                  type="button"
-                  className="btn btn-success"
-                  id="plus"
-                  // onClick={this.increment.bind(this)}
-                >
-                  +
-                </button>
+                {/* <button */}
+                {/*  style={{ marginLeft: 5 }} */}
+                {/*  type="button" */}
+                {/*  className="btn btn-success" */}
+                {/*  id="plus" */}
+                {/*  // onClick={this.increment.bind(this)} */}
+                {/* > */}
+                {/*  +*/}
+                {/* </button> */}
               </Col>
             </Row>
           );
@@ -123,5 +126,6 @@ MenuItemDish.propTypes = {
   addMenuItemDishToOrderList: PropTypes.func.isRequired,
   menuItemDishes: PropTypes.array.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
+  menuItemDishesMap: PropTypes.any.isRequired,
 };
 export default MenuItemDish;
