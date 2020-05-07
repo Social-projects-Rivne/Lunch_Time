@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.time.Instant;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 import static org.mockito.Mockito.*;
@@ -40,8 +41,8 @@ public class FeedbackControllerTest {
         feedbackDto.setRestId(0L);
         feedbackDto.setActive(false);
         feedbackDto.setDate(Instant.ofEpochSecond(0L));
-        feedbackDto.setPersonId(0);
-        feedbackDto.setLikes(0);
+        feedbackDto.setPersonId(0L);
+        feedbackDto.setLikes(new HashSet<>());
         feedbackDto.setCounterDislike(0);
 
         final ResponseEntity<FeedbackDto> feedbackDto1 = feedbackControllerUnderTest.saveFeedback(feedbackDto);
@@ -68,8 +69,8 @@ public class FeedbackControllerTest {
         feedbackDto.setDescription("description");
         feedbackDto.setActive(false);
         feedbackDto.setDate(Instant.ofEpochSecond(0L));
-        feedbackDto.setPersonId(0);
-        feedbackDto.setRestId(0);
+        feedbackDto.setPersonId(0L);
+        feedbackDto.setRestId(0L);
         feedbackDto.setCounterDislike(0);
         return feedbackDto;
     }
