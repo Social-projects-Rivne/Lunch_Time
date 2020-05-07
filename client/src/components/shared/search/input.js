@@ -16,6 +16,12 @@ class Input extends Component {
     this.props.filter(this.state.filter);
   }
 
+  onEnterPress(event) {
+    if (event.key === 'Enter') {
+      this.onFindClick();
+    }
+  }
+
   render() {
     const {
       containerClassName,
@@ -30,6 +36,7 @@ class Input extends Component {
             placeholder={placeHolder}
             value={filter}
             onChange={(e) => this.setState({ filter: e.target.value })}
+            onKeyDown={(e) => this.onEnterPress(e)}
           />
           <InputGroup.Append>
             <Button onClick={() => this.onFindClick()}>Find</Button>
