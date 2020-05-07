@@ -905,7 +905,7 @@ class Register extends Component {
     if (!isRegistered) {
       return (
         <Container className="base-container" style={{ color: '#3498db' }}>
-          <div className="header">Register</div>
+          <div className="header">Registration</div>
           <div className="content">
             <div className="image">
               <img src={photo1} alt="register" />
