@@ -21,6 +21,7 @@ class RestaurantRegistration extends Component {
       tables: 3,
       isRegistered: false,
       isBadRequestError: '',
+      isValid: false,
     };
     this.isValidName = true;
     this.isValidEmail = true;
@@ -31,6 +32,18 @@ class RestaurantRegistration extends Component {
     this.userID = localStorage.getItem('userID');
     this.handleChange = this.handleChange.bind(this);
     this.showRegistration = this.showRegistration.bind(this);
+  }
+
+  // eslint-disable-next-line react/sort-comp
+  isValidCheck() {
+    const { isValid } = this.state;
+    this.setState({ isValid: true });
+    setTimeout(() => {
+      this.setState({
+        isValid: false,
+      });
+    }, 3000);
+    return isValid;
   }
 
   // eslint-disable-next-line react/sort-comp
@@ -125,6 +138,7 @@ class RestaurantRegistration extends Component {
   }
 
   checkForSending() {
+    this.isValidCheck();
     if (this.validInput()) {
       this.saveRestaurant();
     }
