@@ -1,25 +1,38 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Container } from 'react-bootstrap';
+import { Button, Container } from 'react-bootstrap';
 import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
-import SearchMenuButton from '../button/search-menu-button';
 
 class Input extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      filter: '',
+    };
+  }
+
+  onFindClick() {
+    this.props.filter(this.state.filter);
+  }
+
   render() {
     const {
       containerClassName,
       inputGroupClassName,
       placeHolder,
     } = this.props;
+    const { filter } = this.state;
     return (
       <Container className={containerClassName}>
         <InputGroup className={inputGroupClassName}>
           <FormControl
             placeholder={placeHolder}
+            value={filter}
+            onChange={(e) => this.setState({ filter: e.target.value })}
           />
           <InputGroup.Append>
-            <SearchMenuButton />
+            <Button onClick={() => this.onFindClick()}>Find</Button>
           </InputGroup.Append>
         </InputGroup>
       </Container>
@@ -37,6 +50,7 @@ Input.propTypes = {
   containerClassName: PropTypes.string,
   inputGroupClassName: PropTypes.string,
   placeHolder: PropTypes.string,
+  filter: PropTypes.func.isRequired,
 };
 
 export default Input;
