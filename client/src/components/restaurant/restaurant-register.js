@@ -38,11 +38,6 @@ class RestaurantRegistration extends Component {
   isValidCheck() {
     const { isValid } = this.state;
     this.setState({ isValid: true });
-    setTimeout(() => {
-      this.setState({
-        isValid: false,
-      });
-    }, 3000);
     return isValid;
   }
 
@@ -59,8 +54,6 @@ class RestaurantRegistration extends Component {
     } = this.state;
     return email.length > 3 && name.length > 2 && address.length > 1 && description.length > 2 && tables > 0;
   }
-
-  componentDidMount() { this.validateForm(); }
 
   validInput() {
     const {
@@ -80,11 +73,9 @@ class RestaurantRegistration extends Component {
 
   showRegistration() {
     this.setState({ isRegistered: true });
-    setTimeout(() => {
-      this.setState({
-        isRegistered: false,
-      });
-    }, 3000);
+    this.setState({
+      isRegistered: false,
+    });
   }
 
   allertMessage(message, variant = 'danger', dismissible = false) {
