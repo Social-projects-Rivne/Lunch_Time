@@ -46,7 +46,7 @@ class Header extends Component {
       <Container>
         <br />
         <Row>
-          <Col className="header-item">
+          <Col className="header-item" xs={2}>
             <Dropdown>
               <Dropdown.Toggle
                 id="dropdown-basic"
@@ -74,12 +74,12 @@ class Header extends Component {
               </Dropdown.Menu>
             </Dropdown>
           </Col>
-          <Col className="header-item">
+          <Col className="header-item" xs={3}>
             Dish
             <br />
             (Ingredients)
           </Col>
-          <Col className="header-item">
+          <Col className="header-item" xs={2}>
             Image
           </Col>
           <Col className="header-item">

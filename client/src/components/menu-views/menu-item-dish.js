@@ -54,18 +54,19 @@ class MenuItemDish extends Component {
         {menuItemDishes.map((menuItemDish) => {
           return (
             <Row key={menuItemDish.id}>
-              <Col>
+              <Col xs={2}>
                 <Category category={menuItemDish.dish.categoryFood} />
               </Col>
-              <Col>
+              <Col xs={3}>
+                <br />
                 <Dish dish={menuItemDish} />
               </Col>
-              <Col md="auto">
+              <Col xs={2}>
                 <Image
                   className="image-menu-item"
                   src={`${Api.apiUrl}images/dishes/${menuItemDish.imageUrl}`}
                   roundedCircle
-                  width="150"
+                  width="160"
                   height="120"
                   alt="Dish image"
                 />
