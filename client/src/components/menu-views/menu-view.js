@@ -112,6 +112,22 @@ class Menu extends Component {
           <Header onChange={this.handleChange} />
           {this.initMenuItemDish()}
           {this.initPagination()}
+          {menuItemDishesMap.size > 0 && (
+            <div style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              marginRight: 70,
+              fontSize: 22,
+            }}
+            >
+              <b>
+                TOTAL
+                {' '}
+                price:
+                {' '}
+              </b>
+            </div>
+          )}
           <div style={{
             display: 'flex',
             justifyContent: 'flex-end',
