@@ -81,11 +81,14 @@ class Menu extends Component {
     );
   }
 
-  addMenuItemDishToOrderList(newMenuItemDish) {
+  addMenuItemDishToOrderList(newMenuItemDish, value) {
     const { menuItemDishesMap } = this.state;
+    console.log(value);
     let quantity = 1;
-    if (menuItemDishesMap.has(newMenuItemDish)) {
+    if (value === '+') {
       quantity = menuItemDishesMap.get(newMenuItemDish) + 1;
+    } else if (value === '-') {
+      quantity = menuItemDishesMap.get(newMenuItemDish) - 1;
     }
     menuItemDishesMap.set(newMenuItemDish, quantity);
     this.setState({

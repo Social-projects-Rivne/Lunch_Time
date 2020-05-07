@@ -14,33 +14,19 @@ class MenuItemDish extends Component {
     super(props);
     this.state = {
       menuItemDish: '',
-      // counter: 0,
     };
   }
 
-  // increment() {
-  //   this.setState((prevState) => ({
-  //     counter: this.state.counter + 1,
-  //   }));
-  // }
-  //
-  // decrement() {
-  //   if (this.state.counter > 0) {
-  //     this.setState((prevState) => ({
-  //       counter: this.state.counter - 1,
-  //     }));
-  //   }
-  // }
-
   addMenuItemDishToOrderList() {
-    const { menuItemDish } = this.state;
-    this.props.addMenuItemDishToOrderList(menuItemDish);
+    const { menuItemDish, value } = this.state;
+    this.props.addMenuItemDishToOrderList(menuItemDish, value);
   }
 
-  sendMenuItemDishToOrderList(newMenuItemDish) {
+  sendMenuItemDishToOrderList(newMenuItemDish, value) {
     const menuItemDish = newMenuItemDish;
     this.setState({
       menuItemDish,
+      value,
     }, () => {
       this.addMenuItemDishToOrderList();
     });
@@ -52,6 +38,7 @@ class MenuItemDish extends Component {
       <Container>
         {menuItemDishes.map((menuItemDish) => {
           const quantity = menuItemDishesMap.get(menuItemDish.id);
+          const addMessage = quantity ? 'Q:' : 'Add';
           return (
             <Row key={menuItemDish.id}>
               <Col>
@@ -83,34 +70,40 @@ class MenuItemDish extends Component {
               </Col>
               <Col className="col-item">
                 <br />
-                {quantity && (
+                {quantity > 0 && (
                 <button
                   style={{ marginRight: 2 }}
                   type="button"
                   className="btn btn-danger"
                   id="minus"
+                  onClick={() => {
+                    this.sendMenuItemDishToOrderList(menuItemDish.id, '-');
+                  }}
                 >
                   -
                 </button>
                 )}
                 <Button
                   variant="primary"
-                  disabled={!isAuthenticated}
+                  disabled={!isAuthenticated || quantity > 0}
                   onClick={() => {
                     this.sendMenuItemDishToOrderList(menuItemDish.id);
                   }}
                 >
-                  Add
+                  {addMessage}
                   {' '}
-                  {quantity}
+                  {quantity > 0 ? quantity : ''}
                 </Button>
-                {quantity
+                {quantity > 0
                 && (
                 <button
                   style={{ marginLeft: 2 }}
                   type="button"
                   className="btn btn-success"
                   id="plus"
+                  onClick={() => {
+                    this.sendMenuItemDishToOrderList(menuItemDish.id, '+');
+                  }}
                 >
                   +
                 </button>
