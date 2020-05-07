@@ -1,7 +1,7 @@
 class Auth {
   constructor() {
     this.tokenKey = 'Bearer ';
-    this.personId = 'userID';
+    this.personId = 'personId';
     this.token = '';
     this.isAuth = false;
     if (localStorage.getItem(this.tokenKey) && localStorage.getItem(this.tokenKey).length) {
