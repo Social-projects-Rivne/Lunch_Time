@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import com.lunchtime.repository.PersonRepository;
+import com.lunchtime.service.PersonService;
 import com.lunchtime.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -28,6 +29,7 @@ import javax.validation.Valid;
 public class RestaurantController {
     private final RestaurantService restaurantService;
     private final PersonRepository personRepository;
+    private final PersonService personService;
 
     @PostMapping
     public ResponseEntity<Restaurant> createRestaurant(
@@ -36,13 +38,7 @@ public class RestaurantController {
             return ResponseEntity.badRequest()
                 .build();
         }
-        Optional<Person> res = personRepository.findById(restaurant.getPersonId());
-        if (res.isPresent()) {
-            Person person = res.get();
-            person.setRoleId(2L);
-            personRepository.save(person);
-        }
-
+        personService.updatePersonRoleId(restaurant);
         Restaurant result = restaurantService.saveRestaurant(restaurant);
         if (result == null) {
             return ResponseEntity.badRequest()
