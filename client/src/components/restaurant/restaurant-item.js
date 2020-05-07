@@ -7,9 +7,10 @@ import { Link } from 'react-router-dom';
 import Api from '../../services/api';
 import About from './restaurant-about';
 import Menu from '../menu-views/menu-view';
-import '../../styles/menu.css';
-import '../../styles/restaurant-item.css';
 import Feedback from '../feedback/feedback';
+import RestaurantEvents from '../event/restaurant-events';
+import '../../styles/restaurant-item.css';
+import '../../styles/menu.css';
 
 class Restaurant extends Component {
   constructor(props) {
@@ -94,10 +95,10 @@ class Restaurant extends Component {
             <About restaurant={restaurant} isFetching={isFetching} />
           </Tab>
           <Tab eventKey="menu" title="Menu">
-            <Menu id={id} isAuthenticated={isAuthenticated} />
+            <Menu id={id} isAuthenticated={isAuthenticated} name={restaurant.name} />
           </Tab>
           <Tab eventKey="events" title="Events">
-            <h3>Events</h3>
+            <RestaurantEvents id={id} />
           </Tab>
           <Tab eventKey="feedback" title="Feedback">
             <Feedback id={id} />

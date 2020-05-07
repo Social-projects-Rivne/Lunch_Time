@@ -10,6 +10,43 @@ import Api from '../../services/api';
 
 
 class MenuItemDish extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      dishCategory: '',
+      dishName: '',
+      menuItemDish: '',
+    };
+  }
+
+  addDishToOrderList() {
+    const { dishCategory, dishName } = this.state;
+    this.props.addDishToOrderList(dishCategory, dishName);
+  }
+
+  sendDishToOrderList(dishCategory, dishName) {
+    this.setState({
+      dishCategory: dishCategory,
+      dishName: dishName,
+    }, () => {
+      this.addDishToOrderList();
+    });
+  }
+
+  addMenuItemDishToOrderList() {
+    const { menuItemDish } = this.state;
+    this.props.addMenuItemDishToOrderList(menuItemDish);
+  }
+
+  sendMenuItemDishToOrderList(newMenuItemDish) {
+    const menuItemDish = newMenuItemDish;
+    this.setState({
+      menuItemDish,
+    }, () => {
+      this.addMenuItemDishToOrderList();
+    });
+  }
+
   render() {
     const { menuItemDishes, isAuthenticated } = this.props;
     return (
@@ -49,6 +86,10 @@ class MenuItemDish extends Component {
                 <Button
                   variant="primary"
                   disabled={!isAuthenticated}
+                  onClick={() => {
+                    this.sendDishToOrderList(menuItemDish.dish.categoryFood.name, menuItemDish.dish.name);
+                    this.sendMenuItemDishToOrderList(menuItemDish.id);
+                  }}
                 >
                   Add
                 </Button>
@@ -63,6 +104,8 @@ class MenuItemDish extends Component {
 }
 
 MenuItemDish.propTypes = {
+  addDishToOrderList: PropTypes.func.isRequired,
+  addMenuItemDishToOrderList: PropTypes.func.isRequired,
   menuItemDishes: PropTypes.array.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
 };
