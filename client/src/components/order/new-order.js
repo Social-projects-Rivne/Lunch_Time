@@ -250,17 +250,6 @@ class NewOrder extends Component {
               max={this.getMaximumOfVisitors()}
             />
           </Form.Group>
-
-          <Form.Group>
-            <Form.Label>Ordered dishes</Form.Label>
-            <Form.Control
-              rows="2"
-              maxLength="9999"
-              value={location.state.dishes}
-              readOnly
-            />
-          </Form.Group>
-
           <Form.Group>
             <Form.Label>Description</Form.Label>
             <Form.Control

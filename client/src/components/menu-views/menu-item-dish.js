@@ -13,8 +13,6 @@ class MenuItemDish extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      dishCategory: '',
-      dishName: '',
       menuItemDish: '',
       // counter: 0,
     };
@@ -33,20 +31,6 @@ class MenuItemDish extends Component {
   //     }));
   //   }
   // }
-
-  addDishToOrderList() {
-    const { dishCategory, dishName } = this.state;
-    this.props.addDishToOrderList(dishCategory, dishName);
-  }
-
-  sendDishToOrderList(dishCategory, dishName) {
-    this.setState({
-      dishCategory: dishCategory,
-      dishName: dishName,
-    }, () => {
-      this.addDishToOrderList();
-    });
-  }
 
   addMenuItemDishToOrderList() {
     const { menuItemDish } = this.state;
@@ -111,7 +95,6 @@ class MenuItemDish extends Component {
                   variant="primary"
                   disabled={!isAuthenticated}
                   onClick={() => {
-                    this.sendDishToOrderList(menuItemDish.dish.categoryFood.name, menuItemDish.dish.name);
                     this.sendMenuItemDishToOrderList(menuItemDish.id);
                   }}
                 >
@@ -137,7 +120,6 @@ class MenuItemDish extends Component {
 }
 
 MenuItemDish.propTypes = {
-  addDishToOrderList: PropTypes.func.isRequired,
   addMenuItemDishToOrderList: PropTypes.func.isRequired,
   menuItemDishes: PropTypes.array.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,

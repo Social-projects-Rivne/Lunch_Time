@@ -19,11 +19,9 @@ class Menu extends Component {
       menuItemDishes: [],
       path: 'menuitemdish/restaurantId?',
       isFetching: false,
-      dishes: [],
       menuItemDishesMap: new Map(),
     };
     this.handlePageChange = this.handlePageChange.bind(this);
-    this.addDishToOrderList = this.addDishToOrderList.bind(this);
     this.addMenuItemDishToOrderList = this.addMenuItemDishToOrderList.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
@@ -77,20 +75,9 @@ class Menu extends Component {
       <MenuItemDish
         menuItemDishes={menuItemDishes}
         isAuthenticated={isAuthenticated}
-        addDishToOrderList={this.addDishToOrderList}
         addMenuItemDishToOrderList={this.addMenuItemDishToOrderList}
       />
     );
-  }
-
-  addDishToOrderList(dishCategory, dishName) {
-    const previousDishArray = this.state.dishes;
-    const dishes = [...previousDishArray];
-    const dish = ` ${dishCategory} ${dishName}`;
-    dishes.push(dish);
-    this.setState({
-      dishes,
-    });
   }
 
   addMenuItemDishToOrderList(newMenuItemDish) {
@@ -114,7 +101,7 @@ class Menu extends Component {
 
   render() {
     const { id, name } = this.props;
-    const { isFetching, dishes, menuItemDishesMap } = this.state;
+    const { isFetching, menuItemDishesMap } = this.state;
     if (isFetching) {
       return (
         <Container className="menu">
@@ -130,18 +117,17 @@ class Menu extends Component {
               pathname: `/restaurants/${id}/new-order`,
               state: {
                 restaurantName: name,
-                dishes: dishes,
                 menuItemDishesMap: menuItemDishesMap,
               },
             }}
             >
-              {this.state.dishes.length > 0 && (
+              {menuItemDishesMap.size > 0 && (
                 <Button
                   className="complete"
                   variant="primary"
                 >
                   Complete order (
-                  {this.state.dishes.length}
+                  {menuItemDishesMap.size}
                   {' '}
                   items)
                 </Button>
