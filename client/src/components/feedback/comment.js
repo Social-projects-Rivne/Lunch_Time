@@ -36,10 +36,11 @@ class FeedbackComment extends Component {
     Api.post(`feedback/like?feedbackId=${this.props.item.id}&personId=${Person.userInfo.id}`)
       .then((response) => {
         if (response.status === 201) {
-          const { item } = this.state;
-          if (item.id === response.data.id) {
-            this.setState({
-              item: response.data,
+          if (this.state.item.id === response.data.id) {
+            this.setState((prevState) => {
+              const item = { ...prevState.item };
+              item.likes = response.data.likes;
+              return { item };
             });
           }
         } else {
@@ -57,6 +58,7 @@ class FeedbackComment extends Component {
 
   render() {
     const { item, unexpectedError } = this.state;
+    const likeImage = item.likes.indexOf(Person.userInfo.id) >= 0 ? '/img/like.png' : '/img/like-empty.png';
     return (
       <Container className="feedbackContainer">
         <Image src={this.state.avatar} width="50px" height="50px" alt="defAvava" roundedCircle />
@@ -75,10 +77,11 @@ class FeedbackComment extends Component {
 
             <span className="answer" title="answer to feedback">answer to</span>
             <span className="mr-3 likeDislike">
+
               {/* eslint-disable-next-line max-len */}
               {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions */}
               <img
-                src="/img/like.png"
+                src={likeImage}
                 width="25px"
                 height="25px"
                 alt="like"
@@ -86,7 +89,7 @@ class FeedbackComment extends Component {
                 style={{ cursor: 'pointer' }}
                 onClick={this.likeFeedback}
               />
-              <small>{item.likes}</small>
+              <small>{item.likes.length > 0 ? item.likes.length : ''}</small>
             </span>
             <span className="mr-3 likeDislike">
               <img src="/img/dislike.png" width="25px" height="25px" alt="dislike" title="dislike feedback" />
@@ -98,7 +101,6 @@ class FeedbackComment extends Component {
               variant="warning"
               style={{
                 marginLeft: 25,
-                marginTop: 4,
                 fontSize: 14,
                 height: 24,
                 width: 326,
