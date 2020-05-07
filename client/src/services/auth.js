@@ -31,6 +31,10 @@ class Auth {
     localStorage.setItem(this.personId, id);
   }
 
+  getPersonId() {
+    return localStorage.getItem(this.personId);
+  }
+
   cleanLocalStorage() {
     this.token = '';
     localStorage.clear();
