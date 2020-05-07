@@ -16,8 +16,23 @@ class MenuItemDish extends Component {
       dishCategory: '',
       dishName: '',
       menuItemDish: '',
+      // counter: 0,
     };
   }
+
+  // increment() {
+  //   this.setState((prevState) => ({
+  //     counter: this.state.counter + 1,
+  //   }));
+  // }
+  //
+  // decrement() {
+  //   if (this.state.counter > 0) {
+  //     this.setState((prevState) => ({
+  //       counter: this.state.counter - 1,
+  //     }));
+  //   }
+  // }
 
   addDishToOrderList() {
     const { dishCategory, dishName } = this.state;
@@ -83,6 +98,15 @@ class MenuItemDish extends Component {
               </Col>
               <Col className="col-item">
                 <br />
+                <button
+                  style={{ marginRight: 5 }}
+                  type="button"
+                  className="btn btn-danger"
+                  id="minus"
+                  // onClick={this.decrement.bind(this)}
+                >
+                  -
+                </button>
                 <Button
                   variant="primary"
                   disabled={!isAuthenticated}
@@ -93,6 +117,15 @@ class MenuItemDish extends Component {
                 >
                   Add
                 </Button>
+                <button
+                  style={{ marginLeft: 5 }}
+                  type="button"
+                  className="btn btn-success"
+                  id="plus"
+                  // onClick={this.increment.bind(this)}
+                >
+                  +
+                </button>
               </Col>
             </Row>
           );
