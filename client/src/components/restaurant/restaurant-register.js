@@ -161,7 +161,7 @@ class RestaurantRegistration extends Component {
           <div className="form_registration">
             <div className="register_info_container">
               <Form.Group controlId="name">
-                <Form.Label>Name *</Form.Label>
+                <Form.Label>Restaurant name *</Form.Label>
                 <Form.Control
                   autoFocus
                   name="name"
@@ -173,7 +173,7 @@ class RestaurantRegistration extends Component {
               <MyBadge variant="danger" message="Name must be inputed !" />
               )}
               <Form.Group controlId="email">
-                <Form.Label>Email *</Form.Label>
+                <Form.Label>Restaurant email *</Form.Label>
                 <Form.Control
                   autoFocus
                   name="email"
