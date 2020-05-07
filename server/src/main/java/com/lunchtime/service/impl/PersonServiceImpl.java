@@ -2,6 +2,7 @@ package com.lunchtime.service.impl;
 
 import com.lunchtime.mapper.PersonMapper;
 import com.lunchtime.models.Person;
+import com.lunchtime.models.Restaurant;
 import com.lunchtime.repository.PersonRepository;
 import com.lunchtime.service.PersonService;
 import com.lunchtime.service.dto.PersonDto;
@@ -89,6 +90,16 @@ public class PersonServiceImpl implements PersonService {
 
     public Optional<Person> getPersonById(Long id) {
         return personRepository.findById(id);
+    }
+
+    @Override
+    public void updatePersonRoleId(Restaurant restaurant) {
+        Optional<Person> res = personRepository.findById(restaurant.getPersonId());
+        if (res.isPresent()) {
+            Person person = res.get();
+            person.setRoleId(2L);
+            personRepository.save(person);
+        }
     }
 
     @Override
