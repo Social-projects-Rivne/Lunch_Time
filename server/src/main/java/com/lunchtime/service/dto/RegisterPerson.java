@@ -26,7 +26,7 @@ public class RegisterPerson {
     private String email;
 
     @NotBlank
-    @Pattern(regexp = "^(?!(.)\\1+$).{8,40}$")
+    @Pattern(regexp = "^(?!(.)\\1+$)(?!\\s)(?!.*\\s$).{8,40}$")
     private String password;
 }
 

@@ -158,7 +158,13 @@ public class DatabaseSeed {
             Dish dish = new Dish();
             dish.setName(dishesName[(int) i]);
             dish.setIngredients(" first ingredient," + " second ingredient," + " third ingredient");
-            dish.setCategoryfood(categoryFoodList.get((int) i));
+            if (i == 1 || i == 2) {
+                dish.setCategoryFood(categoryFoodList.get(0));
+            } else if (i > 2) {
+                dish.setCategoryFood(categoryFoodList.get((int) (i - 2L)));
+            } else {
+                dish.setCategoryFood(categoryFoodList.get((int) i));
+            }
             dishRepository.save(dish);
         }
     }
@@ -223,6 +229,7 @@ public class DatabaseSeed {
         person.setPassword(
             bcryptPasswordEncoder.encode(userName[i].concat("password").toLowerCase()));
         person.setPhoneNumber("+38050123456".concat(String.valueOf(i)));
+        person.setRoleId(1L);
         return person;
     }
 

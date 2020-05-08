@@ -4,15 +4,16 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.UpdateTimestamp;
+import org.hibernate.annotations.*;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.Instant;
-import java.util.Date;
+import java.util.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -47,6 +48,13 @@ public class Order {
     @JoinColumn(name = "status_id", referencedColumnName = "id")
     private OrderStatus status;
 
+    @OneToMany(
+        mappedBy = "order",
+        cascade = CascadeType.ALL,
+        orphanRemoval = true
+    )
+    private List<OrderDish> orderDishList = new ArrayList<>();
+
     @Size(max = 999)
     @Column(name = "description")
     private String description;
@@ -59,9 +67,6 @@ public class Order {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "table_id", referencedColumnName = "id")
     private RestaurantTable table;
-
-    @Column(name = "dish_details_id")
-    private Long dishDetails;
 
     @ColumnDefault("false")
     @Column(name = "is_deleted")
@@ -80,4 +85,14 @@ public class Order {
 
     @Column(name = "modify_by")
     private Long modifyBy;
+
+    public void addOrderDish(OrderDish orderDish) {
+        orderDishList.add(orderDish);
+        orderDish.setOrder(this);
+    }
+
+    public void removeOrderDish(OrderDish orderDish) {
+        orderDishList.remove(orderDish);
+        orderDish.setOrder(null);
+    }
 }

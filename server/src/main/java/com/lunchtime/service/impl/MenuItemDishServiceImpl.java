@@ -39,6 +39,4 @@ public class MenuItemDishServiceImpl implements MenuItemDishService {
         return menuItemDishRepository.findDishesByRestaurantIdAndCategoryName(
                                                         name, id, pageable);
     }
-
-
 }

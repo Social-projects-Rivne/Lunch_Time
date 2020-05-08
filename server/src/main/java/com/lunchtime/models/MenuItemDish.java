@@ -9,7 +9,6 @@ import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
-import org.hibernate.validator.constraints.Currency;
 
 @Getter
 @Setter
@@ -45,7 +44,7 @@ public class MenuItemDish {
 
     @ColumnDefault("false")
     @Column(name = "is_deleted")
-    private Boolean isDeleted;
+    private boolean isDeleted;
 
     @ManyToOne
     @JoinColumn(name = "restaurant_id", referencedColumnName = "id")

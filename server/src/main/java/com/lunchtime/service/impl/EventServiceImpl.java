@@ -4,6 +4,7 @@ import com.lunchtime.models.Event;
 import com.lunchtime.repository.EventCategoryRepository;
 import com.lunchtime.repository.EventRepository;
 import com.lunchtime.service.EventService;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.time.Month;
@@ -56,6 +57,14 @@ public class EventServiceImpl implements EventService {
         Date start = new GregorianCalendar(currentYear, monthOrdinal, 1).getTime();
         Date end = new GregorianCalendar(currentYear, monthOrdinal + 1, 1).getTime();
         return eventRepository.findAllByDateBetween(start, end);
+    }
+
+    @Cacheable("restaurantEvents")
+    @Override
+    public List<Event> getEventByRestaurantId(Long id) {
+        return id != null
+            ? eventRepository.findAllByRestaurantId(id)
+            : null;
     }
 
     public Optional<Event> getEventById(Long id) {
