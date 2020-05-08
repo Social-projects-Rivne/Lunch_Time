@@ -18,15 +18,16 @@ class MenuItemDish extends Component {
   }
 
   addMenuItemDishToOrderList() {
-    const { menuItemDish, value } = this.state;
-    this.props.addMenuItemDishToOrderList(menuItemDish, value);
+    const { menuItemDish, value, portionPrice } = this.state;
+    this.props.addMenuItemDishToOrderList(menuItemDish, portionPrice, value);
   }
 
-  sendMenuItemDishToOrderList(newMenuItemDish, value) {
+  sendMenuItemDishToOrderList(newMenuItemDish, portionPrice, value) {
     const menuItemDish = newMenuItemDish;
     this.setState({
       menuItemDish,
       value,
+      portionPrice,
     }, () => {
       this.addMenuItemDishToOrderList();
     });
@@ -77,7 +78,7 @@ class MenuItemDish extends Component {
                   className="btn btn-danger"
                   id="minus"
                   onClick={() => {
-                    this.sendMenuItemDishToOrderList(menuItemDish.id, '-');
+                    this.sendMenuItemDishToOrderList(menuItemDish.id, menuItemDish.portionPrice, '-');
                   }}
                 >
                   -
@@ -87,7 +88,7 @@ class MenuItemDish extends Component {
                   variant="primary"
                   disabled={!isAuthenticated || quantity > 0}
                   onClick={() => {
-                    this.sendMenuItemDishToOrderList(menuItemDish.id);
+                    this.sendMenuItemDishToOrderList(menuItemDish.id, menuItemDish.portionPrice);
                   }}
                 >
                   {addMessage}
@@ -102,7 +103,7 @@ class MenuItemDish extends Component {
                   className="btn btn-success"
                   id="plus"
                   onClick={() => {
-                    this.sendMenuItemDishToOrderList(menuItemDish.id, '+');
+                    this.sendMenuItemDishToOrderList(menuItemDish.id, menuItemDish.portionPrice, '+');
                   }}
                 >
                   +

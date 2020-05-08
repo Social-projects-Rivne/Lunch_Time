@@ -20,6 +20,7 @@ class Menu extends Component {
       path: 'menuitemdish/restaurantId?',
       isFetching: false,
       menuItemDishesMap: new Map(),
+      totalPrice: 0,
     };
     this.handlePageChange = this.handlePageChange.bind(this);
     this.addMenuItemDishToOrderList = this.addMenuItemDishToOrderList.bind(this);
@@ -81,9 +82,8 @@ class Menu extends Component {
     );
   }
 
-  addMenuItemDishToOrderList(newMenuItemDish, value) {
+  addMenuItemDishToOrderList(newMenuItemDish, portionPrice, value) {
     const { menuItemDishesMap } = this.state;
-    console.log(value);
     let quantity = 1;
     if (value === '+') {
       quantity = menuItemDishesMap.get(newMenuItemDish) + 1;
@@ -93,6 +93,12 @@ class Menu extends Component {
     menuItemDishesMap.set(newMenuItemDish, quantity);
     this.setState({
       menuItemDishesMap,
+    }, () => {
+      this.setState((prevState) => {
+        return {
+          totalPrice: prevState.totalPrice + portionPrice,
+        };
+      });
     });
   }
 
@@ -105,7 +111,7 @@ class Menu extends Component {
 
   render() {
     const { id, name } = this.props;
-    const { isFetching, menuItemDishesMap } = this.state;
+    const { isFetching, menuItemDishesMap, totalPrice } = this.state;
     if (isFetching) {
       return (
         <Container className="menu">
@@ -116,7 +122,6 @@ class Menu extends Component {
             <div style={{
               display: 'flex',
               justifyContent: 'flex-end',
-              marginRight: 70,
               fontSize: 22,
             }}
             >
@@ -125,12 +130,16 @@ class Menu extends Component {
                 {' '}
                 price:
                 {' '}
+                {totalPrice}
+                {' '}
+                UAH
               </b>
             </div>
           )}
           <div style={{
             display: 'flex',
             justifyContent: 'flex-end',
+            marginRight: 5,
           }}
           >
             <Link to={{
