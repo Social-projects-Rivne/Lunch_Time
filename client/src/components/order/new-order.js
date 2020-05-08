@@ -83,6 +83,9 @@ class NewOrder extends Component {
       } else if (value === '-') {
         quantity = menuItemDishesMap.get(newMenuItemDish.id) - 1;
         total = totalPrice - newMenuItemDish.portionPrice;
+      } else if (value === 'X') {
+        quantity = 0;
+        total = totalPrice - newMenuItemDish.portionPrice * menuItemDishesMap.get(newMenuItemDish.id);
       }
     } else {
       total = newMenuItemDish.portionPrice + totalPrice;
@@ -234,8 +237,6 @@ class NewOrder extends Component {
       return null;
     }
     const { totalPrice, menuItemDishesMap, orderedDishes } = this.state;
-    console.log(orderedDishes);
-    console.log(orderedDishes.size);
     return (
       <Container fluid className="new-order-container">
         <h5>
@@ -395,6 +396,9 @@ class NewOrder extends Component {
                           borderRadius: 100,
                         }}
                         type="button"
+                        onClick={() => {
+                          this.sendMenuItemDishToOrderList(menuItemDish, 'X');
+                        }}
                       >
                         X
                       </Button>
