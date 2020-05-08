@@ -122,7 +122,6 @@ class Menu extends Component {
     const {
       isFetching, menuItemDishesMap, totalPrice, orderedDishes,
     } = this.state;
-    console.log(orderedDishes);
     if (isFetching) {
       return (
         <Container className="menu">
@@ -160,6 +159,7 @@ class Menu extends Component {
                 menuItemDishesMap: menuItemDishesMap,
                 orderedDishes: orderedDishes,
                 isAuthenticated: isAuthenticated,
+                totalPrice: totalPrice,
               },
             }}
             >

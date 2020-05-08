@@ -92,7 +92,7 @@ class MenuItemDish extends Component {
                   variant="primary"
                   disabled={!isAuthenticated}
                   onClick={() => {
-                    if (quantity === undefined) {
+                    if (quantity === undefined || quantity === 0) {
                       this.sendMenuItemDishToOrderList(menuItemDish);
                     }
                   }}

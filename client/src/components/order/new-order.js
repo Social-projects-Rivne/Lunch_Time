@@ -197,6 +197,7 @@ class NewOrder extends Component {
       return null;
     }
     const orderedDishes = this.props.location.state.menuItemDishes;
+    const orderedDishesArr = this.props.location.state.orderedDishes;
     return (
       <Container fluid className="new-order-container">
         <h5>
@@ -262,7 +263,7 @@ class NewOrder extends Component {
               max={this.getMaximumOfVisitors()}
             />
           </Form.Group>
-          {this.initOrderedDishes(orderedDishes)}
+          {orderedDishesArr && this.initOrderedDishes(orderedDishes)}
           <Form.Group>
             <Form.Label>Description</Form.Label>
             <Form.Control
@@ -281,6 +282,25 @@ class NewOrder extends Component {
             : null
         }
         <div className="order-btn-container">
+          {orderedDishesArr && orderedDishesArr.length > 0 && (
+            <div style={{
+              display: 'center',
+              justifyContent: 'center',
+              fontSize: 22,
+              marginRight: 80,
+            }}
+            >
+              <b>
+                TOTAL
+                {' '}
+                price:
+                {' '}
+                {this.props.location.state.totalPrice}
+                {' '}
+                UAH
+              </b>
+            </div>
+          )}
           <Button onClick={() => history.goBack()} variant="danger" className="order-btn-cancel">Cancel</Button>
           <Button
             onClick={() => this.saveOrder()}
