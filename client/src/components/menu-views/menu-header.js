@@ -13,6 +13,7 @@ class Header extends Component {
     this.state = {
       categories: [],
       isEdit: false,
+      dropdownName: 'All categories',
     };
   }
 
@@ -25,8 +26,12 @@ class Header extends Component {
     this.props.isEdit(this.state.isEdit);
   }
 
-  onHandleClick(path) {
+
+  onHandleClick(path, categoryName) {
     this.props.onChange(path);
+    this.setState({
+      dropdownName: categoryName,
+    });
   }
 
   getCategories(path) {
@@ -44,8 +49,8 @@ class Header extends Component {
   }
 
   render() {
-    const { categories } = this.state;
     const { id, isOwner } = this.props;
+    const { categories, dropdownName } = this.state;
     return (
       <Container>
         <br />
@@ -64,19 +69,18 @@ class Header extends Component {
           )}
         </ButtonToolbar>
         <Row>
-          <Col className="header-item">
+          <Col className="header-item" xs={2}>
             <Dropdown>
               <Dropdown.Toggle
-                variant="info"
                 id="dropdown-basic"
                 className="drop-down"
               >
-                All categories
+                {dropdownName}
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Item
                   eventKey="0"
-                  onClick={() => this.onHandleClick('menuitemdish/restaurantId?')}
+                  onClick={() => this.onHandleClick('menuitemdish/restaurantId?', 'All categories')}
                 >
                   All categories
                 </Dropdown.Item>
@@ -84,7 +88,7 @@ class Header extends Component {
                   return (
                     <Dropdown.Item
                       key={category.id}
-                      onClick={() => this.onHandleClick(`menuitemdish/category?name=${category.name}&`)}
+                      onClick={() => this.onHandleClick(`menuitemdish/category?name=${category.name}&`, category.name)}
                     >
                       {category.name}
                     </Dropdown.Item>
@@ -93,12 +97,12 @@ class Header extends Component {
               </Dropdown.Menu>
             </Dropdown>
           </Col>
-          <Col className="header-item">
+          <Col className="header-item" xs={3}>
             Dish
             <br />
             (Ingredients)
           </Col>
-          <Col className="header-item">
+          <Col className="header-item" xs={2}>
             Image
           </Col>
           <Col className="header-item">
