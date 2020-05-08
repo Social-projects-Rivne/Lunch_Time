@@ -127,7 +127,7 @@ class Menu extends Component {
     const { isFetching, dishes, menuItemDishesMap } = this.state;
     if (isFetching) {
       return (
-        <Container className="menu">
+        <Container className="menu mb-4">
           <Header onChange={this.handleChange} isEdit={() => this.onEditMenu()} id={id} isOwner={isOwner} />
           {this.initMenuItemDish()}
           {this.initPagination()}
