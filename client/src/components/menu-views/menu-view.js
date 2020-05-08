@@ -107,7 +107,6 @@ class Menu extends Component {
         orderedDishes: [...prevState.orderedDishes, newMenuItemDish],
       };
     });
-    console.log(this.state.orderedDishes);
   }
 
   handleChange(match) {
@@ -132,7 +131,8 @@ class Menu extends Component {
             <div style={{
               display: 'flex',
               justifyContent: 'flex-end',
-              fontSize: 22,
+              fontSize: 20,
+              marginRight: 10,
             }}
             >
               <b>

@@ -2,12 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
 import {
-  Button, Form, Container, Alert,
+  Button, Form, Container, Alert, Row, Col,
 } from 'react-bootstrap';
 import Api from '../../services/api';
 import '../../styles/new-order.css';
 import Person from '../../services/person';
-import MenuItemDish from '../menu-views/menu-item-dish';
+import Category from '../menu-views/category';
+import Dish from '../menu-views/dish';
 
 class NewOrder extends Component {
   constructor(props) {
@@ -179,25 +180,13 @@ class NewOrder extends Component {
     );
   }
 
-  initOrderedDishes() {
-    const { menuItemDishesMap, orderedDishes, isAuthenticated } = this.props.location.state;
-    return (
-      <MenuItemDish
-        menuItemDishes={Array.from(new Set(orderedDishes))}
-        menuItemDishesMap={menuItemDishesMap}
-        isAuthenticated={isAuthenticated}
-      />
-    );
-  }
-
   render() {
     const { history, location } = this.props;
     if (location && !location.state) {
       this.props.history.push('/');
       return null;
     }
-    const orderedDishes = this.props.location.state.menuItemDishes;
-    const orderedDishesArr = this.props.location.state.orderedDishes;
+    const { totalPrice, menuItemDishesMap, orderedDishes } = this.props.location.state;
     return (
       <Container fluid className="new-order-container">
         <h5>
@@ -217,7 +206,6 @@ class NewOrder extends Component {
             {this.isDateTimesInvalid() ? this.showAlert('Finish time should be more than Start time!') : null}
             {this.selectDateTime('finishDate')}
           </Form.Group>
-
           <Form.Group>
             <Form.Label>Available tables</Form.Label>
             {!this.state.availableTables.length ? this.showAlert('There are not available tables', 'warning') : null}
@@ -248,7 +236,6 @@ class NewOrder extends Component {
                 })}
             </Form.Control>
           </Form.Group>
-
           <Form.Group>
             <Form.Label>Number of visitors</Form.Label>
             { this.state.availableTables.length && this.state.visitors > this.getMaximumOfVisitors()
@@ -263,7 +250,6 @@ class NewOrder extends Component {
               max={this.getMaximumOfVisitors()}
             />
           </Form.Group>
-          {orderedDishesArr && this.initOrderedDishes(orderedDishes)}
           <Form.Group>
             <Form.Label>Description</Form.Label>
             <Form.Control
@@ -276,31 +262,93 @@ class NewOrder extends Component {
             />
           </Form.Group>
         </Form>
+        {orderedDishes && orderedDishes.length > 0 && (
+          <h2 style={{ jystify: 'center' }}>Ordered dishes:</h2>
+        )}
+        {orderedDishes && orderedDishes.length > 0 && (
+          <Container>
+            <hr className="menu-item" />
+            {Array.from(new Set(orderedDishes)).map((menuItemDish) => {
+              const quantity = menuItemDishesMap.get(menuItemDish.id);
+              const addMessage = quantity ? 'Q:' : 'Add';
+              return (
+                <Row key={menuItemDish.id}>
+                  <Col>
+                    <Category category={menuItemDish.dish.categoryFood} />
+                  </Col>
+                  <Col>
+                    <Dish dish={menuItemDish} mainMenu={false} />
+                  </Col>
+                  <Col className="col-item">
+                    <br />
+                    {menuItemDish.portionPrice}
+                    {' '}
+                    {'  '}
+                    {menuItemDish.currency}
+                  </Col>
+                  <Col className="col-item">
+                    <br />
+                    {quantity > 0 && (
+                      <button
+                        style={{ marginRight: 2 }}
+                        type="button"
+                        className="btn btn-danger"
+                        id="minus"
+                        onClick={() => {
+                          this.sendMenuItemDishToOrderList(menuItemDish, '-');
+                        }}
+                      >
+                        -
+                      </button>
+                    )}
+                    <Button
+                      variant="primary"
+                      onClick={() => {
+                        if (quantity === undefined || quantity === 0) {
+                          this.sendMenuItemDishToOrderList(menuItemDish);
+                        }
+                      }}
+                    >
+                      {addMessage}
+                      {' '}
+                      {quantity > 0 ? quantity : ''}
+                    </Button>
+                    {quantity > 0
+                    && (
+                      <button
+                        style={{ marginLeft: 2 }}
+                        type="button"
+                        className="btn btn-success"
+                        id="plus"
+                        onClick={() => {
+                          this.sendMenuItemDishToOrderList(menuItemDish, '+');
+                        }}
+                      >
+                        +
+                      </button>
+                    )}
+                  </Col>
+                </Row>
+              );
+            })}
+            <hr className="menu-item" />
+            <h2 style={{ jystify: 'center', fontSize: 25 }}>
+              TOTAL
+              {' '}
+              price:
+              {' '}
+              {totalPrice}
+              {' '}
+              UAH
+            </h2>
+          </Container>
+        )}
         {
           this.state.isBadRequestError
             ? this.showAlert('Something went wrong. Try again later', 'danger', true)
             : null
         }
         <div className="order-btn-container">
-          {orderedDishesArr && orderedDishesArr.length > 0 && (
-            <div style={{
-              display: 'center',
-              justifyContent: 'center',
-              fontSize: 22,
-              marginRight: 80,
-            }}
-            >
-              <b>
-                TOTAL
-                {' '}
-                price:
-                {' '}
-                {this.props.location.state.totalPrice}
-                {' '}
-                UAH
-              </b>
-            </div>
-          )}
           <Button onClick={() => history.goBack()} variant="danger" className="order-btn-cancel">Cancel</Button>
           <Button
             onClick={() => this.saveOrder()}
