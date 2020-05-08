@@ -1,6 +1,7 @@
 class Auth {
   constructor() {
     this.tokenKey = 'Bearer ';
+    this.personId = 'personId';
     this.token = '';
     this.isAuth = false;
     if (localStorage.getItem(this.tokenKey) && localStorage.getItem(this.tokenKey).length) {
@@ -24,6 +25,14 @@ class Auth {
     this.token = token;
     localStorage.setItem(this.tokenKey, token);
     this.isAuth = true;
+  }
+
+  savePersonId(id) {
+    localStorage.setItem(this.personId, id);
+  }
+
+  getPersonId() {
+    return localStorage.getItem(this.personId);
   }
 
   cleanLocalStorage() {
