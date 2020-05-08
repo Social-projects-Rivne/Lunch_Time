@@ -29,7 +29,7 @@ class RestaurantRegistration extends Component {
     this.isValidWorkingTime = true;
     this.isValidCountTables = true;
     this.isValidDescription = true;
-    this.userID = localStorage.getItem('userID');
+    this.personID = localStorage.getItem('personId');
     this.handleChange = this.handleChange.bind(this);
     this.showRegistration = this.showRegistration.bind(this);
   }
@@ -108,9 +108,9 @@ class RestaurantRegistration extends Component {
       textAddress: this.state.address,
       description: this.state.description,
       workingTime: `${this.state.timeFrom}-${this.state.timeTo}`,
-      personId: this.userID,
-      createdBy: this.userID,
-      modifyBy: this.userID,
+      personId: this.personID,
+      createdBy: this.personID,
+      modifyBy: this.personID,
       tables: this.state.tables,
     };
     Api.post('restaurants', restaurant)
