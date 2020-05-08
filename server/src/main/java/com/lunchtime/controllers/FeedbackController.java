@@ -22,11 +22,11 @@ public class FeedbackController {
     public ResponseEntity<FeedbackDto> saveFeedback(
         @Valid @RequestBody FeedbackDto feedbackDto) throws URISyntaxException {
         if (feedbackDto.getId() != 0) {
-            return null;
+            return ResponseEntity.badRequest().build();
         }
         FeedbackDto savedFeedbackDto = feedbackService.saveFeedback(feedbackDto);
         if (savedFeedbackDto != null) {
-            return ResponseEntity.created(new URI("/api/restaurants"))
+            return ResponseEntity.created(new URI("/api/feedback"))
                 .body(savedFeedbackDto);
         }
         return ResponseEntity.badRequest()
