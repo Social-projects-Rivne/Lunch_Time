@@ -5,7 +5,7 @@ import Api from '../../services/api';
 import '../../styles/feedback-send.css';
 import MyBadge from '../shared/my-batch';
 import CancelButton from '../shared/button/cancel';
-import Person from '../../services/person';
+import Auth from '../../services/auth';
 
 class FeedbackSend extends Component {
   constructor(props) {
@@ -23,7 +23,9 @@ class FeedbackSend extends Component {
       inputDisabled: false,
       attemptCount: false,
       validInput: true,
+      errorMessage: '',
     };
+    this.personId = Auth.getPersonId();
     this.onSubmit = this.onSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.tooShortFeedback = this.tooShortFeedback.bind(this);
@@ -138,8 +140,14 @@ class FeedbackSend extends Component {
     setTimeout(() => {
       if (currentCallId !== this.state.currentCallId) return;
       if (!this.state.isLoading) return;
+      if (!this.personId) {
+        this.setState({
+          errorMessage: 'You should login first',
+        });
+        return;
+      }
       Api.post('feedback', {
-        personId: Person.userInfo.id,
+        personId: this.personId,
         restId: this.props.id,
         description: this.state.description,
       })
@@ -247,6 +255,9 @@ class FeedbackSend extends Component {
         )}
         {!this.state.validInput && (
           <MyBadge variant="danger" message="Prefer to use letters instead of symbols" />
+        )}
+        {this.state.errorMessage && this.state.errorMessage.length && (
+          <MyBadge variant="danger" message={this.state.errorMessage} />
         )}
       </Form.Group>
     );
