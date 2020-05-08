@@ -78,10 +78,14 @@ class MenuItemDish extends Component {
                 <br />
                 {quantity > 0 && (
                 <button
-                  style={{ marginRight: 2 }}
+                  style={{
+                    marginRight: 8,
+                    width: 35,
+                    height: 35,
+                    borderRadius: 100,
+                  }}
                   type="button"
                   className="btn btn-danger"
-                  id="minus"
                   onClick={() => {
                     this.sendMenuItemDishToOrderList(menuItemDish, '-');
                   }}
@@ -104,17 +108,21 @@ class MenuItemDish extends Component {
                 </Button>
                 {quantity > 0
                 && (
-                <button
-                  style={{ marginLeft: 2 }}
-                  type="button"
-                  className="btn btn-success"
-                  id="plus"
-                  onClick={() => {
-                    this.sendMenuItemDishToOrderList(menuItemDish, '+');
-                  }}
-                >
-                  +
-                </button>
+                  <button
+                    style={{
+                      marginLeft: 8,
+                      width: 35,
+                      height: 35,
+                      borderRadius: 100,
+                    }}
+                    type="button"
+                    className="btn btn-success"
+                    onClick={() => {
+                      this.sendMenuItemDishToOrderList(menuItemDish, '+');
+                    }}
+                  >
+                    +
+                  </button>
                 )}
               </Col>
             </Row>

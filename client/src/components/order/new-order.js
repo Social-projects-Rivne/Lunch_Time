@@ -339,7 +339,12 @@ class NewOrder extends Component {
                     <br />
                     {quantity > 0 && (
                       <button
-                        style={{ marginRight: 2 }}
+                        style={{
+                          marginRight: 8,
+                          width: 35,
+                          height: 35,
+                          borderRadius: 100,
+                        }}
                         type="button"
                         className="btn btn-danger"
                         id="minus"
@@ -365,16 +370,34 @@ class NewOrder extends Component {
                     {quantity > 0
                     && (
                       <button
-                        style={{ marginLeft: 2 }}
-                        type="button"
+                        style={{
+                          marginLeft: 8,
+                          width: 35,
+                          height: 35,
+                          borderRadius: 100,
+                        }}
                         className="btn btn-success"
-                        id="plus"
+                        type="button"
                         onClick={() => {
                           this.sendMenuItemDishToOrderList(menuItemDish, '+');
                         }}
                       >
                         +
                       </button>
+                    )}
+                    {quantity > 0
+                    && (
+                      <Button
+                        style={{
+                          marginLeft: 25,
+                          width: 35,
+                          height: 35,
+                          borderRadius: 100,
+                        }}
+                        type="button"
+                      >
+                        X
+                      </Button>
                     )}
                   </Col>
                 </Row>
