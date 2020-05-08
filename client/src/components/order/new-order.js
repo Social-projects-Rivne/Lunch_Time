@@ -7,6 +7,7 @@ import {
 import Api from '../../services/api';
 import '../../styles/new-order.css';
 import Person from '../../services/person';
+import MenuItemDish from '../menu-views/menu-item-dish';
 
 class NewOrder extends Component {
   constructor(props) {
@@ -21,7 +22,6 @@ class NewOrder extends Component {
       availableTables: [],
       table: null,
       visitors: 1,
-      dishes: '',
       description: '',
       isBadRequestError: false,
     };
@@ -179,12 +179,23 @@ class NewOrder extends Component {
     );
   }
 
+  initOrderedDishes() {
+    const { menuItemDishesMap, orderedDishes } = this.props.location.state;
+    return (
+      <MenuItemDish
+        menuItemDishes={orderedDishes}
+        menuItemDishesMap={menuItemDishesMap}
+      />
+    );
+  }
+
   render() {
     const { history, location } = this.props;
     if (location && !location.state) {
       this.props.history.push('/');
       return null;
     }
+    const orderedDishes = this.props.location.state.menuItemDishes;
     return (
       <Container fluid className="new-order-container">
         <h5>
@@ -250,6 +261,7 @@ class NewOrder extends Component {
               max={this.getMaximumOfVisitors()}
             />
           </Form.Group>
+          {this.initOrderedDishes(orderedDishes)}
           <Form.Group>
             <Form.Label>Description</Form.Label>
             <Form.Control

@@ -20,6 +20,7 @@ class Menu extends Component {
       path: 'menuitemdish/restaurantId?',
       isFetching: false,
       menuItemDishesMap: new Map(),
+      orderedDishes: [],
       totalPrice: 0,
     };
     this.handlePageChange = this.handlePageChange.bind(this);
@@ -83,24 +84,30 @@ class Menu extends Component {
     );
   }
 
-  addMenuItemDishToOrderList(newMenuItemDish, portionPrice, value) {
+  addMenuItemDishToOrderList(newMenuItemDish, value) {
     const { menuItemDishesMap } = this.state;
     let quantity = 1;
     if (value === '+') {
-      quantity = menuItemDishesMap.get(newMenuItemDish) + 1;
+      quantity = menuItemDishesMap.get(newMenuItemDish.id) + 1;
     } else if (value === '-') {
-      quantity = menuItemDishesMap.get(newMenuItemDish) - 1;
+      quantity = menuItemDishesMap.get(newMenuItemDish.id) - 1;
     }
-    menuItemDishesMap.set(newMenuItemDish, quantity);
+    menuItemDishesMap.set(newMenuItemDish.id, quantity);
     this.setState({
       menuItemDishesMap,
     }, () => {
-      this.setState((prevState) => {
-        return {
-          totalPrice: prevState.totalPrice + portionPrice,
-        };
-      });
+      this.newSet(newMenuItemDish);
     });
+  }
+
+  newSet(newMenuItemDish) {
+    this.setState((prevState) => {
+      return {
+        totalPrice: prevState.totalPrice + newMenuItemDish.portionPrice,
+        orderedDishes: [...prevState.orderedDishes, newMenuItemDish],
+      };
+    });
+    console.log(this.state.orderedDishes);
   }
 
   handleChange(match) {
@@ -112,7 +119,10 @@ class Menu extends Component {
 
   render() {
     const { id, name } = this.props;
-    const { isFetching, menuItemDishesMap, totalPrice } = this.state;
+    const {
+      isFetching, menuItemDishesMap, totalPrice, orderedDishes,
+    } = this.state;
+    console.log(orderedDishes);
     if (isFetching) {
       return (
         <Container className="menu">
@@ -148,6 +158,7 @@ class Menu extends Component {
               state: {
                 restaurantName: name,
                 menuItemDishesMap: menuItemDishesMap,
+                orderedDishes: orderedDishes,
               },
             }}
             >
