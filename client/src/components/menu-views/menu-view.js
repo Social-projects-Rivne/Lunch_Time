@@ -118,7 +118,7 @@ class Menu extends Component {
   }
 
   render() {
-    const { id, name } = this.props;
+    const { id, name, isAuthenticated } = this.props;
     const {
       isFetching, menuItemDishesMap, totalPrice, orderedDishes,
     } = this.state;
@@ -159,6 +159,7 @@ class Menu extends Component {
                 restaurantName: name,
                 menuItemDishesMap: menuItemDishesMap,
                 orderedDishes: orderedDishes,
+                isAuthenticated: isAuthenticated,
               },
             }}
             >

@@ -180,11 +180,12 @@ class NewOrder extends Component {
   }
 
   initOrderedDishes() {
-    const { menuItemDishesMap, orderedDishes } = this.props.location.state;
+    const { menuItemDishesMap, orderedDishes, isAuthenticated } = this.props.location.state;
     return (
       <MenuItemDish
         menuItemDishes={orderedDishes}
         menuItemDishesMap={menuItemDishesMap}
+        isAuthenticated={isAuthenticated}
       />
     );
   }

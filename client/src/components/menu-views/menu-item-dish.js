@@ -90,9 +90,11 @@ class MenuItemDish extends Component {
                 )}
                 <Button
                   variant="primary"
-                  disabled={!isAuthenticated || quantity > 0}
+                  disabled={!isAuthenticated}
                   onClick={() => {
-                    this.sendMenuItemDishToOrderList(menuItemDish);
+                    if (quantity === undefined) {
+                      this.sendMenuItemDishToOrderList(menuItemDish);
+                    }
                   }}
                 >
                   {addMessage}
