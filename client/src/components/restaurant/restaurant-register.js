@@ -15,8 +15,8 @@ class RestaurantRegistration extends Component {
       name: '',
       email: '',
       address: '',
-      time_from: '09:00',
-      time_to: '22:00',
+      timeFrom: '09:00',
+      timeTo: '22:00',
       description: '',
       tables: 3,
       isRegistered: false,
@@ -57,15 +57,15 @@ class RestaurantRegistration extends Component {
 
   validInput() {
     const {
-      // eslint-disable-next-line camelcase
-      email, name, address, description, tables, time_from, time_to,
+      email, name, address, description, tables, timeFrom, timeTo,
     } = this.state;
     if (email.length < 3) { this.isValidEmail = false; } else { this.isValidEmail = true; }
     if (name.length < 2) { this.isValidName = false; } else { this.isValidName = true; }
     if (address.length < 1) { this.isValidAddress = false; } else { this.isValidAddress = true; }
     if (description.length < 2) { this.isValidDescription = false; } else { this.isValidDescription = true; }
-    // eslint-disable-next-line max-len
-    if (time_from.length < 1 && time_to.length < 1) { this.isValidWorkingTime = false; } else { this.isValidWorkingTime = true; }
+    if (timeFrom.length < 3 || timeTo.length < 3) {
+      this.isValidWorkingTime = false;
+    } else { this.isValidWorkingTime = true; }
     if (tables < 0) { this.isValidCountTables = false; } else { this.isValidCountTables = true; }
     return this.isValidName && this.isValidEmail && this.isValidAddress
     && this.isValidCountTables && this.isValidDescription && this.isValidWorkingTime;
@@ -107,7 +107,7 @@ class RestaurantRegistration extends Component {
       email: this.state.email,
       textAddress: this.state.address,
       description: this.state.description,
-      workingTime: `${this.state.time_from}-${this.state.time_to}`,
+      workingTime: `${this.state.timeFrom}-${this.state.timeTo}`,
       personId: this.userID,
       createdBy: this.userID,
       modifyBy: this.userID,
@@ -198,8 +198,8 @@ class RestaurantRegistration extends Component {
                   <Form.Control
                     autoFocus
                     type="time"
-                    value={this.state.time_from}
-                    onChange={(event) => { this.setState({ time_from: event.target.value }); }}
+                    value={this.state.timeFrom}
+                    onChange={(event) => { this.setState({ timeFrom: event.target.value }); }}
                   />
                 </div>
                 <div className="time_to">
@@ -207,8 +207,8 @@ class RestaurantRegistration extends Component {
                   <Form.Control
                     autoFocus
                     type="time"
-                    value={this.state.time_to}
-                    onChange={(event) => { this.setState({ time_to: event.target.value }); }}
+                    value={this.state.timeTo}
+                    onChange={(event) => { this.setState({ timeTo: event.target.value }); }}
                   />
                 </div>
               </Form.Group>
