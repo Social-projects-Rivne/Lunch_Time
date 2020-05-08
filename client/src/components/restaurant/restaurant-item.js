@@ -39,7 +39,7 @@ class Restaurant extends Component {
         this.setState({
           restaurant: response.data,
           isFetching: true,
-          isOwner: response.data.personId === Number(localStorage.getItem('userID')),
+          isOwner: response.data.personId === Number(localStorage.getItem('personId')),
         });
       });
   }
