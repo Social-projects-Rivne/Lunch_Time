@@ -183,7 +183,7 @@ class NewOrder extends Component {
     const { menuItemDishesMap, orderedDishes, isAuthenticated } = this.props.location.state;
     return (
       <MenuItemDish
-        menuItemDishes={orderedDishes}
+        menuItemDishes={Array.from(new Set(orderedDishes))}
         menuItemDishesMap={menuItemDishesMap}
         isAuthenticated={isAuthenticated}
       />
