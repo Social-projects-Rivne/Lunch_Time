@@ -34,7 +34,9 @@ class MenuItemDish extends Component {
   }
 
   render() {
-    const { menuItemDishes, isAuthenticated, menuItemDishesMap } = this.props;
+    const {
+      menuItemDishes, isAuthenticated, menuItemDishesMap, mainMenu,
+    } = this.props;
     return (
       <Container>
         {menuItemDishes.map((menuItemDish) => {
@@ -46,8 +48,9 @@ class MenuItemDish extends Component {
                 <Category category={menuItemDish.dish.categoryFood} />
               </Col>
               <Col>
-                <Dish dish={menuItemDish} />
+                <Dish dish={menuItemDish} mainMenu={mainMenu} />
               </Col>
+              {mainMenu && (
               <Col className="col-item">
                 <Image
                   className="image-menu-item"
@@ -58,10 +61,13 @@ class MenuItemDish extends Component {
                   alt="Dish image"
                 />
               </Col>
-              <Col className="col-item">
-                <br />
-                {menuItemDish.portionSize}
-              </Col>
+              )}
+              {mainMenu && (
+                <Col className="col-item">
+                  <br />
+                  {menuItemDish.portionSize}
+                </Col>
+              )}
               <Col className="col-item">
                 <br />
                 {menuItemDish.portionPrice}
@@ -124,5 +130,6 @@ MenuItemDish.propTypes = {
   menuItemDishes: PropTypes.array.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
   menuItemDishesMap: PropTypes.any.isRequired,
+  mainMenu: PropTypes.bool.isRequired,
 };
 export default MenuItemDish;

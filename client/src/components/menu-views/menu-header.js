@@ -38,47 +38,52 @@ class Header extends Component {
 
   render() {
     const { categories } = this.state;
+    const { mainMenu } = this.props;
     return (
       <Container>
         <br />
         <Row>
-          <Col className="header-item">
-            <Dropdown>
-              <Dropdown.Toggle
-                variant="info"
-                id="dropdown-basic"
-                className="drop-down"
-              >
-                All categories
-              </Dropdown.Toggle>
-              <Dropdown.Menu>
-                <Dropdown.Item
-                  eventKey="0"
-                  onClick={() => this.onHandleClick('menuitemdish/restaurantId?')}
+          {mainMenu && (
+            <Col className="header-item">
+              <Dropdown>
+                <Dropdown.Toggle
+                  variant="info"
+                  id="dropdown-basic"
+                  className="drop-down"
                 >
                   All categories
-                </Dropdown.Item>
-                {categories.map((category) => {
-                  return (
-                    <Dropdown.Item
-                      key={category.id}
-                      onClick={() => this.onHandleClick(`menuitemdish/category?name=${category.name}&`)}
-                    >
-                      {category.name}
-                    </Dropdown.Item>
-                  );
-                })}
-              </Dropdown.Menu>
-            </Dropdown>
-          </Col>
+                </Dropdown.Toggle>
+                <Dropdown.Menu>
+                  <Dropdown.Item
+                    eventKey="0"
+                    onClick={() => this.onHandleClick('menuitemdish/restaurantId?')}
+                  >
+                    All categories
+                  </Dropdown.Item>
+                  {categories.map((category) => {
+                    return (
+                      <Dropdown.Item
+                        key={category.id}
+                        onClick={() => this.onHandleClick(`menuitemdish/category?name=${category.name}&`)}
+                      >
+                        {category.name}
+                      </Dropdown.Item>
+                    );
+                  })}
+                </Dropdown.Menu>
+              </Dropdown>
+            </Col>
+          )}
           <Col className="header-item">
             Dish
             <br />
             (Ingredients)
           </Col>
-          <Col className="header-item">
-            Image
-          </Col>
+          {mainMenu && (
+            <Col className="header-item">
+              Image
+            </Col>
+          )}
           <Col className="header-item">
             Portion size
           </Col>
@@ -97,5 +102,6 @@ class Header extends Component {
 
 Header.propTypes = {
   onChange: PropTypes.any.isRequired,
+  mainMenu: PropTypes.bool.isRequired,
 };
 export default Header;

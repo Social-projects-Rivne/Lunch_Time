@@ -78,6 +78,7 @@ class Menu extends Component {
         isAuthenticated={isAuthenticated}
         addMenuItemDishToOrderList={this.addMenuItemDishToOrderList}
         menuItemDishesMap={menuItemDishesMap}
+        mainMenu
       />
     );
   }
@@ -115,7 +116,7 @@ class Menu extends Component {
     if (isFetching) {
       return (
         <Container className="menu">
-          <Header onChange={this.handleChange} />
+          <Header onChange={this.handleChange} mainMenu />
           {this.initMenuItemDish()}
           {this.initPagination()}
           {menuItemDishesMap.size > 0 && (
