@@ -27,6 +27,10 @@ class NewOrder extends Component {
       description: '',
       isBadRequestError: false,
       isLoginError: false,
+      menuItemDishesMap: this.props.location.state.menuItemDishesMap,
+      orderedDishes: new Set(this.props.location.state.orderedDishes),
+      isAuthenticated: this.props.location.state.isAuthenticated,
+      totalPrice: this.props.location.state.totalPrice,
     };
   }
 
@@ -68,6 +72,42 @@ class NewOrder extends Component {
     return this.state.availableTables.length && this.state.availableTables[0].capacity;
   }
 
+  sendMenuItemDishToOrderList(newMenuItemDish, value) {
+    const { menuItemDishesMap, totalPrice, orderedDishes } = this.state;
+    let quantity = 1;
+    let total;
+    if (menuItemDishesMap.get(newMenuItemDish.id) > 0) {
+      if (value === '+') {
+        quantity = menuItemDishesMap.get(newMenuItemDish.id) + 1;
+        total = newMenuItemDish.portionPrice + totalPrice;
+      } else if (value === '-') {
+        quantity = menuItemDishesMap.get(newMenuItemDish.id) - 1;
+        total = totalPrice - newMenuItemDish.portionPrice;
+      }
+    } else {
+      total = newMenuItemDish.portionPrice + totalPrice;
+    }
+    if (quantity !== 0) {
+      menuItemDishesMap.set(newMenuItemDish.id, quantity);
+      orderedDishes.add(newMenuItemDish);
+    } else {
+      menuItemDishesMap.delete(newMenuItemDish.id);
+      orderedDishes.delete(newMenuItemDish);
+    }
+    this.setState({
+      menuItemDishesMap,
+      totalPrice: total,
+    }, () => {
+      this.newSet(orderedDishes);
+    });
+  }
+
+  newSet(orderedDishes) {
+    this.setState({
+      orderedDishes: orderedDishes,
+    });
+  }
+
   saveOrder() {
     const { match, history } = this.props;
     let tableId;
@@ -78,7 +118,7 @@ class NewOrder extends Component {
     } else {
       return;
     }
-    let orderedDishes = this.props.location.state.menuItemDishesMap;
+    let orderedDishes = this.state.menuItemDishesMap;
     if (orderedDishes !== undefined) {
       const mapToObj = (m) => {
         return Array.from(m).reduce((obj, [key, value]) => {
@@ -193,7 +233,9 @@ class NewOrder extends Component {
       this.props.history.push('/');
       return null;
     }
-    const { totalPrice, menuItemDishesMap, orderedDishes } = this.props.location.state;
+    const { totalPrice, menuItemDishesMap, orderedDishes } = this.state;
+    console.log(orderedDishes);
+    console.log(orderedDishes.size);
     return (
       <Container fluid className="new-order-container">
         <h5>
@@ -245,7 +287,7 @@ class NewOrder extends Component {
           </Form.Group>
           <Form.Group>
             <Form.Label>Number of visitors</Form.Label>
-            { this.state.availableTables.length && this.state.visitors > this.getMaximumOfVisitors()
+            {this.state.availableTables.length && this.state.visitors > this.getMaximumOfVisitors()
               ? this.showAlert('Number of visitors shouldn\'t be more than maximum number of visitors!') : null}
             <Form.Control
               type="number"
@@ -269,13 +311,13 @@ class NewOrder extends Component {
             />
           </Form.Group>
         </Form>
-        {orderedDishes && orderedDishes.length > 0 && (
+        {orderedDishes && orderedDishes.size > 0 && (
           <h2 style={{ jystify: 'center' }}>Ordered dishes:</h2>
         )}
-        {orderedDishes && orderedDishes.length > 0 && (
+        {orderedDishes && orderedDishes.size > 0 && (
           <Container>
             <hr className="menu-item" />
-            {Array.from(new Set(orderedDishes)).map((menuItemDish) => {
+            {Array.from(orderedDishes).map((menuItemDish) => {
               const quantity = menuItemDishesMap.get(menuItemDish.id);
               const addMessage = quantity ? 'Q:' : 'Add';
               return (
@@ -339,15 +381,17 @@ class NewOrder extends Component {
               );
             })}
             <hr className="menu-item" />
-            <h2 style={{ jystify: 'center', fontSize: 25 }}>
-              TOTAL
-              {' '}
-              price:
-              {' '}
-              {totalPrice}
-              {' '}
-              UAH
-            </h2>
+            {totalPrice > 0 && (
+              <h2 style={{ jystify: 'center', fontSize: 25 }}>
+                TOTAL
+                {' '}
+                price:
+                {' '}
+                {totalPrice}
+                {' '}
+                UAH
+              </h2>
+            )}
           </Container>
         )}
         {

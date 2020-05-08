@@ -85,16 +85,28 @@ class Menu extends Component {
   }
 
   addMenuItemDishToOrderList(newMenuItemDish, value) {
-    const { menuItemDishesMap } = this.state;
+    const { menuItemDishesMap, totalPrice } = this.state;
     let quantity = 1;
-    if (value === '+') {
-      quantity = menuItemDishesMap.get(newMenuItemDish.id) + 1;
-    } else if (value === '-') {
-      quantity = menuItemDishesMap.get(newMenuItemDish.id) - 1;
+    let total;
+    if (menuItemDishesMap.get(newMenuItemDish.id) > 0) {
+      if (value === '+') {
+        quantity = menuItemDishesMap.get(newMenuItemDish.id) + 1;
+        total = newMenuItemDish.portionPrice + totalPrice;
+      } else if (value === '-') {
+        quantity = menuItemDishesMap.get(newMenuItemDish.id) - 1;
+        total = totalPrice - newMenuItemDish.portionPrice;
+      }
+    } else {
+      total = newMenuItemDish.portionPrice + totalPrice;
     }
-    menuItemDishesMap.set(newMenuItemDish.id, quantity);
+    if (quantity !== 0) {
+      menuItemDishesMap.set(newMenuItemDish.id, quantity);
+    } else {
+      menuItemDishesMap.delete(newMenuItemDish.id);
+    }
     this.setState({
       menuItemDishesMap,
+      totalPrice: total,
     }, () => {
       this.newSet(newMenuItemDish);
     });
@@ -103,7 +115,6 @@ class Menu extends Component {
   newSet(newMenuItemDish) {
     this.setState((prevState) => {
       return {
-        totalPrice: prevState.totalPrice + newMenuItemDish.portionPrice,
         orderedDishes: [...prevState.orderedDishes, newMenuItemDish],
       };
     });
@@ -127,7 +138,7 @@ class Menu extends Component {
           <Header onChange={this.handleChange} mainMenu />
           {this.initMenuItemDish()}
           {this.initPagination()}
-          {menuItemDishesMap.size > 0 && (
+          {totalPrice > 0 && (
             <div style={{
               display: 'flex',
               justifyContent: 'flex-end',
