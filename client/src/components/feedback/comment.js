@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  Container, Image, Badge,
+  Container, Image, Badge, Toast,
 } from 'react-bootstrap';
 import '../../styles/feedback-comment.css';
 import PropTypes from 'prop-types';
@@ -13,6 +13,7 @@ class FeedbackComment extends Component {
     this.state = {
       item: this.props.item,
       avatar: '/img/default-avatar.png',
+      unexpectedError: false,
     };
     this.likeFeedback = this.likeFeedback.bind(this);
     this.unAuthorizedTrue = this.unAuthorizedTrue.bind(this);
@@ -35,6 +36,12 @@ class FeedbackComment extends Component {
     }
   }
 
+  setShow(flag) {
+    this.setState({
+      unexpectedError: flag,
+    });
+  }
+
   likeFeedback() {
     Api.post(`feedback/like?feedbackId=${this.props.item.id}&personId=${Person.userInfo.id}`)
       .then((response) => {
@@ -47,11 +54,6 @@ class FeedbackComment extends Component {
             });
           }
         } else {
-          setTimeout(() => {
-            this.setState({
-              unexpectedError: false,
-            });
-          }, 3000);
           this.setState({
             unexpectedError: true,
           });
@@ -60,18 +62,11 @@ class FeedbackComment extends Component {
   }
 
   unAuthorizedTrue() {
-    const currentCallId = Math.random();
-    setTimeout(() => {
-      if (currentCallId !== this.state.currentCallId) return;
-      this.setState({
-        unAuthorized: false,
-      });
-    }, 3000);
     this.setState({
       unAuthorized: true,
-      currentCallId,
     });
   }
+
 
   render() {
     const { item, unexpectedError, unAuthorized } = this.state;
@@ -130,19 +125,15 @@ class FeedbackComment extends Component {
               You need to login to like feedback
             </Badge>
             )}
-            {unexpectedError && (
-              <Badge
-                variant="warning"
-                style={{
-                  marginLeft: 25,
-                  fontSize: 14,
-                  height: 24,
-                  width: 326,
-                }}
-              >
-                Your action can&apos;t be done now. Try again later
-              </Badge>
-            )}
+            <Toast
+              onClose={() => this.setShow(!unexpectedError)}
+              show={unexpectedError}
+              delay={3000}
+              autohide
+              style={{ display: 'inline-flex', color: 'black' }}
+            >
+              <Toast.Body>Error message</Toast.Body>
+            </Toast>
             <span className="complaint">
               <img src="/img/complaint.png" width="25px" height="25px" alt="complaint" title="complaint feedback" />
             </span>
