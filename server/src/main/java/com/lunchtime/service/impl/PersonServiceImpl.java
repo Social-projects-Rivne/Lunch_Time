@@ -97,7 +97,9 @@ public class PersonServiceImpl implements PersonService {
         Optional<Person> res = personRepository.findById(restaurant.getPersonId());
         if (res.isPresent()) {
             Person person = res.get();
-            person.setRoleId(2L);
+            if (person.getRoleId() != 2L) {
+                person.setRoleId(2L);
+            }
             personRepository.save(person);
         }
     }
