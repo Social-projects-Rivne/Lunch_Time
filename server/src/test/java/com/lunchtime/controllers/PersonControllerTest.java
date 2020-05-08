@@ -1,10 +1,8 @@
 package com.lunchtime.controllers;
 
 import com.lunchtime.security.JwtUtil;
-import com.lunchtime.security.TokenHistory;
-import com.lunchtime.service.dto.PersonDto;
-import com.lunchtime.service.dto.PersonPassDto;
 import com.lunchtime.service.PersonService;
+import com.lunchtime.service.dto.PersonDto;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
@@ -23,7 +21,7 @@ public class PersonControllerTest {
 
     private PersonController personControllerUnderTest;
     private PersonDto personDto;
-    private final JwtUtil jwtUtil= new JwtUtil();
+    private final JwtUtil jwtUtil = new JwtUtil();
 
     @Before
     public void setUp() {
@@ -44,21 +42,6 @@ public class PersonControllerTest {
         verify(mockPersonService).updatePerson(personDto);
         verifyNoMoreInteractions(mockPersonService);
         Assertions.assertNotNull(result);
-    }
-
-    @Test
-    public void testUpdatePassword() throws Exception {
-        PersonPassDto personPassDto = new PersonPassDto();
-        personPassDto.setId(1);
-        personPassDto.setOldPassword("oldPass");
-        personPassDto.setPassword("oldPass");
-        personPassDto.setName("NewName");
-        personPassDto.setPhoneNumber("+380991112233");
-
-        personControllerUnderTest.updatePassword(personPassDto);
-
-        verify(mockPersonService).updatePassword(personPassDto);
-        verifyNoMoreInteractions(mockPersonService);
     }
 
     @Test
