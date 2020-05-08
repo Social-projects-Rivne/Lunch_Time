@@ -1,15 +1,20 @@
 package com.lunchtime.repository;
 
+import com.lunchtime.models.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
-import com.lunchtime.models.Person;
+
+import java.util.Optional;
 
 @Repository
 public interface PersonRepository extends JpaRepository<Person, Long> {
-    Person findFirstByEmailAndPassword(String email, String password);
-
     Person findFirstByEmail(String email);
+
+    @Query("select p from Person p "
+        + "where p.email = :email "
+        + "and p.isDeleted = false")
+    Optional<Person> findPersonByEmail(String email);
 
     Person findPersonByPhoneNumber(String email);
 

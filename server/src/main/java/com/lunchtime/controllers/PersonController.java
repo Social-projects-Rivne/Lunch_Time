@@ -1,5 +1,6 @@
 package com.lunchtime.controllers;
 
+import com.lunchtime.models.Person;
 import com.lunchtime.security.JwtUtil;
 import com.lunchtime.service.PersonService;
 import com.lunchtime.service.dto.PersonDto;
@@ -56,16 +57,11 @@ public class PersonController {
 
     @PutMapping("/password")
     public ResponseEntity<Void> updatePassword(@Valid @RequestBody PersonPassDto personPassDto) {
-        PersonPassDto result;
-        try {
-            result = personService.updatePassword(personPassDto);
-        } catch (Exception e) {
-            return ResponseEntity.noContent().build();
+        Person person = personService.updatePassword(personPassDto);
+        if (person == null) {
+            return ResponseEntity.badRequest().build();
         }
-        if (result != null) {
-            return ResponseEntity.ok().build();
-        }
-        return ResponseEntity.notFound().build();
+        return ResponseEntity.ok().build();
     }
 
     @PostMapping("/currentUser")

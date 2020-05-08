@@ -3,6 +3,7 @@ package com.lunchtime.service.impl;
 import com.lunchtime.mapper.PersonMapper;
 import com.lunchtime.models.Person;
 import com.lunchtime.repository.PersonRepository;
+import com.lunchtime.security.SecurityUtils;
 import com.lunchtime.service.PersonService;
 import com.lunchtime.service.dto.PersonDto;
 import com.lunchtime.service.dto.PersonPassDto;
@@ -57,24 +58,18 @@ public class PersonServiceImpl implements PersonService {
         return personDto;
     }
 
-    public PersonPassDto updatePassword(PersonPassDto personPassDto) throws Exception {
-        Optional<Person> result = personRepository.findById(personPassDto.getId());
-        if (result.isPresent()) {
-            Person person = result.get();
-            if (person.getPhoneNumber().equals(personPassDto.getPassword())
-                || person.getEmail().equals(personPassDto.getPassword())) {
-                throw new Exception();
-            }
-            if (BCrypt.checkpw(personPassDto.getOldPassword(), person.getPassword())) {
-                person.setPassword(bcryptPasswordEncoder.encode(personPassDto.getPassword()));
-                person.setName(personPassDto.getName());
-                person.setPhoneNumber(personPassDto.getPhoneNumber());
-                personRepository.save(person);
-                return personPassDto;
-            }
-            throw new Exception();
-        }
-        return null;
+    public Person updatePassword(PersonPassDto personPassDto) {
+        return SecurityUtils.getCurrentPersonEmail()
+            .flatMap(personRepository::findPersonByEmail)
+            .map(person -> {
+                if (BCrypt.checkpw(personPassDto.getOldPassword(), person.getPassword())) {
+                    person.setPassword(bcryptPasswordEncoder.encode(personPassDto.getNewPassword()));
+                    personRepository.save(person);
+                    return person;
+                }
+                return null;
+            })
+            .orElse(null);
     }
 
     public PersonDto getPersonDtoById(Long id) {

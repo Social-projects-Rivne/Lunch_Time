@@ -18,7 +18,7 @@ public interface PersonService {
 
     PersonDto updatePerson(PersonDto personDto);
 
-    PersonPassDto updatePassword(PersonPassDto personPassDto) throws Exception;
+    Person updatePassword(PersonPassDto personPassDto);
 
     PersonDto getPersonDtoById(Long id);
 
