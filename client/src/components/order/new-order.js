@@ -6,9 +6,9 @@ import {
 } from 'react-bootstrap';
 import Api from '../../services/api';
 import '../../styles/new-order.css';
-import Person from '../../services/person';
 import Category from '../menu-views/category';
 import Dish from '../menu-views/dish';
+import Auth from '../../services/auth';
 
 class NewOrder extends Component {
   constructor(props) {
@@ -17,6 +17,7 @@ class NewOrder extends Component {
     this.milliseconds = 60000;
     this.currentDate = new Date();
     this.path = '/new-order';
+    this.personId = Auth.getPersonId();
     this.state = {
       startDate: this.timeFormatter(this.currentDate),
       finishDate: this.timeFormatter((new Date(this.currentDate.getTime() + this.timeInterval * this.milliseconds))),
@@ -25,6 +26,7 @@ class NewOrder extends Component {
       visitors: 1,
       description: '',
       isBadRequestError: false,
+      isLoginError: false,
     };
   }
 
@@ -89,9 +91,14 @@ class NewOrder extends Component {
     } else {
       orderedDishes = null;
     }
-    const personId = Person.userInfo.id;
+    if (!this.personId) {
+      this.setState({
+        isLoginError: true,
+      });
+      return;
+    }
     const order = {
-      personId: personId,
+      personId: this.personId,
       startTime: this.state.startDate.toUTCString(),
       finishTime: this.state.finishDate.toUTCString(),
       visitors: this.state.visitors,
@@ -346,6 +353,11 @@ class NewOrder extends Component {
         {
           this.state.isBadRequestError
             ? this.showAlert('Something went wrong. Try again later', 'danger', true)
+            : null
+        }
+        {
+          this.state.isLoginError
+            ? this.showAlert('You should login first', 'danger', true)
             : null
         }
         <div className="order-btn-container">
