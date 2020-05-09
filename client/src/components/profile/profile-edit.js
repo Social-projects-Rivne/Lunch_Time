@@ -5,6 +5,7 @@ import {
 import { Link, withRouter } from 'react-router-dom';
 import Avatar from 'react-avatar';
 import PropTypes from 'prop-types';
+import validator from 'validator';
 import Api from '../../services/api';
 
 class ProfileEdit extends Component {
@@ -14,25 +15,22 @@ class ProfileEdit extends Component {
       // isShowAlert: false,
       user: { ...this.props.user },
       previousUserData: { ...this.props.user },
-
-      // errors: {
-      //   name: '', phone: '', password: '', err: 'Profile is not changed',
-      // },
-      oldPassword: null,
-      newPassword: null,
-      // confirmPassword: null,
+      errors: {
+        name: '', phoneNumber: '', oldPassword: '', newPassword: '', confirmPassword: '', err: '',
+      },
+      oldPassword: '',
+      newPassword: '',
+      confirmPassword: '',
     };
-    // this.handleChange = this.handleChange.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     // this.saveFormState = this.saveFormState.bind(this);
     this.updateProfile = this.updateProfile.bind(this);
   }
 
   updateProfile(event) {
-    const { newPassword, user, previousUserData } = this.state;
-    // const form = event.currentTarget;
     event.preventDefault();
     event.stopPropagation();
-    // console.log(this.state.user, this.state.previousUserData, form, this.state);
+    const { newPassword, user, previousUserData } = this.state;
     const requests = [];
 
     if (JSON.stringify(user) !== JSON.stringify(previousUserData)) {
@@ -45,11 +43,9 @@ class ProfileEdit extends Component {
     console.log(requests);
     Promise.all(requests)
       .then((response) => {
-        // eslint-disable-next-line no-restricted-syntax
         for (const responseData of response) {
           if (responseData.error) {
             console.log('Server', response);
-            // break;
             return;
           }
         }
@@ -99,24 +95,92 @@ class ProfileEdit extends Component {
     );
   }
 
-  handleFormControl(event) {
+  handleUserData(name, value) {
     const { user } = this.state;
-    user[event.target.name] = event.target.value;
+    user[name] = value;
     this.setState({
       user: user,
     });
   }
 
-  handlePassword(event) {
+  handlePassword(name, value) {
     this.setState({
-      [event.target.name]: event.target.value,
+      [name]: value,
     });
   }
 
-  render() {
+  handleChange(event) {
+    event.preventDefault();
+    const { name, value } = event.target;
+    const { errors, newPassword } = this.state;
+
+    switch (name) {
+      case 'name':
+        errors.name = value.length < 1 ? 'The name cannot be empty' : '';
+        this.handleUserData(name, value);
+        break;
+      case 'phoneNumber':
+        errors.phoneNumber = validator.isMobilePhone(value) ? '' : 'Phone number is not valid! ';
+        this.handleUserData(name, value);
+        break;
+      case 'oldPassword':
+        this.handlePassword(name, value);
+        break;
+      case 'newPassword':
+        this.handlePassword(name, value);
+        errors.newPassword = value.length > 7 ? '' : 'New password must be at least 8 characters! ';
+        errors.newPassword += /^\s|\s$/.test(value) ? 'New password cannot begin or end with a space!' : '';
+        errors.newPassword += value === this.props.user.phoneNumber
+          ? 'Password cannot be the same as the phone number! ' : '';
+        errors.newPassword += value === this.props.user.email
+          ? 'Password cannot be the same as the email address! ' : '';
+        break;
+      case 'confirmPassword':
+        this.handlePassword(name, value);
+        errors.confirmPassword = newPassword === value ? '' : 'Passwords do not match! ';
+        break;
+      default:
+        break;
+    }
+
+    this.setState({
+      errors: errors,
+    });
+  }
+
+  isFormInvalid() {
     const {
-      user,
+      errors, user, previousUserData,
     } = this.state;
+
+    if (errors.name.length || errors.phoneNumber.length) {
+      return true;
+    }
+    if (JSON.stringify(user) === JSON.stringify(previousUserData)) {
+      return true;
+    }
+    return false;
+  }
+
+  isPasswordFormInvalid() {
+    const {
+      errors, oldPassword, newPassword, confirmPassword,
+    } = this.state;
+
+    if (oldPassword.length < 8) {
+      return true;
+    }
+    if (errors.oldPassword.length || errors.newPassword.length || errors.confirmPassword.length) {
+      return true;
+    }
+    if (oldPassword.length && (!newPassword.length || !confirmPassword.length)) {
+      return true;
+    }
+    return false;
+  }
+
+  render() {
+    const { user, errors } = this.state;
     const { avatar } = this.props;
     return (
       <Container fluid>
@@ -130,8 +194,11 @@ class ProfileEdit extends Component {
                   name="name"
                   placeholder="Enter a new name"
                   defaultValue={user.name}
-                  onChange={(event) => this.handleFormControl(event)}
+                  onChange={this.handleChange}
                 />
+                {errors.name.length > 0 && (
+                  <span className="errorMessage">{errors.name}</span>
+                )}
               </Form.Group>
               <Form.Group controlId="formGroupPhone">
                 <Form.Label>Phone number</Form.Label>
@@ -140,8 +207,11 @@ class ProfileEdit extends Component {
                   name="phoneNumber"
                   placeholder="Enter a new phone number"
                   defaultValue={user.phoneNumber}
-                  onChange={(event) => this.handleFormControl(event)}
+                  onChange={this.handleChange}
                 />
+                {errors.phoneNumber.length > 0 && (
+                  <span className="errorMessage">{errors.phoneNumber}</span>
+                )}
               </Form.Group>
               <Form.Group controlId="formGroupOldPassword">
                 <Form.Label>Old password</Form.Label>
@@ -149,7 +219,7 @@ class ProfileEdit extends Component {
                   type="password"
                   name="oldPassword"
                   placeholder="Enter old password"
-                  onChange={(event) => this.handlePassword(event)}
+                  onChange={this.handleChange}
                 />
               </Form.Group>
               <Form.Group controlId="formGroupNewPassword">
@@ -158,8 +228,11 @@ class ProfileEdit extends Component {
                   type="password"
                   name="newPassword"
                   placeholder="Enter new password"
-                  onChange={(event) => this.handlePassword(event)}
+                  onChange={this.handleChange}
                 />
+                {errors.newPassword.length > 0 && (
+                  <span className="errorMessage">{errors.newPassword}</span>
+                )}
               </Form.Group>
               <Form.Group controlId="formGroupConfirmPassword">
                 <Form.Label>Confirm new password</Form.Label>
@@ -167,8 +240,11 @@ class ProfileEdit extends Component {
                   type="password"
                   name="confirmPassword"
                   placeholder="Confirm new password"
-                  onChange={(event) => this.handlePassword(event)}
+                  onChange={this.handleChange}
                 />
+                {errors.confirmPassword.length > 0 && (
+                  <span className="errorMessage">{errors.confirmPassword}</span>
+                )}
               </Form.Group>
               <hr className="hr-border mt-0" />
               <Link to="info">
@@ -177,6 +253,7 @@ class ProfileEdit extends Component {
               <Button
                 className="ml-3 mb-5"
                 type="submit"
+                disabled={this.isPasswordFormInvalid() && this.isFormInvalid()}
               >
                 Submit
               </Button>
