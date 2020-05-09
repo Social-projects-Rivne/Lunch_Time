@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  Form, Container, Row, Col, Button,
+  Form, Container, Row, Col, Button, Alert,
 } from 'react-bootstrap';
 import { Link, withRouter } from 'react-router-dom';
 import Avatar from 'react-avatar';
@@ -12,22 +12,23 @@ class ProfileEdit extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      // isShowAlert: false,
+      isShowAlert: false,
       user: { ...this.props.user },
       previousUserData: { ...this.props.user },
       errors: {
-        name: '', phoneNumber: '', oldPassword: '', newPassword: '', confirmPassword: '', err: '',
+        name: '', phoneNumber: '', oldPassword: '', newPassword: '', confirmPassword: '',
       },
+      alertError: '',
       oldPassword: '',
       newPassword: '',
       confirmPassword: '',
     };
     this.handleChange = this.handleChange.bind(this);
-    // this.saveFormState = this.saveFormState.bind(this);
     this.updateProfile = this.updateProfile.bind(this);
   }
 
   updateProfile(event) {
+    this.disableAlert();
     event.preventDefault();
     event.stopPropagation();
     const { newPassword, user, previousUserData } = this.state;
@@ -35,21 +36,17 @@ class ProfileEdit extends Component {
 
     if (JSON.stringify(user) !== JSON.stringify(previousUserData)) {
       requests.push(this.changeUserData());
-      console.log(user, previousUserData);
     }
     if (newPassword) {
       requests.push(this.changePassword());
     }
-    console.log(requests);
     Promise.all(requests)
       .then((response) => {
         for (const responseData of response) {
           if (responseData.error) {
-            console.log('Server', response);
             return;
           }
         }
-        console.log(response);
         if (response.length >= 1) {
           this.props.updateUser(response[0].data);
         }
@@ -63,14 +60,13 @@ class ProfileEdit extends Component {
       Api.put(passwordEndpoint, { oldPassword: this.state.oldPassword, newPassword: this.state.newPassword })
         .then((response) => {
           if (response.error && response.error.response && response.error.response.status === 400) {
-            console.log('Bed', response);
+            this.makeAlert('Wrong old password. ');
             return response;
           }
           if (response.error) {
-            console.log('Server', response);
+            this.makeAlert('Something went wrong. Try again later. ');
             return response;
           }
-          console.log(response);
           return response;
         }),
     );
@@ -82,17 +78,31 @@ class ProfileEdit extends Component {
       Api.put(personEndpoint, this.state.user)
         .then((response) => {
           if (response.error && response.error.response && response.error.response.status === 400) {
-            console.log('Bed', response);
+            this.makeAlert('Bad request. Change profile information and try again. ');
             return response;
           }
           if (response.error) {
-            console.log('Server', response);
+            this.makeAlert('Something went wrong. Try again later. ');
             return response;
           }
-          console.log(response);
           return response;
         }),
     );
+  }
+
+  makeAlert(message) {
+    const { alertError } = this.state;
+    this.setState({
+      alertError: alertError + message,
+      isShowAlert: true,
+    });
+  }
+
+  disableAlert() {
+    this.setState({
+      isShowAlert: false,
+      alertError: '',
+    });
   }
 
   handleUserData(name, value) {
@@ -180,10 +190,17 @@ class ProfileEdit extends Component {
   }
 
   render() {
-    const { user, errors } = this.state;
+    const {
+      user, errors, isShowAlert, alertError,
+    } = this.state;
     const { avatar } = this.props;
     return (
       <Container fluid>
+        {isShowAlert && (
+          <Alert variant="danger" onClose={() => this.disableAlert()} dismissible>
+            <Alert.Heading>{alertError}</Alert.Heading>
+          </Alert>
+        )}
         <Row className="profile-row">
           <Col md="6">
             <Form onSubmit={this.updateProfile}>
@@ -271,8 +288,6 @@ class ProfileEdit extends Component {
             </Link>
           </Col>
         </Row>
-
-
       </Container>
     );
   }
