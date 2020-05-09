@@ -174,6 +174,11 @@ class Profile extends Component {
                     // />
                       <ProfileEdit
                         user={user}
+                        updateUser={(updatedUser) => this.setState({
+                          user: updatedUser,
+                          isShowAlert: true,
+                          title: 'Your profile was successfully updated',
+                        })}
                       />
                     );
                   }}

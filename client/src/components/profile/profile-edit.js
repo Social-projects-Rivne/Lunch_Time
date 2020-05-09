@@ -5,13 +5,14 @@ import {
 import { Link, withRouter } from 'react-router-dom';
 import Avatar from 'react-avatar';
 import PropTypes from 'prop-types';
+import Api from '../../services/api';
 
 class ProfileEdit extends Component {
   constructor(props) {
     super(props);
     this.state = {
       // isShowAlert: false,
-      user: this.props.user,
+      user: { ...this.props.user },
       previousUserData: { ...this.props.user },
 
       // errors: {
@@ -19,7 +20,7 @@ class ProfileEdit extends Component {
       // },
       oldPassword: null,
       newPassword: null,
-      confirmPassword: null,
+      // confirmPassword: null,
     };
     // this.handleChange = this.handleChange.bind(this);
     // this.saveFormState = this.saveFormState.bind(this);
@@ -27,15 +28,83 @@ class ProfileEdit extends Component {
   }
 
   updateProfile(event) {
-    const form = event.currentTarget;
+    const { newPassword, user, previousUserData } = this.state;
+    // const form = event.currentTarget;
     event.preventDefault();
     event.stopPropagation();
-    console.log(this.state.user, this.state.previousUserData, form, this.state);
-    this.props.history.push('/profile');
+    // console.log(this.state.user, this.state.previousUserData, form, this.state);
+    const requests = [];
+
+    if (JSON.stringify(user) !== JSON.stringify(previousUserData)) {
+      requests.push(this.changeUserData());
+      console.log(user, previousUserData);
+    }
+    if (newPassword) {
+      requests.push(this.changePassword());
+    }
+    console.log(requests);
+    Promise.all(requests)
+      .then((response) => {
+        // eslint-disable-next-line no-restricted-syntax
+        for (const responseData of response) {
+          if (responseData.error) {
+            console.log('Server', response);
+            // break;
+            return;
+          }
+        }
+        console.log(response);
+        if (response.length >= 1) {
+          this.props.updateUser(response[0].data);
+        }
+        this.props.history.push('/profile');
+      });
+  }
+
+  changePassword() {
+    const passwordEndpoint = 'persons/password';
+    return Promise.resolve(
+      Api.put(passwordEndpoint, { oldPassword: this.state.oldPassword, newPassword: this.state.newPassword })
+        .then((response) => {
+          if (response.error && response.error.response && response.error.response.status === 400) {
+            console.log('Bed', response);
+            return response;
+          }
+          if (response.error) {
+            console.log('Server', response);
+            return response;
+          }
+          console.log(response);
+          return response;
+        }),
+    );
+  }
+
+  changeUserData() {
+    const personEndpoint = 'persons';
+    return Promise.resolve(
+      Api.put(personEndpoint, this.state.user)
+        .then((response) => {
+          if (response.error && response.error.response && response.error.response.status === 400) {
+            console.log('Bed', response);
+            return response;
+          }
+          if (response.error) {
+            console.log('Server', response);
+            return response;
+          }
+          console.log(response);
+          return response;
+        }),
+    );
   }
 
   handleFormControl(event) {
-    this.state.user[event.target.name] = event.target.value;
+    const { user } = this.state;
+    user[event.target.name] = event.target.value;
+    this.setState({
+      user: user,
+    });
   }
 
   handlePassword(event) {
@@ -133,7 +202,7 @@ class ProfileEdit extends Component {
 
 ProfileEdit.propTypes = {
   user: PropTypes.any.isRequired,
-  // updateUser: PropTypes.any.isRequired,
+  updateUser: PropTypes.any.isRequired,
   history: PropTypes.any.isRequired,
 };
 
