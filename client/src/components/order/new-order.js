@@ -369,14 +369,14 @@ class NewOrder extends Component {
             </div>
           </div>
           <Button onClick={() => history.goBack()} style={{ marginTop: 20 }}>
-            Go to restaurant
+            Restaurant page
           </Button>
           <Link to={{
             pathname: '/',
           }}
           >
             <Button style={{ marginTop: 20, marginLeft: 14 }}>
-              Go main page
+              Main page
             </Button>
           </Link>
         </div>
