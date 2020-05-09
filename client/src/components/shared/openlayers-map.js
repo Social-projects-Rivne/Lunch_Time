@@ -1,35 +1,18 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Map, layer, Layers } from 'react-openlayers';
+import {
+  Map, layer, Layers, custom,
+} from 'react-openlayers';
 import { Container } from 'react-bootstrap';
 import { transform } from 'ol/proj';
 import '../../styles/openlayers-map.css';
 import * as ol from 'openlayers';
-import { Icon, Style } from 'ol/style';
+
+const iconFeature = new ol.Feature(new ol.geom.Point(transform([26.275728, 50.616294], 'EPSG:4326', 'EPSG:3857')));
+const source = new ol.source.Vector({ features: [iconFeature] });
+const marker = new custom.style.MarkerStyle('/img/map-pin-point.png');
 
 class OpenlayersMap extends Component {
-  constructor(props) {
-    super(props);
-    this.newVector = this.newVector.bind(this);
-  }
-
-
-  newVector() {
-    const iconFeature = new ol.Feature(new ol.geom.Point([26.275728, 50.616294]));
-    const iconStyle = new Style({
-      image: new Icon({
-        anchorXUnits: 'fraction',
-        anchorYUnits: 'pixels',
-        src: '/img/map-pin-point.png',
-      }),
-    });
-    iconFeature.setStyle(iconStyle);
-    const source = new ol.source.Vector({ features: [iconFeature] });
-    return (
-      <layer.Vector source={source} zIndex="1" />
-    );
-  }
-
   render() {
     const { latitude, longitude } = this.props;
     return (
@@ -44,14 +27,13 @@ class OpenlayersMap extends Component {
         >
           <Layers>
             <layer.Tile />
-            {this.newVector}
+            <layer.Vector source={source} style={marker.style} zIndex="2" />
           </Layers>
         </Map>
       </Container>
     );
   }
 }
-
 OpenlayersMap.defaultProps = {
   latitude: 'search-container pt-4',
   longitude: 'mb-3',
