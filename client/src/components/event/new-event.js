@@ -15,11 +15,29 @@ class NewEvent extends React.Component {
       selectedCategory: 'Party',
       selectedCategoryId: '0',
       dateAndTime: new Date(),
+      image: '',
     };
+    this.fileInputRef = React.createRef();
   }
 
   componentDidMount() {
     this.getCategories('event-category');
+  }
+
+  onFileSelect(e) {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    const imageTag = document.getElementById('eventImage');
+
+    reader.onload = function (event) {
+      imageTag.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
+    this.setState({ image: file });
+  }
+
+  onSelectClick() {
+    this.fileInputRef.current.click();
   }
 
   getCategories(path) {
@@ -37,7 +55,12 @@ class NewEvent extends React.Component {
   }
 
   handleChange(e) {
-    console.log(`${e.name}`);
+    const { name, value } = e.target;
+    console.log(`${name}`);
+
+    this.setState({
+      [name]: value,
+    });
   }
 
   convertCategoryName(categoryName) {
@@ -48,6 +71,7 @@ class NewEvent extends React.Component {
   render() {
     const { categories, selectedCategory } = this.state;
     console.log(`id${this.state.selectedCategoryId}`);
+    console.log((`ds${this.state.image}`));
     return (
       <Container fluid className="new-event-container">
         <h5>Add a new event</h5>
@@ -112,9 +136,9 @@ class NewEvent extends React.Component {
         </Form.Group>
 
         <Form.Group>
-          <Button onClick={() => this.onSelectClick()}>Select dish photo</Button>
+          <Button onClick={() => this.onSelectClick()}>Select photo</Button>
           <br />
-          <Image roundedCircle className="img mt-3" id="dishImage" src="/img/dish-default.png" />
+          <Image className="event-img mt-3" id="eventImage" src="/img/default-event.jpg" />
         </Form.Group>
 
         <input
