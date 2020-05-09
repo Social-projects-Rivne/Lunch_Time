@@ -15,7 +15,7 @@ class Info extends Component {
 
   render() {
     const {
-      isFetching, user, isShowAlert, title,
+      isFetching, user, isShowAlert, title, avatar,
     } = this.props;
     if (isFetching) {
       return (
@@ -44,7 +44,7 @@ class Info extends Component {
               </p>
             </Col>
             <Col>
-              <Avatar size="150" round src={user.avatar} />
+              <Avatar size="150" round src={avatar} />
             </Col>
           </Row>
 
@@ -74,6 +74,7 @@ Info.propTypes = {
   user: PropTypes.any.isRequired,
   showAlert: PropTypes.any.isRequired,
   title: PropTypes.string,
+  avatar: PropTypes.string.isRequired,
 };
 
 Info.defaultProps = {

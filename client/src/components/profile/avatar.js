@@ -11,7 +11,7 @@ class Avatar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      image: this.props.user.avatar,
+      image: this.props.avatar,
       isApplyDisabled: true,
       user: this.props.user,
       scale: 1,
@@ -148,6 +148,7 @@ Avatar.propTypes = {
   title: PropTypes.any.isRequired,
   isFetching: PropTypes.bool.isRequired,
   updateAvatar: PropTypes.any.isRequired,
+  avatar: PropTypes.string.isRequired,
 };
 
 export default withRouter(Avatar);

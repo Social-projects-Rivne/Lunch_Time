@@ -117,6 +117,7 @@ class ProfileEdit extends Component {
     const {
       user,
     } = this.state;
+    const { avatar } = this.props;
     return (
       <Container fluid>
         <Row className="profile-row">
@@ -188,7 +189,7 @@ class ProfileEdit extends Component {
                 className="mt-2"
                 size="150"
                 round
-                src={user.avatar}
+                src={avatar}
               />
             </Link>
           </Col>
@@ -204,6 +205,7 @@ ProfileEdit.propTypes = {
   user: PropTypes.any.isRequired,
   updateUser: PropTypes.any.isRequired,
   history: PropTypes.any.isRequired,
+  avatar: PropTypes.string.isRequired,
 };
 
 export default withRouter(ProfileEdit);

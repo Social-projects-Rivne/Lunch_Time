@@ -29,6 +29,7 @@ class Profile extends Component {
       user: {},
       isFetching: false,
       isShowAlert: false,
+      avatar: '',
     };
     this.menuItems = [
       {
@@ -100,17 +101,14 @@ class Profile extends Component {
   }
 
   saveAvatarState(avatar) {
-    this.setState((prevState) => ({
-      user: {
-        ...prevState.user,
-        avatar: avatar,
-      },
+    this.setState(() => ({
+      avatar: avatar,
     }));
   }
 
   render() {
     const {
-      isFetching, user, isShowAlert, title,
+      isFetching, user, isShowAlert, title, avatar,
     } = this.state;
     const { location } = this.props;
     return (
@@ -153,6 +151,7 @@ class Profile extends Component {
                       <Info
                         isFetching={isFetching}
                         user={user}
+                        avatar={avatar}
                         isShowAlert={isShowAlert}
                         showAlert={(e) => this.saveAlertState(e)}
                         title={title}
@@ -174,6 +173,7 @@ class Profile extends Component {
                     // />
                       <ProfileEdit
                         user={user}
+                        avatar={avatar}
                         updateUser={(updatedUser) => {
                           if (updatedUser && updatedUser.photoUrl && updatedUser.photoUrl.length) {
                             this.getAvatarUrl(updatedUser);
@@ -195,8 +195,9 @@ class Profile extends Component {
                       <PhotoEditor
                         isFetching={isFetching}
                         user={user}
+                        avatar={avatar}
                         title={(e) => this.saveAlertState(true, e)}
-                        updateAvatar={(avatar) => this.saveAvatarState(avatar)}
+                        updateAvatar={(newAvatar) => this.saveAvatarState(newAvatar)}
                       />
                     );
                   }}
