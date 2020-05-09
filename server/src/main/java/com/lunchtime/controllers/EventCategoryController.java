@@ -20,7 +20,7 @@ public class EventCategoryController {
     public EventCategoryController(EventCategoryService eventCategoryService) {
         this.eventCategoryService = eventCategoryService;
     }
-    
+
     @GetMapping
     public ResponseEntity<List<EventCategory>> getAll() {
         return ResponseEntity.ok()

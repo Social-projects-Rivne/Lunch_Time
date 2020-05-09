@@ -4,21 +4,50 @@ import {
 } from 'react-bootstrap';
 import '../../styles/new-event.css';
 import DatePicker from 'react-datepicker';
+import Api from '../../services/api';
 
 
 class NewEvent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-
+      categories: [],
+      selectedCategory: 'Party',
+      selectedCategoryId: '0',
+      dateAndTime: new Date(),
     };
+  }
+
+  componentDidMount() {
+    this.getCategories('event-category');
+  }
+
+  getCategories(path) {
+    Api.get(path)
+      .then((response) => {
+        if (response.error) {
+          // eslint-disable-next-line no-console
+          console.error(response);
+          return;
+        }
+        this.setState({
+          categories: response.data,
+        });
+      });
   }
 
   handleChange(e) {
     console.log(`${e.name}`);
   }
 
+  convertCategoryName(categoryName) {
+    const removeUnderscores = categoryName.split('_').join(' ');
+    return removeUnderscores.charAt(0).toUpperCase() + removeUnderscores.slice(1);
+  }
+
   render() {
+    const { categories, selectedCategory } = this.state;
+    console.log(`id${this.state.selectedCategoryId}`);
     return (
       <Container fluid className="new-event-container">
         <h5>Add a new event</h5>
@@ -27,11 +56,22 @@ class NewEvent extends React.Component {
           <Form.Label>Category: </Form.Label>
           <br />
           <Dropdown>
-            <Dropdown.Toggle>Cat</Dropdown.Toggle>
+            <Dropdown.Toggle>{selectedCategory}</Dropdown.Toggle>
             <Dropdown.Menu>
-              <Dropdown.Item>
-                dsd
-              </Dropdown.Item>
+              {categories.map((item) => (
+                <Dropdown.Item
+                  onSelect={(e) => {
+                    this.setState({
+                      selectedCategory: this.convertCategoryName(e),
+                      selectedCategoryId: item.id,
+                    });
+                  }}
+                  eventKey={item.category}
+                  key={item.id}
+                >
+                  {this.convertCategoryName(item.category)}
+                </Dropdown.Item>
+              ))}
             </Dropdown.Menu>
           </Dropdown>
         </Form.Group>
@@ -40,6 +80,9 @@ class NewEvent extends React.Component {
           <Form.Label>Start time:</Form.Label>
           <br />
           <DatePicker
+            minDate={new Date()}
+            selected={this.state.dateAndTime}
+            onChange={(date) => this.setState({ dateAndTime: date })}
             showTimeSelect
             timeFormat="HH:mm"
             className="date-time-input"
