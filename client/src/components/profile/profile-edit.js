@@ -46,9 +46,9 @@ class ProfileEdit extends Component {
           if (responseData.error) {
             return;
           }
-        }
-        if (response.length >= 1) {
-          this.props.updateUser(response[0].data);
+          if (responseData.data !== '') {
+            this.props.updateUser(responseData.data);
+          }
         }
         this.props.history.push('/profile');
       });
@@ -177,6 +177,9 @@ class ProfileEdit extends Component {
       errors, oldPassword, newPassword, confirmPassword,
     } = this.state;
 
+    if (!oldPassword.length && !newPassword.length && !confirmPassword.length) {
+      return false;
+    }
     if (oldPassword.length < 8) {
       return true;
     }
@@ -209,6 +212,9 @@ class ProfileEdit extends Component {
                 <Form.Control
                   type="text"
                   name="name"
+                  required
+                  min="1"
+                  max="255"
                   placeholder="Enter a new name"
                   defaultValue={user.name}
                   onChange={this.handleChange}
@@ -222,6 +228,7 @@ class ProfileEdit extends Component {
                 <Form.Control
                   type="tel"
                   name="phoneNumber"
+                  required
                   placeholder="Enter a new phone number"
                   defaultValue={user.phoneNumber}
                   onChange={this.handleChange}
@@ -270,7 +277,7 @@ class ProfileEdit extends Component {
               <Button
                 className="ml-3 mb-5"
                 type="submit"
-                disabled={this.isPasswordFormInvalid() && this.isFormInvalid()}
+                disabled={this.isPasswordFormInvalid() || this.isFormInvalid()}
               >
                 Submit
               </Button>
