@@ -15,10 +15,11 @@ import Subscriptions from './subscriptions';
 import Api from '../../services/api';
 import '../../styles/profile.css';
 import PhotoEditor from './avatar';
-import InfoChange from './info-change';
+// import InfoChange from './info-change';
 import Auth from '../../services/auth';
 import OwnersRestaurants from './owners-restaurants';
 import { OWNER_ROLE_ID } from '../../constants';
+import ProfileEdit from './profile-edit';
 
 class Profile extends Component {
   constructor(props) {
@@ -163,13 +164,16 @@ class Profile extends Component {
                   path="/profile/edit"
                   component={() => {
                     return (
-                      <InfoChange
+                    // <InfoChange
+                    //   user={user}
+                    //   updateUser={(updatedUser) => this.setState({
+                    //     user: updatedUser,
+                    //     isShowAlert: true,
+                    //     title: 'Your profile was successfully updated',
+                    //   })}
+                    // />
+                      <ProfileEdit
                         user={user}
-                        updateUser={(updatedUser) => this.setState({
-                          user: updatedUser,
-                          isShowAlert: true,
-                          title: 'Your profile was successfully updated',
-                        })}
                       />
                     );
                   }}
