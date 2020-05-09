@@ -174,11 +174,16 @@ class Profile extends Component {
                     // />
                       <ProfileEdit
                         user={user}
-                        updateUser={(updatedUser) => this.setState({
-                          user: updatedUser,
-                          isShowAlert: true,
-                          title: 'Your profile was successfully updated',
-                        })}
+                        updateUser={(updatedUser) => {
+                          if (updatedUser && updatedUser.photoUrl && updatedUser.photoUrl.length) {
+                            this.getAvatarUrl(updatedUser);
+                          }
+                          this.setState({
+                            user: updatedUser,
+                            isShowAlert: true,
+                            title: 'Your profile was successfully updated',
+                          });
+                        }}
                       />
                     );
                   }}
