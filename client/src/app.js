@@ -15,6 +15,7 @@ import Restaurant from './components/restaurant/restaurant-item';
 import Profile from './components/profile/profile';
 import NewOrder from './components/order/new-order';
 import Auth from './services/auth';
+import NewEvent from './components/event/new-event';
 
 class App extends Component {
   constructor(props) {
@@ -52,6 +53,14 @@ class App extends Component {
           <Route exact path="/" component={Home} />
           <Route path="/about" component={About} />
           <Route path="/events" component={Events} />
+          <Route
+            path="/restaurants/:id/new-event"
+            component={() => {
+              return (
+                <NewEvent />
+              );
+            }}
+          />
           <Route path="/restaurants/:id/new-order" component={NewOrder} />
           <Route
             path="/restaurants/:id"
