@@ -7,6 +7,7 @@ class Category extends Component {
     const { category } = this.props;
     return (
       <Container className="col-item">
+        <br />
         {category.name}
       </Container>
     );

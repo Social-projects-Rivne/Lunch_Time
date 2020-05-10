@@ -271,7 +271,7 @@ class NewMenuItemDish extends Component {
                 placeholder="Price"
               />
             </Col>
-            <Col className="col">
+            <Col className="currency">
               <span className="">UAN</span>
             </Col>
           </Form.Row>
