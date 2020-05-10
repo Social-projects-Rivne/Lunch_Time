@@ -1,7 +1,6 @@
 package com.lunchtime.controllers;
 
 import com.lunchtime.security.JwtUtil;
-import com.lunchtime.security.TokenHistory;
 import com.lunchtime.service.dto.PersonDto;
 import com.lunchtime.service.dto.PersonPassDto;
 import com.lunchtime.service.PersonService;
