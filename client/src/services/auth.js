@@ -32,7 +32,7 @@ class Auth {
   }
 
   getPersonId() {
-    return localStorage.getItem(this.personId);
+    return +localStorage.getItem(this.personId);
   }
 
   cleanLocalStorage() {

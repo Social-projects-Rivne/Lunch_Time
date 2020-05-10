@@ -5,6 +5,7 @@ import {
 } from 'react-bootstrap';
 import '../../styles/restaurant-registration.css';
 import Api from '../../services/api';
+import Auth from '../../services/auth';
 import MyBadge from '../shared/my-batch';
 
 class RestaurantRegistration extends Component {
@@ -29,7 +30,7 @@ class RestaurantRegistration extends Component {
     this.isValidWorkingTime = true;
     this.isValidCountTables = true;
     this.isValidDescription = true;
-    this.personID = localStorage.getItem('personId');
+    this.personId = Auth.getPersonId();
     this.handleChange = this.handleChange.bind(this);
     this.showRegistration = this.showRegistration.bind(this);
   }
@@ -108,9 +109,9 @@ class RestaurantRegistration extends Component {
       textAddress: this.state.address,
       description: this.state.description,
       workingTime: `${this.state.timeFrom}-${this.state.timeTo}`,
-      personId: this.personID,
-      createdBy: this.personID,
-      modifyBy: this.personID,
+      personId: this.personId,
+      createdBy: this.personId,
+      modifyBy: this.personId,
       tables: this.state.tables,
     };
     Api.post('restaurants', restaurant)
