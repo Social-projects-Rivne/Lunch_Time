@@ -1,6 +1,5 @@
 package com.lunchtime.controllers;
 
-import com.lunchtime.models.Person;
 import com.lunchtime.models.Restaurant;
 
 import java.net.URI;
