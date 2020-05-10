@@ -263,6 +263,9 @@ class RestaurantRegistration extends Component {
           )}
           <Button onClick={() => this.backtoInfo()} variant="danger" className="registe_btn_cancel">Cancel</Button>
           <Button
+            style={{
+              height: 37,
+            }}
             block
             onClick={() => this.checkForSending()}
           >
