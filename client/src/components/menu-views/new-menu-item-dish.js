@@ -150,7 +150,7 @@ class NewMenuItemDish extends Component {
     /* eslint-disable no-param-reassign */
     const { match } = this.props;
     const {
-      portionPrice, portionSize, selectedPortionSize, image,
+      portionPrice, portionSize, selectedPortionSize, image, errors,
     } = this.state;
     Api.post('dish', dish)
       .then((r) => {
@@ -172,6 +172,12 @@ class NewMenuItemDish extends Component {
               this.props.selectedTab('menu');
               this.props.history.goBack();
             }
+          });
+        } else {
+          errors.err += 'Server Error, please try again later! ';
+          this.setState({
+            errors,
+            isShowAlert: true,
           });
         }
       });
