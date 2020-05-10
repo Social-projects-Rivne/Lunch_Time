@@ -7,8 +7,6 @@ import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-
-import com.lunchtime.repository.PersonRepository;
 import com.lunchtime.service.PersonService;
 import com.lunchtime.service.RestaurantService;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +25,6 @@ import javax.validation.Valid;
 @RequestMapping("/api/restaurants")
 public class RestaurantController {
     private final RestaurantService restaurantService;
-    private final PersonRepository personRepository;
     private final PersonService personService;
 
     @PostMapping
