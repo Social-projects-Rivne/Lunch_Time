@@ -99,8 +99,8 @@ public class PersonServiceImpl implements PersonService {
             Person person = res.get();
             if (person.getRoleId() != 2L) {
                 person.setRoleId(2L);
+                personRepository.save(person);
             }
-            personRepository.save(person);
         }
     }
 
