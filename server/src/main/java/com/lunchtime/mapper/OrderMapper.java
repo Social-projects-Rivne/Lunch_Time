@@ -7,13 +7,15 @@ import com.lunchtime.models.OrderDish;
 import com.lunchtime.repository.MenuItemDishRepository;
 import com.lunchtime.service.dto.OrderDto;
 import lombok.RequiredArgsConstructor;
+import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Component
 @RequiredArgsConstructor
@@ -46,6 +48,16 @@ public class OrderMapper {
     }
 
     public OrderDto fromOrderToDto(Order order) {
+        JSONObject jsonDishes = new JSONObject();
+        List<Object> dishList = new ArrayList<>();
+        if (order.getOrderDishList() != null) {
+            dishList = order.getOrderDishList().stream()
+                .flatMap(dish -> Stream.of(dish.getId(), dish.getQuantity()))
+            .collect(Collectors.toList());
+        }
+        for (int i = 0; i < dishList.size(); i++) {
+            jsonDishes.put(dishList.get(i).toString(), dishList.get(++i));
+        }
 
         return OrderDto.builder()
             .id(order.getId())
@@ -53,7 +65,7 @@ public class OrderMapper {
             .startTime(order.getStartTime())
             .finishTime(order.getFinishTime())
             .status(order.getStatus())
-            .orderedDishes(order.getOrderDishList())
+            .orderedDishes(jsonDishes)
             .description(order.getDescription())
             .visitors(order.getVisitors())
             .tableId(order.getTable().getId())
