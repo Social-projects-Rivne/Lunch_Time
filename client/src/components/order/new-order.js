@@ -21,7 +21,7 @@ class NewOrder extends Component {
       startDate: this.timeFormatter(this.currentDate),
       finishDate: this.timeFormatter((new Date(this.currentDate.getTime() + this.timeInterval * this.milliseconds))),
       availableTables: [],
-      table: null,
+      tableId: null,
       visitors: 1,
       dishes: '',
       description: '',
@@ -63,33 +63,25 @@ class NewOrder extends Component {
   }
 
   getMaximumOfVisitors() {
-    if (this.state.table) {
-      return this.getTableCapacity(this.state.table);
+    if (this.state.tableId) {
+      return this.getTableCapacity(this.state.tableId);
     }
     return this.state.availableTables.length && this.state.availableTables[0].capacity;
   }
 
   getTableNumber() {
-    const { table, availableTables } = this.state;
-    // eslint-disable-next-line no-console
-    console.log(`this.state.availableTables: ${this.state.availableTables}`);
-    // eslint-disable-next-line no-console
-    console.log(`table: ${table}`);
-    const tableId = table !== null ? table : availableTables[0].id;
-    // eslint-disable-next-line no-console
-    console.log(`tableId: ${tableId}`);
-    const tableIndex = this.state.availableTables.findIndex((t) => t.id === tableId);
-    // eslint-disable-next-line no-console
-    console.log(`tableIndex: ${tableIndex}`);
-    return availableTables[tableIndex].number;
+    const { tableId, availableTables } = this.state;
+    const orderedTableId = tableId !== null ? tableId : availableTables[0].id;
+    const orderedTable = availableTables.find((t) => t.id === +orderedTableId);
+    return orderedTable && orderedTable.number;
   }
 
   saveOrder() {
-    let tableId;
-    if (this.state.table) {
-      tableId = this.state.table;
+    let orderedTableId;
+    if (this.state.tableId) {
+      orderedTableId = this.state.tableId;
     } else if (this.state.availableTables.length) {
-      tableId = this.state.availableTables[0].id;
+      orderedTableId = this.state.availableTables[0].id;
     } else {
       return;
     }
@@ -117,7 +109,7 @@ class NewOrder extends Component {
       startTime: this.state.startDate.toUTCString(),
       finishTime: this.state.finishDate.toUTCString(),
       visitors: this.state.visitors,
-      tableId: tableId,
+      tableId: orderedTableId,
       description: this.state.description,
       orderedDishes: orderedDishes,
     };
@@ -237,7 +229,7 @@ class NewOrder extends Component {
               <Form.Control
                 as="select"
                 defaultValue={this.state.availableTables.length ? this.state.availableTables[0] : null}
-                name="table"
+                name="tableId"
                 onChange={(event) => this.handleFormControl(event)}
               >
                 {this.state.availableTables
