@@ -5,6 +5,7 @@ import {
 import '../../styles/new-menu-item-dish.css';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
+import Resizer from 'react-image-file-resizer';
 import Api from '../../services/api';
 import View from '../shared/dropdown/view';
 import AlertBase from '../shared/alert-base';
@@ -37,6 +38,14 @@ class NewMenuItemDish extends Component {
     const file = e.target.files[0];
     const reader = new FileReader();
     const imageTag = document.getElementById('dishImage');
+
+    Resizer.imageFileResizer(
+      file, 300, 300, 'JPEG', 100, 0,
+      (uri) => {
+        this.setState({ image: uri });
+      },
+      'blob',
+    );
 
     reader.onload = function (event) {
       imageTag.src = event.target.result;
