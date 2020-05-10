@@ -87,7 +87,7 @@ class Header extends Component {
               Image
             </Col>
           )}
-          <Col className="header-item">
+          <Col className="header-item" xs={1}>
             Portion size
           </Col>
           <Col className="header-item">

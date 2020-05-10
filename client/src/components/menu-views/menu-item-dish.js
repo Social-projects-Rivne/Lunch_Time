@@ -62,7 +62,7 @@ class MenuItemDish extends Component {
               </Col>
               )}
               {mainMenu && (
-                <Col className="col-item">
+                <Col className="col-item" xs={1}>
                   <br />
                   {menuItemDish.portionSize}
                 </Col>
