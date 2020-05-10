@@ -10,7 +10,6 @@ import Auth from '../../services/auth';
 class FeedbackSend extends Component {
   constructor(props) {
     super(props);
-    this.userID = null;
     this.state = {
       description: '',
       isLoading: false,
