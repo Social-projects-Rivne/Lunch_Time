@@ -20,6 +20,9 @@ public class RestaurantImage {
     @Column(name = "image")
     private String image;
 
+    @Column(name = "is_deleted")
+    private boolean isDeleted;
+
     @NotNull
     @Column(name = "restaurant_id")
     private Long restaurantId;

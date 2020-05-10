@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RestaurantImageRepository extends JpaRepository<RestaurantImage, Long> {
     @Query("select i from RestaurantImage i "
-        + "where i.restaurantId in :restaurantId")
+        + "where i.restaurantId in :restaurantId "
+        + "and i.isDeleted = false")
     RestaurantImage findImageByRestaurantId(Long restaurantId);
 }
