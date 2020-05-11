@@ -162,7 +162,7 @@ class RestaurantRegistration extends Component {
                 />
               </Form.Group>
               {!this.isValidName && (
-              <MyBadge variant="danger" message="Name must be inputed !" />
+              <MyBadge variant="danger" message="'Restaurant name' field must be filled !" />
               )}
               <Form.Group controlId="email">
                 <Form.Label>Restaurant email *</Form.Label>
@@ -175,7 +175,7 @@ class RestaurantRegistration extends Component {
                 />
               </Form.Group>
               {!this.isValidEmail && (
-              <MyBadge variant="danger" message="Email must be inputed !" />
+              <MyBadge variant="danger" message="'Email' field must be filled!" />
               )}
               {' '}
               <Form.Group controlId="address">
@@ -188,7 +188,7 @@ class RestaurantRegistration extends Component {
                 />
               </Form.Group>
               {!this.isValidAddress && (
-              <MyBadge variant="danger" message="Address must be inputed !" />
+              <MyBadge variant="danger" message="'Address' field must be filled!" />
               )}
               {' '}
               <Form.Group controlId="workingTime">
@@ -230,7 +230,7 @@ class RestaurantRegistration extends Component {
                 )}
               </div>
               {!this.isValidWorkingTime && (
-              <MyBadge variant="danger" message="Time invalid !" />
+              <MyBadge variant="danger" message="Time must be valid!" />
               )}
             </div>
             <div className="register_map_container">
@@ -242,13 +242,13 @@ class RestaurantRegistration extends Component {
             <Form.Control
               as="textarea"
               name="description"
-              placeholder="Write description of your restaurant"
+              placeholder="Write your restaurant's description here"
               value={this.state.description}
               onChange={(event) => { this.setState({ description: event.target.value }); }}
             />
           </Form.Group>
           {!this.isValidDescription && (
-          <MyBadge variant="danger" message="Description must be inputed !" />
+          <MyBadge variant="danger" message="'Description' field must be filled!" />
           )}
         </Form>
         <br />
@@ -260,10 +260,13 @@ class RestaurantRegistration extends Component {
 
         <div className="registe_btn_container">
           {isRegistered && (
-          <MyBadge variant="success" message="Your restaurnt was registered!" />
+          <MyBadge variant="success" message="Your restaurant was successfully registered!" />
           )}
           <Button onClick={() => this.backtoInfo()} variant="danger" className="registe_btn_cancel">Cancel</Button>
           <Button
+            style={{
+              height: 37,
+            }}
             block
             onClick={() => this.checkForSending()}
           >
