@@ -171,7 +171,7 @@ class RestaurantImageUploader extends Component {
         <Container className="card-body pl-5 pr-5">
           <CardColumns>
             {restaurantImages.map((restaurantImage) => (
-              <Card className="text-dark m-2" border="dark">
+              <Card key={restaurantImage.id} className="text-dark m-2" border="dark">
                 <Card.Img
                   variant="top"
                   key={restaurantImage.id}
