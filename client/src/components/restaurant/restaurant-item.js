@@ -5,11 +5,13 @@ import {
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Api from '../../services/api';
+import Auth from '../../services/auth';
 import About from './restaurant-about';
 import Menu from '../menu-views/menu-view';
-import '../../styles/menu.css';
-import '../../styles/restaurant-item.css';
 import Feedback from '../feedback/feedback';
+import RestaurantEvents from '../event/restaurant-events';
+import '../../styles/restaurant-item.css';
+import '../../styles/menu.css';
 
 class Restaurant extends Component {
   constructor(props) {
@@ -19,6 +21,7 @@ class Restaurant extends Component {
       isFetching: false,
       isOwner: false,
     };
+    this.personId = Auth.getPersonId();
   }
 
   async componentDidMount() {
@@ -37,7 +40,7 @@ class Restaurant extends Component {
         this.setState({
           restaurant: response.data,
           isFetching: true,
-          isOwner: response.data.personId === Number(localStorage.getItem('userID')),
+          isOwner: response.data.personId === this.personId,
         });
       });
   }
@@ -94,10 +97,10 @@ class Restaurant extends Component {
             <About restaurant={restaurant} isFetching={isFetching} />
           </Tab>
           <Tab eventKey="menu" title="Menu">
-            <Menu id={id} isAuthenticated={isAuthenticated} />
+            <Menu id={id} isAuthenticated={isAuthenticated} name={restaurant.name} />
           </Tab>
           <Tab eventKey="events" title="Events">
-            <h3>Events</h3>
+            <RestaurantEvents id={id} />
           </Tab>
           <Tab eventKey="feedback" title="Feedback">
             <Feedback id={id} />

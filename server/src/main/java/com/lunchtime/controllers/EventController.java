@@ -66,6 +66,14 @@ public class EventController {
             .build());
     }
 
+    @GetMapping("restaurant/{id}")
+    public ResponseEntity<List<Event>> getEventByRestaurantId(@PathVariable Long id) {
+        List<Event> restaurantEvents = eventService.getEventByRestaurantId(id);
+        return restaurantEvents == null
+            ? ResponseEntity.badRequest().build()
+            : ResponseEntity.ok(restaurantEvents);
+    }
+
     @PostMapping
     public ResponseEntity<Event> createEvent(@Valid @RequestBody Event event) {
         try {

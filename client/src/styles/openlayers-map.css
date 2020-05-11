@@ -1,5 +1,5 @@
 .openlayers-map {
-  height: 100%;
-  position: absolute;
+  min-height: 100%;
+  position: fixed;
   left: 0;
 }

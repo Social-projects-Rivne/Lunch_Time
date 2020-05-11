@@ -37,7 +37,7 @@ public class RestaurantImageController {
     }
 
     @GetMapping("/gallery/{id}")
-    public ResponseEntity< List<RestaurantImage>> getRestaurantImageList(@PathVariable Long id) {
+    public ResponseEntity<List<RestaurantImage>> getRestaurantImageList(@PathVariable Long id) {
         return ResponseEntity.ok()
             .body(restaurantImageService.getRestaurantImageList(id));
     }
