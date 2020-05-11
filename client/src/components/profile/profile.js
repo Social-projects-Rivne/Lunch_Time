@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  Container, ListGroup, Row, Col,
+  Container, ListGroup, Row, Col, Alert,
 } from 'react-bootstrap';
 import {
   Link, Switch, Route, Redirect,
@@ -24,11 +24,14 @@ class Profile extends Component {
   constructor(props) {
     super(props);
     this.token = '';
+    this.defaultAlertVariant = 'success';
     this.state = {
       user: {},
       isFetching: false,
-      isShowAlert: false,
       avatar: '',
+      isShowAlert: false,
+      alertMessage: '',
+      alertVariant: this.defaultAlertVariant,
     };
     this.menuItems = [
       {
@@ -89,25 +92,37 @@ class Profile extends Component {
     }
   }
 
-  saveAlertState(show, title) {
-    const { isShowAlert } = this.state;
-    if (isShowAlert !== show) {
-      this.setState({
-        isShowAlert: show,
-        title: title,
-      });
-    }
-  }
-
   saveAvatarState(avatar) {
     this.setState(() => ({
       avatar: avatar,
     }));
   }
 
+  handelUpdateUserInfo(user) {
+    this.setState({
+      user: user,
+    });
+  }
+
+  makeAlert(message, alertVariant) {
+    this.setState({
+      alertMessage: message,
+      isShowAlert: true,
+      alertVariant: alertVariant || this.defaultAlertVariant,
+    });
+  }
+
+  disableAlert() {
+    this.setState({
+      isShowAlert: false,
+      alertMessage: '',
+      alertVariant: this.defaultAlertVariant,
+    });
+  }
+
   render() {
     const {
-      isFetching, user, isShowAlert, title, avatar,
+      isFetching, user, isShowAlert, avatar, alertMessage, alertVariant,
     } = this.state;
     const { location } = this.props;
     return (
@@ -141,6 +156,11 @@ class Profile extends Component {
               </ListGroup>
             </Col>
             <Col>
+              {isShowAlert && (
+                <Alert variant={alertVariant} onClose={() => this.disableAlert()} dismissible>
+                  <Alert.Heading>{alertMessage}</Alert.Heading>
+                </Alert>
+              )}
               <Switch>
                 <Redirect exact from="/profile" to="/profile/info" />
                 <Route
@@ -151,9 +171,6 @@ class Profile extends Component {
                         isFetching={isFetching}
                         user={user}
                         avatar={avatar}
-                        isShowAlert={isShowAlert}
-                        showAlert={(e) => this.saveAlertState(e)}
-                        title={title}
                       />
                     );
                   }}
@@ -169,11 +186,8 @@ class Profile extends Component {
                           if (updatedUser && updatedUser.photoUrl && updatedUser.photoUrl.length) {
                             this.getAvatarUrl(updatedUser);
                           }
-                          this.setState({
-                            user: updatedUser,
-                            isShowAlert: true,
-                            title: 'Your profile was successfully updated',
-                          });
+                          this.handelUpdateUserInfo(updatedUser);
+                          this.makeAlert('Your profile was successfully updated');
                         }}
                       />
                     );
@@ -187,7 +201,7 @@ class Profile extends Component {
                         isFetching={isFetching}
                         user={user}
                         avatar={avatar}
-                        title={(e) => this.saveAlertState(true, e)}
+                        title={(e) => this.makeAlert(e)}
                         updateAvatar={(newAvatar) => this.saveAvatarState(newAvatar)}
                       />
                     );
