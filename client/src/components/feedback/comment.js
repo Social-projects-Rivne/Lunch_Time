@@ -45,6 +45,7 @@ class FeedbackComment extends Component {
             this.setState((prevState) => {
               const item = { ...prevState.item };
               item.likes = response.data.likes;
+              item.dislikes = response.data.dislikes;
               return { item };
             });
           }
@@ -68,6 +69,7 @@ class FeedbackComment extends Component {
           if (this.state.item.id === response.data.id) {
             this.setState((prevState) => {
               const item = { ...prevState.item };
+              item.likes = response.data.likes;
               item.dislikes = response.data.dislikes;
               return { item };
             });
@@ -160,7 +162,7 @@ class FeedbackComment extends Component {
                 marginLeft: 25,
                 fontSize: 14,
                 height: 24,
-                width: 260,
+                width: 290,
               }}
             >
               You need to login to like/dislike feedback

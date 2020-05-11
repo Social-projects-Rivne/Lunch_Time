@@ -43,6 +43,7 @@ class FeedbackServiceImpl implements FeedbackService {
         Feedback feedback = feedbackRepository.getOne(feedbackId);
         Person person = personRepository.findPersonById(personId);
         if (!feedback.getLikes().contains(person)) {
+            feedback.getDislikes().remove(person);
             feedback.getLikes().add(person);
         } else {
             feedback.getLikes().remove(person);
@@ -56,6 +57,7 @@ class FeedbackServiceImpl implements FeedbackService {
         Feedback feedback = feedbackRepository.getOne(feedbackId);
         Person person = personRepository.findPersonById(personId);
         if (!feedback.getDislikes().contains(person)) {
+            feedback.getLikes().remove(person);
             feedback.getDislikes().add(person);
         } else {
             feedback.getDislikes().remove(person);
