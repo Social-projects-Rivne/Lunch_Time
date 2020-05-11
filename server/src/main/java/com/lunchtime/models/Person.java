@@ -11,7 +11,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.time.Instant;
-import java.util.Set;
 
 @Entity
 @Table(name = "person")
@@ -73,9 +72,6 @@ public class Person {
     @Enumerated(EnumType.STRING)
     @Column(name = "status", columnDefinition = "varchar(50) default 'ACTIVE'")
     private Status status;
-
-//    @ManyToMany(mappedBy = "likes")
-//    Set<Feedback> likes;
 
     public Person() {
     }

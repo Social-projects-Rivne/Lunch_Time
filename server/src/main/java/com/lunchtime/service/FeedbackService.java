@@ -10,4 +10,6 @@ public interface FeedbackService {
     FeedbackDto saveFeedback(FeedbackDto feedbackDto);
 
     FeedbackDto likeFeedback(Long feedbackId, Long personId);
+
+    FeedbackDto dislikeFeedback(Long feedbackId, Long personId);
 }

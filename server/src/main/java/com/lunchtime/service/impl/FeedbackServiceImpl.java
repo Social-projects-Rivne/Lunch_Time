@@ -9,6 +9,7 @@ import com.lunchtime.repository.FeedbackRepository;
 import com.lunchtime.service.FeedbackService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,11 +31,11 @@ class FeedbackServiceImpl implements FeedbackService {
     public List<FeedbackDto> getFeedbackListByRestaurantId(Long id) {
         List<Feedback> feedbacks = feedbackRepository.findByRestaurantId(id);
         List<FeedbackDto> feedbackDtos = new ArrayList<>();
-            if (feedbacks != null) {
-                for (Feedback feedback : feedbacks) {
-                    feedbackDtos.add(feedbackMapper.fromFeedbackToDto(feedback));
-                }
+        if (feedbacks != null) {
+            for (Feedback feedback : feedbacks) {
+                feedbackDtos.add(feedbackMapper.fromFeedbackToDto(feedback));
             }
+        }
         return feedbackDtos;
     }
 
@@ -43,9 +44,24 @@ class FeedbackServiceImpl implements FeedbackService {
         Feedback feedback = feedbackRepository.getOne(feedbackId);
         Person person = personRepository.findPersonById(personId);
         if (!feedback.getLikes().contains(person)) {
+            feedback.getDislikes().remove(person);
             feedback.getLikes().add(person);
         } else {
             feedback.getLikes().remove(person);
+        }
+        feedbackRepository.save(feedback);
+        return feedbackMapper.fromFeedbackToDto(feedback);
+    }
+
+    @Override
+    public FeedbackDto dislikeFeedback(Long feedbackId, Long personId) {
+        Feedback feedback = feedbackRepository.getOne(feedbackId);
+        Person person = personRepository.findPersonById(personId);
+        if (!feedback.getDislikes().contains(person)) {
+            feedback.getLikes().remove(person);
+            feedback.getDislikes().add(person);
+        } else {
+            feedback.getDislikes().remove(person);
         }
         feedbackRepository.save(feedback);
         return feedbackMapper.fromFeedbackToDto(feedback);

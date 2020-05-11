@@ -31,5 +31,5 @@ public class FeedbackDto {
 
     private Set<Long> likes;
 
-    private int counterDislike;
+    private Set<Long> dislikes;
 }

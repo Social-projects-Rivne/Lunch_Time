@@ -52,10 +52,14 @@ public class FeedbackMapper {
         feedbackDto.setRestId(restaurant.getId());
         if (feedback.getLikes() != null) {
             feedbackDto.setLikes(feedback.getLikes().stream()
-            .map(Person::getId)
-            .collect(Collectors.toSet()));
+                .map(Person::getId)
+                .collect(Collectors.toSet()));
         }
-        feedbackDto.setCounterDislike(feedback.getCounterDislike());
+        if (feedback.getDislikes() != null) {
+            feedbackDto.setDislikes(feedback.getDislikes().stream()
+                .map(Person::getId)
+                .collect(Collectors.toSet()));
+        }
         feedbackDto.setDate(feedback.getDate());
 
         return feedbackDto;

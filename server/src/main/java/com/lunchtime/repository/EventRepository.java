@@ -1,7 +1,6 @@
 package com.lunchtime.repository;
 
 import com.lunchtime.models.Event;
-import com.lunchtime.models.RestaurantTable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -17,7 +16,7 @@ public interface EventRepository extends JpaRepository<Event, Long> {
      * @param date all events needs to be newer than this date
      * @return the number of elements in this list
      */
-    @Query("select e from Event e "
+    @Query("select e from Event e join fetch e.restaurant "
         + "where e.date > :date "
         + "and e.isDeleted = false "
         + "order by e.date asc")
@@ -32,7 +31,7 @@ public interface EventRepository extends JpaRepository<Event, Long> {
      * @param category the id of category that events should belong
      * @return the number of elements in this list
      */
-    @Query("select e from Event e "
+    @Query("select e from Event e join fetch e.restaurant "
         + "where e.date > :date "
         + "and e.eventCategory.id in :category "
         + "and e.isDeleted = false")
@@ -47,7 +46,7 @@ public interface EventRepository extends JpaRepository<Event, Long> {
      * @param endDate   all events should NOT be newer than this date
      * @return the number of elements in this list
      */
-    @Query("select e from Event e "
+    @Query("select e from Event e join fetch e.restaurant "
         + "where (e.date > :startDate and e.date < :endDate) "
         + "and e.isDeleted = false "
         + "order by e.date asc")
@@ -59,7 +58,7 @@ public interface EventRepository extends JpaRepository<Event, Long> {
      * @param id restaurant id
      * @return the list of events
      */
-    @Query("select e from Event e "
+    @Query("select e from Event e join fetch e.restaurant "
         + "where e.restaurant.id = :id "
         + "and e.isDeleted = false")
     List<Event> findAllByRestaurantId(Long id);

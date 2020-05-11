@@ -43,7 +43,7 @@ public class FeedbackControllerTest {
         feedbackDto.setDate(Instant.ofEpochSecond(0L));
         feedbackDto.setPersonId(0L);
         feedbackDto.setLikes(new HashSet<>());
-        feedbackDto.setCounterDislike(0);
+        feedbackDto.setDislikes(new HashSet<>());
 
         final ResponseEntity<FeedbackDto> feedbackDto1 = feedbackControllerUnderTest.saveFeedback(feedbackDto);
 
@@ -71,7 +71,6 @@ public class FeedbackControllerTest {
         feedbackDto.setDate(Instant.ofEpochSecond(0L));
         feedbackDto.setPersonId(0L);
         feedbackDto.setRestId(0L);
-        feedbackDto.setCounterDislike(0);
         return feedbackDto;
     }
 }

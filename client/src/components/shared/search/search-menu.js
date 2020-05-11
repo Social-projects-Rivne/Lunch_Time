@@ -11,7 +11,7 @@ class SearchMenu extends React.Component {
     } = this.props;
     return (
       <Container className={containerClassName}>
-        <Header title={title} placeHolder={placeHolder} />
+        <Header title={title} placeHolder={placeHolder} filter={(f) => this.props.filter(f)} />
         <Filter info={info} showDate={showDate} onChangeEvents={onChangeEvents} />
       </Container>
     );
@@ -30,6 +30,7 @@ SearchMenu.propTypes = {
   info: PropTypes.array.isRequired,
   showDate: PropTypes.bool,
   onChangeEvents: PropTypes.any.isRequired,
+  filter: PropTypes.func.isRequired,
 };
 
 export default SearchMenu;

@@ -228,6 +228,7 @@ public class DatabaseSeed {
         person.setPassword(
             bcryptPasswordEncoder.encode(userName[i].concat("password").toLowerCase()));
         person.setPhoneNumber("+38050123456".concat(String.valueOf(i)));
+        person.setRoleId(1L);
         return person;
     }
 

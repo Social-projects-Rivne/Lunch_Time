@@ -5,7 +5,7 @@ import {
 import '../../styles/feedback-comment.css';
 import PropTypes from 'prop-types';
 import Api from '../../services/api';
-import Person from '../../services/person';
+import Auth from '../../services/auth';
 
 class FeedbackComment extends Component {
   constructor(props) {
@@ -14,7 +14,9 @@ class FeedbackComment extends Component {
       item: this.props.item,
       avatar: '/img/default-avatar.png',
     };
+    this.personId = Auth.getPersonId();
     this.likeFeedback = this.likeFeedback.bind(this);
+    this.dislikeFeedback = this.dislikeFeedback.bind(this);
     this.unAuthorizedTrue = this.unAuthorizedTrue.bind(this);
   }
 
@@ -36,13 +38,39 @@ class FeedbackComment extends Component {
   }
 
   likeFeedback() {
-    Api.post(`feedback/like?feedbackId=${this.props.item.id}&personId=${Person.userInfo.id}`)
+    Api.post(`feedback/like?feedbackId=${this.props.item.id}&personId=${this.personId}`)
       .then((response) => {
         if (response.status === 201) {
           if (this.state.item.id === response.data.id) {
             this.setState((prevState) => {
               const item = { ...prevState.item };
               item.likes = response.data.likes;
+              item.dislikes = response.data.dislikes;
+              return { item };
+            });
+          }
+        } else {
+          setTimeout(() => {
+            this.setState({
+              unexpectedError: false,
+            });
+          }, 3000);
+          this.setState({
+            unexpectedError: true,
+          });
+        }
+      });
+  }
+
+  dislikeFeedback() {
+    Api.post(`feedback/dislike?feedbackId=${this.props.item.id}&personId=${this.personId}`)
+      .then((response) => {
+        if (response.status === 201) {
+          if (this.state.item.id === response.data.id) {
+            this.setState((prevState) => {
+              const item = { ...prevState.item };
+              item.likes = response.data.likes;
+              item.dislikes = response.data.dislikes;
               return { item };
             });
           }
@@ -76,10 +104,12 @@ class FeedbackComment extends Component {
   render() {
     const { item, unexpectedError, unAuthorized } = this.state;
     const { isAuthenticated } = this.props;
-    const title = isAuthenticated ? 'like feedback' : 'You need to login to like feedback';
-    const onClick = isAuthenticated ? this.likeFeedback : this.unAuthorizedTrue;
-
-    const likeImage = item.likes.indexOf(Person.userInfo.id) >= 0 ? '/img/like.png' : '/img/like-empty.png';
+    const likeTitle = isAuthenticated ? 'like feedback' : 'You need to login to like feedback';
+    const dislikeTitle = isAuthenticated ? 'dislike feedback' : 'You need to login to dislike feedback';
+    const onLikeClick = isAuthenticated ? this.likeFeedback : this.unAuthorizedTrue;
+    const onDislikeClick = isAuthenticated ? this.dislikeFeedback : this.unAuthorizedTrue;
+    const likeImage = item.likes.indexOf(this.personId) >= 0 ? '/img/like.png' : '/img/like-empty.png';
+    const dislikeImage = item.dislikes.indexOf(this.personId) >= 0 ? '/img/dislike.png' : '/img/dislike-empty.png';
     return (
       <Container className="feedbackContainer">
         <Image src={this.state.avatar} width="50px" height="50px" alt="defAvava" roundedCircle />
@@ -95,10 +125,8 @@ class FeedbackComment extends Component {
           <div>{item.description}</div>
           <hr className="hrStyle" />
           <div>
-
             <span className="answer" title="answer to feedback">answer to</span>
             <span className="mr-3 likeDislike">
-
               {/* eslint-disable-next-line max-len */}
               {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions */}
               <img
@@ -106,15 +134,25 @@ class FeedbackComment extends Component {
                 width="25px"
                 height="25px"
                 alt="like"
-                title={title}
+                title={likeTitle}
                 style={{ cursor: 'pointer' }}
-                onClick={onClick}
+                onClick={onLikeClick}
               />
               <small>{item.likes.length > 0 ? item.likes.length : ''}</small>
             </span>
             <span className="mr-3 likeDislike">
-              <img src="/img/dislike.png" width="25px" height="25px" alt="dislike" title="dislike feedback" />
-              <small>{item.counterDislike}</small>
+              {/* eslint-disable-next-line max-len */}
+              {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions */}
+              <img
+                src={dislikeImage}
+                width="25px"
+                height="25px"
+                alt="dislike"
+                title={dislikeTitle}
+                style={{ cursor: 'pointer' }}
+                onClick={onDislikeClick}
+              />
+              <small>{item.dislikes.length > 0 ? item.dislikes.length : ''}</small>
             </span>
             {/* eslint-disable-next-line react/no-unescaped-entities */}
             {unAuthorized && (
@@ -124,10 +162,10 @@ class FeedbackComment extends Component {
                 marginLeft: 25,
                 fontSize: 14,
                 height: 24,
-                width: 260,
+                width: 290,
               }}
             >
-              You need to login to like feedback
+              You need to login to like/dislike feedback
             </Badge>
             )}
             {unexpectedError && (
@@ -144,9 +182,14 @@ class FeedbackComment extends Component {
               </Badge>
             )}
             <span className="complaint">
-              <img src="/img/complaint.png" width="25px" height="25px" alt="complaint" title="complaint feedback" />
+              <img
+                src="/img/complaint.png"
+                width="25px"
+                height="25px"
+                alt="complaint"
+                title="complaint feedback"
+              />
             </span>
-
           </div>
         </div>
       </Container>
