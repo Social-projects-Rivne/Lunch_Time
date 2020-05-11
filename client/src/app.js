@@ -55,10 +55,8 @@ class App extends Component {
           <Route path="/events" component={Events} />
           <Route
             path="/restaurants/:id/new-event"
-            component={() => {
-              return (
-                <NewEvent />
-              );
+            render={(routeProps) => {
+              return <NewEvent {...routeProps} />;
             }}
           />
           <Route path="/restaurants/:id/new-order" component={NewOrder} />

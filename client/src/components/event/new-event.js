@@ -3,7 +3,9 @@ import {
   Button, ButtonToolbar, Container, Dropdown, Form, Image,
 } from 'react-bootstrap';
 import '../../styles/new-event.css';
+import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
+import moment from 'moment';
 import Api from '../../services/api';
 
 
@@ -13,9 +15,10 @@ class NewEvent extends React.Component {
     this.state = {
       categories: [],
       selectedCategory: 'Party',
-      selectedCategoryId: '0',
+      selectedCategoryId: '1',
       dateAndTime: new Date(),
       image: '',
+      event: { name: '', description: '', deleted: false },
     };
     this.fileInputRef = React.createRef();
   }
@@ -40,6 +43,10 @@ class NewEvent extends React.Component {
     this.fileInputRef.current.click();
   }
 
+  onAddClick() {
+    this.sendData();
+  }
+
   getCategories(path) {
     Api.get(path)
       .then((response) => {
@@ -54,13 +61,30 @@ class NewEvent extends React.Component {
       });
   }
 
+  sendData() {
+    const { match } = this.props;
+    const { event, selectedCategoryId, dateAndTime } = this.state;
+    event.restaurant = { id: match.params.id };
+    event.eventCategory = { id: selectedCategoryId };
+    event.date = moment(dateAndTime).format('YYYY-MM-DD HH:mm');
+
+    Api.post('events', event)
+      .then((r) => {
+        if (r.error === null) {
+          console.log(`img${this.state.image}`);
+        }
+      });
+  }
+
+
   handleChange(e) {
     const { name, value } = e.target;
-    console.log(`${name}`);
-
-    this.setState({
-      [name]: value,
-    });
+    this.setState((prevState) => ({
+      event: {
+        ...prevState.event,
+        [name]: value,
+      },
+    }));
   }
 
   convertCategoryName(categoryName) {
@@ -70,8 +94,6 @@ class NewEvent extends React.Component {
 
   render() {
     const { categories, selectedCategory } = this.state;
-    console.log(`id${this.state.selectedCategoryId}`);
-    console.log((`ds${this.state.image}`));
     return (
       <Container fluid className="new-event-container">
         <h5>Add a new event</h5>
@@ -164,5 +186,9 @@ class NewEvent extends React.Component {
     );
   }
 }
+
+NewEvent.propTypes = {
+  match: PropTypes.object.isRequired,
+};
 
 export default NewEvent;

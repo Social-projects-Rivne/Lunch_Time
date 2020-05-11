@@ -32,8 +32,7 @@ public class Event {
     @Column(name = "date")
     private Date date;
 
-    @NotNull
-    @Size(min = 1, max = 255)
+    @Size(max = 50)
     @Column(name = "image")
     private String image;
 
