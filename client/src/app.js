@@ -16,6 +16,8 @@ import Profile from './components/profile/profile';
 import NewOrder from './components/order/new-order';
 import Auth from './services/auth';
 import NewEvent from './components/event/new-event';
+import NewMenuItemDish from './components/menu-views/new-menu-item-dish';
+import RestaurantRegistration from './components/restaurant/restaurant-register';
 
 class App extends Component {
   constructor(props) {
@@ -23,6 +25,7 @@ class App extends Component {
     this.state = {
       isAuthenticated: false,
     };
+    this.selectedTab = undefined;
   }
 
   componentDidMount() {
@@ -59,14 +62,30 @@ class App extends Component {
               return <NewEvent {...routeProps} />;
             }}
           />
+          <Route path="/restaurants/restaurant-register" component={RestaurantRegistration} />
           <Route path="/restaurants/:id/new-order" component={NewOrder} />
+          <Route
+            path="/restaurants/:id/new-dish"
+            component={() => {
+              return (
+                <NewMenuItemDish selectedTab={(e) => { this.selectedTab = e; }} />
+              );
+            }}
+          />
           <Route
             path="/restaurants/:id"
             render={(routeProps) => {
-              return <Restaurant isAuthenticated={isAuthenticated} {...routeProps} />;
+              return <Restaurant isAuthenticated={isAuthenticated} selectedTab={this.selectedTab} {...routeProps} />;
             }}
           />
-          <Route path="/restaurants" component={RestaurantList} />
+          <Route
+            path="/restaurants"
+            component={() => {
+              return (
+                <RestaurantList selectedTab={() => { this.selectedTab = undefined; }} />
+              );
+            }}
+          />
           <Route
             path="/login"
             render={(routeProps) => {

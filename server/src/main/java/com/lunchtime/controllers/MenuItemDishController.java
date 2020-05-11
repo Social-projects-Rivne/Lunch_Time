@@ -1,11 +1,6 @@
 package com.lunchtime.controllers;
 
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import javax.validation.Valid;
+import com.lunchtime.models.MenuItemDish;
 import com.lunchtime.service.MenuItemDishService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,7 +9,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-import com.lunchtime.models.MenuItemDish;
+
+import javax.validation.Valid;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/menuitemdish")
@@ -48,7 +49,7 @@ public class MenuItemDishController {
                                                                    Pageable pageable) {
         Page<MenuItemDish> menuItemDishPage = menuItemDishService.findByRestaurantId(id, pageable);
         if (menuItemDishPage.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.ok().build();
         }
         return ResponseEntity.ok(menuItemDishPage);
     }
@@ -62,10 +63,9 @@ public class MenuItemDishController {
         Page<MenuItemDish> menuItemDishPage = menuItemDishService
             .findDishesByRestaurantIdAndCategoryName(name, id, pageable);
         if (menuItemDishPage.isEmpty()) {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.ok().build();
         }
         return ResponseEntity.ok(menuItemDishPage);
-
     }
 
     @PostMapping
@@ -75,6 +75,12 @@ public class MenuItemDishController {
         return  ResponseEntity
                .created(new URI("/api/menuitemdish"))
                .body(newMenuItemDish);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<MenuItemDish> deleteMenuItemDish(@PathVariable Long id) {
+        Optional<MenuItemDish> result = menuItemDishService.deleteById(id);
+        return result.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

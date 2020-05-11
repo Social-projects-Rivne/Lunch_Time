@@ -19,6 +19,23 @@ class MenuItemDish extends Component {
     };
   }
 
+  onDeleteClick(id) {
+    Api.delete(`menuitemdish/${id}`)
+      .then((r) => {
+        if (r.error != null) {
+          console.log(r.error);
+        }
+        this.props.update();
+      });
+  }
+
+  getImage(menuItemDish) {
+    if (menuItemDish && menuItemDish.imageUrl && menuItemDish.imageUrl.length) {
+      return `${Api.apiUrl}images/dishes/${menuItemDish.imageUrl}`;
+    }
+    return '/img/dish-default.png';
+  }
+
   addDishToOrderList() {
     const { dishCategory, dishName } = this.state;
     this.props.addDishToOrderList(dishCategory, dishName);
@@ -48,7 +65,7 @@ class MenuItemDish extends Component {
   }
 
   render() {
-    const { menuItemDishes, isAuthenticated } = this.props;
+    const { menuItemDishes, isAuthenticated, isEdit } = this.props;
     return (
       <Container>
         {menuItemDishes.map((menuItemDish) => {
@@ -64,7 +81,7 @@ class MenuItemDish extends Component {
               <Col xs={2}>
                 <Image
                   className="image-menu-item"
-                  src={`${Api.apiUrl}images/dishes/${menuItemDish.imageUrl}`}
+                  src={this.getImage(menuItemDish)}
                   roundedCircle
                   width="160"
                   height="120"
@@ -84,16 +101,26 @@ class MenuItemDish extends Component {
               </Col>
               <Col className="col-item">
                 <br />
-                <Button
-                  variant="primary"
-                  disabled={!isAuthenticated}
-                  onClick={() => {
-                    this.sendDishToOrderList(menuItemDish.dish.categoryFood.name, menuItemDish.dish.name);
-                    this.sendMenuItemDishToOrderList(menuItemDish.id);
-                  }}
-                >
-                  Add
-                </Button>
+                {!isEdit ? (
+                  <Button
+                    variant="primary"
+                    disabled={!isAuthenticated}
+                    onClick={() => {
+                      this.sendDishToOrderList(menuItemDish.dish.categoryFood.name, menuItemDish.dish.name);
+                      this.sendMenuItemDishToOrderList(menuItemDish.id);
+                    }}
+                  >
+                    Add
+                  </Button>
+                ) : (
+                  <Button
+                    id={menuItemDish.id}
+                    variant="primary"
+                    onClick={(e) => this.onDeleteClick(e.target.id)}
+                  >
+                    Delete
+                  </Button>
+                )}
               </Col>
             </Row>
           );
@@ -109,5 +136,7 @@ MenuItemDish.propTypes = {
   addMenuItemDishToOrderList: PropTypes.func.isRequired,
   menuItemDishes: PropTypes.array.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
+  isEdit: PropTypes.bool.isRequired,
+  update: PropTypes.any.isRequired,
 };
 export default MenuItemDish;

@@ -12,6 +12,7 @@ class Events extends React.Component {
     super(props);
     this.state = {
       events: [],
+      filteredEvents: [],
       isFetching: false,
     };
     this.handleEvents = this.handleEvents.bind(this);
@@ -31,6 +32,7 @@ class Events extends React.Component {
         }
         this.setState({
           events: response.data,
+          filteredEvents: response.data,
           isFetching: true,
         });
       });
@@ -40,9 +42,22 @@ class Events extends React.Component {
     this.getAll(path);
   }
 
-  render() {
-    const { events, isFetching } = this.state;
+  searchEvents(filter) {
+    const { events } = this.state;
+    let filteredEvents = events;
+    filteredEvents = filteredEvents.filter((event) => {
+      const eventStr = event.name.toLowerCase() + event.description.toLowerCase();
+      return eventStr.indexOf(
+        filter.toLowerCase(),
+      ) !== -1;
+    });
+    this.setState({
+      filteredEvents: filteredEvents,
+    });
+  }
 
+  render() {
+    const { filteredEvents, isFetching } = this.state;
     return (
       <Container fluid className="page-container p-0">
         <SearchMenu
@@ -51,8 +66,9 @@ class Events extends React.Component {
           info={info}
           onChangeEvents={this.handleEvents}
           showDate
+          filter={(f) => { this.searchEvents(f); }}
         />
-        <Results events={events} isFetching={isFetching} showLink />
+        <Results events={filteredEvents} isFetching={isFetching} showLink />
       </Container>
     );
   }
