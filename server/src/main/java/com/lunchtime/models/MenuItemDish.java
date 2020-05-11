@@ -1,14 +1,11 @@
 package com.lunchtime.models;
 
-import javax.persistence.*;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
+
+import javax.persistence.*;
+import javax.validation.constraints.*;
 
 @Getter
 @Setter
@@ -20,8 +17,8 @@ public class MenuItemDish {
     private Long id;
 
     @NotBlank
-    @Size(min = 1, max = 30)
-    @Column(name = "portion_size", length = 30)
+    @Size(min = 1, max = 20)
+    @Column(name = "portion_size", length = 20)
     private String portionSize;
 
     @NotNull

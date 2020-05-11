@@ -1,9 +1,10 @@
 package com.lunchtime.service;
 
-import java.util.Optional;
+import com.lunchtime.models.MenuItemDish;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import com.lunchtime.models.MenuItemDish;
+
+import java.util.Optional;
 
 public interface MenuItemDishService {
 
@@ -17,4 +18,6 @@ public interface MenuItemDishService {
 
     Page<MenuItemDish> findDishesByRestaurantIdAndCategoryName(String name,
                                                                    Long id, Pageable pageable);
+
+    Optional<MenuItemDish> deleteById(Long id);
 }

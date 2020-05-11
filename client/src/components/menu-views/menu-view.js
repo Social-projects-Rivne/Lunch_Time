@@ -19,6 +19,7 @@ class Menu extends Component {
       menuItemDishes: [],
       path: 'menuitemdish/restaurantId?',
       isFetching: false,
+      isEdit: false,
       dishes: [],
       menuItemDishesMap: new Map(),
     };
@@ -30,6 +31,10 @@ class Menu extends Component {
 
   componentDidMount() {
     this.getAll(this.state.path, this.state.number, this.state.pageSize);
+  }
+
+  onEditMenu() {
+    this.setState((currentState) => ({ isEdit: !currentState.isEdit }));
   }
 
   getAll(path, page, pageSize) {
@@ -55,8 +60,8 @@ class Menu extends Component {
   }
 
   initPagination() {
-    const { number, totalPages } = this.state;
-    if (totalPages === 1) {
+    const { number, totalPages, menuItemDishes } = this.state;
+    if (totalPages === 1 || menuItemDishes === undefined) {
       return null;
     }
     return (
@@ -71,16 +76,21 @@ class Menu extends Component {
   }
 
   initMenuItemDish() {
-    const { menuItemDishes } = this.state;
+    const { menuItemDishes, isEdit } = this.state;
     const { isAuthenticated } = this.props;
-    return (
-      <MenuItemDish
-        menuItemDishes={menuItemDishes}
-        isAuthenticated={isAuthenticated}
-        addDishToOrderList={this.addDishToOrderList}
-        addMenuItemDishToOrderList={this.addMenuItemDishToOrderList}
-      />
-    );
+    if (menuItemDishes !== undefined) {
+      return (
+        <MenuItemDish
+          menuItemDishes={menuItemDishes}
+          isAuthenticated={isAuthenticated}
+          isEdit={isEdit}
+          addDishToOrderList={this.addDishToOrderList}
+          addMenuItemDishToOrderList={this.addMenuItemDishToOrderList}
+          update={() => this.handleChange('menuitemdish/restaurantId?')}
+        />
+      );
+    }
+    return null;
   }
 
   addDishToOrderList(dishCategory, dishName) {
@@ -113,12 +123,12 @@ class Menu extends Component {
   }
 
   render() {
-    const { id, name } = this.props;
+    const { id, isOwner, name } = this.props;
     const { isFetching, dishes, menuItemDishesMap } = this.state;
     if (isFetching) {
       return (
-        <Container className="menu">
-          <Header onChange={this.handleChange} />
+        <Container className="menu mb-4">
+          <Header onChange={this.handleChange} isEdit={() => this.onEditMenu()} id={id} isOwner={isOwner} />
           {this.initMenuItemDish()}
           {this.initPagination()}
           <div style={{
@@ -165,5 +175,6 @@ Menu.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string,
   isAuthenticated: PropTypes.bool.isRequired,
+  isOwner: PropTypes.bool.isRequired,
 };
 export default Menu;
