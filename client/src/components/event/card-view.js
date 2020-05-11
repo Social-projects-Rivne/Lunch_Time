@@ -6,13 +6,19 @@ import { Link } from 'react-router-dom';
 import Api from '../../services/api';
 
 class CardView extends React.Component {
+  getImage(event) {
+    if (event && event.image && event.image.length) {
+      return `${Api.apiUrl}images/events/${event.image}`;
+    }
+    return '/img/default-event.jpg';
+  }
+
   render() {
     const { event, showLink } = this.props;
-    const img = `${Api.apiUrl}images/events/${event.image}`;
     const link = `/restaurants/${event.restaurant.id}`;
     return (
       <Card className="text-dark m-2" border="dark">
-        <Card.Img variant="top" src={img} alt="Event image" />
+        <Card.Img variant="top" src={this.getImage(event)} alt="Event image" />
         <Card.Body className="">
           {showLink && <Link to={link}><Card.Title className="">{event.name.toUpperCase()}</Card.Title></Link>}
           {!showLink && <Card.Title className="" style={{ color: '#1e1e1e' }}>{event.name.toUpperCase()}</Card.Title>}
