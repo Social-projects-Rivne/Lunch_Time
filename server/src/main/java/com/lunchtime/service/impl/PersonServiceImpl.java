@@ -2,6 +2,7 @@ package com.lunchtime.service.impl;
 
 import com.lunchtime.mapper.PersonMapper;
 import com.lunchtime.models.Person;
+import com.lunchtime.models.Restaurant;
 import com.lunchtime.repository.PersonRepository;
 import com.lunchtime.security.SecurityUtils;
 import com.lunchtime.service.PersonService;
@@ -84,6 +85,18 @@ public class PersonServiceImpl implements PersonService {
 
     public Optional<Person> getPersonById(Long id) {
         return personRepository.findById(id);
+    }
+
+    @Override
+    public void updatePersonRoleId(Restaurant restaurant) {
+        Optional<Person> res = personRepository.findById(restaurant.getPersonId());
+        if (res.isPresent()) {
+            Person person = res.get();
+            if (person.getRoleId() != 2L) {
+                person.setRoleId(2L);
+                personRepository.save(person);
+            }
+        }
     }
 
     @Override

@@ -7,8 +7,9 @@ import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
-
+import com.lunchtime.service.PersonService;
 import com.lunchtime.service.RestaurantService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -20,13 +21,11 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/restaurants")
 public class RestaurantController {
     private final RestaurantService restaurantService;
-
-    public RestaurantController(RestaurantService restaurantService) {
-        this.restaurantService = restaurantService;
-    }
+    private final PersonService personService;
 
     @PostMapping
     public ResponseEntity<Restaurant> createRestaurant(
@@ -35,6 +34,7 @@ public class RestaurantController {
             return ResponseEntity.badRequest()
                 .build();
         }
+        personService.updatePersonRoleId(restaurant);
         Restaurant result = restaurantService.saveRestaurant(restaurant);
         if (result == null) {
             return ResponseEntity.badRequest()

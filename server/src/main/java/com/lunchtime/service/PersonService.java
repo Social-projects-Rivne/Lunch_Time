@@ -1,6 +1,7 @@
 package com.lunchtime.service;
 
 import com.lunchtime.models.Person;
+import com.lunchtime.models.Restaurant;
 import com.lunchtime.service.dto.PersonDto;
 import com.lunchtime.service.dto.PersonPassDto;
 import com.lunchtime.service.dto.RegisterPerson;
@@ -25,4 +26,6 @@ public interface PersonService {
     PersonDto getPersonDtoByEmail(String email);
 
     Optional<Person> getPersonById(Long id);
+
+    void updatePersonRoleId(Restaurant restaurant);
 }
