@@ -12,7 +12,7 @@ class Map extends Component {
   }
 
   componentDidMount() {
-    this.getAll('restaurants');
+    this.getAll('restaurants/all');
   }
 
   getAll(path) {
