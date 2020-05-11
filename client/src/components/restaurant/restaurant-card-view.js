@@ -38,7 +38,7 @@ class RestaurantCardView extends Component {
     const link = `/restaurants/${restaurant.id}`;
     return (
       <Card className="text-dark m-2" border="dark">
-        <Card.Img variant="top" src={restaurantImage} alt="Restaurant image" />
+        <Card.Img variant="top" src={restaurantImage.image} alt="Restaurant image" />
         <Card.Body>
           <Link to={link}>
             <Card.Title>{restaurant.name}</Card.Title>

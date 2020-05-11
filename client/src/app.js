@@ -15,6 +15,7 @@ import Restaurant from './components/restaurant/restaurant-item';
 import Profile from './components/profile/profile';
 import NewOrder from './components/order/new-order';
 import Auth from './services/auth';
+import RestaurantImageUploader from './components/image-uploader/restaurant-image-uploader';
 
 class App extends Component {
   constructor(props) {
@@ -53,6 +54,7 @@ class App extends Component {
           <Route path="/about" component={About} />
           <Route path="/events" component={Events} />
           <Route path="/restaurants/:id/new-order" component={NewOrder} />
+          <Route path="/restaurants/:id/restaurant-images-upload" component={RestaurantImageUploader} />
           <Route
             path="/restaurants/:id"
             render={(routeProps) => {
