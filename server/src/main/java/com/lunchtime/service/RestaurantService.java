@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -23,4 +24,6 @@ public interface RestaurantService {
     Restaurant updateRestaurant(Restaurant restaurant);
 
     Restaurant deleteRestaurantById(Long id);
+
+    List<Restaurant> getAllRestaurants();
 }

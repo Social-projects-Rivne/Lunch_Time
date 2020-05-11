@@ -8,7 +8,8 @@ import { transform } from 'ol/proj';
 import '../../styles/openlayers-map.css';
 import * as ol from 'openlayers';
 
-const iconFeature = new ol.Feature(new ol.geom.Point(transform([26.275728, 50.616294], 'EPSG:4326', 'EPSG:3857')));
+const iconFeature1 = new ol.Feature(new ol.geom.Point(transform([26.235728, 50.616294], 'EPSG:4326', 'EPSG:3857')));
+const iconFeature2 = new ol.Feature(new ol.geom.Point(transform([26.275728, 50.616294], 'EPSG:4326', 'EPSG:3857')));
 // const iconStyle = new ol.style.Style({
 // image: new ol.style.Icon({
 // anchor: [0.5, 46],
@@ -18,7 +19,8 @@ const iconFeature = new ol.Feature(new ol.geom.Point(transform([26.275728, 50.61
 // }),
 // });
 // iconFeature.setStyle(iconStyle);
-const source = new ol.source.Vector({ features: [iconFeature] });
+const source1 = new ol.source.Vector({ features: [iconFeature1] });
+const source2 = new ol.source.Vector({ features: [iconFeature2] });
 const marker = new custom.style.MarkerStyle('/img/map-pin-point.png');
 
 class OpenlayersMap extends Component {
@@ -48,7 +50,8 @@ class OpenlayersMap extends Component {
         >
           <Layers>
             <layer.Tile />
-            <layer.Vector source={source} style={marker.style} zIndex="1" />
+            <layer.Vector source={source1} style={marker.style} zIndex="1" />
+            <layer.Vector source={source2} style={marker.style} zIndex="1" />
           </Layers>
           {/* <Overlays>
 <Overlay ref={comp => this.overlayComp = comp}>
