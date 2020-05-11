@@ -38,3 +38,8 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
 }
+
+.event-pic{
+  width: 100%;
+  max-height: 12rem;
+}

@@ -18,7 +18,7 @@ class CardView extends React.Component {
     const link = `/restaurants/${event.restaurant.id}`;
     return (
       <Card className="text-dark m-2" border="dark">
-        <Card.Img variant="top" src={this.getImage(event)} alt="Event image" />
+        <Card.Img className="event-pic" variant="top" src={this.getImage(event)} alt="Event image" />
         <Card.Body className="">
           {showLink && <Link to={link}><Card.Title className="">{event.name.toUpperCase()}</Card.Title></Link>}
           {!showLink && <Card.Title className="" style={{ color: '#1e1e1e' }}>{event.name.toUpperCase()}</Card.Title>}

@@ -6,6 +6,7 @@ import '../../styles/new-event.css';
 import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
+import Resizer from 'react-image-file-resizer';
 import Api from '../../services/api';
 
 
@@ -19,7 +20,7 @@ class NewEvent extends React.Component {
       selectedCategory: 'Party',
       selectedCategoryId: '1',
       dateAndTime: this.timeFormatter(this.currentDate),
-      image: '',
+      image: null,
       event: { name: '', description: '', deleted: false },
     };
     this.fileInputRef = React.createRef();
@@ -33,7 +34,8 @@ class NewEvent extends React.Component {
     const file = e.target.files[0];
     const reader = new FileReader();
     const imageTag = document.getElementById('eventImage');
-
+    Resizer.imageFileResizer(file, 300, 300, 'JPEG', 100, 0, (uri) => { this.setState({ image: uri }); },
+      'blob');
     reader.onload = function (event) {
       imageTag.src = event.target.result;
     };
@@ -65,19 +67,38 @@ class NewEvent extends React.Component {
 
   sendData() {
     const { match } = this.props;
-    const { event, selectedCategoryId, dateAndTime } = this.state;
+    const {
+      event, selectedCategoryId, dateAndTime, image,
+    } = this.state;
+    const imgFileName = `${btoa(Math.random())}.jpg`;
     event.restaurant = { id: match.params.id };
     event.eventCategory = { id: selectedCategoryId };
     event.date = moment(dateAndTime).format('YYYY-MM-DD HH:mm');
 
+    if (image != null) {
+      event.image = imgFileName;
+      this.sendImage(imgFileName);
+    }
+
     Api.post('events', event)
       .then((r) => {
-        if (r.error === null) {
-          console.log(`img${this.state.image}`);
+        if (r.error === null && image != null) {
+          this.sendImage(imgFileName);
         }
       });
   }
 
+  sendImage(fileName) {
+    const { image } = this.state;
+    const formData = new FormData();
+    formData.append('file', image, fileName);
+    Api.post('/image/upload/events', formData)
+      .then((response) => {
+        if (response.error == null) {
+          this.props.history.goBack();
+        }
+      });
+  }
 
   handleChange(e) {
     const { name, value } = e.target;
@@ -201,6 +222,7 @@ class NewEvent extends React.Component {
 
 NewEvent.propTypes = {
   match: PropTypes.object.isRequired,
+  history: PropTypes.any.isRequired,
 };
 
 export default NewEvent;
