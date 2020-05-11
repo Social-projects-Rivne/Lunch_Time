@@ -12,11 +12,13 @@ import Api from '../../services/api';
 class NewEvent extends React.Component {
   constructor(props) {
     super(props);
+    this.timeInterval = 30;
+    this.currentDate = new Date();
     this.state = {
       categories: [],
       selectedCategory: 'Party',
       selectedCategoryId: '1',
-      dateAndTime: new Date(),
+      dateAndTime: this.timeFormatter(this.currentDate),
       image: '',
       event: { name: '', description: '', deleted: false },
     };
@@ -92,6 +94,15 @@ class NewEvent extends React.Component {
     return removeUnderscores.charAt(0).toUpperCase() + removeUnderscores.slice(1);
   }
 
+  timeFormatter(time) {
+    if (time.getMinutes() % this.timeInterval) {
+      const intervalCount = time.getMinutes() / this.timeInterval;
+      const formattedMinutes = (intervalCount - (intervalCount % 1) + 1) * this.timeInterval;
+      time.setMinutes(formattedMinutes);
+    }
+    return time;
+  }
+
   render() {
     const { categories, selectedCategory } = this.state;
     return (
@@ -130,6 +141,7 @@ class NewEvent extends React.Component {
             selected={this.state.dateAndTime}
             onChange={(date) => this.setState({ dateAndTime: date })}
             showTimeSelect
+            timeIntervals={this.timeInterval}
             timeFormat="HH:mm"
             className="date-time-input"
             timeCaption="time"
