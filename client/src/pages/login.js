@@ -4,7 +4,6 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Api from '../services/api';
 import Auth from '../services/auth';
-import Person from '../services/person';
 import '../styles/login.css';
 
 class Login extends Component {
@@ -36,15 +35,28 @@ class Login extends Component {
     const { loginHandler } = this.props;
     Api.post(this.endpoint, { email: this.state.email, password: this.state.password })
       .then((response) => {
-        if (response.status === 200) {
-          Auth.setToken(response.data);
-          Person.getProfile();
-          loginHandler();
-          this.props.history.push('/');
-        } else if (response.error.status === 403) {
-          this.setState({ errorMessage: 'Invalid password or email' });
+        if (response.error && response.error.status === 403) {
+          // eslint-disable-next-line no-console
+          console.error(response);
+          return response;
         }
-      }).catch((error) => {
+        Auth.setToken(response.data);
+        loginHandler();
+        this.props.history.push('/');
+        return response.data;
+      })
+      .then((token) => {
+        Api.getCurrentUser('persons/currentUser', token)
+          .then((response) => {
+            if (response.error) {
+              // eslint-disable-next-line no-console
+              this.setState({ errorMessage: 'Invalid password or email' });
+              return;
+            }
+            Auth.savePersonId(response && response.data && response.data.id);
+          });
+      })
+      .catch((error) => {
         this.setState({ errorMessage: error.message });
       });
   }
