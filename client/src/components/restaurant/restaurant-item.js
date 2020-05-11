@@ -5,6 +5,7 @@ import {
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import Api from '../../services/api';
+import Auth from '../../services/auth';
 import About from './restaurant-about';
 import Menu from '../menu-views/menu-view';
 import Feedback from '../feedback/feedback';
@@ -20,6 +21,7 @@ class Restaurant extends Component {
       isFetching: false,
       isOwner: false,
     };
+    this.personId = Auth.getPersonId();
   }
 
   async componentDidMount() {
@@ -38,7 +40,7 @@ class Restaurant extends Component {
         this.setState({
           restaurant: response.data,
           isFetching: true,
-          isOwner: response.data.personId === Number(localStorage.getItem('userID')),
+          isOwner: response.data.personId === this.personId,
         });
       });
   }

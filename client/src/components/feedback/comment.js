@@ -5,7 +5,7 @@ import {
 import '../../styles/feedback-comment.css';
 import PropTypes from 'prop-types';
 import Api from '../../services/api';
-import Person from '../../services/person';
+import Auth from '../../services/auth';
 
 class FeedbackComment extends Component {
   constructor(props) {
@@ -14,6 +14,7 @@ class FeedbackComment extends Component {
       item: this.props.item,
       avatar: '/img/default-avatar.png',
     };
+    this.personId = Auth.getPersonId();
     this.likeFeedback = this.likeFeedback.bind(this);
     this.unAuthorizedTrue = this.unAuthorizedTrue.bind(this);
   }
@@ -36,7 +37,7 @@ class FeedbackComment extends Component {
   }
 
   likeFeedback() {
-    Api.post(`feedback/like?feedbackId=${this.props.item.id}&personId=${Person.userInfo.id}`)
+    Api.post(`feedback/like?feedbackId=${this.props.item.id}&personId=${this.personId}`)
       .then((response) => {
         if (response.status === 201) {
           if (this.state.item.id === response.data.id) {
@@ -78,8 +79,7 @@ class FeedbackComment extends Component {
     const { isAuthenticated } = this.props;
     const title = isAuthenticated ? 'like feedback' : 'You need to login to like feedback';
     const onClick = isAuthenticated ? this.likeFeedback : this.unAuthorizedTrue;
-
-    const likeImage = item.likes.indexOf(Person.userInfo.id) >= 0 ? '/img/like.png' : '/img/like-empty.png';
+    const likeImage = item.likes.indexOf(this.personId) >= 0 ? '/img/like.png' : '/img/like-empty.png';
     return (
       <Container className="feedbackContainer">
         <Image src={this.state.avatar} width="50px" height="50px" alt="defAvava" roundedCircle />
