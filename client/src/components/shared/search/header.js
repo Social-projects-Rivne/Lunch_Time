@@ -12,7 +12,7 @@ class Header extends Component {
     return (
       <Container fluid className={containerClassName}>
         <Title title={title} />
-        <Input placeHolder={placeHolder} />
+        <Input placeHolder={placeHolder} filter={(f) => this.props.filter(f)} />
       </Container>
     );
   }
@@ -26,6 +26,7 @@ Header.propTypes = {
   containerClassName: PropTypes.string,
   title: PropTypes.string.isRequired,
   placeHolder: PropTypes.string.isRequired,
+  filter: PropTypes.func.isRequired,
 };
 
 export default Header;
