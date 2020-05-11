@@ -7,7 +7,6 @@ import { Redirect } from 'react-router';
 import PropTypes from 'prop-types';
 import Api from '../../services/api';
 import Timer from '../shared/timer';
-import Person from '../../services/person';
 import Auth from '../../services/auth';
 
 const valid = 'form-control is-valid';
@@ -858,12 +857,26 @@ class Register extends Component {
     const { loginHandler } = this.props;
     Api.post('authenticate', { email: this.state.email, password: this.state.password })
       .then((response) => {
-        if (response.status === 200) {
-          Auth.setToken(response.data);
-          Person.getProfile();
-          loginHandler();
+        if (response.error) {
+          // eslint-disable-next-line no-console
+          console.error(response);
+          return response;
         }
+        Auth.setToken(response.data);
+        loginHandler();
         this.openMainPage();
+        return response.data;
+      })
+      .then((token) => {
+        Api.getCurrentUser('persons/currentUser', token)
+          .then((response) => {
+            if (response.error) {
+              // eslint-disable-next-line no-console
+              console.error(response);
+              return;
+            }
+            Auth.savePersonId(response && response.data && response.data.id);
+          });
       });
   }
 
