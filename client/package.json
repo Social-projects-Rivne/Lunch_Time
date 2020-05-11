@@ -11,6 +11,7 @@
     "express": "4.17.1",
     "moment": "^2.24.0",
     "ol": "^6.2.1",
+    "openlayers": "4.6.5",
     "prop-types": "15.7.2",
     "rc-dropdown": "^3.0.2",
     "rc-menu": "^8.0.2",
