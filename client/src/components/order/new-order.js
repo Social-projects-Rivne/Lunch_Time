@@ -352,7 +352,11 @@ class NewOrder extends Component {
             <div>
               Date:
               {' '}
-              <b>{startDate.toUTCString().substring(0, 22)}</b>
+              <b>{startDate.toUTCString().substring(0, 17)}</b>
+              {' '}
+              <b>{startDate.getHours()}</b>
+              :
+              <b>{startDate.getMinutes()}</b>
             </div>
             <div>
               Table №:
