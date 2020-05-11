@@ -10,4 +10,6 @@ public interface RestaurantImageService {
     List<RestaurantImage> saveImageListByRestaurantId(List<RestaurantImage> restaurantImageList);
 
     RestaurantImage getImageByRestaurantId(Long restaurantId);
+
+    List<RestaurantImage> getRestaurantImageList(Long restaurantId);
 }

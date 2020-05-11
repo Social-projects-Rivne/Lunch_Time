@@ -28,4 +28,9 @@ public class RestaurantImageImpl implements RestaurantImageService {
     public RestaurantImage getImageByRestaurantId(Long restaurantId) {
         return restaurantImageRepository.findImageByRestaurantId(restaurantId);
     }
+
+    @Override
+    public List<RestaurantImage> getRestaurantImageList(Long restaurantId) {
+        return restaurantImageRepository.findAllByRestaurantId(restaurantId);
+    }
 }

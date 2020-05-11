@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import {
-  ProgressBar, Container, Button, FormLabel,
+  ProgressBar, Container, Button, FormLabel, CardColumns, ButtonToolbar, Spinner, Card,
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import Api from '../../services/api';
 import './restaurant-image-uploader.css';
+import '../../styles/restaurant-list.css';
 import {
   MAX_SELECTED_FILE,
   MAX_SELECTED_FILE_ERROR,
@@ -14,11 +14,14 @@ import {
   // eslint-disable-next-line import/named
   MAX_FILE_SIZE_ERROR,
 } from '../../constants';
+import Api from '../../services/api';
 
 class RestaurantImageUploader extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      restaurantImages: [],
+      isFetching: false,
       isUploadDisabled: true,
       selectedFile: null,
       uploaded: 0,
@@ -26,6 +29,10 @@ class RestaurantImageUploader extends Component {
     this.mimeTypes = ['image/png', 'image/jpeg', 'image/jpg'];
     this.onFileUploadHandler = this.onFileUploadHandler.bind(this);
     this.onFileSelectedHandler = this.onFileSelectedHandler.bind(this);
+  }
+
+  componentDidMount() {
+    this.getAll(this.props.location.state.restaurantId);
   }
 
   onFileSelectedHandler(event) {
@@ -62,6 +69,7 @@ class RestaurantImageUploader extends Component {
     Api.post('image/upload/restaurants', data)
       .then((response) => {
         if (response.error) {
+          // eslint-disable-next-line no-console
           console.error(response);
           return;
         }
@@ -71,6 +79,21 @@ class RestaurantImageUploader extends Component {
       selectedFile: null,
       isUploadDisabled: true,
     });
+  }
+
+  getAll(id) {
+    Api.get(`restaurant-images/gallery/${id}`)
+      .then((response) => {
+        if (response.error) {
+          // eslint-disable-next-line no-console
+          console.log(response);
+          return;
+        }
+        this.setState({
+          restaurantImages: response.data,
+          isFetching: true,
+        });
+      });
   }
 
   saveImageByRestaurantId(data) {
@@ -86,15 +109,18 @@ class RestaurantImageUploader extends Component {
     Api.post('restaurant-images', photos)
       .then((response) => {
         if (response.error) {
+          // eslint-disable-next-line no-console
           console.error(response);
           return;
         }
+        // eslint-disable-next-line no-console
         console.log(response);
       });
   }
 
   maxSelectFile(files) {
     if (files.length > MAX_SELECTED_FILE) {
+      // eslint-disable-next-line no-console
       console.error(MAX_SELECTED_FILE_ERROR);
       return true;
     }
@@ -105,6 +131,7 @@ class RestaurantImageUploader extends Component {
     const validFiles = [];
     for (let x = 0; x < files.length; x += 1) {
       if (this.mimeTypes.every((type) => files[x].type !== type)) {
+        // eslint-disable-next-line no-console
         console.error(`${files[x].type} ${WRONG_MIME_TYPE_ERROR}\n`);
       } else {
         validFiles.push(files[x]);
@@ -117,6 +144,7 @@ class RestaurantImageUploader extends Component {
     const validFiles = [];
     for (let x = 0; x < files.length; x += 1) {
       if (files[x].size > MAX_FILE_SIZE) {
+        // eslint-disable-next-line no-console
         console.error(`${files[x].type} ${MAX_FILE_SIZE_ERROR}\n`);
       } else {
         validFiles.push(files[x]);
@@ -124,6 +152,49 @@ class RestaurantImageUploader extends Component {
     }
     return validFiles;
   }
+
+  initButtonToolbar() {
+    return (
+      <Container className="spinner-container">
+        <ButtonToolbar className="justify-content-center">
+          <Spinner animation="border" variant="warning" />
+        </ButtonToolbar>
+      </Container>
+    );
+  }
+
+  initGallery() {
+    const { restaurantImages, isFetching } = this.state;
+    if (isFetching) {
+      return (
+        <Container className="card-body pl-5 pr-5">
+          <CardColumns>
+            {restaurantImages.map((restaurantImage) => (
+              <Card className="text-dark m-2" border="dark">
+                <Card.Img
+                  variant="top"
+                  key={restaurantImage.id}
+                  src={`${Api.apiUrl}images/restaurants/${restaurantImage.image}`}
+                  alt="Image"
+                />
+                <Card.Body>
+                  <Card.Subtitle className="restaurant-name mb-2">
+                    {restaurantImage.image}
+                  </Card.Subtitle>
+                </Card.Body>
+              </Card>
+            ))}
+          </CardColumns>
+        </Container>
+      );
+    }
+    return (
+      <Container fluid>
+        {this.initButtonToolbar()}
+      </Container>
+    );
+  }
+
 
   render() {
     const { isUploadDisabled, uploaded } = this.state;
@@ -146,6 +217,7 @@ class RestaurantImageUploader extends Component {
         >
           Upload Photos
         </Button>
+        {this.initGallery()}
       </Container>
     );
   }

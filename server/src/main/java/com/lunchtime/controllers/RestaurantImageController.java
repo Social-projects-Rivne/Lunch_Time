@@ -1,8 +1,11 @@
 package com.lunchtime.controllers;
 
+import com.lunchtime.models.Restaurant;
 import com.lunchtime.models.RestaurantImage;
 import com.lunchtime.service.RestaurantImageService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,5 +34,11 @@ public class RestaurantImageController {
     public ResponseEntity<RestaurantImage> getImageByRestaurantId(@PathVariable Long id) {
         return ResponseEntity.ok()
             .body(restaurantImageService.getImageByRestaurantId(id));
+    }
+
+    @GetMapping("/gallery/{id}")
+    public ResponseEntity< List<RestaurantImage>> getRestaurantImageList(@PathVariable Long id) {
+        return ResponseEntity.ok()
+            .body(restaurantImageService.getRestaurantImageList(id));
     }
 }
