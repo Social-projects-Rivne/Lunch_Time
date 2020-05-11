@@ -48,16 +48,6 @@ public class OrderMapper {
     }
 
     public OrderDto fromOrderToDto(Order order) {
-        JSONObject jsonDishes = new JSONObject();
-        List<Object> dishList = new ArrayList<>();
-        if (order.getOrderDishList() != null) {
-            dishList = order.getOrderDishList().stream()
-                .flatMap(dish -> Stream.of(dish.getId(), dish.getQuantity()))
-            .collect(Collectors.toList());
-        }
-        for (int i = 0; i < dishList.size(); i++) {
-            jsonDishes.put(dishList.get(i).toString(), dishList.get(++i));
-        }
 
         return OrderDto.builder()
             .id(order.getId())
@@ -65,7 +55,7 @@ public class OrderMapper {
             .startTime(order.getStartTime())
             .finishTime(order.getFinishTime())
             .status(order.getStatus())
-            .orderedDishes(jsonDishes)
+            .orderedDishes(order.getOrderDishList())
             .description(order.getDescription())
             .visitors(order.getVisitors())
             .tableId(order.getTable().getId())
