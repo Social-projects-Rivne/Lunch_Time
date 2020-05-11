@@ -45,6 +45,19 @@ public class FeedbackController {
             : ResponseEntity.badRequest().build();
     }
 
+    @PostMapping("/dislike")
+    public ResponseEntity<FeedbackDto> dislikeFeedback(
+        @RequestParam("feedbackId") Long feedbackId,
+        @RequestParam("personId") Long personId) {
+        FeedbackDto feedbackDto = null;
+        if (feedbackId != null && personId != null) {
+            feedbackDto = feedbackService.dislikeFeedback(feedbackId, personId);
+        }
+        return feedbackDto != null
+            ? ResponseEntity.created(URI.create("api/feedback/dislike")).body(feedbackDto)
+            : ResponseEntity.badRequest().build();
+    }
+
     @GetMapping(params = ("restaurantId"))
     public ResponseEntity<List<FeedbackDto>> getAllByRestaurantId(@RequestParam("restaurantId") Long id) {
         List<FeedbackDto> feedbackDtos = feedbackService.getFeedbackListByRestaurantId(id);

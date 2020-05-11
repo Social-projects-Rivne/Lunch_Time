@@ -49,6 +49,14 @@ public class Feedback {
         inverseJoinColumns = @JoinColumn(name = "person_id"))
     private Set<Person> likes;
 
+    @ManyToMany
+    @ColumnDefault("0")
+    @JoinTable(
+        name = "feedback_dislike",
+        joinColumns = @JoinColumn(name = "feedback_id"),
+        inverseJoinColumns = @JoinColumn(name = "person_id"))
+    private Set<Person> dislikes;
+
     @ColumnDefault("0")
     @Column(name = "counter_dislike")
     private Integer counterDislike;

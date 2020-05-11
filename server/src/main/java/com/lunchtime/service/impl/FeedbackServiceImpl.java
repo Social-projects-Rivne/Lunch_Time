@@ -50,4 +50,17 @@ class FeedbackServiceImpl implements FeedbackService {
         feedbackRepository.save(feedback);
         return feedbackMapper.fromFeedbackToDto(feedback);
     }
+
+    @Override
+    public FeedbackDto dislikeFeedback(Long feedbackId, Long personId) {
+        Feedback feedback = feedbackRepository.getOne(feedbackId);
+        Person person = personRepository.findPersonById(personId);
+        if (!feedback.getDislikes().contains(person)) {
+            feedback.getDislikes().add(person);
+        } else {
+            feedback.getDislikes().remove(person);
+        }
+        feedbackRepository.save(feedback);
+        return feedbackMapper.fromFeedbackToDto(feedback);
+    }
 }
