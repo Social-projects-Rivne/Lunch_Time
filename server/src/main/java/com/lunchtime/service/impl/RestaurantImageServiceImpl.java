@@ -11,7 +11,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
-public class RestaurantImageImpl implements RestaurantImageService {
+public class RestaurantImageServiceImpl implements RestaurantImageService {
     private final RestaurantImageRepository restaurantImageRepository;
 
     @Override

@@ -3,7 +3,7 @@ import {
   ProgressBar, Container, Button, FormLabel, CardColumns, ButtonToolbar, Spinner, Card,
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
-import './restaurant-image-uploader.css';
+import '../../styles/restaurant-image-uploader.css';
 import '../../styles/restaurant-list.css';
 import {
   MAX_SELECTED_FILE,
@@ -115,6 +115,7 @@ class RestaurantImageUploader extends Component {
         }
         // eslint-disable-next-line no-console
         console.log(response);
+        this.getAll(this.props.location.state.restaurantId);
       });
   }
 
