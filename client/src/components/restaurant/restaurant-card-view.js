@@ -28,7 +28,7 @@ class RestaurantCardView extends Component {
         }
         if (response.data === undefined || response.data === null) {
           this.setState({
-            restaurantImage: '/img/default-avatar.png',
+            restaurantImage: '/img/default-image-restaurant.jpg',
           });
         } else {
           this.getImage(response);
