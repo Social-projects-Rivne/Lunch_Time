@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,8 +26,8 @@ public class RestaurantImageServiceImpl implements RestaurantImageService {
     }
 
     @Override
-    public RestaurantImage getImageByRestaurantId(Long restaurantId) {
-        return restaurantImageRepository.findImageByRestaurantId(restaurantId);
+    public Optional<RestaurantImage> getImageByRestaurantId(Long restaurantId) {
+        return restaurantImageRepository.findFirstByRestaurantId(restaurantId);
     }
 
     @Override
