@@ -38,7 +38,7 @@ class RestaurantEvents extends React.Component {
 
     return (
       <Container fluid>
-        <ButtonToolbar className="justify-content-center">
+        <ButtonToolbar className="mt-3 justify-content-center">
           {isOwner && (
             <Link to={{ pathname: `/restaurants/${restaurantId}/new-event` }}>
               <Button className="mt-2">Add new Event</Button>

@@ -56,7 +56,7 @@ class Header extends Component {
         <br />
         <ButtonToolbar className="justify-content-center">
           {isOwner && (
-          <Button className="ml-3 mb-1" onClick={() => this.onEditClick()}>
+          <Button className="ml-3 mb-3" onClick={() => this.onEditClick()}>
             {!this.state.isEdit ? 'Edit Menu' : 'Close'}
           </Button>
           )}
