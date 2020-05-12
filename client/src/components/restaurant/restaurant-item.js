@@ -110,7 +110,7 @@ class Restaurant extends Component {
             <RestaurantEvents id={id} />
           </Tab>
           <Tab eventKey="feedback" title="Feedback">
-            <Feedback id={id} />
+            <Feedback id={id} isAuthenticated={isAuthenticated} />
           </Tab>
         </Tabs>
       </Container>
