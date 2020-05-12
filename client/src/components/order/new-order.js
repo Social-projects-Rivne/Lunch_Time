@@ -2,11 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
 import {
-  Button, Form, Container, Alert,
+  Button, Form, Container, Alert, Row, Col,
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Api from '../../services/api';
 import '../../styles/new-order.css';
+import Category from '../menu-views/category';
+import Dish from '../menu-views/dish';
 import Auth from '../../services/auth';
 
 class NewOrder extends Component {
@@ -23,10 +25,13 @@ class NewOrder extends Component {
       availableTables: [],
       tableId: null,
       visitors: 1,
-      dishes: '',
       description: '',
       isBadRequestError: false,
       isLoginError: false,
+      menuItemDishesMap: this.props.location.state.menuItemDishesMap,
+      orderedDishes: new Set(this.props.location.state.orderedDishes),
+      isAuthenticated: this.props.location.state.isAuthenticated,
+      totalPrice: this.props.location.state.totalPrice,
       orderIsRegistered: false,
     };
   }
@@ -76,6 +81,45 @@ class NewOrder extends Component {
     return orderedTable && orderedTable.number;
   }
 
+  sendMenuItemDishToOrderList(newMenuItemDish, value) {
+    const { menuItemDishesMap, totalPrice, orderedDishes } = this.state;
+    let quantity = 1;
+    let total;
+    if (menuItemDishesMap.get(newMenuItemDish.id) > 0) {
+      if (value === '+') {
+        quantity = menuItemDishesMap.get(newMenuItemDish.id) + 1;
+        total = newMenuItemDish.portionPrice + totalPrice;
+      } else if (value === '-') {
+        quantity = menuItemDishesMap.get(newMenuItemDish.id) - 1;
+        total = totalPrice - newMenuItemDish.portionPrice;
+      } else if (value === 'X') {
+        quantity = 0;
+        total = totalPrice - newMenuItemDish.portionPrice * menuItemDishesMap.get(newMenuItemDish.id);
+      }
+    } else {
+      total = newMenuItemDish.portionPrice + totalPrice;
+    }
+    if (quantity !== 0) {
+      menuItemDishesMap.set(newMenuItemDish.id, quantity);
+      orderedDishes.add(newMenuItemDish);
+    } else {
+      menuItemDishesMap.delete(newMenuItemDish.id);
+      orderedDishes.delete(newMenuItemDish);
+    }
+    this.setState({
+      menuItemDishesMap,
+      totalPrice: total,
+    }, () => {
+      this.newSet(orderedDishes);
+    });
+  }
+
+  newSet(orderedDishes) {
+    this.setState({
+      orderedDishes: orderedDishes,
+    });
+  }
+
   saveOrder() {
     let orderedTableId;
     if (this.state.tableId) {
@@ -85,7 +129,7 @@ class NewOrder extends Component {
     } else {
       return;
     }
-    let orderedDishes = this.props.location.state.menuItemDishesMap;
+    let orderedDishes = this.state.menuItemDishesMap;
     if (orderedDishes !== undefined) {
       const mapToObj = (m) => {
         return Array.from(m).reduce((obj, [key, value]) => {
@@ -203,6 +247,7 @@ class NewOrder extends Component {
       this.props.history.push('/');
       return null;
     }
+    const { totalPrice, menuItemDishesMap, orderedDishes } = this.state;
     if (!orderIsRegistered) {
       return (
         <Container fluid className="new-order-container">
@@ -229,7 +274,7 @@ class NewOrder extends Component {
               <Form.Control
                 as="select"
                 defaultValue={this.state.availableTables.length ? this.state.availableTables[0] : null}
-                name="tableId"
+                name="table"
                 onChange={(event) => this.handleFormControl(event)}
               >
                 {this.state.availableTables
@@ -267,17 +312,6 @@ class NewOrder extends Component {
                 max={this.getMaximumOfVisitors()}
               />
             </Form.Group>
-
-            <Form.Group>
-              <Form.Label>Ordered dishes</Form.Label>
-              <Form.Control
-                rows="2"
-                maxLength="9999"
-                value={location.state.dishes}
-                readOnly
-              />
-            </Form.Group>
-
             <Form.Group>
               <Form.Label>Description</Form.Label>
               <Form.Control
@@ -290,6 +324,115 @@ class NewOrder extends Component {
               />
             </Form.Group>
           </Form>
+          {orderedDishes && orderedDishes.size > 0 && (
+            <h2 style={{ jystify: 'center' }}>Ordered dishes:</h2>
+          )}
+          {orderedDishes && orderedDishes.size > 0 && (
+            <Container>
+              <hr className="menu-item" />
+              {Array.from(orderedDishes).map((menuItemDish) => {
+                const quantity = menuItemDishesMap.get(menuItemDish.id);
+                const addMessage = quantity ? 'Q:' : 'Add';
+                return (
+                  <Row key={menuItemDish.id}>
+                    <Col>
+                      <Category category={menuItemDish.dish.categoryFood} />
+                    </Col>
+                    <Col>
+                      <Dish dish={menuItemDish} mainMenu={false} />
+                    </Col>
+                    <Col className="col-item">
+                      <br />
+                      {menuItemDish.portionPrice}
+                      {' '}
+                      {'  '}
+                      {menuItemDish.currency}
+                    </Col>
+                    <Col className="col-item">
+                      <br />
+                      {quantity > 0 && (
+                        <button
+                          style={{
+                            marginRight: 8,
+                            width: 35,
+                            height: 35,
+                            borderRadius: 100,
+                          }}
+                          type="button"
+                          className="btn btn-danger"
+                          id="minus"
+                          onClick={() => {
+                            this.sendMenuItemDishToOrderList(menuItemDish, '-');
+                          }}
+                        >
+                          -
+                        </button>
+                      )}
+                      <Button
+                        variant="primary"
+                        onClick={() => {
+                          if (quantity === undefined || quantity === 0) {
+                            this.sendMenuItemDishToOrderList(menuItemDish);
+                          }
+                        }}
+                      >
+                        {addMessage}
+                        {' '}
+                        {quantity > 0 ? quantity : ''}
+                      </Button>
+                      {quantity > 0
+                      && (
+                        <button
+                          style={{
+                            marginLeft: 8,
+                            width: 35,
+                            height: 35,
+                            borderRadius: 100,
+                          }}
+                          className="btn btn-success"
+                          type="button"
+                          onClick={() => {
+                            this.sendMenuItemDishToOrderList(menuItemDish, '+');
+                          }}
+                        >
+                          +
+                        </button>
+                      )}
+                      {quantity > 0
+                      && (
+                        <Button
+                          style={{
+                            marginLeft: 25,
+                            width: 35,
+                            height: 35,
+                            borderRadius: 100,
+                          }}
+                          type="button"
+                          onClick={() => {
+                            this.sendMenuItemDishToOrderList(menuItemDish, 'X');
+                          }}
+                        >
+                          X
+                        </Button>
+                      )}
+                    </Col>
+                  </Row>
+                );
+              })}
+              <hr className="menu-item" />
+              {totalPrice > 0 && (
+                <h2 style={{ jystify: 'center', fontSize: 25 }}>
+                  TOTAL
+                  {' '}
+                  price:
+                  {' '}
+                  {totalPrice}
+                  {' '}
+                  UAH
+                </h2>
+              )}
+            </Container>
+          )}
           {
             this.state.isBadRequestError
               ? this.showAlert('Something went wrong. Try again later', 'danger', true)

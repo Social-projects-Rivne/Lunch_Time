@@ -1,20 +1,15 @@
 package com.lunchtime.service.dto;
 
-import com.vladmihalcea.hibernate.type.json.JsonBinaryType;
 import com.lunchtime.models.OrderStatus;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
+import org.json.JSONObject;
 
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 
-@TypeDef(
-    name = "jsonb",
-    typeClass = JsonBinaryType.class
-)
 @Getter
 @Setter
 @Builder
@@ -35,7 +30,6 @@ public class OrderDto {
 
     private OrderStatus status;
 
-    @Type(type = "jsonb")
     private Object orderedDishes;
 
     private String description;
