@@ -28,7 +28,7 @@ public class PersonServiceImpl implements PersonService {
     private final BCryptPasswordEncoder bcryptPasswordEncoder;
     private final MailSender mailSender;
 
-    String webPage = "http://localhost:3000";
+    String webPage = "http://35.234.68.126";
 
     public PersonDto saveRegisterPerson(RegisterPerson registerPerson) {
         if (registerPerson.getEmail().equals(registerPerson.getPassword())
