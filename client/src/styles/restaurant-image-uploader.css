@@ -76,7 +76,7 @@
 
 .files:before {
   position: absolute;
-  bottom: 10px;
+  bottom: 0;
   left: 0;
   pointer-events: none;
   width: 100%;
