@@ -15,8 +15,10 @@ import Restaurant from './components/restaurant/restaurant-item';
 import Profile from './components/profile/profile';
 import NewOrder from './components/order/new-order';
 import Auth from './services/auth';
+import NewEvent from './components/event/new-event';
 import NewMenuItemDish from './components/menu-views/new-menu-item-dish';
 import RestaurantRegistration from './components/restaurant/restaurant-register';
+import RestaurantImageUploader from './components/image-uploader/restaurant-image-uploader';
 
 class App extends Component {
   constructor(props) {
@@ -57,11 +59,20 @@ class App extends Component {
           <Route path="/events" component={Events} />
           <Route path="/restaurants/restaurant-register" component={RestaurantRegistration} />
           <Route path="/restaurants/:id/new-order" component={NewOrder} />
+          <Route path="/restaurants/:id/restaurant-images-upload" component={RestaurantImageUploader} />
           <Route
             path="/restaurants/:id/new-dish"
             component={() => {
               return (
                 <NewMenuItemDish selectedTab={(e) => { this.selectedTab = e; }} />
+              );
+            }}
+          />
+          <Route
+            path="/restaurants/:id/new-event"
+            component={() => {
+              return (
+                <NewEvent selectedTab={(e) => { this.selectedTab = e; }} />
               );
             }}
           />

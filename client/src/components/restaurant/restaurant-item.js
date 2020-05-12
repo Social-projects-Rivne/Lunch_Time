@@ -107,7 +107,7 @@ class Restaurant extends Component {
             <Menu id={id} isAuthenticated={isAuthenticated} isOwner={isOwner} name={restaurant.name} />
           </Tab>
           <Tab eventKey="events" title="Events">
-            <RestaurantEvents id={id} />
+            <RestaurantEvents id={id} isOwner={isOwner} />
           </Tab>
           <Tab eventKey="feedback" title="Feedback">
             <Feedback id={id} isAuthenticated={isAuthenticated} />

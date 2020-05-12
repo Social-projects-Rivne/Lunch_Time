@@ -47,6 +47,7 @@ class NewMenuItemDish extends Component {
       'blob',
     );
 
+    // eslint-disable-next-line func-names
     reader.onload = function (event) {
       imageTag.src = event.target.result;
     };

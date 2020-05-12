@@ -32,13 +32,12 @@ public class Event {
     @Column(name = "date")
     private Date date;
 
-    @NotNull
-    @Size(min = 1, max = 255)
+    @Size(max = 50)
     @Column(name = "image")
     private String image;
 
     @NotBlank
-    @Size(min = 6, max = 255)
+    @Size(min = 6, max = 50)
     @Column(name = "name")
     private String name;
 
@@ -48,7 +47,7 @@ public class Event {
     private EventCategory eventCategory;
 
     @NotBlank
-    @Size(min = 6, max = 999)
+    @Size(min = 6, max = 500)
     @Column(name = "description")
     private String description;
 

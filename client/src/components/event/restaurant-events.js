@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Button, ButtonToolbar, Container } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import Api from '../../services/api';
 import Results from './results';
 
@@ -29,16 +31,29 @@ class RestaurantEvents extends React.Component {
   }
 
   render() {
-    const { events, isFetching } = this.state;
+    const {
+      events, isFetching, restaurantId,
+    } = this.state;
+    const { isOwner } = this.props;
 
     return (
-      <Results events={events} isFetching={isFetching} />
+      <Container fluid>
+        <ButtonToolbar className="mt-3 justify-content-center">
+          {isOwner && (
+            <Link to={{ pathname: `/restaurants/${restaurantId}/new-event` }}>
+              <Button className="mt-2">Add new Event</Button>
+            </Link>
+          )}
+        </ButtonToolbar>
+        <Results events={events} isFetching={isFetching} />
+      </Container>
     );
   }
 }
 
 RestaurantEvents.propTypes = {
   id: PropTypes.any.isRequired,
+  isOwner: PropTypes.bool.isRequired,
 };
 
 export default RestaurantEvents;

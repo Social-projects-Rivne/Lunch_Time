@@ -20,11 +20,11 @@ class Menu extends Component {
       path: 'menuitemdish/restaurantId?',
       isFetching: false,
       isEdit: false,
-      dishes: [],
       menuItemDishesMap: new Map(),
+      orderedDishes: [],
+      totalPrice: 0,
     };
     this.handlePageChange = this.handlePageChange.bind(this);
-    this.addDishToOrderList = this.addDishToOrderList.bind(this);
     this.addMenuItemDishToOrderList = this.addMenuItemDishToOrderList.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
@@ -76,7 +76,7 @@ class Menu extends Component {
   }
 
   initMenuItemDish() {
-    const { menuItemDishes, isEdit } = this.state;
+    const { menuItemDishes, menuItemDishesMap, isEdit } = this.state;
     const { isAuthenticated } = this.props;
     if (menuItemDishes !== undefined) {
       return (
@@ -86,32 +86,48 @@ class Menu extends Component {
           isEdit={isEdit}
           addDishToOrderList={this.addDishToOrderList}
           addMenuItemDishToOrderList={this.addMenuItemDishToOrderList}
+          menuItemDishesMap={menuItemDishesMap}
           update={() => this.handleChange('menuitemdish/restaurantId?')}
+          mainMenu
         />
       );
     }
     return null;
   }
 
-  addDishToOrderList(dishCategory, dishName) {
-    const previousDishArray = this.state.dishes;
-    const dishes = [...previousDishArray];
-    const dish = ` ${dishCategory} ${dishName}`;
-    dishes.push(dish);
+  addMenuItemDishToOrderList(newMenuItemDish, value) {
+    const { menuItemDishesMap, totalPrice } = this.state;
+    let quantity = 1;
+    let total;
+    if (menuItemDishesMap.get(newMenuItemDish.id) > 0) {
+      if (value === '+') {
+        quantity = menuItemDishesMap.get(newMenuItemDish.id) + 1;
+        total = newMenuItemDish.portionPrice + totalPrice;
+      } else if (value === '-') {
+        quantity = menuItemDishesMap.get(newMenuItemDish.id) - 1;
+        total = totalPrice - newMenuItemDish.portionPrice;
+      }
+    } else {
+      total = newMenuItemDish.portionPrice + totalPrice;
+    }
+    if (quantity !== 0) {
+      menuItemDishesMap.set(newMenuItemDish.id, quantity);
+    } else {
+      menuItemDishesMap.delete(newMenuItemDish.id);
+    }
     this.setState({
-      dishes,
+      menuItemDishesMap,
+      totalPrice: total,
+    }, () => {
+      this.newSet(newMenuItemDish);
     });
   }
 
-  addMenuItemDishToOrderList(newMenuItemDish) {
-    const { menuItemDishesMap } = this.state;
-    let quantity = 1;
-    if (menuItemDishesMap.has(newMenuItemDish)) {
-      quantity = menuItemDishesMap.get(newMenuItemDish) + 1;
-    }
-    menuItemDishesMap.set(newMenuItemDish, quantity);
-    this.setState({
-      menuItemDishesMap,
+  newSet(newMenuItemDish) {
+    this.setState((prevState) => {
+      return {
+        orderedDishes: [...prevState.orderedDishes, newMenuItemDish],
+      };
     });
   }
 
@@ -123,35 +139,61 @@ class Menu extends Component {
   }
 
   render() {
-    const { id, isOwner, name } = this.props;
-    const { isFetching, dishes, menuItemDishesMap } = this.state;
+    const {
+      id, name, isOwner, isAuthenticated,
+    } = this.props;
+    const {
+      isFetching, menuItemDishesMap, totalPrice, orderedDishes,
+    } = this.state;
     if (isFetching) {
       return (
         <Container className="menu mb-4">
-          <Header onChange={this.handleChange} isEdit={() => this.onEditMenu()} id={id} isOwner={isOwner} />
+          <Header onChange={this.handleChange} isEdit={() => this.onEditMenu()} id={id} isOwner={isOwner} mainMenu />
           {this.initMenuItemDish()}
           {this.initPagination()}
+          {totalPrice > 0 && (
+            <div style={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              fontSize: 20,
+              marginRight: 10,
+            }}
+            >
+              <b>
+                TOTAL
+                {' '}
+                price:
+                {' '}
+                {totalPrice}
+                {' '}
+                UAH
+              </b>
+            </div>
+          )}
           <div style={{
             display: 'flex',
             justifyContent: 'flex-end',
+            marginRight: 5,
           }}
           >
             <Link to={{
               pathname: `/restaurants/${id}/new-order`,
               state: {
                 restaurantName: name,
-                dishes: dishes,
                 menuItemDishesMap: menuItemDishesMap,
+                orderedDishes: orderedDishes,
+                isAuthenticated: isAuthenticated,
+                totalPrice: totalPrice,
               },
             }}
             >
-              {this.state.dishes.length > 0 && (
+              {menuItemDishesMap.size > 0 && (
                 <Button
                   className="complete"
                   variant="primary"
                 >
                   Complete order (
-                  {this.state.dishes.length}
+                  {menuItemDishesMap.size}
                   {' '}
                   items)
                 </Button>

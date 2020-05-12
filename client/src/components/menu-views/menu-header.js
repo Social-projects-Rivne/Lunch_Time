@@ -49,14 +49,14 @@ class Header extends Component {
   }
 
   render() {
-    const { id, isOwner } = this.props;
+    const { mainMenu, id, isOwner } = this.props;
     const { categories, dropdownName } = this.state;
     return (
       <Container>
         <br />
         <ButtonToolbar className="justify-content-center">
           {isOwner && (
-          <Button className="ml-3 mb-1" onClick={() => this.onEditClick()}>
+          <Button className="ml-3 mb-3" onClick={() => this.onEditClick()}>
             {!this.state.isEdit ? 'Edit Menu' : 'Close'}
           </Button>
           )}
@@ -69,6 +69,7 @@ class Header extends Component {
           )}
         </ButtonToolbar>
         <Row>
+          {mainMenu && (
           <Col className="header-item" xs={2}>
             <Dropdown>
               <Dropdown.Toggle
@@ -97,15 +98,18 @@ class Header extends Component {
               </Dropdown.Menu>
             </Dropdown>
           </Col>
+          )}
           <Col className="header-item" xs={3}>
             Dish
             <br />
             (Ingredients)
           </Col>
-          <Col className="header-item" xs={2}>
-            Image
-          </Col>
-          <Col className="header-item">
+          {mainMenu && (
+            <Col className="header-item" xs={2}>
+              Image
+            </Col>
+          )}
+          <Col className="header-item" xs={1}>
             Portion size
           </Col>
           <Col className="header-item">
@@ -129,6 +133,7 @@ class Header extends Component {
 
 Header.propTypes = {
   onChange: PropTypes.any.isRequired,
+  mainMenu: PropTypes.bool.isRequired,
   isEdit: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
   isOwner: PropTypes.bool.isRequired,
