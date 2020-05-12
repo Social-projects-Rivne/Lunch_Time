@@ -485,6 +485,9 @@ class Register extends Component {
             console.log(error);
           })
           .finally(() => {
+            this.setState({
+              isClicked: false,
+            });
             if (this.state.unexpectedError === '') {
               this.setState({
                 unexpectedError: true,
@@ -892,7 +895,7 @@ class Register extends Component {
       this.setState({
         openMainPage: true,
       });
-    }, 5000);
+    }, 10000);
   }
 
   photo() {
@@ -1109,6 +1112,7 @@ class Register extends Component {
         >
           <b>You are registered!</b>
           <br />
+          <br />
           <b>We have sent a confirmation </b>
           <br />
           <b>message to your email. </b>
@@ -1132,7 +1136,7 @@ class Register extends Component {
           {' '}
           in
           {' '}
-          <Timer timerCount={5} />
+          <Timer timerCount={10} />
           {' '}
           seconds
         </div>

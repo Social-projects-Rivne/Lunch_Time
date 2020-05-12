@@ -31,7 +31,7 @@ class Confirm extends Component {
           this.setState({
             mainPage: true,
           });
-        }, 3000);
+        }, 7000);
       });
   }
 
