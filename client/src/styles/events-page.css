@@ -38,3 +38,9 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
 }
+
+.event-pic{
+  height: 15vw;
+  width: 100%;
+  object-fit: cover;
+}
