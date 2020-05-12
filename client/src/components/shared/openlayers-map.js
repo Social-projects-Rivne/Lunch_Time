@@ -17,8 +17,8 @@ class OpenlayersMap extends Component {
     const iconFeature3 = new ol.Feature(new ol.geom.Point(transform([26.253994, 50.616146], 'EPSG:4326', 'EPSG:3857')));
     const iconFeature4 = new ol.Feature(new ol.geom.Point(transform([26.252249, 50.618318], 'EPSG:4326', 'EPSG:3857')));
     const source = new ol.source.Vector({
-      features: [iconFeature,
-        iconFeature1, iconFeature2, iconFeature3, iconFeature4],
+      features: [iconFeature, iconFeature1, iconFeature2,
+        iconFeature3, iconFeature4],
     });
     const marker = new custom.style.MarkerStyle();
     this.state = {
@@ -27,18 +27,19 @@ class OpenlayersMap extends Component {
     };
   }
 
-
-  addFeatures() {
-    const { restaurants } = this.props;
-    const points = restaurants.map((restaurant) => {
-      return (
-        new ol.Feature(new ol.geom.Point(transform([restaurant.longitude,
-          restaurant.latitude], 'EPSG:4326', 'EPSG:3857')))
-      );
-    });
-    console.log(points);
-    return points;
-  }
+  // addFeatures(){
+  // const {restaurants } = this.props;
+  // const points = restaurants.map(restaurant => {
+  // var point = {};
+  // point[restaurant.id] = new ol.Feature(new ol.geom.Point(transform([restaurant.longitude,
+  // restaurant.latitude], 'EPSG:4326', 'EPSG:3857')));
+  // return point;
+  // })
+  // const points = restaurants.map((restaurant) => {return (
+  // new ol.Feature(new ol.geom.Point(transform([restaurant.longitude, restaurant.latitude], 'EPSG:4326', 'EPSG:3857')))
+  // );});
+  // return points;
+  // }
 
   render() {
     const { latitude, longitude } = this.props;
@@ -46,6 +47,7 @@ class OpenlayersMap extends Component {
 
     return (
       <Container className="map-container">
+
         <Map view={{
           center: transform([longitude, latitude],
             'EPSG:4326', 'EPSG:3857'),
@@ -78,7 +80,7 @@ OpenlayersMap.defaultProps = {
 OpenlayersMap.propTypes = {
   latitude: PropTypes.string,
   longitude: PropTypes.string,
-  restaurants: PropTypes.any.isRequired,
+  // restaurants: PropTypes.array.isRequired,
 };
 
 export default OpenlayersMap;
