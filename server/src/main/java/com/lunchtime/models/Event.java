@@ -47,7 +47,7 @@ public class Event {
     private EventCategory eventCategory;
 
     @NotBlank
-    @Size(min = 6, max = 200)
+    @Size(min = 6, max = 500)
     @Column(name = "description")
     private String description;
 

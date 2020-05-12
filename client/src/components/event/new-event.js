@@ -129,7 +129,7 @@ class NewEvent extends React.Component {
         errors.err = this.checkIfEmptyFields(value, event.description);
         break;
       case 'description':
-        errors.description = (value.length > 5 && value.length <= 200) ? '' : 'Description must be 6-200 characters! ';
+        errors.description = (value.length > 5 && value.length <= 500) ? '' : 'Description must be 6-200 characters! ';
         errors.err = this.checkIfEmptyFields(event.name, value);
         break;
       default:
