@@ -195,7 +195,6 @@ class RestaurantImageUploader extends Component {
     );
   }
 
-
   render() {
     const { isUploadDisabled } = this.state;
     return (

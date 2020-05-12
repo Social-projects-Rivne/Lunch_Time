@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Container } from 'react-bootstrap';
 import '../../styles/restaurant-about.css';
+import RestaurantImageGallery from '../image-uploader/restaurant-image-gallery';
 
 class About extends Component {
   render() {
@@ -39,6 +40,7 @@ class About extends Component {
             {' '}
             { restaurant.workingTime }
           </p>
+          <RestaurantImageGallery restaurantId={restaurant.id} />
         </Container>
       );
     }
