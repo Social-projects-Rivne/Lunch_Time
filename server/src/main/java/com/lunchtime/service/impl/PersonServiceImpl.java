@@ -62,9 +62,9 @@ public class PersonServiceImpl implements PersonService {
 
         if (!StringUtils.isEmpty(person.getEmail())) {
             String message = String.format(
-                "Hello, %s! \n" +
-                    "Welcome to LunchTime! To activate your account, confirm it" +
-                    " moving to this link: " + webPage + "/confirm/%s",
+                "Hello, %s! \n"
+                    + "Welcome to LunchTime! To activate your account, confirm it"
+                    + " moving to this link: " + webPage + "/confirm/%s",
 
                 person.getName(),
                 person.getActivationCode()
