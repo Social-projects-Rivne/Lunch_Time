@@ -1113,7 +1113,7 @@ class Register extends Component {
           <b>You are registered!</b>
           <br />
           <br />
-          <b>We have sent a confirmation </b>
+          <b>We have sent a </b>
           <br />
           <b>message to your email. </b>
           <br />
