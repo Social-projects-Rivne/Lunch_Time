@@ -9,6 +9,7 @@ import moment from 'moment';
 import Resizer from 'react-image-file-resizer';
 import { withRouter } from 'react-router-dom';
 import Api from '../../services/api';
+import AlertBase from '../shared/alert-base';
 
 
 class NewEvent extends React.Component {
@@ -23,6 +24,8 @@ class NewEvent extends React.Component {
       dateAndTime: this.timeFormatter(this.currentDate),
       image: null,
       event: { name: '', description: '', deleted: false },
+      errors: { err: 'Please fill all fields! ' },
+      isShowAlert: false,
     };
     this.fileInputRef = React.createRef();
   }
@@ -49,7 +52,12 @@ class NewEvent extends React.Component {
   }
 
   onAddClick() {
-    this.sendData();
+    const { errors } = this.state;
+    if (!this.validateForm(errors)) {
+      this.setState({ isShowAlert: true });
+    } else {
+      this.sendData();
+    }
   }
 
   onCancelClick() {
@@ -111,13 +119,45 @@ class NewEvent extends React.Component {
 
   handleChange(e) {
     const { name, value } = e.target;
+    const { errors, event } = this.state;
+
+    errors.err = '';
+    switch (name) {
+      case 'name':
+        errors.name = (value.length > 5 && value.length <= 50)
+          ? '' : 'Event name must be 6-50 characters long! ';
+        errors.err = this.checkIfEmptyFields(value, event.description);
+        break;
+      case 'description':
+        errors.description = (value.length > 5 && value.length <= 200) ? '' : 'Description must be 6-200 characters! ';
+        errors.err = this.checkIfEmptyFields(event.name, value);
+        break;
+      default:
+        break;
+    }
 
     this.setState((prevState) => ({
       event: {
         ...prevState.event,
         [name]: value,
       },
+      isShowAlert: false,
     }));
+  }
+
+  checkIfEmptyFields(val1, val2) {
+    if (val1 === undefined || val1.length === 0 || val2 === undefined || val2.length === 0) {
+      return 'Not all fields are filled! ';
+    }
+    return '';
+  }
+
+  validateForm(errors) {
+    let valid = true;
+    Object.values(errors).forEach(
+      (val) => { if (val.length > 0) valid = false; },
+    );
+    return valid;
   }
 
   convertCategoryName(categoryName) {
@@ -135,11 +175,17 @@ class NewEvent extends React.Component {
   }
 
   render() {
-    const { categories, selectedCategory } = this.state;
+    const {
+      categories, selectedCategory, errors, isShowAlert,
+    } = this.state;
     return (
       <Container fluid className="new-event-container">
         <h5>Add a new event</h5>
-
+        <AlertBase
+          show={isShowAlert}
+          type="danger"
+          title={Object.values(errors).join('')}
+        />
         <Form.Group>
           <Form.Label>Category: </Form.Label>
           <br />
