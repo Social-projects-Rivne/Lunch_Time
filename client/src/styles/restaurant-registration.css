@@ -1,0 +1,44 @@
+.restaurantRegistration {
+  width: 70%;
+}
+
+.register_info_container {
+  width: 40%;
+  float: left;
+  margin-right: 16px;
+}
+
+.register_map_container {
+  float: left;
+}
+
+.form_registration {
+  width: 100%;
+  display: inline-block;
+}
+
+.registe_btn_container {
+  display: flex;
+  justify-content: flex-end;
+  width: 10%;
+  float: right;
+}
+
+.registe_btn_cancel {
+  margin-right: 16px;
+  margin-bottom: 55px;
+}
+
+.time_from {
+  width: 48%;
+  float: left;
+}
+
+.time_to {
+  float: right;
+  width: 48%;
+}
+
+.warning {
+  color: red;
+}

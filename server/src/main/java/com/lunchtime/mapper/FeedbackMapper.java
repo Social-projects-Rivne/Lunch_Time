@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
+import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
@@ -33,7 +34,6 @@ public class FeedbackMapper {
         feedback.setPerson(person);
         feedback.setRestaurant(restaurant);
         feedback.setRestaurant(restaurant);
-        feedback.setCounterLike(0);
         feedback.setCounterDislike(0);
         feedback.setDate(Instant.now());
 
@@ -47,10 +47,19 @@ public class FeedbackMapper {
 
         feedbackDto.setId(feedback.getId());
         feedbackDto.setDescription(feedback.getDescription());
-        feedbackDto.setPersonId(person.getId().intValue());
+        feedbackDto.setPersonId(person.getId());
+        feedbackDto.setPersonName(person.getName());
         feedbackDto.setRestId(restaurant.getId());
-        feedbackDto.setCounterLike(feedback.getCounterLike());
-        feedbackDto.setCounterLike(feedback.getCounterDislike());
+        if (feedback.getLikes() != null) {
+            feedbackDto.setLikes(feedback.getLikes().stream()
+                .map(Person::getId)
+                .collect(Collectors.toSet()));
+        }
+        if (feedback.getDislikes() != null) {
+            feedbackDto.setDislikes(feedback.getDislikes().stream()
+                .map(Person::getId)
+                .collect(Collectors.toSet()));
+        }
         feedbackDto.setDate(feedback.getDate());
 
         return feedbackDto;

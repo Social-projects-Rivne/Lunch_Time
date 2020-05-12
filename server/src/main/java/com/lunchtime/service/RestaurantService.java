@@ -16,6 +16,8 @@ public interface RestaurantService {
 
     Page<Restaurant> getRestaurantPage(Pageable pageable);
 
+    Page<Restaurant> getRestaurantPageByUserId(Long userId, Pageable pageable);
+
     Optional<Restaurant> getRestaurantById(Long id);
 
     Restaurant updateRestaurant(Restaurant restaurant);

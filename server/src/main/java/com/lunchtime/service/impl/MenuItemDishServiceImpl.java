@@ -11,7 +11,7 @@ import java.util.Optional;
 @Service
 public class MenuItemDishServiceImpl implements MenuItemDishService {
 
-    private MenuItemDishRepository menuItemDishRepository;
+    private final MenuItemDishRepository menuItemDishRepository;
 
     public MenuItemDishServiceImpl(MenuItemDishRepository menuItemDishRepository) {
         this.menuItemDishRepository = menuItemDishRepository;
@@ -38,5 +38,16 @@ public class MenuItemDishServiceImpl implements MenuItemDishService {
             String name, Long id, Pageable pageable) {
         return menuItemDishRepository.findDishesByRestaurantIdAndCategoryName(
                                                         name, id, pageable);
+    }
+
+    public Optional<MenuItemDish> deleteById(Long id) {
+        Optional<MenuItemDish> result = findById(id);
+        if (result.isPresent()) {
+            MenuItemDish menuItemDish = result.get();
+            menuItemDish.setDeleted(true);
+            save(menuItemDish);
+            return Optional.of(menuItemDish);
+        }
+        return Optional.empty();
     }
 }

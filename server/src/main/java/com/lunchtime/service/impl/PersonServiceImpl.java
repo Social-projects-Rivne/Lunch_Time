@@ -2,6 +2,7 @@ package com.lunchtime.service.impl;
 
 import com.lunchtime.mapper.PersonMapper;
 import com.lunchtime.models.Person;
+import com.lunchtime.models.Restaurant;
 import com.lunchtime.repository.PersonRepository;
 import com.lunchtime.repository.RoleRepository;
 import com.lunchtime.service.PersonService;
@@ -9,7 +10,6 @@ import com.lunchtime.service.dto.PersonDto;
 import com.lunchtime.service.dto.PersonPassDto;
 import com.lunchtime.service.dto.RegisterPerson;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -84,6 +84,10 @@ public class PersonServiceImpl implements PersonService {
         Optional<Person> result = personRepository.findById(personPassDto.getId());
         if (result.isPresent()) {
             Person person = result.get();
+            if (person.getPhoneNumber().equals(personPassDto.getPassword())
+                || person.getEmail().equals(personPassDto.getPassword())) {
+                throw new Exception();
+            }
             if (BCrypt.checkpw(personPassDto.getOldPassword(), person.getPassword())) {
                 person.setPassword(bcryptPasswordEncoder.encode(personPassDto.getPassword()));
                 person.setName(personPassDto.getName());
@@ -119,6 +123,17 @@ public class PersonServiceImpl implements PersonService {
             return true;
         }
         return false;
+    }
+
+    public void updatePersonRoleId(Restaurant restaurant) {
+        Optional<Person> res = personRepository.findById(restaurant.getPersonId());
+        if (res.isPresent()) {
+            Person person = res.get();
+            if (person.getRoleId() != 2L) {
+                person.setRoleId(2L);
+                personRepository.save(person);
+            }
+        }
     }
 
     @Override

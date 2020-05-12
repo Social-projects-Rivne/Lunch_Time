@@ -6,6 +6,7 @@ import {
 } from 'react-bootstrap';
 import Api from '../../services/api';
 import '../../styles/new-order.css';
+import Auth from '../../services/auth';
 
 class NewOrder extends Component {
   constructor(props) {
@@ -14,14 +15,17 @@ class NewOrder extends Component {
     this.milliseconds = 60000;
     this.currentDate = new Date();
     this.path = '/new-order';
+    this.personId = Auth.getPersonId();
     this.state = {
       startDate: this.timeFormatter(this.currentDate),
       finishDate: this.timeFormatter((new Date(this.currentDate.getTime() + this.timeInterval * this.milliseconds))),
       availableTables: [],
       table: null,
       visitors: 1,
+      dishes: '',
       description: '',
       isBadRequestError: false,
+      isLoginError: false,
     };
   }
 
@@ -73,13 +77,33 @@ class NewOrder extends Component {
     } else {
       return;
     }
+    let orderedDishes = this.props.location.state.menuItemDishesMap;
+    if (orderedDishes !== undefined) {
+      const mapToObj = (m) => {
+        return Array.from(m).reduce((obj, [key, value]) => {
+          // eslint-disable-next-line no-param-reassign
+          obj[key] = value;
+          return obj;
+        }, {});
+      };
+      orderedDishes = JSON.stringify(mapToObj(orderedDishes));
+    } else {
+      orderedDishes = null;
+    }
+    if (!this.personId) {
+      this.setState({
+        isLoginError: true,
+      });
+      return;
+    }
     const order = {
-      person: { id: 1 },
+      personId: this.personId,
       startTime: this.state.startDate.toUTCString(),
       finishTime: this.state.finishDate.toUTCString(),
       visitors: this.state.visitors,
-      table: { id: tableId },
+      tableId: tableId,
       description: this.state.description,
+      orderedDishes: orderedDishes,
     };
 
     Api.post('orders', order)
@@ -235,6 +259,16 @@ class NewOrder extends Component {
           </Form.Group>
 
           <Form.Group>
+            <Form.Label>Ordered dishes</Form.Label>
+            <Form.Control
+              rows="2"
+              maxLength="9999"
+              value={location.state.dishes}
+              readOnly
+            />
+          </Form.Group>
+
+          <Form.Group>
             <Form.Label>Description</Form.Label>
             <Form.Control
               as="textarea"
@@ -249,6 +283,11 @@ class NewOrder extends Component {
         {
           this.state.isBadRequestError
             ? this.showAlert('Something went wrong. Try again later', 'danger', true)
+            : null
+        }
+        {
+          this.state.isLoginError
+            ? this.showAlert('You should login first', 'danger', true)
             : null
         }
         <div className="order-btn-container">

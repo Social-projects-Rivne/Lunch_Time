@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import {
   Container, Row,
-  Dropdown, Col,
+  Dropdown, Col, ButtonToolbar, Button,
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import Api from '../../services/api';
 
 class Header extends Component {
@@ -11,6 +12,8 @@ class Header extends Component {
     super(props);
     this.state = {
       categories: [],
+      isEdit: false,
+      dropdownName: 'All categories',
     };
   }
 
@@ -18,8 +21,17 @@ class Header extends Component {
     this.getCategories('category');
   }
 
-  onHandleClick(path) {
+  onEditClick() {
+    this.setState((currentState) => ({ isEdit: !currentState.isEdit }));
+    this.props.isEdit(this.state.isEdit);
+  }
+
+
+  onHandleClick(path, categoryName) {
     this.props.onChange(path);
+    this.setState({
+      dropdownName: categoryName,
+    });
   }
 
   getCategories(path) {
@@ -37,24 +49,38 @@ class Header extends Component {
   }
 
   render() {
-    const { categories } = this.state;
+    const { id, isOwner } = this.props;
+    const { categories, dropdownName } = this.state;
     return (
       <Container>
         <br />
+        <ButtonToolbar className="justify-content-center">
+          {isOwner && (
+          <Button className="ml-3 mb-1" onClick={() => this.onEditClick()}>
+            {!this.state.isEdit ? 'Edit Menu' : 'Close'}
+          </Button>
+          )}
+          {this.state.isEdit && (
+            <Link to={{ pathname: `/restaurants/${id}/new-dish` }}>
+              <span className="d-inline-block ml-2">
+                <Button>Add a new dish</Button>
+              </span>
+            </Link>
+          )}
+        </ButtonToolbar>
         <Row>
-          <Col className="header-item">
+          <Col className="header-item" xs={2}>
             <Dropdown>
               <Dropdown.Toggle
-                variant="info"
                 id="dropdown-basic"
                 className="drop-down"
               >
-                All categories
+                {dropdownName}
               </Dropdown.Toggle>
               <Dropdown.Menu>
                 <Dropdown.Item
                   eventKey="0"
-                  onClick={() => this.onHandleClick('menuitemdish/restaurantId?')}
+                  onClick={() => this.onHandleClick('menuitemdish/restaurantId?', 'All categories')}
                 >
                   All categories
                 </Dropdown.Item>
@@ -62,7 +88,7 @@ class Header extends Component {
                   return (
                     <Dropdown.Item
                       key={category.id}
-                      onClick={() => this.onHandleClick(`menuitemdish/category?name=${category.name}&`)}
+                      onClick={() => this.onHandleClick(`menuitemdish/category?name=${category.name}&`, category.name)}
                     >
                       {category.name}
                     </Dropdown.Item>
@@ -71,12 +97,12 @@ class Header extends Component {
               </Dropdown.Menu>
             </Dropdown>
           </Col>
-          <Col className="header-item">
+          <Col className="header-item" xs={3}>
             Dish
             <br />
             (Ingredients)
           </Col>
-          <Col className="header-item">
+          <Col className="header-item" xs={2}>
             Image
           </Col>
           <Col className="header-item">
@@ -85,9 +111,15 @@ class Header extends Component {
           <Col className="header-item">
             Portion price
           </Col>
-          <Col className="header-item">
-            Add to Order
-          </Col>
+          {!this.state.isEdit ? (
+            <Col className="header-item">
+              Add to Order
+            </Col>
+          ) : (
+            <Col className="header-item">
+              Delete item
+            </Col>
+          )}
         </Row>
         <hr className="menu-item" />
       </Container>
@@ -97,5 +129,8 @@ class Header extends Component {
 
 Header.propTypes = {
   onChange: PropTypes.any.isRequired,
+  isEdit: PropTypes.func.isRequired,
+  id: PropTypes.string.isRequired,
+  isOwner: PropTypes.bool.isRequired,
 };
 export default Header;

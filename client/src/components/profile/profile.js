@@ -17,6 +17,8 @@ import '../../styles/profile.css';
 import PhotoEditor from './avatar';
 import InfoChange from './info-change';
 import Auth from '../../services/auth';
+import OwnersRestaurants from './owners-restaurants';
+import { OWNER_ROLE_ID } from '../../constants';
 
 class Profile extends Component {
   constructor(props) {
@@ -28,12 +30,27 @@ class Profile extends Component {
       isShowAlert: false,
     };
     this.menuItems = [
-      { path: '/profile/info', title: 'Info' },
-      { path: '/profile/orders', title: 'Orders' },
-      { path: '/profile/history', title: 'History' },
-      { path: '/profile/subscriptions', title: 'Subscriptions' },
-      { path: '/profile/sharing', title: 'Sharing' },
-      { path: '/profile/settings', title: 'Settings' },
+      {
+        path: '/profile/info', title: 'Info', ownerSee: true, userSee: true,
+      },
+      {
+        path: '/profile/owners-restaurants', title: 'My Restaurants', ownerSee: true, userSee: false,
+      },
+      {
+        path: '/profile/orders', title: 'Orders', ownerSee: true, userSee: true,
+      },
+      {
+        path: '/profile/history', title: 'History', ownerSee: true, userSee: true,
+      },
+      {
+        path: '/profile/subscriptions', title: 'Subscriptions', ownerSee: true, userSee: true,
+      },
+      {
+        path: '/profile/sharing', title: 'Sharing', ownerSee: true, userSee: true,
+      },
+      {
+        path: '/profile/settings', title: 'Settings', ownerSee: true, userSee: true,
+      },
     ];
   }
 
@@ -106,16 +123,23 @@ class Profile extends Component {
           <Row>
             <Col md="3" className="profile-menu">
               <ListGroup>
-                {this.menuItems.map((menuItem, index) => {
-                  return (
-                    // eslint-disable-next-line react/no-array-index-key
-                    <Link to={menuItem.path} key={index}>
-                      <ListGroup.Item active={location.pathname === menuItem.path}>
-                        {menuItem.title}
-                      </ListGroup.Item>
-                    </Link>
-                  );
-                })}
+                {this.menuItems
+                  .filter((item) => {
+                    if (user.roleId === OWNER_ROLE_ID) {
+                      return item.ownerSee === true;
+                    }
+                    return item.userSee === true;
+                  })
+                  .map((menuItem, index) => {
+                    return (
+                      // eslint-disable-next-line react/no-array-index-key
+                      <Link to={menuItem.path} key={index}>
+                        <ListGroup.Item active={location.pathname === menuItem.path}>
+                          {menuItem.title}
+                        </ListGroup.Item>
+                      </Link>
+                    );
+                  })}
               </ListGroup>
             </Col>
             <Col>
@@ -159,6 +183,17 @@ class Profile extends Component {
                         user={user}
                         title={(e) => this.saveAlertState(true, e)}
                         updateAvatar={(avatar) => this.saveAvatarState(avatar)}
+                      />
+                    );
+                  }}
+                />
+                <Route path="/profile/avatar" component={PhotoEditor} />
+                <Route
+                  path="/profile/owners-restaurants"
+                  component={() => {
+                    return (
+                      <OwnersRestaurants
+                        userId={user.id}
                       />
                     );
                   }}

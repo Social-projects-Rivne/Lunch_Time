@@ -7,7 +7,6 @@ import { Redirect } from 'react-router';
 import PropTypes from 'prop-types';
 import Api from '../../services/api';
 import Timer from '../shared/timer';
-import Person from '../../services/person';
 import Auth from '../../services/auth';
 
 const valid = 'form-control is-valid';
@@ -52,7 +51,8 @@ class Register extends Component {
       showStrong: false,
       passwordStrength: '',
       passwordInputStarted: false,
-      passwordInputTitle: "Password shouldn't be weak and less than 8 symbols",
+      passwordInputTitle: 'We recommend'
+        + 'setting strong password with 8 or more symbols with no whitespaces beginning/ending',
       passwordInputClassName: '',
       passwordInputWrongClassName: false,
       confirmPasswordInputTitle: 'Passwords must match each other',
@@ -393,109 +393,116 @@ class Register extends Component {
   }
 
   handleSubmit() {
-    this.setState({
-      buttonDisabled: true,
-    });
+    const validPass = /^(?!(.)\1+$)(?!\s)(?!.*\s$).{8,40}$/;
     const {
       name, phoneNumber, email, password,
     } = this.state;
-    if (this.checkAllFields()) {
+    if (validPass.test(password)) {
       this.setState({
-        isClicked: true,
+        buttonDisabled: true,
+        passwordInputClassName: valid,
+        confirmPasswordInputClassName: valid,
       });
-      const body = {
-        name: name,
-        phoneNumber: phoneNumber,
-        email: email,
-        password: password,
-      };
-      Api.post('persons', body)
-        .then((response) => {
-          this.setState({
-            isClicked: false,
-          });
-          if (response.status === 200) {
-            this.setState({
-              isRegistered: true,
-              unexpectedError: false,
-            });
-            this.login();
-          } else if (response.error.status === 409) {
-            if (response.error.data === 'Phone number and email are not unique') {
-              this.setState({
-                unexpectedError: false,
-              });
-              setTimeout(() => {
-                const previousPhoneArray = this.state.alreadyRegisteredPhoneNumber;
-                const alreadyRegisteredPhoneNumber = [...previousPhoneArray];
-                alreadyRegisteredPhoneNumber.push(phoneNumber);
-                const previousEmailArray = this.state.alreadyRegisteredEmail;
-                const alreadyRegisteredEmail = [...previousEmailArray];
-                alreadyRegisteredEmail.push(email);
-                this.setState({
-                  phoneInputClassName: invalid,
-                  phoneInputTitle: 'This phone is already registered. Use another one.',
-                  emailInputClassName: invalid,
-                  emailInputTitle: 'This email is already registered. Use another one.',
-                  alreadyRegisteredPhoneNumber,
-                  alreadyRegisteredEmail,
-                });
-              }, 300);
-            } else if (response.error.data === "Phone number isn't unique") {
-              this.setState({
-                unexpectedError: false,
-              });
-              setTimeout(() => {
-                const previousArray = this.state.alreadyRegisteredPhoneNumber;
-                const alreadyRegisteredPhoneNumber = [...previousArray];
-                alreadyRegisteredPhoneNumber.push(phoneNumber);
-                this.setState({
-                  phoneInputClassName: invalid,
-                  phoneInputTitle: 'This phone is already registered. Use another one.',
-                  alreadyRegisteredPhoneNumber,
-                });
-              }, 300);
-            } else if (response.error.data === "email isn't unique") {
-              this.setState({
-                unexpectedError: false,
-              });
-              setTimeout(() => {
-                const previousArray = this.state.alreadyRegisteredEmail;
-                const alreadyRegisteredEmail = [...previousArray];
-                alreadyRegisteredEmail.push(email);
-                this.setState({
-                  emailInputClassName: invalid,
-                  emailInputTitle: 'This email is already registered. Use another one.',
-                  alreadyRegisteredEmail,
-                });
-              }, 300);
-            }
-          } else if (response.error.status === 400) {
-            this.setState({
-              unexpectedError: false,
-            });
-          }
-        })
-        .catch((error) => {
-          // eslint-disable-next-line no-console
-          console.log(error);
-        })
-        .finally(() => {
-          if (this.state.unexpectedError === '') {
-            this.setState({
-              unexpectedError: true,
-            });
-            setTimeout(() => {
-              this.setState({
-                unexpectedError: '',
-              });
-            }, 5000);
-          }
+      if (this.checkAllFields()) {
+        this.setState({
+          isClicked: true,
         });
+        const body = {
+          name: name,
+          phoneNumber: phoneNumber,
+          email: email,
+          password: password,
+        };
+        Api.post('persons', body)
+          .then((response) => {
+            if (response.status === 200) {
+              this.setState({
+                isRegistered: true,
+                unexpectedError: false,
+              });
+              this.login();
+            } else if (response.error.status === 409) {
+              if (response.error.data === 'Phone number and email are not unique') {
+                this.setState({
+                  unexpectedError: false,
+                });
+                setTimeout(() => {
+                  const previousPhoneArray = this.state.alreadyRegisteredPhoneNumber;
+                  const alreadyRegisteredPhoneNumber = [...previousPhoneArray];
+                  alreadyRegisteredPhoneNumber.push(phoneNumber);
+                  const previousEmailArray = this.state.alreadyRegisteredEmail;
+                  const alreadyRegisteredEmail = [...previousEmailArray];
+                  alreadyRegisteredEmail.push(email);
+                  this.setState({
+                    phoneInputClassName: invalid,
+                    phoneInputTitle: 'This phone is already registered. Use another one.',
+                    emailInputClassName: invalid,
+                    emailInputTitle: 'This email is already registered. Use another one.',
+                    alreadyRegisteredPhoneNumber,
+                    alreadyRegisteredEmail,
+                  });
+                }, 300);
+              } else if (response.error.data === "Phone number isn't unique") {
+                this.setState({
+                  unexpectedError: false,
+                });
+                setTimeout(() => {
+                  const previousArray = this.state.alreadyRegisteredPhoneNumber;
+                  const alreadyRegisteredPhoneNumber = [...previousArray];
+                  alreadyRegisteredPhoneNumber.push(phoneNumber);
+                  this.setState({
+                    phoneInputClassName: invalid,
+                    phoneInputTitle: 'This phone is already registered. Use another one.',
+                    alreadyRegisteredPhoneNumber,
+                  });
+                }, 300);
+              } else if (response.error.data === "email isn't unique") {
+                this.setState({
+                  unexpectedError: false,
+                });
+                setTimeout(() => {
+                  const previousArray = this.state.alreadyRegisteredEmail;
+                  const alreadyRegisteredEmail = [...previousArray];
+                  alreadyRegisteredEmail.push(email);
+                  this.setState({
+                    emailInputClassName: invalid,
+                    emailInputTitle: 'This email is already registered. Use another one.',
+                    alreadyRegisteredEmail,
+                  });
+                }, 300);
+              }
+            } else if (response.error.status === 400) {
+              this.setState({
+                unexpectedError: false,
+              });
+            }
+          })
+          .catch((error) => {
+            // eslint-disable-next-line no-console
+            console.log(error);
+          })
+          .finally(() => {
+            if (this.state.unexpectedError === '') {
+              this.setState({
+                unexpectedError: true,
+              });
+              setTimeout(() => {
+                this.setState({
+                  unexpectedError: '',
+                });
+              }, 5000);
+            }
+          });
+      }
+      this.setState({
+        buttonDisabled: false,
+      });
+    } else {
+      this.setState({
+        passwordInputClassName: invalid,
+        confirmPasswordInputClassName: '',
+      });
     }
-    this.setState({
-      buttonDisabled: false,
-    });
   }
 
   arePhoneAndPasswordSame(phone, password) {
@@ -854,12 +861,26 @@ class Register extends Component {
     const { loginHandler } = this.props;
     Api.post('authenticate', { email: this.state.email, password: this.state.password })
       .then((response) => {
-        if (response.status === 200) {
-          Auth.setToken(response.data);
-          Person.getProfile();
-          loginHandler();
+        if (response.error) {
+          // eslint-disable-next-line no-console
+          console.error(response);
+          return response;
         }
+        Auth.setToken(response.data);
+        loginHandler();
         this.openMainPage();
+        return response.data;
+      })
+      .then((token) => {
+        Api.getCurrentUser('persons/currentUser', token)
+          .then((response) => {
+            if (response.error) {
+              // eslint-disable-next-line no-console
+              console.error(response);
+              return;
+            }
+            Auth.savePersonId(response && response.data && response.data.id);
+          });
       });
   }
 
@@ -900,112 +921,111 @@ class Register extends Component {
     this.photo();
     if (this.state.isClicked) {
       return (
-
         <Spinner animation="border" variant="primary" />
       );
     }
     if (!isRegistered) {
       return (
         <Container className="base-container" style={{ color: '#3498db' }}>
-          <div className="header">Register</div>
+          <div className="header">Registration</div>
           <div className="content">
             <div className="image">
               <img src={photo1} alt="register" />
             </div>
             {unexpectedError !== true
             && (
-            <Form className="form" onSubmit={this.handleSubmit}>
-              <FormGroup>
-                <FormLabel htmlFor="text">Name</FormLabel>
-                <input
-                  className={nameInputClassName}
-                  title={nameInputTitle}
-                  type="text"
-                  placeholder="name"
-                  value={this.state.name}
-                  onChange={this.validateInputName}
-                  style={{
-                    backgroundColor: nameBackgroundColor,
-                  }}
-                />
-                <FormLabel htmlFor="text">Phone number</FormLabel>
-                <input
-                  className={phoneInputClassName}
-                  title={phoneInputTitle}
-                  type="text"
-                  placeholder="phone number"
-                  value={this.state.phoneNumber}
-                  onChange={this.validateInputPhone}
-                  style={{
-                    backgroundColor: phoneBackgroundColor,
-                  }}
-                />
-                <FormLabel htmlFor="email">e-mail</FormLabel>
-                <input
-                  className={emailInputClassName}
-                  title={emailInputTitle}
-                  type="email"
-                  placeholder="email"
-                  value={this.state.email}
-                  onChange={this.validateInputEmail}
-                  style={{
-                    backgroundColor: emailBackgroundColor,
-                  }}
-                />
-                <FormLabel htmlFor="password">
-                  Password
-                  {showPassword
-                  && (
-                    // eslint-disable-next-line max-len
-                    // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions
-                    <img
-                      id="image"
-                      src={isPasswordShown ? '/img/show-password.png' : '/img/hide-password.png'}
-                      alt="show"
-                      style={{ height: 18, marginLeft: 6, cursor: 'pointer' }}
-                      onClick={this.isPasswordShown}
-                    />
-                  )}
-                  {password.length >= 8 && <text style={{ color: color }}> ● </text>}
-                  {password.length >= 8 && phoneAndPassword && (
-                    <text style={{ color: color, fontSize: 13 }}>
-                      password equals phone
-                    </text>
-                  )}
-                  {password.length >= 8 && showWeak && (
-                    <text style={{ color: color, fontSize: 13 }}>
-                      password equals email
-                    </text>
-                  )}
-                  {password.length >= 8 && showEasy && <text style={{ color: color, fontSize: 13 }}> easy </text>}
-                  {password.length >= 8 && showGood
-                  && !phoneAndPassword && <text style={{ color: color, fontSize: 13 }}> good </text>}
-                  {password.length >= 8 && showStrong && <text style={{ color: color, fontSize: 13 }}> strong </text>}
-                </FormLabel>
-                <input
-                  className={passwordInputClassName}
-                  title={passwordInputTitle}
-                  type={isPasswordShown ? 'text' : 'password'}
-                  placeholder="password"
-                  value={this.state.password}
-                  onChange={this.validateInputPassword}
-                  style={{
-                    backgroundColor: passwordBackgroundColor,
-                  }}
-                />
-                <input
-                  className={confirmPasswordInputClassName}
-                  title={confirmPasswordInputTitle}
-                  type={isPasswordShown ? 'text' : 'password'}
-                  placeholder="confirm password"
-                  value={this.state.confirmPassword}
-                  onChange={this.validateConfirmPassword}
-                  style={{
-                    backgroundColor: confirmPasswordBackgroundColor,
-                  }}
-                />
-              </FormGroup>
-            </Form>
+              <Form className="form" onSubmit={this.handleSubmit}>
+                <FormGroup>
+                  <FormLabel htmlFor="text">Name</FormLabel>
+                  <input
+                    className={nameInputClassName}
+                    title={nameInputTitle}
+                    type="text"
+                    placeholder="name"
+                    value={this.state.name}
+                    onChange={this.validateInputName}
+                    style={{
+                      backgroundColor: nameBackgroundColor,
+                    }}
+                  />
+                  <FormLabel htmlFor="text">Phone number</FormLabel>
+                  <input
+                    className={phoneInputClassName}
+                    title={phoneInputTitle}
+                    type="text"
+                    placeholder="phone number"
+                    value={this.state.phoneNumber}
+                    onChange={this.validateInputPhone}
+                    style={{
+                      backgroundColor: phoneBackgroundColor,
+                    }}
+                  />
+                  <FormLabel htmlFor="email">e-mail</FormLabel>
+                  <input
+                    className={emailInputClassName}
+                    title={emailInputTitle}
+                    type="email"
+                    placeholder="email"
+                    value={this.state.email}
+                    onChange={this.validateInputEmail}
+                    style={{
+                      backgroundColor: emailBackgroundColor,
+                    }}
+                  />
+                  <FormLabel htmlFor="password">
+                    Password
+                    {showPassword
+                    && (
+                      // eslint-disable-next-line max-len
+                      // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions
+                      <img
+                        id="image"
+                        src={isPasswordShown ? '/img/show-password.png' : '/img/hide-password.png'}
+                        alt="show"
+                        style={{ height: 18, marginLeft: 6, cursor: 'pointer' }}
+                        onClick={this.isPasswordShown}
+                      />
+                    )}
+                    {password.length >= 8 && <text style={{ color: color }}> ● </text>}
+                    {password.length >= 8 && phoneAndPassword && (
+                      <text style={{ color: color, fontSize: 13 }}>
+                        password equals phone
+                      </text>
+                    )}
+                    {password.length >= 8 && showWeak && (
+                      <text style={{ color: color, fontSize: 13 }}>
+                        password equals email
+                      </text>
+                    )}
+                    {password.length >= 8 && showEasy && <text style={{ color: color, fontSize: 13 }}> easy </text>}
+                    {password.length >= 8 && showGood
+                    && !phoneAndPassword && <text style={{ color: color, fontSize: 13 }}> good </text>}
+                    {password.length >= 8 && showStrong && <text style={{ color: color, fontSize: 13 }}> strong </text>}
+                  </FormLabel>
+                  <input
+                    className={passwordInputClassName}
+                    title={passwordInputTitle}
+                    type={isPasswordShown ? 'text' : 'password'}
+                    placeholder="password"
+                    value={this.state.password}
+                    onChange={this.validateInputPassword}
+                    style={{
+                      backgroundColor: passwordBackgroundColor,
+                    }}
+                  />
+                  <input
+                    className={confirmPasswordInputClassName}
+                    title={confirmPasswordInputTitle}
+                    type={isPasswordShown ? 'text' : 'password'}
+                    placeholder="confirm password"
+                    value={this.state.confirmPassword}
+                    onChange={this.validateConfirmPassword}
+                    style={{
+                      backgroundColor: confirmPasswordBackgroundColor,
+                    }}
+                  />
+                </FormGroup>
+              </Form>
             )}
             {unexpectedError
             && (
@@ -1039,16 +1059,16 @@ class Register extends Component {
           </div>
           {unexpectedError !== true
           && (
-          <div className="footer">
-            <button
-              type="submit"
-              className="btn-reg"
-              disabled={buttonDisabled}
-              onClick={this.handleSubmit}
-            >
-              Register
-            </button>
-          </div>
+            <div className="footer">
+              <button
+                type="submit"
+                className="btn-reg"
+                disabled={buttonDisabled}
+                onClick={this.handleSubmit}
+              >
+                Register
+              </button>
+            </div>
           )}
         </Container>
       );

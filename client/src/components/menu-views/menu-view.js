@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-import { Container, Spinner } from 'react-bootstrap';
+import {
+  Button, Container, Spinner,
+} from 'react-bootstrap';
 import Pagination from 'react-bootstrap-pagination-logic';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import Header from './menu-header';
 import MenuItemDish from './menu-item-dish';
 import Api from '../../services/api';
@@ -16,13 +19,22 @@ class Menu extends Component {
       menuItemDishes: [],
       path: 'menuitemdish/restaurantId?',
       isFetching: false,
+      isEdit: false,
+      dishes: [],
+      menuItemDishesMap: new Map(),
     };
     this.handlePageChange = this.handlePageChange.bind(this);
+    this.addDishToOrderList = this.addDishToOrderList.bind(this);
+    this.addMenuItemDishToOrderList = this.addMenuItemDishToOrderList.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
 
   componentDidMount() {
     this.getAll(this.state.path, this.state.number, this.state.pageSize);
+  }
+
+  onEditMenu() {
+    this.setState((currentState) => ({ isEdit: !currentState.isEdit }));
   }
 
   getAll(path, page, pageSize) {
@@ -48,8 +60,8 @@ class Menu extends Component {
   }
 
   initPagination() {
-    const { number, totalPages } = this.state;
-    if (totalPages === 1) {
+    const { number, totalPages, menuItemDishes } = this.state;
+    if (totalPages === 1 || menuItemDishes === undefined) {
       return null;
     }
     return (
@@ -59,15 +71,48 @@ class Menu extends Component {
         position="center"
         handlePageChange={this.handlePageChange}
       />
+
     );
   }
 
   initMenuItemDish() {
-    const { menuItemDishes } = this.state;
+    const { menuItemDishes, isEdit } = this.state;
     const { isAuthenticated } = this.props;
-    return (
-      <MenuItemDish menuItemDishes={menuItemDishes} isAuthenticated={isAuthenticated} />
-    );
+    if (menuItemDishes !== undefined) {
+      return (
+        <MenuItemDish
+          menuItemDishes={menuItemDishes}
+          isAuthenticated={isAuthenticated}
+          isEdit={isEdit}
+          addDishToOrderList={this.addDishToOrderList}
+          addMenuItemDishToOrderList={this.addMenuItemDishToOrderList}
+          update={() => this.handleChange('menuitemdish/restaurantId?')}
+        />
+      );
+    }
+    return null;
+  }
+
+  addDishToOrderList(dishCategory, dishName) {
+    const previousDishArray = this.state.dishes;
+    const dishes = [...previousDishArray];
+    const dish = ` ${dishCategory} ${dishName}`;
+    dishes.push(dish);
+    this.setState({
+      dishes,
+    });
+  }
+
+  addMenuItemDishToOrderList(newMenuItemDish) {
+    const { menuItemDishesMap } = this.state;
+    let quantity = 1;
+    if (menuItemDishesMap.has(newMenuItemDish)) {
+      quantity = menuItemDishesMap.get(newMenuItemDish) + 1;
+    }
+    menuItemDishesMap.set(newMenuItemDish, quantity);
+    this.setState({
+      menuItemDishesMap,
+    });
   }
 
   handleChange(match) {
@@ -78,13 +123,41 @@ class Menu extends Component {
   }
 
   render() {
-    const { isFetching } = this.state;
+    const { id, isOwner, name } = this.props;
+    const { isFetching, dishes, menuItemDishesMap } = this.state;
     if (isFetching) {
       return (
-        <Container className="menu">
-          <Header onChange={this.handleChange} />
+        <Container className="menu mb-4">
+          <Header onChange={this.handleChange} isEdit={() => this.onEditMenu()} id={id} isOwner={isOwner} />
           {this.initMenuItemDish()}
           {this.initPagination()}
+          <div style={{
+            display: 'flex',
+            justifyContent: 'flex-end',
+          }}
+          >
+            <Link to={{
+              pathname: `/restaurants/${id}/new-order`,
+              state: {
+                restaurantName: name,
+                dishes: dishes,
+                menuItemDishesMap: menuItemDishesMap,
+              },
+            }}
+            >
+              {this.state.dishes.length > 0 && (
+                <Button
+                  className="complete"
+                  variant="primary"
+                >
+                  Complete order (
+                  {this.state.dishes.length}
+                  {' '}
+                  items)
+                </Button>
+              )}
+            </Link>
+          </div>
         </Container>
       );
     }
@@ -94,8 +167,14 @@ class Menu extends Component {
   }
 }
 
+Menu.defaultProps = {
+  name: 'selected restaurant',
+};
+
 Menu.propTypes = {
-  id: PropTypes.any.isRequired,
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string,
   isAuthenticated: PropTypes.bool.isRequired,
+  isOwner: PropTypes.bool.isRequired,
 };
 export default Menu;

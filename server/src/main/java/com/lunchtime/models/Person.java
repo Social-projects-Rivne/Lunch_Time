@@ -1,9 +1,7 @@
 package com.lunchtime.models;
 
 import com.lunchtime.enums.Status;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -18,7 +16,8 @@ import java.time.Instant;
 @Table(name = "person")
 @Builder
 @AllArgsConstructor
-@Data
+@Getter
+@Setter
 public class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

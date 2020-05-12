@@ -211,7 +211,6 @@ public class DatabaseSeed {
         feedback.setDate(Instant.now());
         feedback.setPerson(getPersonList().get(i));
         feedback.setRestaurant(getRestaurantList().get(i));
-        feedback.setCounterLike(3 + i);
         feedback.setCounterDislike(12 + i);
         return feedback;
     }
@@ -229,6 +228,7 @@ public class DatabaseSeed {
         person.setPassword(
             bcryptPasswordEncoder.encode(userName[i].concat("password").toLowerCase()));
         person.setPhoneNumber("+38050123456".concat(String.valueOf(i)));
+        person.setRoleId(1L);
         return person;
     }
 
