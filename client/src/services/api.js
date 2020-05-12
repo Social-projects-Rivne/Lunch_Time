@@ -101,6 +101,16 @@ class Api {
       });
   }
 
+  delete(endpoint) {
+    return axios.delete(`${this.getApiEndpoint(endpoint)}`)
+      .then((response) => {
+        return { error: null, data: response.data, status: response.status };
+      })
+      .catch((error) => {
+        return { error: error };
+      });
+  }
+
   getApiEndpoint(endpoint) {
     if (this.apiUrl.endsWith('/') && endpoint.startsWith('/')) {
       return `${this.apiUrl.slice(0, -1)}${endpoint}`;
