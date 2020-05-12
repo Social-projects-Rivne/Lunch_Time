@@ -38,7 +38,7 @@ class Confirm extends Component {
   render() {
     return (
       <Container>
-        <h1>{this.state.message}</h1>
+        <h1 style={{ textAlign: 'center' }}>{this.state.message}</h1>
         {this.state.mainPage && <Redirect to="/" /> }
       </Container>
     );

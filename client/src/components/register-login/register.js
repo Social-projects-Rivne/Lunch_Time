@@ -415,6 +415,9 @@ class Register extends Component {
         };
         Api.post('persons', body)
           .then((response) => {
+            this.setState({
+              isClicked: false,
+            });
             if (response.status === 200) {
               this.setState({
                 isRegistered: true,
@@ -1105,6 +1108,14 @@ class Register extends Component {
           }}
         >
           <b>You are registered!</b>
+          <br />
+          <b>We have sent a confirmation </b>
+          <br />
+          <b>message to your email. </b>
+          <br />
+          <b>Confirm it to and make </b>
+          <br />
+          <b>your first order! </b>
         </div>
         <div
           className="text-focus-in"
