@@ -4,6 +4,7 @@ import DatePicker from 'react-datepicker';
 import {
   Button, Form, Container, Alert,
 } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import Api from '../../services/api';
 import '../../styles/new-order.css';
 import Auth from '../../services/auth';
@@ -20,12 +21,13 @@ class NewOrder extends Component {
       startDate: this.timeFormatter(this.currentDate),
       finishDate: this.timeFormatter((new Date(this.currentDate.getTime() + this.timeInterval * this.milliseconds))),
       availableTables: [],
-      table: null,
+      tableId: null,
       visitors: 1,
       dishes: '',
       description: '',
       isBadRequestError: false,
       isLoginError: false,
+      orderIsRegistered: false,
     };
   }
 
@@ -61,19 +63,25 @@ class NewOrder extends Component {
   }
 
   getMaximumOfVisitors() {
-    if (this.state.table) {
-      return this.getTableCapacity(this.state.table);
+    if (this.state.tableId) {
+      return this.getTableCapacity(this.state.tableId);
     }
     return this.state.availableTables.length && this.state.availableTables[0].capacity;
   }
 
+  getTableNumber() {
+    const { tableId, availableTables } = this.state;
+    const orderedTableId = tableId !== null ? tableId : availableTables[0].id;
+    const orderedTable = availableTables.find((t) => t.id === +orderedTableId);
+    return orderedTable && orderedTable.number;
+  }
+
   saveOrder() {
-    const { match, history } = this.props;
-    let tableId;
-    if (this.state.table) {
-      tableId = this.state.table;
+    let orderedTableId;
+    if (this.state.tableId) {
+      orderedTableId = this.state.tableId;
     } else if (this.state.availableTables.length) {
-      tableId = this.state.availableTables[0].id;
+      orderedTableId = this.state.availableTables[0].id;
     } else {
       return;
     }
@@ -101,7 +109,7 @@ class NewOrder extends Component {
       startTime: this.state.startDate.toUTCString(),
       finishTime: this.state.finishDate.toUTCString(),
       visitors: this.state.visitors,
-      tableId: tableId,
+      tableId: orderedTableId,
       description: this.state.description,
       orderedDishes: orderedDishes,
     };
@@ -116,7 +124,9 @@ class NewOrder extends Component {
           });
           return;
         }
-        history.push(match.url.replace(this.path, ''));
+        this.setState({
+          orderIsRegistered: true,
+        });
       });
   }
 
@@ -188,120 +198,183 @@ class NewOrder extends Component {
 
   render() {
     const { history, location } = this.props;
+    const { orderIsRegistered, startDate } = this.state;
     if (location && !location.state) {
       this.props.history.push('/');
       return null;
     }
-    return (
-      <Container fluid className="new-order-container">
-        <h5>
-          Make new order in
-          {' '}
-          {location.state.restaurantName}
-        </h5>
-        <Form name="orderForm">
-          <Form.Group>
-            <Form.Label>Start time:</Form.Label>
-            <br />
-            {this.selectDateTime('startDate')}
-          </Form.Group>
-          <Form.Group>
-            <Form.Label>Finish time: </Form.Label>
-            <br />
-            {this.isDateTimesInvalid() ? this.showAlert('Finish time should be more than Start time!') : null}
-            {this.selectDateTime('finishDate')}
-          </Form.Group>
+    if (!orderIsRegistered) {
+      return (
+        <Container fluid className="new-order-container">
+          <h5>
+            Make new order in
+            {' '}
+            {location.state.restaurantName}
+          </h5>
+          <Form name="orderForm">
+            <Form.Group>
+              <Form.Label>Start time:</Form.Label>
+              <br />
+              {this.selectDateTime('startDate')}
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Finish time: </Form.Label>
+              <br />
+              {this.isDateTimesInvalid() ? this.showAlert('Finish time should be more than Start time!') : null}
+              {this.selectDateTime('finishDate')}
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Available tables</Form.Label>
+              {!this.state.availableTables.length ? this.showAlert('There are not available tables', 'warning') : null}
+              <Form.Control
+                as="select"
+                defaultValue={this.state.availableTables.length ? this.state.availableTables[0] : null}
+                name="tableId"
+                onChange={(event) => this.handleFormControl(event)}
+              >
+                {this.state.availableTables
+                  .sort((first, second) => {
+                    if (first.number < second.number) {
+                      return -1;
+                    }
+                    return 1;
+                  })
+                  .map((table) => {
+                    return (
+                      <option key={table.id} value={table.id}>
+                        Table №
+                        {table.number}
+                        {' '}
+                        Maximum number of visitors:
+                        {' '}
+                        {table.capacity}
+                      </option>
+                    );
+                  })}
+              </Form.Control>
+            </Form.Group>
+            <Form.Group>
+              <Form.Label>Number of visitors</Form.Label>
+              {this.state.availableTables.length && this.state.visitors > this.getMaximumOfVisitors()
+                ? this.showAlert('Number of visitors shouldn\'t be more than maximum number of visitors!') : null}
+              <Form.Control
+                type="number"
+                name="visitors"
+                defaultValue={this.state.visitors}
+                onChange={(event) => this.handleFormControl(event)}
+                placeholder="Number of visitors"
+                min="1"
+                max={this.getMaximumOfVisitors()}
+              />
+            </Form.Group>
 
-          <Form.Group>
-            <Form.Label>Available tables</Form.Label>
-            {!this.state.availableTables.length ? this.showAlert('There are not available tables', 'warning') : null}
-            <Form.Control
-              as="select"
-              defaultValue={this.state.availableTables.length ? this.state.availableTables[0] : null}
-              name="table"
-              onChange={(event) => this.handleFormControl(event)}
+            <Form.Group>
+              <Form.Label>Ordered dishes</Form.Label>
+              <Form.Control
+                rows="2"
+                maxLength="9999"
+                value={location.state.dishes}
+                readOnly
+              />
+            </Form.Group>
+
+            <Form.Group>
+              <Form.Label>Description</Form.Label>
+              <Form.Control
+                as="textarea"
+                rows="3"
+                name="description"
+                placeholder="Write any comments to order"
+                maxLength="999"
+                onChange={(event) => this.handleFormControl(event)}
+              />
+            </Form.Group>
+          </Form>
+          {
+            this.state.isBadRequestError
+              ? this.showAlert('Something went wrong. Try again later', 'danger', true)
+              : null
+          }
+          {
+            this.state.isLoginError
+              ? this.showAlert('You should login first', 'danger', true)
+              : null
+          }
+          <div className="order-btn-container">
+            <Button onClick={() => history.goBack()} variant="danger" className="order-btn-cancel">Cancel</Button>
+            <Button
+              onClick={() => this.saveOrder()}
+              disabled={
+                !this.state.availableTables.length
+                || this.isDateTimesInvalid()
+                || this.state.visitors > this.getMaximumOfVisitors()
+              }
             >
-              {this.state.availableTables
-                .sort((first, second) => {
-                  if (first.number < second.number) {
-                    return -1;
-                  }
-                  return 1;
-                })
-                .map((table) => {
-                  return (
-                    <option key={table.id} value={table.id}>
-                      Table №
-                      {table.number}
-                      {' '}
-                      Maximum number of visitors:
-                      {' '}
-                      {table.capacity}
-                    </option>
-                  );
-                })}
-            </Form.Control>
-          </Form.Group>
-
-          <Form.Group>
-            <Form.Label>Number of visitors</Form.Label>
-            { this.state.availableTables.length && this.state.visitors > this.getMaximumOfVisitors()
-              ? this.showAlert('Number of visitors shouldn\'t be more than maximum number of visitors!') : null}
-            <Form.Control
-              type="number"
-              name="visitors"
-              defaultValue={this.state.visitors}
-              onChange={(event) => this.handleFormControl(event)}
-              placeholder="Number of visitors"
-              min="1"
-              max={this.getMaximumOfVisitors()}
-            />
-          </Form.Group>
-
-          <Form.Group>
-            <Form.Label>Ordered dishes</Form.Label>
-            <Form.Control
-              rows="2"
-              maxLength="9999"
-              value={location.state.dishes}
-              readOnly
-            />
-          </Form.Group>
-
-          <Form.Group>
-            <Form.Label>Description</Form.Label>
-            <Form.Control
-              as="textarea"
-              rows="3"
-              name="description"
-              placeholder="Write any comments to order"
-              maxLength="999"
-              onChange={(event) => this.handleFormControl(event)}
-            />
-          </Form.Group>
-        </Form>
-        {
-          this.state.isBadRequestError
-            ? this.showAlert('Something went wrong. Try again later', 'danger', true)
-            : null
-        }
-        {
-          this.state.isLoginError
-            ? this.showAlert('You should login first', 'danger', true)
-            : null
-        }
-        <div className="order-btn-container">
-          <Button onClick={() => history.goBack()} variant="danger" className="order-btn-cancel">Cancel</Button>
-          <Button
-            onClick={() => this.saveOrder()}
-            disabled={
-              !this.state.availableTables.length
-              || this.isDateTimesInvalid()
-              || this.state.visitors > this.getMaximumOfVisitors()
-            }
+              Create new order
+            </Button>
+          </div>
+        </Container>
+      );
+    }
+    return (
+      <Container className="mainContainer">
+        <div>
+          <div
+            className="focus-in-contract-bck"
+            style={{
+              fontSize: 22,
+              color: '#ffffff',
+              marginTop: 220,
+            }}
           >
-            Create new order
+            <b>Congratulations!</b>
+          </div>
+          <div
+            className="focus-in-contract-bck"
+            style={{
+              fontSize: 22,
+              color: '#ffffff',
+              marginBottom: 20,
+            }}
+          >
+            <b>Your order is registered!</b>
+          </div>
+          <div
+            className="focus-in-contract-bck"
+            style={{
+              fontSize: 22,
+              color: '#ffffff',
+            }}
+          >
+            Restaurant:
+            {' '}
+            <b>{location.state.restaurantName}</b>
+            <div>
+              Date:
+              {' '}
+              <b>{startDate.toUTCString().substring(0, 17)}</b>
+              {' '}
+              <b>{startDate.getHours()}</b>
+              :
+              <b>{startDate.getMinutes()}</b>
+            </div>
+            <div>
+              Table №:
+              {' '}
+              <b>{this.getTableNumber()}</b>
+            </div>
+          </div>
+          <Button onClick={() => history.goBack()} style={{ marginTop: 20 }}>
+            Restaurant page
           </Button>
+          <Link to={{
+            pathname: '/',
+          }}
+          >
+            <Button style={{ marginTop: 20, marginLeft: 14 }}>
+              Main page
+            </Button>
+          </Link>
         </div>
       </Container>
     );
