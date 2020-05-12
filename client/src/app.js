@@ -15,6 +15,7 @@ import Restaurant from './components/restaurant/restaurant-item';
 import Profile from './components/profile/profile';
 import NewOrder from './components/order/new-order';
 import Auth from './services/auth';
+import Confirm from './components/register-login/confirm';
 
 class App extends Component {
   constructor(props) {
@@ -75,6 +76,7 @@ class App extends Component {
           <Route path="/map" component={Map} />
           <Route path="/contact" component={Contact} />
           <Route path="/profile" component={Profile} />
+          <Route path="/confirm/:code" component={Confirm} />
           <Route path="" component={NoMatch} />
         </Switch>
         <FooterBar />

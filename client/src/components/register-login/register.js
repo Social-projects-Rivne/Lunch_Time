@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  Container, Form, FormGroup, FormLabel,
+  Container, Form, FormGroup, FormLabel, Spinner,
 } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { Redirect } from 'react-router';
@@ -65,6 +65,7 @@ class Register extends Component {
       buttonDisabled: false,
       photo1: '/img/register1.png',
       photo2: '/img/register2.png',
+      isClicked: false,
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.validateInputName = this.validateInputName.bind(this);
@@ -399,6 +400,9 @@ class Register extends Component {
       name, phoneNumber, email, password,
     } = this.state;
     if (this.checkAllFields()) {
+      this.setState({
+        isClicked: true,
+      });
       const body = {
         name: name,
         phoneNumber: phoneNumber,
@@ -407,6 +411,9 @@ class Register extends Component {
       };
       Api.post('persons', body)
         .then((response) => {
+          this.setState({
+            isClicked: false,
+          });
           if (response.status === 200) {
             this.setState({
               isRegistered: true,
@@ -891,6 +898,12 @@ class Register extends Component {
     const passwordBackgroundColor = passwordInputWrongClassName ? 'rgba(246,3,43,0.36)' : '#dff1ff4a';
     const confirmPasswordBackgroundColor = confirmPasswordInputWrongClassName ? 'rgba(246,3,43,0.36)' : '#dff1ff4a';
     this.photo();
+    if (this.state.isClicked) {
+      return (
+
+        <Spinner animation="border" variant="primary" />
+      );
+    }
     if (!isRegistered) {
       return (
         <Container className="base-container" style={{ color: '#3498db' }}>

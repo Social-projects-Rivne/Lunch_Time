@@ -28,6 +28,8 @@ public class PersonServiceImpl implements PersonService {
     private final BCryptPasswordEncoder bcryptPasswordEncoder;
     private final MailSender mailSender;
 
+    String webPage = "http://localhost:3000";
+
     public PersonDto saveRegisterPerson(RegisterPerson registerPerson) {
         if (registerPerson.getEmail().equals(registerPerson.getPassword())
             || registerPerson.getPhoneNumber().equals(registerPerson.getPassword())) {
@@ -62,7 +64,7 @@ public class PersonServiceImpl implements PersonService {
             String message = String.format(
                 "Hello, %s! \n" +
                     "Welcome to LunchTime! To activate your account, confirm it" +
-                    "by moving this link: http://localhost:3000/confirm/%s",
+                    " moving to this link: " + webPage + "/confirm/%s",
 
                 person.getName(),
                 person.getActivationCode()

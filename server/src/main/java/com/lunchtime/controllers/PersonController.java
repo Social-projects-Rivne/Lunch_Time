@@ -47,7 +47,8 @@ public class PersonController {
 
     @GetMapping("/confirm/{code}")
     public ResponseEntity<?> confirmAccount(@PathVariable String code) {
-        return personService.isActivated(code)
+        boolean activated = personService.isActivated(code);
+        return activated
             ? ResponseEntity.ok().build()
             : ResponseEntity.notFound().build();
     }
