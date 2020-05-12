@@ -20,7 +20,7 @@ class Confirm extends Component {
           // eslint-disable-next-line no-console
           console.error(response);
           this.setState({
-            message: 'Your activation code is wrong. Try again, please',
+            message: 'Your activation code is wrong.',
           });
           return;
         }
@@ -31,7 +31,7 @@ class Confirm extends Component {
           this.setState({
             mainPage: true,
           });
-        }, 7000);
+        }, 5000);
       });
   }
 
