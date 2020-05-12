@@ -10,6 +10,7 @@ import com.lunchtime.service.dto.PersonDto;
 import com.lunchtime.service.dto.PersonPassDto;
 import com.lunchtime.service.dto.RegisterPerson;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,8 @@ public class PersonServiceImpl implements PersonService {
     private final BCryptPasswordEncoder bcryptPasswordEncoder;
     private final MailSender mailSender;
 
-    String webPage = "http://35.234.68.126";
+    @Value("${cors.urls}")
+    String webPage;
 
     public PersonDto saveRegisterPerson(RegisterPerson registerPerson) {
         if (registerPerson.getEmail().equals(registerPerson.getPassword())
