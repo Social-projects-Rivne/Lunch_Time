@@ -90,7 +90,6 @@ class Restaurant extends Component {
       );
     }
 
-    console.log(`owner2= ${isOwner}`);
     return (
       <Container className="restaurant-container">
         <h2>{restaurant.name}</h2>
