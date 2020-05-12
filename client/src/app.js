@@ -56,12 +56,6 @@ class App extends Component {
           <Route exact path="/" component={Home} />
           <Route path="/about" component={About} />
           <Route path="/events" component={Events} />
-          <Route
-            path="/restaurants/:id/new-event"
-            render={(routeProps) => {
-              return <NewEvent {...routeProps} />;
-            }}
-          />
           <Route path="/restaurants/restaurant-register" component={RestaurantRegistration} />
           <Route path="/restaurants/:id/new-order" component={NewOrder} />
           <Route
@@ -69,6 +63,14 @@ class App extends Component {
             component={() => {
               return (
                 <NewMenuItemDish selectedTab={(e) => { this.selectedTab = e; }} />
+              );
+            }}
+          />
+          <Route
+            path="/restaurants/:id/new-event"
+            component={() => {
+              return (
+                <NewEvent selectedTab={(e) => { this.selectedTab = e; }} />
               );
             }}
           />

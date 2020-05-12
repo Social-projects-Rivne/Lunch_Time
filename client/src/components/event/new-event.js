@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import Resizer from 'react-image-file-resizer';
+import { withRouter } from 'react-router-dom';
 import Api from '../../services/api';
 
 
@@ -49,6 +50,11 @@ class NewEvent extends React.Component {
 
   onAddClick() {
     this.sendData();
+  }
+
+  onCancelClick() {
+    this.props.selectedTab('events');
+    this.props.history.goBack();
   }
 
   getCategories(path) {
@@ -95,6 +101,7 @@ class NewEvent extends React.Component {
     Api.post('/image/upload/events', formData)
       .then((response) => {
         if (response.error == null) {
+          this.props.selectedTab('events');
           this.props.history.goBack();
         }
       });
@@ -223,6 +230,7 @@ class NewEvent extends React.Component {
 NewEvent.propTypes = {
   match: PropTypes.object.isRequired,
   history: PropTypes.any.isRequired,
+  selectedTab: PropTypes.func.isRequired,
 };
 
-export default NewEvent;
+export default withRouter(NewEvent);
