@@ -2,9 +2,10 @@ package com.lunchtime.service;
 
 import org.springframework.web.multipart.MultipartFile;
 
-public interface ImageService {
+import java.util.List;
 
-    boolean saveImage(MultipartFile file, String endpoint);
+public interface ImageService {
+    List<String> saveImage(List<MultipartFile> file, String endpoint);
 
     byte[] loadImage(String endpoint, long id);
 }

@@ -61,6 +61,15 @@ class OwnersRestaurants extends Component {
                 <Card.Title>{restaurant.name}</Card.Title>
               </Link>
               <Card.Subtitle>{restaurant.textAddress}</Card.Subtitle>
+              <Link to={{
+                pathname: `/restaurants/${restaurant.id}/restaurant-images-upload`,
+                state: {
+                  restaurantId: restaurant.id,
+                },
+              }}
+              >
+                Edit Restaurant Photos
+              </Link>
             </Card.Body>
           </Card>
         ))}

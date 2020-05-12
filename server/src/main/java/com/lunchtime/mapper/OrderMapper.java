@@ -40,7 +40,8 @@ public class OrderMapper {
         order.setStartTime(orderDto.getStartTime());
         order.setFinishTime(orderDto.getFinishTime());
         order.setDescription(orderDto.getDescription());
-        order.setVisitors(orderDto.getVisitors());;
+        order.setVisitors(orderDto.getVisitors());
+        ;
 
         return order;
     }
