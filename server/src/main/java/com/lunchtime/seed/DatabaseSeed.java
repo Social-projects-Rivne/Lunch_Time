@@ -211,7 +211,6 @@ public class DatabaseSeed {
         feedback.setDate(Instant.now());
         feedback.setPerson(getPersonList().get(i));
         feedback.setRestaurant(getRestaurantList().get(i));
-        feedback.setCounterLike(3 + i);
         feedback.setCounterDislike(12 + i);
         return feedback;
     }

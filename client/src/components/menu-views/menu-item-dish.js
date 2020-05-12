@@ -17,6 +17,23 @@ class MenuItemDish extends Component {
     };
   }
 
+  onDeleteClick(id) {
+    Api.delete(`menuitemdish/${id}`)
+      .then((r) => {
+        if (r.error != null) {
+          console.log(r.error);
+        }
+        this.props.update();
+      });
+  }
+
+  getImage(menuItemDish) {
+    if (menuItemDish && menuItemDish.imageUrl && menuItemDish.imageUrl.length) {
+      return `${Api.apiUrl}images/dishes/${menuItemDish.imageUrl}`;
+    }
+    return '/img/dish-default.png';
+  }
+
   addMenuItemDishToOrderList() {
     const { menuItemDish, value } = this.state;
     this.props.addMenuItemDishToOrderList(menuItemDish, value);
@@ -33,7 +50,7 @@ class MenuItemDish extends Component {
 
   render() {
     const {
-      menuItemDishes, isAuthenticated, menuItemDishesMap, mainMenu,
+      menuItemDishes, isAuthenticated, isEdit, menuItemDishesMap, mainMenu,
     } = this.props;
     return (
       <Container>
@@ -53,7 +70,7 @@ class MenuItemDish extends Component {
               <Col xs={2}>
                 <Image
                   className="image-menu-item"
-                  src={`${Api.apiUrl}images/dishes/${menuItemDish.imageUrl}`}
+                  src={this.getImage(menuItemDish)}
                   roundedCircle
                   width="160"
                   height="120"
@@ -93,19 +110,29 @@ class MenuItemDish extends Component {
                   -
                 </button>
                 )}
-                <Button
-                  variant="primary"
-                  disabled={!isAuthenticated}
-                  onClick={() => {
-                    if (quantity === undefined || quantity === 0) {
-                      this.sendMenuItemDishToOrderList(menuItemDish);
-                    }
-                  }}
-                >
-                  {addMessage}
-                  {' '}
-                  {quantity > 0 ? quantity : ''}
-                </Button>
+                {!isEdit ? (
+                  <Button
+                    variant="primary"
+                    disabled={!isAuthenticated}
+                    onClick={() => {
+                      if (quantity === undefined || quantity === 0) {
+                        this.sendMenuItemDishToOrderList(menuItemDish);
+                      }
+                    }}
+                  >
+                    {addMessage}
+                    {' '}
+                    {quantity > 0 ? quantity : ''}
+                  </Button>
+                ) : (
+                  <Button
+                    id={menuItemDish.id}
+                    variant="primary"
+                    onClick={(e) => this.onDeleteClick(e.target.id)}
+                  >
+                    Delete
+                  </Button>
+                )}
                 {quantity > 0
                 && (
                   <button
@@ -136,15 +163,18 @@ class MenuItemDish extends Component {
 
 MenuItemDish.defaultProps = {
   addMenuItemDishToOrderList: null,
-  isAuthenticated: false,
+  // isAuthenticated: false,
   mainMenu: false,
 };
 
 MenuItemDish.propTypes = {
   addMenuItemDishToOrderList: PropTypes.func,
   menuItemDishes: PropTypes.array.isRequired,
-  isAuthenticated: PropTypes.bool,
+  // isAuthenticated: PropTypes.bool,
   menuItemDishesMap: PropTypes.any.isRequired,
   mainMenu: PropTypes.bool,
+  isAuthenticated: PropTypes.bool.isRequired,
+  isEdit: PropTypes.bool.isRequired,
+  update: PropTypes.any.isRequired,
 };
 export default MenuItemDish;
