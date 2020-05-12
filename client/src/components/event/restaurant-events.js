@@ -12,7 +12,6 @@ class RestaurantEvents extends React.Component {
       restaurantId: this.props.id,
       events: [],
       isFetching: false,
-      isOwner: true, // TODO:  Hardcoded change later
     };
   }
 
@@ -33,8 +32,9 @@ class RestaurantEvents extends React.Component {
 
   render() {
     const {
-      events, isFetching, isOwner, restaurantId,
+      events, isFetching, restaurantId,
     } = this.state;
+    const { isOwner } = this.props;
 
     return (
       <Container fluid>
@@ -53,6 +53,7 @@ class RestaurantEvents extends React.Component {
 
 RestaurantEvents.propTypes = {
   id: PropTypes.any.isRequired,
+  isOwner: PropTypes.bool.isRequired,
 };
 
 export default RestaurantEvents;

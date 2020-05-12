@@ -90,6 +90,7 @@ class Restaurant extends Component {
       );
     }
 
+    console.log(`owner2= ${isOwner}`);
     return (
       <Container className="restaurant-container">
         <h2>{restaurant.name}</h2>
@@ -107,7 +108,7 @@ class Restaurant extends Component {
             <Menu id={id} isAuthenticated={isAuthenticated} isOwner={isOwner} name={restaurant.name} />
           </Tab>
           <Tab eventKey="events" title="Events">
-            <RestaurantEvents id={id} />
+            <RestaurantEvents id={id} isOwner={isOwner} />
           </Tab>
           <Tab eventKey="feedback" title="Feedback">
             <Feedback id={id} />
