@@ -35,7 +35,7 @@ class NewEvent extends React.Component {
     const file = e.target.files[0];
     const reader = new FileReader();
     const imageTag = document.getElementById('eventImage');
-    Resizer.imageFileResizer(file, 300, 300, 'JPEG', 100, 0, (uri) => { this.setState({ image: uri }); },
+    Resizer.imageFileResizer(file, 640, 480, 'JPEG', 100, 0, (uri) => { this.setState({ image: uri }); },
       'blob');
     reader.onload = function (event) {
       imageTag.src = event.target.result;
@@ -83,13 +83,15 @@ class NewEvent extends React.Component {
 
     if (image != null) {
       event.image = imgFileName;
-      this.sendImage(imgFileName);
     }
 
     Api.post('events', event)
       .then((r) => {
         if (r.error === null && image != null) {
           this.sendImage(imgFileName);
+        } else {
+          this.props.selectedTab('events');
+          this.props.history.goBack();
         }
       });
   }
@@ -109,6 +111,7 @@ class NewEvent extends React.Component {
 
   handleChange(e) {
     const { name, value } = e.target;
+
     this.setState((prevState) => ({
       event: {
         ...prevState.event,
