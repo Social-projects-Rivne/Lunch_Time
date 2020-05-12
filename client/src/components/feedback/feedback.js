@@ -101,13 +101,14 @@ class Feedback extends Component {
 
   render() {
     const stateFeed = this.state;
+    const { isAuthenticated } = this.props;
     return (
       <Container className="feedback">
         {this.isLogged() && <FeedbackSend id={this.props.id} refreshed={this.refresh} /> }
         {
           stateFeed.pieceFeedback.map((item) => {
             return (
-              <FeedbackComment item={item} key={item.id} />
+              <FeedbackComment item={item} key={item.id} isAuthenticated={isAuthenticated} />
             );
           })
         }
@@ -144,6 +145,7 @@ class Feedback extends Component {
 
 Feedback.propTypes = {
   id: PropTypes.string.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
 };
 
 export default Feedback;

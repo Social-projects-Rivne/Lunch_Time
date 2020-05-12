@@ -7,7 +7,7 @@ import com.lunchtime.models.Person;
 
 @Repository
 public interface PersonRepository extends JpaRepository<Person, Long> {
-    Person findFirstByEmailAndPassword(String email, String password);
+    Person findPersonById(Long id);
 
     Person findFirstByEmail(String email);
 

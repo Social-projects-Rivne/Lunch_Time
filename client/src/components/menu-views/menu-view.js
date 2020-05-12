@@ -19,6 +19,7 @@ class Menu extends Component {
       menuItemDishes: [],
       path: 'menuitemdish/restaurantId?',
       isFetching: false,
+      isEdit: false,
       menuItemDishesMap: new Map(),
       orderedDishes: [],
       totalPrice: 0,
@@ -30,6 +31,10 @@ class Menu extends Component {
 
   componentDidMount() {
     this.getAll(this.state.path, this.state.number, this.state.pageSize);
+  }
+
+  onEditMenu() {
+    this.setState((currentState) => ({ isEdit: !currentState.isEdit }));
   }
 
   getAll(path, page, pageSize) {
@@ -55,8 +60,8 @@ class Menu extends Component {
   }
 
   initPagination() {
-    const { number, totalPages } = this.state;
-    if (totalPages === 1) {
+    const { number, totalPages, menuItemDishes } = this.state;
+    if (totalPages === 1 || menuItemDishes === undefined) {
       return null;
     }
     return (
@@ -71,17 +76,23 @@ class Menu extends Component {
   }
 
   initMenuItemDish() {
-    const { menuItemDishes, menuItemDishesMap } = this.state;
+    const { menuItemDishes, menuItemDishesMap, isEdit } = this.state;
     const { isAuthenticated } = this.props;
-    return (
-      <MenuItemDish
-        menuItemDishes={menuItemDishes}
-        isAuthenticated={isAuthenticated}
-        addMenuItemDishToOrderList={this.addMenuItemDishToOrderList}
-        menuItemDishesMap={menuItemDishesMap}
-        mainMenu
-      />
-    );
+    if (menuItemDishes !== undefined) {
+      return (
+        <MenuItemDish
+          menuItemDishes={menuItemDishes}
+          isAuthenticated={isAuthenticated}
+          isEdit={isEdit}
+          addDishToOrderList={this.addDishToOrderList}
+          addMenuItemDishToOrderList={this.addMenuItemDishToOrderList}
+          menuItemDishesMap={menuItemDishesMap}
+          update={() => this.handleChange('menuitemdish/restaurantId?')}
+          mainMenu
+        />
+      );
+    }
+    return null;
   }
 
   addMenuItemDishToOrderList(newMenuItemDish, value) {
@@ -128,14 +139,16 @@ class Menu extends Component {
   }
 
   render() {
-    const { id, name, isAuthenticated } = this.props;
+    const {
+      id, name, isOwner, isAuthenticated,
+    } = this.props;
     const {
       isFetching, menuItemDishesMap, totalPrice, orderedDishes,
     } = this.state;
     if (isFetching) {
       return (
-        <Container className="menu">
-          <Header onChange={this.handleChange} mainMenu />
+        <Container className="menu mb-4">
+          <Header onChange={this.handleChange} isEdit={() => this.onEditMenu()} id={id} isOwner={isOwner} mainMenu />
           {this.initMenuItemDish()}
           {this.initPagination()}
           {totalPrice > 0 && (
@@ -204,5 +217,6 @@ Menu.propTypes = {
   id: PropTypes.string.isRequired,
   name: PropTypes.string,
   isAuthenticated: PropTypes.bool.isRequired,
+  isOwner: PropTypes.bool.isRequired,
 };
 export default Menu;

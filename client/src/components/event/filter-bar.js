@@ -36,6 +36,7 @@ class FilterBar extends React.Component {
         />
 
         <View
+          className="ml-3"
           id="sort-by-month"
           name="By month"
           values={info[1].values}
