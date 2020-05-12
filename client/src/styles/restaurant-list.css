@@ -2,6 +2,7 @@
   background: url("/img/events-bkg.jpg") no-repeat center center fixed;
   background-size: cover;
   min-height: 100vh;
+  padding-bottom: 55px;
 }
 
 .spinner-container{
