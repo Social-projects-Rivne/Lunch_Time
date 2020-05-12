@@ -36,21 +36,6 @@ class Profile extends Component {
       {
         path: '/profile/owners-restaurants', title: 'My Restaurants', ownerSee: true, userSee: false,
       },
-      {
-        path: '/profile/orders', title: 'Orders', ownerSee: true, userSee: true,
-      },
-      {
-        path: '/profile/history', title: 'History', ownerSee: true, userSee: true,
-      },
-      {
-        path: '/profile/subscriptions', title: 'Subscriptions', ownerSee: true, userSee: true,
-      },
-      {
-        path: '/profile/sharing', title: 'Sharing', ownerSee: true, userSee: true,
-      },
-      {
-        path: '/profile/settings', title: 'Settings', ownerSee: true, userSee: true,
-      },
     ];
   }
 
