@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {
-  ProgressBar, Container, Button, FormLabel, CardColumns, ButtonToolbar, Spinner, Card,
+  Container, Button, FormLabel, CardColumns, ButtonToolbar, Spinner, Card,
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import '../../styles/restaurant-image-uploader.css';
@@ -24,7 +24,6 @@ class RestaurantImageUploader extends Component {
       isFetching: false,
       isUploadDisabled: true,
       selectedFile: null,
-      uploaded: 0,
     };
     this.mimeTypes = ['image/png', 'image/jpeg', 'image/jpg'];
     this.onFileUploadHandler = this.onFileUploadHandler.bind(this);
@@ -198,16 +197,12 @@ class RestaurantImageUploader extends Component {
 
 
   render() {
-    const { isUploadDisabled, uploaded } = this.state;
+    const { isUploadDisabled } = this.state;
     return (
       <Container className="container">
         <Container className="form-group files">
           <FormLabel>Upload Your File </FormLabel>
           <input type="file" className="form-control" multiple onChange={this.onFileSelectedHandler} />
-        </Container>
-
-        <Container className="form-group">
-          <ProgressBar now={uploaded} variant="success" label={uploaded} />
         </Container>
 
         <Button

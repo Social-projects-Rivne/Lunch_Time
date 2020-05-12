@@ -24,6 +24,9 @@ class RestaurantCardView extends Component {
         if (response.error) {
           // eslint-disable-next-line no-console
           console.error(response);
+          this.setState({
+            restaurantImage: '/img/default-image-restaurant.jpg',
+          });
           return;
         }
         if (response.data === undefined || response.data === null) {
