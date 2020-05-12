@@ -3,6 +3,7 @@ import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Api from '../../services/api';
+import '../../styles/restaurant-card-view.css';
 
 class RestaurantCardView extends Component {
   constructor(props) {
@@ -25,12 +26,26 @@ class RestaurantCardView extends Component {
           console.error(response);
           return;
         }
-        this.setState({
-          restaurantImage: `${Api.apiUrl}images/restaurants/${response.data.image}`,
-        });
+        if (response.data === undefined || response.data === null) {
+          this.setState({
+            restaurantImage: '/img/default-avatar.png',
+          });
+        } else {
+          this.getImage(response);
+        }
       });
   }
 
+  getImage(response) {
+    Api.getImage(`images/restaurants/${response.data.image}`)
+      .then((res) => {
+        if (res.error == null) {
+          this.setState({
+            restaurantImage: `data:image/jpg;base64,${res.data}`,
+          });
+        }
+      });
+  }
 
   render() {
     const { restaurant } = this.props;
@@ -38,7 +53,7 @@ class RestaurantCardView extends Component {
     const link = `/restaurants/${restaurant.id}`;
     return (
       <Card className="text-dark m-2" border="dark">
-        <Card.Img variant="top" src={restaurantImage.image} alt="Restaurant image" />
+        <Card.Img variant="top" src={restaurantImage} alt="Restaurant image" />
         <Card.Body>
           <Link to={link}>
             <Card.Title>{restaurant.name}</Card.Title>
