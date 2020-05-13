@@ -56,11 +56,6 @@ class RestaurantImageGallery extends Component {
                   src={`${Api.apiUrl}images/restaurants/${restaurantImage.image}`}
                   alt="Image"
                 />
-                <Card.Body>
-                  <Card.Subtitle className="restaurant-name mb-2">
-                    {restaurantImage.image}
-                  </Card.Subtitle>
-                </Card.Body>
               </Card>
             ))}
           </CardColumns>
