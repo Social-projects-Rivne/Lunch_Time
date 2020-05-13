@@ -274,7 +274,7 @@ class NewOrder extends Component {
               <Form.Control
                 as="select"
                 defaultValue={this.state.availableTables.length ? this.state.availableTables[0] : null}
-                name="table"
+                name="tableId"
                 onChange={(event) => this.handleFormControl(event)}
               >
                 {this.state.availableTables
