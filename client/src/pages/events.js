@@ -59,7 +59,7 @@ class Events extends React.Component {
   render() {
     const { filteredEvents, isFetching } = this.state;
     return (
-      <Container fluid className="page-container p-0">
+      <Container fluid className="page-container">
         <SearchMenu
           title={title}
           placeHolder={placeHolder}

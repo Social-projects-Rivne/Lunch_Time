@@ -499,7 +499,7 @@ class NewOrder extends Component {
               {' '}
               <b>{startDate.getHours()}</b>
               :
-              <b>{startDate.getMinutes()}</b>
+              <b>{startDate.getMinutes() === 0 ? '00' : startDate.getMinutes()}</b>
             </div>
             <div>
               Table №:

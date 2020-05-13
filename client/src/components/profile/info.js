@@ -60,7 +60,6 @@ class Info extends Component {
               Update profile
             </Button>
           </Link>
-          <Button className="btn-inf ml-3" variant="danger">Remove account</Button>
         </Container>
       );
     }

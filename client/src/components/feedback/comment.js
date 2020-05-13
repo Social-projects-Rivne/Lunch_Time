@@ -125,7 +125,6 @@ class FeedbackComment extends Component {
           <div>{item.description}</div>
           <hr className="hrStyle" />
           <div>
-            <span className="answer" title="answer to feedback">answer to</span>
             <span className="mr-3 likeDislike">
               {/* eslint-disable-next-line max-len */}
               {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions */}
@@ -181,15 +180,6 @@ class FeedbackComment extends Component {
                 Your action can&apos;t be done now. Try again later
               </Badge>
             )}
-            <span className="complaint">
-              <img
-                src="/img/complaint.png"
-                width="25px"
-                height="25px"
-                alt="complaint"
-                title="complaint feedback"
-              />
-            </span>
           </div>
         </div>
       </Container>

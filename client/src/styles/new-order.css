@@ -16,6 +16,7 @@ h5 {
 .order-btn-container {
   display: flex;
   justify-content: flex-end;
+  margin-bottom: 55px;
 }
 
 .order-btn-cancel {
