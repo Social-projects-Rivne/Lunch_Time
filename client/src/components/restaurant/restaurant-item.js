@@ -100,16 +100,16 @@ class Restaurant extends Component {
           activeKey={selectedTab}
           onSelect={(key) => this.setState({ selectedTab: key })}
         >
-          <Tab eventKey="about" title="About">
+          <Tab eventKey="about" title="About" className="restaurant-tab">
             <About restaurant={restaurant} isFetching={isFetching} />
           </Tab>
-          <Tab eventKey="menu" title="Menu">
+          <Tab eventKey="menu" title="Menu" className="restaurant-tab">
             <Menu id={id} isAuthenticated={isAuthenticated} isOwner={isOwner} name={restaurant.name} />
           </Tab>
-          <Tab eventKey="events" title="Events">
+          <Tab eventKey="events" title="Events" className="restaurant-tab">
             <RestaurantEvents id={id} isOwner={isOwner} />
           </Tab>
-          <Tab eventKey="feedback" title="Feedback">
+          <Tab eventKey="feedback" title="Feedback" className="restaurant-tab">
             <Feedback id={id} isAuthenticated={isAuthenticated} />
           </Tab>
         </Tabs>
