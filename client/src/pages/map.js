@@ -13,9 +13,11 @@ class MapContainer extends Component {
       restaurants: [],
       showingInfoWindow: false,
       activeMarker: {},
-      selectedPlace: [],
+      selectedPlace: {},
     };
     this.onMauseover = this.onMauseover.bind(this);
+    this.onMapClicked = this.onMapClicked.bind(this);
+    this.onInfoWindowClose = this.onInfoWindowClose.bind(this);
   }
 
   componentDidMount() {
@@ -31,7 +33,8 @@ class MapContainer extends Component {
   }
 
   onMapClicked() {
-    if (this.state.showingInfoWindow) {
+    const { showingInfoWindow } = this.state;
+    if (showingInfoWindow) {
       this.setState({
         showingInfoWindow: false,
         activeMarker: null,
@@ -61,6 +64,10 @@ class MapContainer extends Component {
   }
 
   render() {
+    const {
+      restaurants, showingInfoWindow,
+      activeMarker, selectedPlace,
+    } = this.state;
     const mapStyles = {
       width: '100%',
       height: '100%',
@@ -77,7 +84,7 @@ class MapContainer extends Component {
         onClick={this.onMapClicked}
         initialCenter={{ lat: latitude, lng: longitude }}
       >
-        {this.state.restaurants.map((restaurant) => {
+        {restaurants.map((restaurant) => {
           return (
             <Marker
               key={restaurant.id}
@@ -86,8 +93,9 @@ class MapContainer extends Component {
                 lat: restaurant.latitude,
                 lng: restaurant.longitude,
               }}
-              name={[[restaurant.name], <br />, ['Working hours: ', restaurant.workingTime],
-                <br />, ['Adress: ', restaurant.textAddress]]}
+              name={restaurant.name}
+              time={`Working time: ${restaurant.workingTime}`}
+              address={`Adress: ${restaurant.textAddress}`}
               label={restaurant.name}
               onMouseover={this.onMauseover}
               onFocus={this.onMauseover}
@@ -95,12 +103,14 @@ class MapContainer extends Component {
           );
         })}
         <InfoWindow
-          marker={this.state.activeMarker}
-          visible={this.state.showingInfoWindow}
+          marker={activeMarker}
+          visible={showingInfoWindow}
           onClose={this.onInfoWindowClose}
         >
           <div>
-            <h4>{this.state.selectedPlace.name}</h4>
+            <h4>{selectedPlace.name}</h4>
+            <h4>{selectedPlace.time}</h4>
+            <h4>{selectedPlace.address}</h4>
           </div>
         </InfoWindow>
       </Map>
@@ -109,7 +119,7 @@ class MapContainer extends Component {
 }
 
 MapContainer.propTypes = {
-  google: PropTypes.element.isRequired,
+  google: PropTypes.object.isRequired,
 };
 
 export default GoogleApiWrapper({
