@@ -13,45 +13,51 @@ class MenuItemDish extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      dishCategory: '',
-      dishName: '',
       menuItemDish: '',
     };
   }
 
-  addDishToOrderList() {
-    const { dishCategory, dishName } = this.state;
-    this.props.addDishToOrderList(dishCategory, dishName);
+  onDeleteClick(id) {
+    Api.delete(`menuitemdish/${id}`)
+      .then((r) => {
+        if (r.error != null) {
+          // eslint-disable-next-line no-console
+          console.log(r.error);
+        }
+        this.props.update();
+      });
   }
 
-  sendDishToOrderList(dishCategory, dishName) {
-    this.setState({
-      dishCategory: dishCategory,
-      dishName: dishName,
-    }, () => {
-      this.addDishToOrderList();
-    });
+  getImage(menuItemDish) {
+    if (menuItemDish && menuItemDish.imageUrl && menuItemDish.imageUrl.length) {
+      return `${Api.apiUrl}images/dishes/${menuItemDish.imageUrl}`;
+    }
+    return '/img/dish-default.png';
   }
 
   addMenuItemDishToOrderList() {
-    const { menuItemDish } = this.state;
-    this.props.addMenuItemDishToOrderList(menuItemDish);
+    const { menuItemDish, value } = this.state;
+    this.props.addMenuItemDishToOrderList(menuItemDish, value);
   }
 
-  sendMenuItemDishToOrderList(newMenuItemDish) {
-    const menuItemDish = newMenuItemDish;
+  sendMenuItemDishToOrderList(menuItemDish, value) {
     this.setState({
       menuItemDish,
+      value,
     }, () => {
       this.addMenuItemDishToOrderList();
     });
   }
 
   render() {
-    const { menuItemDishes, isAuthenticated } = this.props;
+    const {
+      menuItemDishes, isAuthenticated, isEdit, menuItemDishesMap, mainMenu,
+    } = this.props;
     return (
       <Container>
         {menuItemDishes.map((menuItemDish) => {
+          const quantity = menuItemDishesMap.get(menuItemDish.id);
+          const addMessage = quantity ? 'Q:' : 'Add';
           return (
             <Row key={menuItemDish.id}>
               <Col xs={2}>
@@ -59,22 +65,26 @@ class MenuItemDish extends Component {
               </Col>
               <Col xs={3}>
                 <br />
-                <Dish dish={menuItemDish} />
+                <Dish dish={menuItemDish} mainMenu={mainMenu} />
               </Col>
+              {mainMenu && (
               <Col xs={2}>
                 <Image
                   className="image-menu-item"
-                  src={`${Api.apiUrl}images/dishes/${menuItemDish.imageUrl}`}
+                  src={this.getImage(menuItemDish)}
                   roundedCircle
                   width="160"
                   height="120"
                   alt="Dish image"
                 />
               </Col>
-              <Col className="col-item">
-                <br />
-                {menuItemDish.portionSize}
-              </Col>
+              )}
+              {mainMenu && (
+                <Col className="col-item" xs={1}>
+                  <br />
+                  {menuItemDish.portionSize}
+                </Col>
+              )}
               <Col className="col-item">
                 <br />
                 {menuItemDish.portionPrice}
@@ -84,16 +94,64 @@ class MenuItemDish extends Component {
               </Col>
               <Col className="col-item">
                 <br />
-                <Button
-                  variant="primary"
-                  disabled={!isAuthenticated}
+                {quantity > 0 && (
+                <button
+                  style={{
+                    marginRight: 8,
+                    width: 35,
+                    height: 35,
+                    borderRadius: 100,
+                  }}
+                  type="button"
+                  className="btn btn-danger"
                   onClick={() => {
-                    this.sendDishToOrderList(menuItemDish.dish.categoryFood.name, menuItemDish.dish.name);
-                    this.sendMenuItemDishToOrderList(menuItemDish.id);
+                    this.sendMenuItemDishToOrderList(menuItemDish, '-');
                   }}
                 >
-                  Add
-                </Button>
+                  -
+                </button>
+                )}
+                {!isEdit ? (
+                  <Button
+                    variant="primary"
+                    disabled={!isAuthenticated}
+                    onClick={() => {
+                      if (quantity === undefined || quantity === 0) {
+                        this.sendMenuItemDishToOrderList(menuItemDish);
+                      }
+                    }}
+                  >
+                    {addMessage}
+                    {' '}
+                    {quantity > 0 ? quantity : ''}
+                  </Button>
+                ) : (
+                  <Button
+                    id={menuItemDish.id}
+                    variant="primary"
+                    onClick={(e) => this.onDeleteClick(e.target.id)}
+                  >
+                    Delete
+                  </Button>
+                )}
+                {quantity > 0
+                && (
+                  <button
+                    style={{
+                      marginLeft: 8,
+                      width: 35,
+                      height: 35,
+                      borderRadius: 100,
+                    }}
+                    type="button"
+                    className="btn btn-success"
+                    onClick={() => {
+                      this.sendMenuItemDishToOrderList(menuItemDish, '+');
+                    }}
+                  >
+                    +
+                  </button>
+                )}
               </Col>
             </Row>
           );
@@ -104,10 +162,20 @@ class MenuItemDish extends Component {
   }
 }
 
+MenuItemDish.defaultProps = {
+  addMenuItemDishToOrderList: null,
+  // isAuthenticated: false,
+  mainMenu: false,
+};
+
 MenuItemDish.propTypes = {
-  addDishToOrderList: PropTypes.func.isRequired,
-  addMenuItemDishToOrderList: PropTypes.func.isRequired,
+  addMenuItemDishToOrderList: PropTypes.func,
   menuItemDishes: PropTypes.array.isRequired,
+  // isAuthenticated: PropTypes.bool,
+  menuItemDishesMap: PropTypes.any.isRequired,
+  mainMenu: PropTypes.bool,
   isAuthenticated: PropTypes.bool.isRequired,
+  isEdit: PropTypes.bool.isRequired,
+  update: PropTypes.any.isRequired,
 };
 export default MenuItemDish;

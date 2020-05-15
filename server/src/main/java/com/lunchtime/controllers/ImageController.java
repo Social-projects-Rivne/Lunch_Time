@@ -7,20 +7,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/image")
 public class ImageController {
-
     private final ImageService imageService;
 
     @PostMapping(value = "/upload/{endpoint}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<Void> uploadImage(@RequestParam MultipartFile file, @PathVariable String endpoint) {
-        boolean result = imageService.saveImage(file, endpoint);
-        if (result) {
-            return ResponseEntity.ok().build();
-        }
-        return ResponseEntity.badRequest().build();
+    public ResponseEntity<List<String>> uploadImage(
+        @RequestParam List<MultipartFile> file, @PathVariable String endpoint) {
+        List<String> result = imageService.saveImage(file, endpoint);
+        return ResponseEntity.ok().body(result);
     }
 
     @GetMapping(value = "/{endpoint}/{id}", produces = MediaType.IMAGE_JPEG_VALUE)

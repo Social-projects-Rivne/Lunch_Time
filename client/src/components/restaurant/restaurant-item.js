@@ -19,6 +19,7 @@ class Restaurant extends Component {
     this.state = {
       restaurant: {},
       isFetching: false,
+      selectedTab: this.props.selectedTab,
       isOwner: false,
     };
     this.personId = Auth.getPersonId();
@@ -46,7 +47,9 @@ class Restaurant extends Component {
   }
 
   render() {
-    const { isFetching, restaurant, isOwner } = this.state;
+    const {
+      isFetching, restaurant, isOwner, selectedTab,
+    } = this.state;
     const { match: { params: { id } }, isAuthenticated } = this.props;
 
     let isOwnerText;
@@ -92,18 +95,22 @@ class Restaurant extends Component {
         <h2>{restaurant.name}</h2>
         {isOwnerText}
         {newOrderBtn}
-        <Tabs defaultActiveKey="about">
+        <Tabs
+          id="restaurant-tabs"
+          activeKey={selectedTab}
+          onSelect={(key) => this.setState({ selectedTab: key })}
+        >
           <Tab eventKey="about" title="About">
             <About restaurant={restaurant} isFetching={isFetching} />
           </Tab>
           <Tab eventKey="menu" title="Menu">
-            <Menu id={id} isAuthenticated={isAuthenticated} name={restaurant.name} />
+            <Menu id={id} isAuthenticated={isAuthenticated} isOwner={isOwner} name={restaurant.name} />
           </Tab>
           <Tab eventKey="events" title="Events">
-            <RestaurantEvents id={id} />
+            <RestaurantEvents id={id} isOwner={isOwner} />
           </Tab>
           <Tab eventKey="feedback" title="Feedback">
-            <Feedback id={id} />
+            <Feedback id={id} isAuthenticated={isAuthenticated} />
           </Tab>
         </Tabs>
       </Container>
@@ -114,6 +121,11 @@ class Restaurant extends Component {
 Restaurant.propTypes = {
   match: PropTypes.any.isRequired,
   isAuthenticated: PropTypes.bool.isRequired,
+  selectedTab: PropTypes.string,
+};
+
+Restaurant.defaultProps = {
+  selectedTab: 'about',
 };
 
 export default Restaurant;
