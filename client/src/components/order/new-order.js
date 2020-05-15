@@ -274,7 +274,7 @@ class NewOrder extends Component {
               <Form.Control
                 as="select"
                 defaultValue={this.state.availableTables.length ? this.state.availableTables[0] : null}
-                name="table"
+                name="tableId"
                 onChange={(event) => this.handleFormControl(event)}
               >
                 {this.state.availableTables
@@ -499,7 +499,7 @@ class NewOrder extends Component {
               {' '}
               <b>{startDate.getHours()}</b>
               :
-              <b>{startDate.getMinutes()}</b>
+              <b>{startDate.getMinutes() === 0 ? '00' : startDate.getMinutes()}</b>
             </div>
             <div>
               Table №:
