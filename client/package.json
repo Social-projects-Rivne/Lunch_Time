@@ -8,7 +8,7 @@
     "@testing-library/user-event": "^7.1.2",
     "axios": "^0.19.2",
     "bootstrap": "4.4.1",
-    "express": "4.17.1",
+    "express": "4.17.3",
     "moment": "^2.24.0",
     "ol": "^6.2.1",
     "prop-types": "15.7.2",
